@@ -71,6 +71,26 @@ public class PurrPlugin extends Plugin {
         call.resolve();
     }
 
+    /** A short tap for buttons and tabs: "tick", "click" or "heavy". Does not interrupt a purr in progress. */
+    @PluginMethod
+    public void tick(PluginCall call) {
+        Vibrator v = vibrator();
+        if (v == null || !v.hasVibrator()) {
+            call.resolve();
+            return;
+        }
+        String kind = call.getString("kind", "tick");
+        if (Build.VERSION.SDK_INT >= 29) {
+            int effect = "heavy".equals(kind) ? VibrationEffect.EFFECT_HEAVY_CLICK
+                : "click".equals(kind) ? VibrationEffect.EFFECT_CLICK : VibrationEffect.EFFECT_TICK;
+            v.vibrate(VibrationEffect.createPredefined(effect));
+        } else if (Build.VERSION.SDK_INT >= 26) {
+            long ms = "heavy".equals(kind) ? 22 : "click".equals(kind) ? 12 : 7;
+            v.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
+        call.resolve();
+    }
+
     @PluginMethod
     public void stop(PluginCall call) {
         Vibrator v = vibrator();

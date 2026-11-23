@@ -10,7 +10,7 @@ import java.util.List;
 public class MainActivity extends BridgeActivity {
 
     /** Sections of the page a home-screen widget may open. */
-    private static final List<String> SECTIONS = Arrays.asList("dron", "hladyty", "prognoz");
+    private static final List<String> SECTIONS = Arrays.asList("dron", "hladyty", "prognoz", "gazeta", "kolonka");
 
     private boolean started = false;
 

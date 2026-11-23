@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster&family=PT+Mono&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@500;800&family=Yeseva+One&display=swap" rel="stylesheet">
+<script>try{if(window.VV_APP||/[?&]app\b/.test(location.search)||matchMedia("(display-mode: standalone)").matches)document.documentElement.classList.add("app");}catch(e){}</script>
 <style>
 :root{
   /* Layout: one bakelite radio set as the hero, then a newsprint sheet, then dark studio panels. Single theme by choice. */
@@ -1782,7 +1783,8 @@ html.app #s-home>header .sign{font-size:clamp(50px,15vw,84px);margin:6px 0 4px}
 html.app #s-home>header .tagline{font-size:16.5px}
 html.app .radio{margin-top:18px}
 html.app .scr{margin-top:0;padding-top:16px}
-html.app .scr:not(.on){display:none}
+html.app .wrap{padding-inline:max(18px,env(safe-area-inset-left,0px)) max(18px,env(safe-area-inset-right,0px))}
+html.app .scr:not(.on),html.app .wrap>section,html.app .wrap>footer{display:none}
 html.app .scr.on.in-tab{animation:inTab .34s cubic-bezier(.2,.9,.3,1.15)}
 html.app .scr.on.in-fwd{animation:inFwd .36s cubic-bezier(.2,.9,.3,1.1)}
 html.app .scr.on.in-back{animation:inBack .3s cubic-bezier(.2,.9,.3,1)}
@@ -1792,10 +1794,11 @@ html.app .scr.on.in-back{animation:inBack .3s cubic-bezier(.2,.9,.3,1)}
 html.app[dir="rtl"] .scr.on.in-fwd{animation-name:inBack}
 html.app[dir="rtl"] .scr.on.in-back{animation-name:inFwd}
 html.app footer{margin-top:34px}
+.khead h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6.4vw,46px);line-height:1.08;margin:10px 0 18px}
 
 /* top bar */
 .abar{position:fixed;z-index:40;inset:0 0 auto;padding-top:var(--sat);height:calc(var(--abar) + var(--sat));display:flex;align-items:center;gap:8px;
-  padding-inline:14px;background:#120b07e8;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid #4a2f1f99}
+  padding-inline:14px;background:#120b07f7;border-bottom:1px solid #4a2f1f99}
 .abrand{border:0;background:none;padding:4px 2px;font-family:var(--f-sign);font-size:25px;line-height:1;color:#ffe9e2;
   text-shadow:0 0 6px #ff9a8a,0 0 14px var(--neon);margin-inline-end:auto;white-space:nowrap}
 .abrand b{font-family:var(--f-display);font-weight:400;font-size:.55em;color:#eafffb;text-shadow:0 0 6px #a6fff2,0 0 14px var(--mint);margin-inline-start:.25em}
@@ -1810,8 +1813,8 @@ html.app footer{margin-top:34px}
 .asnd .w{display:none}.asnd[aria-pressed="true"] .w{display:inline}.asnd[aria-pressed="true"] .x{display:none}
 
 /* tab bar */
-.tbar{position:fixed;z-index:40;inset:auto 0 0;height:calc(var(--tbar) + var(--sab));padding-bottom:var(--sab);display:grid;grid-template-columns:repeat(5,1fr);
-  background:#120b07f0;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid #4a2f1f99}
+.tbar{position:fixed;z-index:40;inset:auto 0 0;height:calc(var(--tbar) + var(--sab));padding-bottom:var(--sab);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  background:#120b07f7;border-top:1px solid #4a2f1f99;overflow:hidden;padding-inline:max(0px,calc((100vw - 620px)/2))}
 .tbar button{position:relative;z-index:1;border:0;background:none;color:var(--ivory-dim);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:0 2px;min-width:0}
 .tbar button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1835,13 +1838,11 @@ html.app footer{margin-top:34px}
 .stories::-webkit-scrollbar{display:none}
 .story{flex:none;scroll-snap-align:start;border:0;background:none;color:var(--ivory);display:flex;flex-direction:column;align-items:center;gap:6px;width:70px;padding:0;
   font-family:var(--f-mono);font-size:11px;text-transform:lowercase}
-.story .ring{position:relative;width:64px;height:64px;border-radius:50%;padding:3px;display:grid;place-items:center;
-  background:conic-gradient(from var(--a,0deg),var(--neon),var(--amber),var(--mint),var(--neon));animation:ringspin 4s linear infinite}
+.story .ring{position:relative;width:64px;height:64px;border-radius:50%;padding:3px;display:grid;place-items:center;overflow:hidden;isolation:isolate}
+.story .ring::before{content:"";position:absolute;inset:0;z-index:-1;background:conic-gradient(var(--neon),var(--amber),var(--mint),var(--neon));animation:spin 4s linear infinite;will-change:transform}
 .story .ring i{width:100%;height:100%;border-radius:50%;background:#1a100b;border:2px solid #1a100b;display:grid;place-items:center;font-style:normal;font-size:27px;line-height:1}
-.story.seen .ring{background:#4a2f1f;animation:none}
+.story.seen .ring::before{background:#4a2f1f;animation:none}
 .story:active .ring{transform:scale(.9)}
-@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
-@keyframes ringspin{to{--a:360deg}}
 
 /* home cards */
 .hcards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
@@ -1901,7 +1902,6 @@ html.app[dir="rtl"] .back .chev{transform:scaleX(-1)}
 
 /* gazette as a feed of cards in the app */
 html.app .paper{padding:16px 14px 6px;border-radius:10px}
-html.app .news{gap:0}
 
 /* bursts and toasts */
 .spark{position:fixed;z-index:60;left:0;top:0;pointer-events:none;width:9px;height:9px;border-radius:2px}
@@ -1914,6 +1914,16 @@ html.app .news{gap:0}
 .toast.out{animation:toastOut .3s forwards}
 @keyframes toastIn{from{opacity:0;transform:translate(-50%,24px) scale(.9)}}
 @keyframes toastOut{to{opacity:0;transform:translate(-50%,16px)}}
+
+/* wider screens: more columns; short landscape screens: slimmer bars */
+@media (min-width:700px){.mgrid{grid-template-columns:repeat(3,1fr)}.hcards{grid-template-columns:2fr 1fr 1fr}.hcard.wide{grid-column:auto}}
+@media (max-height:500px) and (orientation:landscape){
+  html.app{--abar:44px;--tbar:50px}
+  .tbar button{flex-direction:row;gap:7px}.tbar .badge{position:static;margin-inline-start:-3px}.tbar svg{width:21px;height:21px}.tind{top:7px;height:36px}.badge{top:4px}
+  .achip,.asnd{height:32px}.asnd{width:32px}.abrand{font-size:22px}
+  html.app #s-home>header .sign{display:none}
+}
+@media (max-width:350px){.tbar button{font-size:9.5px;letter-spacing:.02em}.hcard{padding:14px 12px}.hcard .big{font-size:40px}.mtile{min-height:118px}.mtile b{font-size:17.5px}}
 </style>
 <script id="app-shell">
 (function(){
@@ -1921,7 +1931,7 @@ html.app .news{gap:0}
   var C=window.Capacitor,native=!!(C&&C.isNativePlatform&&C.isNativePlatform());
   var forced=/[?&]app\b/.test(location.search);
   var standalone=false;try{standalone=matchMedia("(display-mode: standalone)").matches;}catch(e){}
-  if(!native&&!forced&&!standalone)return;
+  if(!native&&!forced&&!standalone&&!window.VV_APP){document.documentElement.classList.remove("app");return;}
 
   var t=V.t,tf=V.tf,de=document.documentElement;de.classList.add("app");
   var $=function(s,r){return (r||document).querySelector(s);};
@@ -2072,10 +2082,12 @@ html.app .news{gap:0}
   document.body.appendChild(tbar);
   function moveInd(){
     var a=$('button[aria-current="page"]',tbar);if(!a)return;
-    var w=Math.min(64,a.offsetWidth-8);tind.style.width=w+"px";
+    var wide=false;try{wide=matchMedia("(max-height:500px) and (orientation:landscape)").matches;}catch(e){}
+    var w=Math.min(wide?124:64,a.offsetWidth-8);tind.style.width=w+"px";
     var x=a.offsetLeft+(a.offsetWidth-w)/2;tind.style.transform="translateX("+x+"px)";
   }
   window.addEventListener("resize",moveInd);
+  try{new ResizeObserver(function(){moveInd();}).observe(tbar);}catch(e){}
 
   /* ---------- badges ---------- */
   function articles(){return $$(".lead,.news article",novyny);}
@@ -2106,7 +2118,7 @@ html.app .news{gap:0}
     var s=S[id];void s.offsetWidth;s.classList.add(dir==="fwd"?"in-fwd":dir==="back"?"in-back":"in-tab");
     cur=id;de.dataset.scr=id;
     TABS.forEach(function(x){if(x.id===tabOf(id))x.el.setAttribute("aria-current","page");else x.el.removeAttribute("aria-current");});
-    moveInd();
+    requestAnimationFrame(moveInd);setTimeout(moveInd,360);
     window.scrollTo(0,dir==="fwd"?0:(mem[id]||0));
     if(id==="gazeta")store("vv-news-seen",articles().length);
     badges();

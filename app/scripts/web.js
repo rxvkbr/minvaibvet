@@ -45,7 +45,7 @@ const marker = '<script type="application/json" id="i18n">';
 const remote = /<link rel="preconnect" href="https:\/\/fonts\.googleapis\.com">\s*<link rel="preconnect" href="https:\/\/fonts\.gstatic\.com" crossorigin>\s*<link href="https:\/\/fonts\.googleapis\.com\/css2[^"]*" rel="stylesheet">/;
 if (html.split(marker).length !== 2) throw new Error("index.html: expected one translations block");
 if (!remote.test(html)) throw new Error("index.html: Google Fonts links not found where expected");
-html = html.replace(remote, '<link rel="stylesheet" href="fonts.css">\n<script>window.NO_REMOTE_FONTS=true;</script>');
+html = html.replace(remote, '<link rel="stylesheet" href="fonts.css">\n<script>window.NO_REMOTE_FONTS=true;window.VV_APP=true;</script>');
 html = html.replace(marker, '<script src="capacitor.js"></script>\n' + marker);
 fs.writeFileSync(path.join(www, "index.html"), html);
 console.log("www/ ready:", fs.readdirSync(fontsOut).length, "font files bundled");

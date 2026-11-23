@@ -446,6 +446,11 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
     </div>
   </div>
 <div class="marq" aria-label="Рядок, що біжить"><div><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg></div></div>
+<section class="wod" id="wod" data-noi18n aria-live="polite">
+  <div class="wod-head"><b class="wod-t"></b><span class="wod-s"></span><button type="button" class="wod-next"></button></div>
+  <ul class="wod-list"></ul>
+  <p class="wod-def"></p>
+</section>
 </header>
 
 <section id="novyny">
@@ -1796,6 +1801,54 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   /* bridge for the app shell below */
   window.VV={t:t,tf:tf,blip:blip,arp:arp,plugin:nativePlugin,onLang:function(f){i18nHooks.push(f);},
     lang:function(){return LANG;},soundOn:function(){return on;}};
+})();
+</script>
+<style id="wod-css">
+/* word of the day: one word in all five languages */
+.wod{margin:22px 0 0;padding:16px 16px 14px;border:1px solid transparent;border-radius:20px;
+  background:linear-gradient(#120b07,#120b07) padding-box,linear-gradient(135deg,#58c9b9aa,#f0a93a55 50%,#ff5d47aa) border-box;box-shadow:0 12px 30px #0008}
+.wod-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.wod-t{font-family:var(--f-club);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mint)}
+.wod-s{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ivory-dim)}
+.wod-next{margin-inline-start:auto;border:1px solid #4a2f1f;background:#2b1a11;color:var(--ivory);border-radius:999px;padding:7px 12px;
+  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.wod-next:active{transform:scale(.94)}
+.wod-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:4px}
+.wod-list li{display:flex;align-items:baseline;gap:12px;padding:6px 10px;border-radius:12px;transition:background .3s}
+.wod-list li i{flex:none;width:2.2em;font-style:normal;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ivory-dim)}
+.wod-list li b{font-family:var(--f-display);font-weight:400;font-size:21px;line-height:1.2;color:var(--ivory)}
+.wod-list li.me{background:#ff5d4718}
+.wod-list li.me b{color:#ffe9e2;text-shadow:0 0 10px #ff5d4799}
+.wod-list li[lang="ar"] b,.wod-list li[lang="zh"] b{font-family:inherit;font-weight:700}
+.wod-def{margin:10px 2px 0;font-style:italic;color:#ffe2a8}
+.wod.flip .wod-list li{animation:wodIn .45s cubic-bezier(.2,1.3,.4,1) both;animation-delay:calc(var(--i)*55ms)}
+.wod.flip .wod-def{animation:wodIn .45s .3s both}
+@keyframes wodIn{from{opacity:0;transform:translateY(10px)}}
+</style>
+<script id="wod-js">
+(function(){
+  var V=window.VV,box=document.getElementById("wod");if(!V||!box)return;
+  var W=[{"uk": "довідка", "en": "certificate", "nl": "attest", "ar": "شهادة", "zh": "证明", "d": {"uk": "Документ, який підтверджує, що у вас є інший документ.", "en": "A document confirming that you have another document.", "nl": "Een document dat bevestigt dat je een ander document hebt.", "ar": "وثيقة تثبت أن لديك وثيقة أخرى.", "zh": "一份证明你还有另一份文件的文件。"}}, {"uk": "відпустка", "en": "leave", "nl": "verlof", "ar": "إجازة", "zh": "休假", "d": {"uk": "Явище, описане в законі. Науково не підтверджене.", "en": "A phenomenon described in law. Not yet confirmed by science.", "nl": "Een verschijnsel dat in de wet staat. Wetenschappelijk nog niet bevestigd.", "ar": "ظاهرة مذكورة في القانون. لم يؤكدها العلم بعد.", "zh": "法律中描述过的现象，尚未得到科学证实。"}}, {"uk": "рапорт", "en": "written request", "nl": "verzoek", "ar": "طلب خطي", "zh": "书面申请", "d": {"uk": "Лист командиру, який читають у п'ятницю о 17:55.", "en": "A letter to the commander, read on Fridays at 17:55.", "nl": "Een brief aan de commandant, gelezen op vrijdag om 17:55.", "ar": "رسالة إلى القائد تُقرأ يوم الجمعة الساعة 17:55.", "zh": "写给指挥官的信，周五17:55才会被读。"}}, {"uk": "черга", "en": "queue", "nl": "rij", "ar": "طابور", "zh": "排队", "d": {"uk": "Спосіб провести день у компанії людей, які теж мають довідку.", "en": "A way to spend the day with people who also have a certificate.", "nl": "Een manier om de dag door te brengen met mensen die ook een attest hebben.", "ar": "طريقة لقضاء اليوم مع أناس لديهم شهادة أيضًا.", "zh": "和同样拿着证明的人一起度过一天的方式。"}}, {"uk": "ротація", "en": "rotation", "nl": "rotatie", "ar": "تناوب", "zh": "轮换", "d": {"uk": "Подія, яка завжди відбудеться найближчим часом.", "en": "An event that will always happen in the near future.", "nl": "Iets wat altijd binnenkort gebeurt.", "ar": "حدث سيقع دائمًا في المستقبل القريب.", "zh": "一件永远“近期”就会发生的事。"}}, {"uk": "вайб", "en": "vibe", "nl": "vibe", "ar": "فايب", "zh": "氛围", "d": {"uk": "Те, що лишається, коли всі документи подано.", "en": "What remains once all the paperwork is submitted.", "nl": "Wat overblijft als alle papieren zijn ingeleverd.", "ar": "ما يبقى بعد تقديم كل الأوراق.", "zh": "所有材料交完之后剩下的东西。"}}, {"uk": "обійми", "en": "hug", "nl": "knuffel", "ar": "عناق", "zh": "拥抱", "d": {"uk": "Найкоротша процедура в країні. Довідка не потрібна.", "en": "The shortest procedure in the country. No certificate needed.", "nl": "De kortste procedure van het land. Geen attest nodig.", "ar": "أقصر إجراء في البلاد. لا حاجة إلى شهادة.", "zh": "全国最短的手续，不需要证明。"}}, {"uk": "тиша", "en": "silence", "nl": "stilte", "ar": "صمت", "zh": "安静", "d": {"uk": "Звук неділі. Ветерани досі перевіряють, чи це не навчання.", "en": "The sound of Sunday. Veterans are still checking it isn't a drill.", "nl": "Het geluid van zondag. Veteranen checken nog of het geen oefening is.", "ar": "صوت يوم الأحد. ما زال المحاربون يتحققون من أنه ليس تدريبًا.", "zh": "星期天的声音。老兵们还在确认这不是演习。"}}, {"uk": "ЦНАП", "en": "service centre", "nl": "gemeentehuis", "ar": "مركز الخدمات", "zh": "政务大厅", "d": {"uk": "Місце, де час тече інакше. Зазвичай назад.", "en": "A place where time flows differently. Usually backwards.", "nl": "Een plek waar de tijd anders loopt. Meestal achteruit.", "ar": "مكان يجري فيه الوقت بشكل مختلف، غالبًا إلى الوراء.", "zh": "时间流速不同的地方，通常是倒着流。"}}, {"uk": "кава три в одному", "en": "3-in-1 coffee", "nl": "3-in-1-koffie", "ar": "قهوة ثلاثة في واحد", "zh": "三合一咖啡", "d": {"uk": "Кава, цукор і надія. Пропорції невідомі.", "en": "Coffee, sugar and hope. Proportions unknown.", "nl": "Koffie, suiker en hoop. Verhouding onbekend.", "ar": "قهوة وسكر وأمل. النِّسب مجهولة.", "zh": "咖啡、糖和希望，比例不明。"}}, {"uk": "дім", "en": "home", "nl": "thuis", "ar": "بيت", "zh": "家", "d": {"uk": "Місце, де тебе чекають без рапорту.", "en": "A place where they wait for you without a written request.", "nl": "Een plek waar ze op je wachten zonder verzoek.", "ar": "مكان ينتظرونك فيه بلا طلب خطي.", "zh": "不用打申请也有人等你的地方。"}}, {"uk": "комбат", "en": "battalion commander", "nl": "bataljonscommandant", "ar": "قائد الكتيبة", "zh": "营长", "d": {"uk": "Погода в людській подобі. Прогноз: мінливо.", "en": "Weather in human form. Forecast: changeable.", "nl": "Weer in mensengedaante. Verwachting: wisselvallig.", "ar": "طقس في هيئة إنسان. التوقعات: متقلب.", "zh": "人形天气。预报：多变。"}}, {"uk": "ластівка", "en": "swallow", "nl": "zwaluw", "ar": "سنونو", "zh": "燕子", "d": {"uk": "Птах, який завжди повертається додому. Як і ти.", "en": "A bird that always comes home. Just like you.", "nl": "Een vogel die altijd thuiskomt. Net als jij.", "ar": "طائر يعود دائمًا إلى البيت. مثلك تمامًا.", "zh": "总会回家的鸟，就像你一样。"}}, {"uk": "п'ятниця", "en": "Friday", "nl": "vrijdag", "ar": "الجمعة", "zh": "星期五", "d": {"uk": "День без коментарів.", "en": "A day without comment.", "nl": "Een dag zonder commentaar.", "ar": "يوم بلا تعليق.", "zh": "无可奉告的一天。"}}],UI={"Слово дня": ["Word of the day", "Woord van de dag", "كلمة اليوم", "每日一词"], "п'ятьма мовами": ["in five languages", "in vijf talen", "بخمس لغات", "五种语言"], "ще слово ↻": ["another word ↻", "nog een woord ↻", "كلمة أخرى ↻", "再来一个 ↻"]},L=["uk","en","nl","ar","zh"];
+  function t(k){var l=V.lang(),i=L.indexOf(l)-1;return i>=0?UI[k][i]:k;}
+  var day=Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5),n=day%W.length;
+  var list=box.querySelector(".wod-list"),def=box.querySelector(".wod-def"),btn=box.querySelector(".wod-next");
+  function render(anim){
+    var w=W[n],me=V.lang();
+    box.querySelector(".wod-t").textContent=t("Слово дня");
+    box.querySelector(".wod-s").textContent=t("п'ятьма мовами");
+    btn.textContent=t("ще слово ↻");
+    list.innerHTML="";
+    L.forEach(function(l,i){var li=document.createElement("li");li.lang=l;li.dir=l==="ar"?"rtl":"ltr";li.style.setProperty("--i",i);
+      if(l===me)li.className="me";
+      var a=document.createElement("i");a.textContent=l==="uk"?"укр":l;var b=document.createElement("b");b.textContent=w[l];
+      li.appendChild(a);li.appendChild(b);list.appendChild(li);});
+    def.textContent=w.d[me]||w.d.uk;def.dir=me==="ar"?"rtl":"ltr";
+    if(anim){box.classList.remove("flip");void box.offsetWidth;box.classList.add("flip");}
+  }
+  btn.addEventListener("click",function(){n=(n+1)%W.length;render(true);V.arp(659.25,[0,2,4],1,0.06);
+    var P=V.plugin("Purr");if(P&&P.tick)P.tick({kind:"click"}).catch(function(){});else try{navigator.vibrate&&navigator.vibrate(8);}catch(e){}});
+  V.onLang(function(){render(false);});
+  render(false);
 })();
 </script>
 <style id="app-shell-css">

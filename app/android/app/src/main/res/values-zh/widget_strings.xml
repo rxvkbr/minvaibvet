@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_forecast_name" formatted="false">休假预报</string>
+    <string name="widget_forecast_desc" formatted="false">老兵氛围部气象员发布的每日休假概率</string>
+    <string name="widget_vibe_name" formatted="false">今日氛围</string>
+    <string name="widget_vibe_desc" formatted="false">每天一句话，让你松口气</string>
+    <string name="widget_buttons_name" formatted="false">废话按钮</string>
+    <string name="widget_buttons_desc" formatted="false">直播、+1氛围、热线、摸摸、打报告</string>
+    <string name="w_forecast_title" formatted="false">休假预报</string>
+    <string name="w_today" formatted="false">今天</string>
+    <string name="w_feels" formatted="true">体感：%1$d%%</string>
+    <string name="w_vibe_title" formatted="false">今日氛围 · 氛围老兵 FM</string>
+    <string name="w_vibe_hint" formatted="false">轻点换一句</string>
+    <string name="w_buttons_title" formatted="false">氛围老兵 FM · 按钮</string>
+    <string name="w_stream" formatted="false">直播</string>
+    <string name="w_plus" formatted="false">+1 氛围</string>
+    <string name="w_hotline" formatted="false">热线</string>
+    <string name="w_pet" formatted="false">摸摸</string>
+    <string name="w_request" formatted="false">打报告</string>
+    <string name="w_count" formatted="true">氛围：%1$d</string>
+    <string name="w_status_idle" formatted="false">随便按一个。什么都不会发生，但感觉不错。</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 氛围已记录。老兵氛围部为你骄傲。</string>
+    <string-array name="w_days">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>日</item>
+    </string-array>
+    <string-array name="w_forecast_notes">
+        <item>局部有报告，指挥官阵风最高达中等强度。</item>
+        <item>降水形式：批评意见。</item>
+        <item>可能转晴：营长午饭前心情不错。</item>
+        <item>雾、阳光，地平线上有羊。</item>
+        <item>会议室上空持续多云。</item>
+        <item>晴。晴得可疑。</item>
+        <item>旅部检查。报告要保持干燥。</item>
+    </string-array>
+    <string-array name="w_vibes">
+        <item>你到家了。其余待定。</item>
+        <item>今天你什么都不用证明。连证明都不用开。</item>
+        <item>今日氛围：咖啡、安静、不用集合。</item>
+        <item>没人等你交一份心情报告。</item>
+        <item>你不必比别人好两倍。存在就够了。</item>
+        <item>暖和公交站里的猫相信你。</item>
+        <item>今日任务：最美的一朵云。</item>
+        <item>奶牛都在。你也在。</item>
+        <item>队可以等。你不用等。</item>
+        <item>会议室空着。你可以只是坐一会儿。</item>
+        <item>适合什么都不计划的一天。</item>
+        <item>老兵氛围部批准你睡到中午。</item>
+    </string-array>
+    <string-array name="w_rejections">
+        <item>驳回：蓝色色号不对。</item>
+        <item>驳回：签名过于自信。</item>
+        <item>驳回：周二提交的。</item>
+        <item>退回修改：还差一份副本。</item>
+        <item>驳回：指挥官今天心情好，不想破坏。</item>
+        <item>已受理。审核安排在轮换之后。</item>
+        <item>驳回：公章是圆的，但需要更圆一点。</item>
+        <item>驳回：字迹清晰得可疑。</item>
+        <item>已丢失。请重新提交，最好一式三份。</item>
+        <item>批准！开玩笑的。驳回。</item>
+    </string-array>
+    <string-array name="w_hotline">
+        <item>您的来电对我们非常重要。您前面还有4817位。</item>
+        <item>查询申请状态，请按1。申请查询申请状态，请按2。</item>
+        <item>接线员暂时无法接听：他也在等休假。</item>
+        <item>您前面还有4816位。看，系统在运转。</item>
+        <item>预计等待时间：到退伍为止。</item>
+        <item>找到您的证明了！不是您的证明。</item>
+        <item>正在为您播放音乐。它会比排队先结束。开玩笑的，不会。</item>
+        <item>热线今日工作已结束。工作时间为11:00至11:15。感谢您的陪伴。</item>
+    </string-array>
+</resources>

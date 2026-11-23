@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_forecast_name" formatted="false">توقعات الإجازة</string>
+    <string name="widget_forecast_desc" formatted="false">احتمال الإجازة اليومي من خبراء أرصاد وزارة الفايب</string>
+    <string name="widget_vibe_name" formatted="false">فايب اليوم</string>
+    <string name="widget_vibe_desc" formatted="false">جملة واحدة كل يوم لتتنفس بعمق</string>
+    <string name="widget_buttons_name" formatted="false">أزرار بلا فائدة</string>
+    <string name="widget_buttons_desc" formatted="false">البث، +1 فايب، الخط الساخن، المداعبة، وتقديم طلب</string>
+    <string name="w_forecast_title" formatted="false">توقعات الإجازة</string>
+    <string name="w_today" formatted="false">اليوم</string>
+    <string name="w_feels" formatted="true">الإحساس الفعلي: %1$d%%</string>
+    <string name="w_vibe_title" formatted="false">فايب اليوم · فايبفيت FM</string>
+    <string name="w_vibe_hint" formatted="false">المس للفايب التالي</string>
+    <string name="w_buttons_title" formatted="false">فايبفيت FM · أزرار</string>
+    <string name="w_stream" formatted="false">البث</string>
+    <string name="w_plus" formatted="false">+1 فايب</string>
+    <string name="w_hotline" formatted="false">الخط الساخن</string>
+    <string name="w_pet" formatted="false">داعب</string>
+    <string name="w_request" formatted="false">طلب</string>
+    <string name="w_count" formatted="true">الفايبات: %1$d</string>
+    <string name="w_status_idle" formatted="false">اضغط أي شيء. لن يحدث شيء، لكنه شعور لطيف.</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 فايب احتُسب. وزارة الفايب فخورة.</string>
+    <string-array name="w_days">
+        <item>إثن</item>
+        <item>ثلا</item>
+        <item>أرب</item>
+        <item>خمي</item>
+        <item>جمع</item>
+        <item>سبت</item>
+        <item>أحد</item>
+    </string-array>
+    <string-array name="w_forecast_notes">
+        <item>طلبات متفرقة، وهبّات من القائد تصل إلى معتدلة.</item>
+        <item>هطول على شكل ملاحظات.</item>
+        <item>انفراج محتمل: قائد الكتيبة في مزاج جيد حتى الغداء.</item>
+        <item>ضباب وشمس وخراف في الأفق.</item>
+        <item>غائم باستمرار فوق غرفة الاجتماعات.</item>
+        <item>صافٍ. صافٍ بشكل مريب.</item>
+        <item>تفتيش من اللواء. أبقِ طلبك جافًا.</item>
+    </string-array>
+    <string-array name="w_vibes">
+        <item>أنت في البيت. والباقي يُحدَّد لاحقًا.</item>
+        <item>اليوم لست مضطرًا لإثبات أي شيء. ولا حتى بشهادة.</item>
+        <item>فايب اليوم: قهوة، هدوء، ولا اصطفاف.</item>
+        <item>لا أحد ينتظر منك تقريرًا رسميًا عن مزاجك.</item>
+        <item>لست مضطرًا لأن تكون أفضل بمرتين. يكفي أن تكون.</item>
+        <item>القط في موقف الحافلات الدافئ يؤمن بك.</item>
+        <item>مهمة اليوم: أجمل غيمة.</item>
+        <item>الأبقار في مكانها. وأنت أيضًا.</item>
+        <item>الطابور يستطيع الانتظار. أنت لا.</item>
+        <item>غرفة الاجتماعات فارغة. يمكنك أن تجلس فيها فحسب.</item>
+        <item>يوم جيد لكي لا تخطط لأي شيء.</item>
+        <item>وزارة الفايب توافق على النوم حتى الظهر.</item>
+    </string-array>
+    <string-array name="w_rejections">
+        <item>مرفوض: درجة الأزرق غير صحيحة.</item>
+        <item>مرفوض: التوقيع واثق أكثر من اللازم.</item>
+        <item>مرفوض: قُدّم يوم ثلاثاء.</item>
+        <item>أُعيد للتعديل: تنقصه نسخة أخرى.</item>
+        <item>مرفوض: القائد في مزاج جيد ولا نريد إفساده.</item>
+        <item>قُبل للدراسة. الدراسة مقررة بعد التناوب.</item>
+        <item>مرفوض: الختم دائري، لكنه يجب أن يكون أكثر استدارة.</item>
+        <item>مرفوض: الخط واضح بشكل مريب.</item>
+        <item>ضاع. أعد التقديم، ويفضّل من ثلاث نسخ.</item>
+        <item>تمت الموافقة! نمزح. مرفوض.</item>
+    </string-array>
+    <string-array name="w_hotline">
+        <item>مكالمتك مهمة جدًا بالنسبة لنا. ترتيبك في الطابور 4817.</item>
+        <item>لمعرفة حالة طلبك، اضغط 1. لتقديم طلب لمعرفة حالة طلبك، اضغط 2.</item>
+        <item>لا يستطيع الموظف الرد الآن: هو أيضًا ينتظر إجازته.</item>
+        <item>ترتيبك في الطابور 4816. أرأيت، النظام يعمل.</item>
+        <item>مدة الانتظار المتوقعة: حتى التسريح.</item>
+        <item>عُثر على شهادتك! إنها ليست شهادتك.</item>
+        <item>تُعزف لك الموسيقى. ستنتهي قبل الطابور. نمزح، لن تنتهي.</item>
+        <item>انتهى يوم عمل الخط الساخن. استمر من 11:00 إلى 11:15. شكرًا لأنكم معنا.</item>
+    </string-array>
+</resources>

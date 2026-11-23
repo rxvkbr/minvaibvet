@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_forecast_name" formatted="false">Verlofweerbericht</string>
+    <string name="widget_forecast_desc" formatted="false">Dagelijkse kans op verlof van de weerkundigen van MinVibeVet</string>
+    <string name="widget_vibe_name" formatted="false">Vibe van de dag</string>
+    <string name="widget_vibe_desc" formatted="false">Eén zin per dag om even uit te ademen</string>
+    <string name="widget_buttons_name" formatted="false">Onzinknoppen</string>
+    <string name="widget_buttons_desc" formatted="false">Stream, +1 vibe, hulplijn, aaien en een aanvraag indienen</string>
+    <string name="w_forecast_title" formatted="false">VERLOFWEERBERICHT</string>
+    <string name="w_today" formatted="false">vandaag</string>
+    <string name="w_feels" formatted="true">Voelt als %1$d%%</string>
+    <string name="w_vibe_title" formatted="false">VIBE VAN DE DAG · VIBEVET FM</string>
+    <string name="w_vibe_hint" formatted="false">tik voor de volgende vibe</string>
+    <string name="w_buttons_title" formatted="false">VIBEVET FM · KNOPPEN</string>
+    <string name="w_stream" formatted="false">STREAM</string>
+    <string name="w_plus" formatted="false">+1 VIBE</string>
+    <string name="w_hotline" formatted="false">HULPLIJN</string>
+    <string name="w_pet" formatted="false">AAIEN</string>
+    <string name="w_request" formatted="false">AANVRAAG</string>
+    <string name="w_count" formatted="true">Vibes: %1$d</string>
+    <string name="w_status_idle" formatted="false">Druk op iets. Er gebeurt niets, maar het voelt fijn.</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 vibe geteld. MinVibeVet is trots.</string>
+    <string-array name="w_days">
+        <item>ma</item>
+        <item>di</item>
+        <item>wo</item>
+        <item>do</item>
+        <item>vr</item>
+        <item>za</item>
+        <item>zo</item>
+    </string-array>
+    <string-array name="w_forecast_notes">
+        <item>Plaatselijk aanvragen, windstoten van de commandant tot matig.</item>
+        <item>Neerslag in de vorm van opmerkingen.</item>
+        <item>Opklaringen mogelijk: de bataljonscommandant is tot de lunch goedgehumeurd.</item>
+        <item>Mist, zon en schapen aan de horizon.</item>
+        <item>Aanhoudend bewolkt boven de vergaderzaal.</item>
+        <item>Helder. Verdacht helder.</item>
+        <item>Inspectie van de brigade. Houd je aanvraag droog.</item>
+    </string-array>
+    <string-array name="w_vibes">
+        <item>Je bent thuis. De rest volgt nog.</item>
+        <item>Vandaag hoef je niets te bewijzen. Zelfs niet met een attest.</item>
+        <item>Vibe van de dag: koffie, stilte, geen appèl.</item>
+        <item>Niemand verwacht een schriftelijk rapport over je humeur.</item>
+        <item>Je hoeft niet twee keer zo goed te zijn. Er zijn is genoeg.</item>
+        <item>De kat in het warme bushokje gelooft in je.</item>
+        <item>Doel van vandaag: de mooiste wolk.</item>
+        <item>De koeien staan op hun plek. Jij ook.</item>
+        <item>De rij kan wachten. Jij niet.</item>
+        <item>De vergaderzaal is vrij. Je mag er gewoon even zitten.</item>
+        <item>Een goede dag om niets te plannen.</item>
+        <item>MinVibeVet keurt uitslapen tot de middag goed.</item>
+    </string-array>
+    <string-array name="w_rejections">
+        <item>Afgewezen: verkeerde tint blauw.</item>
+        <item>Afgewezen: handtekening te zelfverzekerd.</item>
+        <item>Afgewezen: ingediend op een dinsdag.</item>
+        <item>Teruggestuurd: er ontbreekt nog een exemplaar.</item>
+        <item>Afgewezen: de commandant is goedgehumeurd, dat willen we niet verpesten.</item>
+        <item>In behandeling genomen. Behandeling gepland na de rotatie.</item>
+        <item>Afgewezen: de stempel is rond, maar moet ronder.</item>
+        <item>Afgewezen: handschrift verdacht leesbaar.</item>
+        <item>Kwijtgeraakt. Dien opnieuw in, liefst in drievoud.</item>
+        <item>Goedgekeurd! Grapje. Afgewezen.</item>
+    </string-array>
+    <string-array name="w_hotline">
+        <item>Uw oproep is erg belangrijk voor ons. U bent nummer 4.817 in de wachtrij.</item>
+        <item>Om de status van uw aanvraag te bekijken, toets 1. Om de status van uw aanvraag aan te vragen, toets 2.</item>
+        <item>De medewerker kan nu niet opnemen: hij wacht ook op zijn verlof.</item>
+        <item>U bent nummer 4.816 in de wachtrij. Ziet u, het systeem werkt.</item>
+        <item>Geschatte wachttijd: tot de demobilisatie.</item>
+        <item>Uw attest is gevonden! Het is niet uw attest.</item>
+        <item>Er speelt muziek voor u. Die is eerder afgelopen dan de wachtrij. Grapje, dat is ze niet.</item>
+        <item>De werkdag van de hulplijn zit erop. Hij duurde van 11:00 tot 11:15. Bedankt dat u bij ons was.</item>
+    </string-array>
+</resources>

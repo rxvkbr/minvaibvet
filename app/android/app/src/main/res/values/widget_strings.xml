@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_forecast_name" formatted="false">Прогноз відпустки</string>
+    <string name="widget_forecast_desc" formatted="false">Щоденна ймовірність відпустки від синоптиків Мінвайбвету</string>
+    <string name="widget_vibe_name" formatted="false">Вайб дня</string>
+    <string name="widget_vibe_desc" formatted="false">Одна фраза на день, щоб видихнути</string>
+    <string name="widget_buttons_name" formatted="false">Кнопки-фігня</string>
+    <string name="widget_buttons_desc" formatted="false">Стрім, +1 вайб, гаряча лінія, погладити й подати рапорт</string>
+    <string name="w_forecast_title" formatted="false">ПРОГНОЗ ВІДПУСТКИ</string>
+    <string name="w_today" formatted="false">сьогодні</string>
+    <string name="w_feels" formatted="true">Відчувається як %1$d%%</string>
+    <string name="w_vibe_title" formatted="false">ВАЙБ ДНЯ · ВАЙБВЕТ FM</string>
+    <string name="w_vibe_hint" formatted="false">торкнись: наступний вайб</string>
+    <string name="w_buttons_title" formatted="false">ВАЙБВЕТ FM · КНОПКИ</string>
+    <string name="w_stream" formatted="false">СТРІМ</string>
+    <string name="w_plus" formatted="false">+1 ВАЙБ</string>
+    <string name="w_hotline" formatted="false">ГАРЯЧА ЛІНІЯ</string>
+    <string name="w_pet" formatted="false">ПОГЛАДИТИ</string>
+    <string name="w_request" formatted="false">РАПОРТ</string>
+    <string name="w_count" formatted="true">Вайбів: %1$d</string>
+    <string name="w_status_idle" formatted="false">Натисни будь-що. Нічого не станеться, але приємно.</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 вайб зараховано. Мінвайбвет пишається.</string>
+    <string-array name="w_days">
+        <item>пн</item>
+        <item>вт</item>
+        <item>ср</item>
+        <item>чт</item>
+        <item>пт</item>
+        <item>сб</item>
+        <item>нд</item>
+    </string-array>
+    <string-array name="w_forecast_notes">
+        <item>Місцями рапорт, пориви командира до помірних.</item>
+        <item>Опади у вигляді зауважень.</item>
+        <item>Можливі прояснення: комбат у доброму гуморі до обіду.</item>
+        <item>Туман, сонце й вівці на обрії.</item>
+        <item>Стабільно хмарно над перегаворкою.</item>
+        <item>Ясно. Підозріло ясно.</item>
+        <item>Перевірка з бригади. Тримайте рапорт сухим.</item>
+    </string-array>
+    <string-array name="w_vibes">
+        <item>Ти вдома. Решта уточнюється.</item>
+        <item>Сьогодні можна нічого не доводити. Навіть довідкою.</item>
+        <item>Вайб дня: кава, тиша, жодного шикування.</item>
+        <item>Ніхто не чекає від тебе рапорту про твій настрій.</item>
+        <item>Ти не мусиш бути вдвічі кращим. Досить бути.</item>
+        <item>Кіт на теплій зупинці вірить у тебе.</item>
+        <item>Сьогоднішня ціль: найкрасивіша хмара.</item>
+        <item>Корови на місці. Ти теж.</item>
+        <item>Черга почекає. Ти ні.</item>
+        <item>Перегаворка вільна. Можна просто посидіти.</item>
+        <item>Гарний день, щоб нічого не планувати.</item>
+        <item>Мінвайбвет схвалює твій сон до обіду.</item>
+    </string-array>
+    <string-array name="w_rejections">
+        <item>Відхилено: не той відтінок синього.</item>
+        <item>Відхилено: підпис занадто впевнений.</item>
+        <item>Відхилено: подано у вівторок.</item>
+        <item>Повернуто на доопрацювання: бракує ще одного примірника.</item>
+        <item>Відхилено: командир у доброму гуморі, не хочемо псувати.</item>
+        <item>Прийнято до розгляду. Розгляд заплановано після ротації.</item>
+        <item>Відхилено: печатка кругла, а потрібна кругліша.</item>
+        <item>Відхилено: почерк підозріло розбірливий.</item>
+        <item>Загублено. Подайте повторно, бажано у трьох примірниках.</item>
+        <item>Погоджено! Жартуємо. Відхилено.</item>
+    </string-array>
+    <string-array name="w_hotline">
+        <item>Ваш дзвінок дуже важливий для нас. Ви в черзі 4 817-й.</item>
+        <item>Щоб дізнатися статус заявки, натисніть 1. Щоб подати заявку на статус заявки, натисніть 2.</item>
+        <item>Оператор зараз не може відповісти: він теж чекає на відпустку.</item>
+        <item>Ви в черзі 4 816-й. Бачите, система працює.</item>
+        <item>Орієнтовний час очікування: до демобілізації.</item>
+        <item>Вашу довідку знайдено! Це не ваша довідка.</item>
+        <item>Для вас звучить музика. Вона закінчиться раніше, ніж черга. Жартуємо, не закінчиться.</item>
+        <item>Робочий день гарячої лінії завершено. Він тривав з 11:00 до 11:15. Дякуємо, що ви з нами.</item>
+    </string-array>
+</resources>

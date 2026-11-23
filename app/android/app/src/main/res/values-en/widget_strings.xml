@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_forecast_name" formatted="false">Leave forecast</string>
+    <string name="widget_forecast_desc" formatted="false">Daily chance of leave from the MinVibeVet forecasters</string>
+    <string name="widget_vibe_name" formatted="false">Vibe of the day</string>
+    <string name="widget_vibe_desc" formatted="false">One line a day to help you breathe out</string>
+    <string name="widget_buttons_name" formatted="false">Bullshit buttons</string>
+    <string name="widget_buttons_desc" formatted="false">Stream, +1 vibe, hotline, pet, and submit a request</string>
+    <string name="w_forecast_title" formatted="false">LEAVE FORECAST</string>
+    <string name="w_today" formatted="false">today</string>
+    <string name="w_feels" formatted="true">Feels like %1$d%%</string>
+    <string name="w_vibe_title" formatted="false">VIBE OF THE DAY · VIBEVET FM</string>
+    <string name="w_vibe_hint" formatted="false">tap for the next vibe</string>
+    <string name="w_buttons_title" formatted="false">VIBEVET FM · BUTTONS</string>
+    <string name="w_stream" formatted="false">STREAM</string>
+    <string name="w_plus" formatted="false">+1 VIBE</string>
+    <string name="w_hotline" formatted="false">HOTLINE</string>
+    <string name="w_pet" formatted="false">PET</string>
+    <string name="w_request" formatted="false">REQUEST</string>
+    <string name="w_count" formatted="true">Vibes: %1$d</string>
+    <string name="w_status_idle" formatted="false">Press anything. Nothing will happen, but it feels nice.</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 vibe counted. MinVibeVet is proud.</string>
+    <string-array name="w_days">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+    <string-array name="w_forecast_notes">
+        <item>Request forms in places, commander gusts up to moderate.</item>
+        <item>Precipitation in the form of remarks.</item>
+        <item>Clearing possible: the battalion commander is in a good mood until lunch.</item>
+        <item>Mist, sunshine and sheep on the horizon.</item>
+        <item>Steadily cloudy over the meeting room.</item>
+        <item>Clear. Suspiciously clear.</item>
+        <item>Inspection from brigade. Keep your request form dry.</item>
+    </string-array>
+    <string-array name="w_vibes">
+        <item>You\'re home. Everything else is to be confirmed.</item>
+        <item>Today you don\'t have to prove anything. Not even with a certificate.</item>
+        <item>Vibe of the day: coffee, silence, zero formations.</item>
+        <item>Nobody expects a written report on your mood.</item>
+        <item>You don\'t have to be twice as good. Being is enough.</item>
+        <item>The cat at the warm bus stop believes in you.</item>
+        <item>Today\'s mission: the most beautiful cloud.</item>
+        <item>The cows are in place. So are you.</item>
+        <item>The queue can wait. You can\'t.</item>
+        <item>The meeting room is free. You can just sit there.</item>
+        <item>A good day to plan nothing.</item>
+        <item>MinVibeVet approves of sleeping until noon.</item>
+    </string-array>
+    <string-array name="w_rejections">
+        <item>Rejected: wrong shade of blue.</item>
+        <item>Rejected: signature too confident.</item>
+        <item>Rejected: submitted on a Tuesday.</item>
+        <item>Returned for revision: one more copy required.</item>
+        <item>Rejected: the commander is in a good mood, we don\'t want to ruin it.</item>
+        <item>Accepted for review. Review scheduled after rotation.</item>
+        <item>Rejected: the stamp is round, but it needs to be rounder.</item>
+        <item>Rejected: handwriting suspiciously legible.</item>
+        <item>Lost. Please resubmit, ideally in triplicate.</item>
+        <item>Approved! Just kidding. Rejected.</item>
+    </string-array>
+    <string-array name="w_hotline">
+        <item>Your call is very important to us. You are number 4,817 in the queue.</item>
+        <item>To check the status of your application, press 1. To apply for the status of your application, press 2.</item>
+        <item>The operator can\'t answer right now: he\'s also waiting for his leave.</item>
+        <item>You are number 4,816 in the queue. See, the system works.</item>
+        <item>Estimated waiting time: until demobilisation.</item>
+        <item>Your certificate has been found! It\'s not your certificate.</item>
+        <item>Music is playing for you. It will end before the queue does. Just kidding, it won\'t.</item>
+        <item>The hotline\'s working day is over. It lasted from 11:00 to 11:15. Thank you for being with us.</item>
+    </string-array>
+</resources>

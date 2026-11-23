@@ -157,6 +157,7 @@ section>h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6.4
 #answer{min-height:5.2em;margin:12px 0 16px;font-style:italic;color:#ffe2a8}
 .call{border:0;border-radius:8px;padding:12px 18px;background:var(--neon);color:#200804;font-family:var(--f-mono);
   font-size:13px;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 4px 0 #8f2416}
+.call{display:inline-block;text-decoration:none}
 .call:active{transform:translateY(3px);box-shadow:0 1px 0 #8f2416}
 .chart{list-style:none;margin:0;padding:0;counter-reset:n}
 .chart li{counter-increment:n;display:grid;grid-template-columns:28px 1fr;gap:8px;padding:8px 0;border-bottom:1px dashed var(--panel-edge)}
@@ -387,6 +388,11 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
       <div class="phone">0 800 ЧЕКАЙТЕ</div>
       <p id="answer" aria-live="polite">Підніміть слухавку. Вам обов'язково хтось відповість, ми в це віримо.</p>
       <button class="call" id="call">Подзвонити</button>
+    </div>
+    <div class="card">
+      <h3>Підтримати станцію</h3>
+      <p style="margin:0 0 16px;color:var(--ivory-dim)">Гроші підуть на домен, застосунок і каву три в одному для редакції. На відпустку не витратимо: її все одно не дадуть. Це не збір на потреби військових.</p>
+      <a class="call" href="https://send.monobank.ua/jar/AC4G66LERn" target="_blank" rel="noopener">Кинути в банку</a>
     </div>
     <div class="card" id="napp" hidden>
       <h3>Хороша новина щодня</h3>

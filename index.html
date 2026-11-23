@@ -256,7 +256,7 @@ body[data-st="music"] .call{color:#16040e}
 .stage{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;border-radius:10px;overflow:hidden;
   background:radial-gradient(ellipse 70% 60% at 50% 70%,#ffffff14,transparent 70%),#120b07;border:1px solid #000}
 .stage svg{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
-.an{display:none}.stage[data-a="cat"] .an-cat,.stage[data-a="dog"] .an-dog,.stage[data-a="rat"] .an-rat,.stage[data-a="bird"] .an-bird{display:block}
+.an{display:none}.stage[data-a="cat"] .an-cat,.stage[data-a="dog"] .an-dog,.stage[data-a="rat"] .an-rat,.stage[data-a="bird"] .an-bird,.stage[data-a="raven"] .an-raven{display:block}
 .ec,.tongue{display:none}.stage.happy .ec,.stage.happy .tongue{display:block}.stage.happy .eo{display:none}
 .breath{transform-origin:160px 200px;animation:breath 3.2s ease-in-out infinite}
 .stage.happy .breath{animation-duration:1.6s}
@@ -467,6 +467,7 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
       <button type="button" data-a="dog" aria-pressed="false">собачка</button>
       <button type="button" data-a="rat" aria-pressed="false">щурик</button>
       <button type="button" data-a="bird" aria-pressed="false">птах</button>
+      <button type="button" data-a="raven" aria-pressed="false">ворон</button>
     </div>
     <div class="stage" id="petstage" data-a="cat" role="img" aria-label="Тваринка, яку можна гладити">
       <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
@@ -522,6 +523,20 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
           <polygon points="112,84 132,78 132,94" fill="#f0a93a"/>
           <g class="eo"><circle cx="146" cy="80" r="6" fill="#21150e"/><circle cx="148" cy="78" r="2" fill="#fff"/></g>
           <g class="ec" fill="none" stroke="#21150e" stroke-width="3" stroke-linecap="round"><path d="M139 81q7 6 14 0"/></g>
+        </g></g>
+        <g class="an an-raven"><g class="breath">
+          <polygon points="212,152 290,146 284,186 220,180" fill="#1a1f2e"/>
+          <path d="M146 196v10M176 196v10" stroke="#56618a" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="162" cy="146" rx="72" ry="54" fill="#2a3148"/>
+          <ellipse cx="186" cy="152" rx="40" ry="28" fill="#1a1f2e" transform="rotate(16 186 152)"/>
+          <path d="M162 150q22 14 50 8M168 164q20 10 40 6" fill="none" stroke="#56618a" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="146" cy="84" r="38" fill="#2a3148"/>
+          <path d="M124 60q20-18 46-6" fill="none" stroke="#6f7cab" stroke-width="4" stroke-linecap="round"/>
+          <polygon points="124,104 152,112 132,130" fill="#1a1f2e"/>
+          <polygon points="114,70 62,94 114,102" fill="#56618a"/>
+          <path d="M66 93l46-4" stroke="#1a1f2e" stroke-width="2"/>
+          <g class="eo"><circle cx="138" cy="78" r="7" fill="#f2e3bd"/><circle cx="137" cy="78" r="3.5" fill="#0b0c10"/></g>
+          <g class="ec" fill="none" stroke="#f2e3bd" stroke-width="3" stroke-linecap="round"><path d="M131 79q7 6 14 0"/></g>
         </g></g>
       </svg>
     </div>
@@ -840,6 +855,7 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
       cat:{snd:{ft:"lowpass",f:170,q:1,rate:25,vol:0.6},lines:["Котик чекає. Він нікуди не поспішає, і тобі не радить.","Котик дозволив.","Котик увімкнув двигун.","Котик у повній бойовій готовності до сну."]},
       dog:{snd:{ft:"bandpass",f:1400,q:1.2,rate:5.5,vol:0.12},lines:["Собачка чекає й уже тебе любить.","Хвіст пішов.","Собачка вважає тебе найкращою людиною в підрозділі.","Собачка щаслива. Це був наказ, і вона його виконала."]},
       rat:{snd:{ft:"highpass",f:3200,q:0.7,rate:11,vol:0.05},lines:["Щурик придивляється.","Щурик дозволив почухати за вушком.","Щурик клацає зубками. У щурів це означає щастя.","Щурик розтікся млинцем."]},
+      raven:{snd:null,lines:["Ворон оцінює тебе. Попередній висновок: придатний.","Ворон дозволив. І запам'ятав твоє обличчя, назавжди.","Ворон приніс тобі блискучу кришечку. Це серйозний крок.","Ворон каже «кар». У перекладі: шикування скасовано."]},
       bird:{snd:null,lines:["Птах дивиться одним оком.","Птах підставив голівку.","Птах розпушився.","Птах співає. Тривогу скасовано."]}
     };
     try{strokes=parseInt(localStorage.getItem("pet-strokes"),10)||0;}catch(e){}
@@ -901,6 +917,7 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
         if(!pet&&energy>0.03)makePet();
         if(pet)pet.out.gain.setTargetAtTime(energy*pet.vol,ctx.currentTime,0.12);
         if(animal==="bird"&&energy>0.3&&Math.random()<energy*0.3)blip(2600+Math.random()*1900,0,0.05,"sine");
+        if(animal==="raven"&&energy>0.35&&Math.random()<energy*0.12){var cf=250+Math.random()*50;blip(cf,0,0.07,"sawtooth");blip(cf*0.94,0.16,0.06,"sawtooth");}
       }else if(pet&&!on){dropPet();}
     },100);
   })();

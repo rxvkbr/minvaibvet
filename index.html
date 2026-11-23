@@ -171,11 +171,11 @@ footer p{margin:0 0 8px;max-width:44em}
 /* ---------- club layer: marquee, vibe buttons, station 106.7 takes over the room ---------- */
 body{transition:background-color .6s,color .6s}
 .marq{margin:28px -18px 0;overflow:hidden;background:#0a0a0c;border-block:1px solid var(--neon);padding:10px 0}
-.marq div{display:inline-flex;white-space:nowrap;animation:marq 42s linear infinite;
+.marq div{display:inline-flex;align-items:center;white-space:nowrap;animation:marq 42s linear infinite;
   font-family:var(--f-club);font-weight:500;font-size:13px;text-transform:lowercase;color:#f5f5f7}
 .marq span{padding-right:1.6em}
 .marq em{font-style:normal;color:var(--neon)}
-.marq svg{width:22px;height:11px;fill:var(--mint);margin-right:1.6em;vertical-align:-1px}
+.marq svg{flex:none;width:22px;height:11px;fill:var(--mint);margin-right:1.6em;position:relative;top:.1em}
 @keyframes marq{to{transform:translateX(-50%)}}
 #total{font-size:14px}
 .vibe{margin:10px 0 0;border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;

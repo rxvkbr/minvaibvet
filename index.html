@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вайбвет FM</title>
+<meta name="description" content="Вайбвет FM: сатирична радіостанція вигаданого Мінвайбвету про сюрність буття українського ветерана. Це жарт, а не державний сайт.">
+<meta property="og:title" content="Вайбвет FM">
+<meta property="og:description" content="Сатирична радіостанція вигаданого Мінвайбвету. Новини тільки хороші: ми їх довго шукали.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=PT+Mono&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@500;800&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: one bakelite radio set as the hero, then a newsprint sheet, then dark studio panels. Single theme by choice. */
+  --bakelite:#1a100b;
+  --panel:#2b1a11;
+  --panel-edge:#4a2f1f;
+  --ivory:#f2e3bd;
+  --ivory-dim:#b9a47f;
+  --amber:#f0a93a;
+  --neon:#ff5d47;
+  --mint:#58c9b9;
+  --ink:#21150e;
+  --f-sign:"Lobster","Georgia",cursive;
+  --f-display:"Yeseva One","Georgia",serif;
+  --f-body:"PT Serif","Georgia",serif;
+  --f-mono:"PT Mono","Courier New",monospace;
+  --f-club:"Unbounded","Arial Black",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--bakelite)}
+body{
+  margin:0;background:
+    radial-gradient(ellipse 90% 40% at 50% 0,#3a2114 0,transparent 70%),
+    var(--bakelite);
+  color:var(--ivory);font-family:var(--f-body);font-size:17px;line-height:1.55;
+}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
+h1,h2,h3{text-wrap:balance;margin:0}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+a{color:var(--mint)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+
+/* ---------- header / neon ---------- */
+header{padding:34px 0 10px;text-align:left}
+.topline{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;color:var(--ivory-dim)}
+.sign{
+  font-family:var(--f-sign);font-size:clamp(58px,17vw,128px);line-height:.95;margin:18px 0 6px;
+  color:#ffe9e2;
+  text-shadow:0 0 6px #ff9a8a,0 0 18px var(--neon),0 0 44px var(--neon),0 0 90px #b3261a;
+}
+.sign .fm{font-family:var(--f-display);font-size:.36em;letter-spacing:.06em;color:#eafffb;
+  text-shadow:0 0 6px #a6fff2,0 0 18px var(--mint),0 0 40px var(--mint);margin-left:.25em;white-space:nowrap}
+.sign .flick{animation:flick 7s infinite}
+@keyframes flick{0%,91%,94%,97%,100%{opacity:1}92%,96%{opacity:.35}}
+.tagline{font-size:19px;max-width:34em;color:var(--ivory);margin:10px 0 0}
+
+/* ---------- the radio ---------- */
+.radio{
+  margin:30px 0 0;padding:18px;border-radius:22px 22px 14px 14px;
+  background:linear-gradient(180deg,#5a3521 0,#3a2216 18%,#2a180f 100%);
+  border:1px solid #6b422b;box-shadow:inset 0 2px 0 #7d5137,inset 0 -8px 20px #120a06,0 24px 50px #0008;
+}
+.dial{
+  position:relative;border-radius:10px;padding:12px 14px 30px;
+  background:linear-gradient(180deg,#fff3cf,#f0c873 60%,#d99a3a);
+  box-shadow:inset 0 0 22px #a8641c,inset 0 0 0 2px #7a4a1f;color:var(--ink);overflow:hidden;
+}
+.dial-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.onair{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;
+  background:var(--ink);color:#ffd9d2;padding:4px 9px;border-radius:4px}
+.onair i{width:8px;height:8px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.scale{position:relative;height:38px;margin-top:10px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 5%) bottom/100% 10px no-repeat,
+             repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 25%) bottom/100% 18px no-repeat;
+  border-bottom:2px solid var(--ink)}
+.scale span{position:absolute;top:0;transform:translateX(-50%);font-family:var(--f-mono);font-size:11px}
+.needle{position:absolute;top:44px;bottom:8px;width:3px;margin-left:-1.5px;background:var(--neon);
+  box-shadow:0 0 8px var(--neon);border-radius:2px;left:72%;transition:left .9s cubic-bezier(.3,1.4,.5,1)}
+.display{
+  margin-top:14px;background:#120b07;border-radius:10px;padding:16px 16px 18px;min-height:168px;
+  border:1px solid #000;box-shadow:inset 0 0 26px #000;
+}
+.display .mono{color:var(--amber)}
+.display h2{font-family:var(--f-display);font-weight:400;font-size:24px;margin:6px 0 8px;color:var(--ivory)}
+#line{margin:0;font-style:italic;color:#ffe2a8;text-shadow:0 0 12px #f0a93a55;min-height:4.7em}
+#line.swap{animation:swap .5s}
+@keyframes swap{from{opacity:.15;transform:translateY(4px)}}
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.preset{
+  padding:10px 4px 9px;border-radius:8px;border:1px solid #1a0f09;color:var(--ivory);
+  background:linear-gradient(180deg,#f4e6c3,#cdb98b);color:var(--ink);
+  box-shadow:0 4px 0 #6f5a37,0 6px 10px #0007;font-family:var(--f-mono);font-size:12px;line-height:1.25
+}
+.preset b{display:block;font-size:15px}
+.preset[aria-pressed="true"]{transform:translateY(3px);box-shadow:0 1px 0 #6f5a37;background:linear-gradient(180deg,#ffd27a,#f0a93a)}
+.lower{display:flex;gap:14px;align-items:center;margin-top:16px}
+.grille{flex:1;height:54px;border-radius:8px;
+  background:repeating-linear-gradient(90deg,#120a06 0 5px,#4b2d1c 5px 8px);box-shadow:inset 0 0 14px #000}
+.sound{
+  flex:none;border-radius:999px;border:1px solid #1a0f09;padding:12px 16px;color:var(--ink);
+  background:radial-gradient(circle at 35% 30%,#fff3cf,#c9a65e);box-shadow:0 4px 0 #5e4424,0 8px 14px #0008;
+  font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase
+}
+.sound[aria-pressed="true"]{background:radial-gradient(circle at 35% 30%,#d6fff8,var(--mint))}
+
+/* ---------- sections ---------- */
+section{margin-top:64px}
+.kicker{color:var(--amber);display:flex;align-items:center;gap:12px}
+.kicker::after{content:"";flex:1;height:1px;background:var(--panel-edge)}
+section>h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6.4vw,46px);line-height:1.08;margin:10px 0 6px}
+.sub{color:var(--ivory-dim);margin:0 0 22px;max-width:36em}
+
+/* newsprint */
+.paper{background:var(--ivory);color:var(--ink);border-radius:4px;padding:22px 20px 8px;
+  box-shadow:0 18px 40px #0009;background-image:radial-gradient(#0000000d 1px,transparent 1px);background-size:5px 5px}
+.masthead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;border-bottom:3px double var(--ink);padding-bottom:8px;color:#5b4630}
+.lead h3{font-family:var(--f-display);font-weight:400;font-size:clamp(27px,6.6vw,42px);line-height:1.08;margin:16px 0 10px}
+.lead p{margin:0 0 16px;max-width:38em}
+.news{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 26px;border-top:1px solid var(--ink)}
+.news article{padding:14px 0;border-bottom:1px solid #21150e55}
+.news h3{font-family:var(--f-body);font-weight:700;font-size:19px;line-height:1.25;margin-bottom:5px}
+.news p{margin:0;font-size:15.5px;color:#3d2a1b}
+.tag{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#a3301f;display:block;margin-bottom:4px}
+
+/* forecast */
+.forecast{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;
+  background:var(--panel);border:1px solid var(--panel-edge);border-radius:12px;padding:18px 12px 12px}
+.day{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.col{width:100%;height:130px;display:flex;align-items:flex-end;border-bottom:1px solid var(--ivory-dim)}
+.col i{display:block;width:100%;background:linear-gradient(180deg,var(--amber),#a8641c);border-radius:3px 3px 0 0;min-height:2px}
+.day.sat .col i{background:linear-gradient(180deg,var(--mint),#237a6e)}
+.pct{font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+.dn{font-family:var(--f-mono);font-size:11px;color:var(--ivory-dim);text-transform:uppercase}
+.notes{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:6px;color:var(--ivory-dim);font-size:15.5px}
+.notes b{color:var(--ivory);font-weight:400;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-right:8px}
+.feels{margin-top:14px;font-family:var(--f-display);font-size:22px;color:var(--amber)}
+
+/* schedule */
+.sched{list-style:none;margin:0;padding:0;border-top:1px solid var(--panel-edge)}
+.sched li{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--panel-edge)}
+.sched time{font-family:var(--f-mono);color:var(--amber);font-size:15px;font-variant-numeric:tabular-nums;padding-top:4px}
+.sched h3{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.2}
+.sched p{margin:4px 0 0;color:var(--ivory-dim);font-size:15.5px;max-width:36em}
+
+/* hotline + chart */
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--panel-edge);border-radius:12px;padding:20px}
+.card h3{font-family:var(--f-display);font-weight:400;font-size:24px;margin-bottom:10px}
+.phone{font-family:var(--f-mono);font-size:26px;color:var(--mint);letter-spacing:.06em;text-shadow:0 0 14px #58c9b955}
+#answer{min-height:5.2em;margin:12px 0 16px;font-style:italic;color:#ffe2a8}
+.call{border:0;border-radius:8px;padding:12px 18px;background:var(--neon);color:#200804;font-family:var(--f-mono);
+  font-size:13px;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 4px 0 #8f2416}
+.call:active{transform:translateY(3px);box-shadow:0 1px 0 #8f2416}
+.chart{list-style:none;margin:0;padding:0;counter-reset:n}
+.chart li{counter-increment:n;display:grid;grid-template-columns:28px 1fr;gap:8px;padding:8px 0;border-bottom:1px dashed var(--panel-edge)}
+.chart li::before{content:counter(n);font-family:var(--f-display);color:var(--amber);font-size:20px;line-height:1.2}
+.chart small{display:block;color:var(--ivory-dim);font-size:14px}
+
+footer{margin:70px 0 0;padding:26px 0 44px;border-top:1px solid var(--panel-edge);color:var(--ivory-dim);font-size:14.5px}
+footer p{margin:0 0 8px;max-width:44em}
+
+
+/* ---------- club layer: marquee, vibe buttons, station 106.7 takes over the room ---------- */
+body{transition:background-color .6s,color .6s}
+.marq{margin:28px -18px 0;overflow:hidden;background:#0a0a0c;border-block:1px solid var(--neon);padding:10px 0}
+.marq div{display:inline-flex;white-space:nowrap;animation:marq 42s linear infinite;
+  font-family:var(--f-club);font-weight:500;font-size:13px;text-transform:lowercase;color:#f5f5f7}
+.marq span{padding-right:1.6em}
+.marq em{font-style:normal;color:var(--neon)}
+.marq svg{width:22px;height:11px;fill:var(--mint);margin-right:1.6em;vertical-align:-1px}
+@keyframes marq{to{transform:translateX(-50%)}}
+#total{font-size:14px}
+.vibe{margin:10px 0 0;border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;
+  padding:5px 12px 5px;font-family:var(--f-club);font-weight:500;font-size:11px;text-transform:lowercase;letter-spacing:.01em}
+.vibe span{display:inline-block;margin-left:6px;font-variant-numeric:tabular-nums}
+.vibe:hover{background:var(--ink);color:var(--ivory)}
+.vibe.pop{animation:pop .32s cubic-bezier(.3,1.8,.5,1);background:#ff4fae;border-color:#ff4fae;color:#16040e}
+@keyframes pop{0%{transform:scale(.9)}55%{transform:scale(1.14) rotate(-2deg)}100%{transform:scale(1)}}
+.lead .vibe{margin:0 0 16px}
+
+body[data-st="music"]{
+  --bakelite:#09090b;--panel:#15151a;--panel-edge:#3a3a44;--ivory:#f5f5f7;--ivory-dim:#a4a4b0;
+  --amber:#ff4fae;--neon:#ff4fae;--mint:#cdbbff;
+  background:radial-gradient(ellipse 90% 40% at 50% 0,#3d0f2c 0,transparent 70%),var(--bakelite);
+}
+body[data-st="music"] .sign{
+  font-family:var(--f-club);font-weight:800;text-transform:lowercase;letter-spacing:-.05em;
+  font-size:clamp(40px,12vw,94px);line-height:1.1;color:#fff;transform-origin:0 60%;
+  text-shadow:0 0 6px #ffc2e6,0 0 24px var(--neon),0 0 64px var(--neon);animation:beat .469s infinite;
+}
+body[data-st="music"] .sign .fm{font-family:var(--f-club);letter-spacing:0}
+@keyframes beat{0%{transform:scale(1.022)}100%{transform:scale(1)}}
+body[data-st="music"] .radio{
+  background:linear-gradient(180deg,#f4f4f8 0,#a3a3b0 14%,#3d3d47 55%,#1b1b20 100%);
+  border-color:#d0d0da;box-shadow:inset 0 2px 0 #fff,inset 0 -8px 20px #000,0 24px 60px #ff4fae33;
+}
+body[data-st="music"] .dial{background:linear-gradient(180deg,#fff,#ffd6ee 60%,#ff8fcd);
+  box-shadow:inset 0 0 22px #c2338a,inset 0 0 0 2px #5a1840}
+body[data-st="music"] .grille{background:repeating-linear-gradient(90deg,#0b0b0d 0 5px,#5b5b66 5px 8px)}
+body[data-st="music"] .display h2,
+body[data-st="music"] section>h2,
+body[data-st="music"] .card h3,
+body[data-st="music"] .sched h3{font-family:var(--f-club);font-weight:800;text-transform:lowercase;letter-spacing:-.035em}
+body[data-st="music"] .display h2{font-size:19px;line-height:1.25}
+body[data-st="music"] section>h2{font-size:clamp(24px,5.6vw,38px);line-height:1.15}
+body[data-st="music"] .card h3,body[data-st="music"] .sched h3{font-size:17px;line-height:1.3}
+body[data-st="music"] #line{color:#ffd9ef;text-shadow:0 0 12px #ff4fae55}
+body[data-st="music"] .preset[aria-pressed="true"]{background:linear-gradient(180deg,#ffb3de,#ff4fae)}
+body[data-st="music"] .call{color:#16040e}
+
+@media (prefers-reduced-motion:reduce){.marq{overflow-x:auto}}
+
+@media (max-width:420px){
+  .preset{font-size:10.5px}.preset b{font-size:13px}
+  .forecast{gap:4px;padding:14px 8px 10px}.pct{font-size:11px}
+  .sched li{grid-template-columns:54px 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="topline mono"><span>Мінвайбвет представляє</span><span>102.4 FM · цілодобово, бо хто ж спить</span></div>
+  <h1 class="sign">Вайб<span class="flick">в</span>ет<span class="fm">FM</span></h1>
+  <p class="tagline">Єдина радіостанція про те, як класно бути українським ветераном. Новини тільки хороші: ми їх довго шукали.</p>
+
+  <div class="radio" aria-label="Радіоприймач">
+    <div class="dial">
+      <div class="dial-head">
+        <span class="mono">Вайбометр: <b id="total">0</b></span>
+        <span class="onair"><i></i>В ЕФІРІ</span>
+      </div>
+      <div class="scale" aria-hidden="true">
+        <span style="left:4%">88</span><span style="left:27%">93</span><span style="left:50%">98</span><span style="left:73%">103</span><span style="left:96%">108</span>
+      </div>
+      <div class="needle" id="needle" aria-hidden="true"></div>
+    </div>
+
+    <div class="display" aria-live="polite">
+      <span class="mono" id="freq">102.4 FM · зараз в ефірі</span>
+      <h2 id="show">Вечірній ефір із паном Ведучим</h2>
+      <p id="line">Добрий вечір, країно. З вами Вайбвет FM, і в нас чудові новини: одному ветерану сьогодні сказали «дякую за службу» і нічого не попросили навзамін.</p>
+    </div>
+
+    <div class="controls" role="group" aria-label="Станції">
+      <button class="preset" data-s="news" aria-pressed="false"><b>89.3</b>новини</button>
+      <button class="preset" data-s="weather" aria-pressed="false"><b>95.5</b>прогноз</button>
+      <button class="preset" data-s="main" aria-pressed="true"><b>102.4</b>ефір</button>
+      <button class="preset" data-s="music" aria-pressed="false"><b>106.7</b>музика</button>
+    </div>
+
+    <div class="lower">
+      <div class="grille" aria-hidden="true"></div>
+      <button class="sound" id="sound" aria-pressed="false">Увімкнути звук</button>
+    </div>
+  </div>
+<div class="marq" aria-label="Рядок, що біжить"><div><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg></div></div>
+</header>
+
+<section id="novyny">
+  <div class="kicker mono">Новини години</div>
+  <h2>Усе добре. Подробиці уточнюються</h2>
+  <p class="sub">Редакція перевіряє кожну хорошу новину двічі, бо з першого разу ніхто не вірить.</p>
+
+  <div class="paper">
+    <div class="masthead mono"><span>Вісник Мінвайбвету</span><span>Випуск № 1 · ціна: одна довідка</span></div>
+    <div class="lead">
+      <span class="tag" style="margin-top:14px">Сенсація</span>
+      <h3>Ветеран оформив документи з першого разу. Вчені просять не панікувати</h3>
+      <p>Інцидент стався у вівторок близько одинадцятої. Очевидці кажуть, що чоловік подав заяву, отримав довідку й пішов, а черга ще кілька хвилин стояла мовчки. Мінвайбвет уже створив міжвідомчу комісію, яка з'ясує, як таке стало можливим і хто за це відповість.</p>
+    </div>
+    <div class="news">
+      <article><span class="tag">Світ</span><h3>Британський актор зробив для ветерана більше, ніж три профільні відомства</h3><p>Відомства привітали колегу й високо оцінили міжвідомчу взаємодію. Актора запросили на нараду, щоб перейняти досвід.</p></article>
+      <article><span class="tag">Служба</span><h3>Командир пообіцяв відпустку після ротації. Ротація пообіцяла прийти після відпустки</h3><p>Сторони домовилися повернутися до розмови найближчим часом, тобто ніколи, але в хорошому сенсі.</p></article>
+      <article><span class="tag">Цифра</span><h3>Запрацював застосунок, у якому можна відстежити статус заявки на відстеження статусу заявки</h3><p>Заявку на доступ до застосунку подають особисто, у паперовій формі, у двох примірниках.</p></article>
+      <article><span class="tag">Суспільство</span><h3>Цивільний спитав ветерана, чи страшно там було. Ветеран відповів, що в ЦНАПі страшніше</h3><p>Розмова тривала сорок секунд і завершилася порадою «тобі треба відпочити».</p></article>
+      <article><span class="tag">Наука</span><h3>Дослідження: 94% порад відпочити надходять від людей, які не можуть підписати рапорт на відпочинок</h3><p>Решта 6% порад надходять від мами, і вона має рацію.</p></article>
+      <article><span class="tag">Робота</span><h3>Роботодавець шукає ветерана з досвідом роботи в стресі, але без стресу</h3><p>У вакансії також вказано: «дружній колектив, печивко, тімбілдинг із пейнтболом».</p></article>
+      <article><span class="tag">Документи</span><h3>Чоловік три години доводив, що довідку про те, що він живий, приніс особисто</h3><p>Його попросили принести ще одну довідку, яка підтвердить першу.</p></article>
+      <article><span class="tag">Розслідування</span><h3>Викрито таємну гейську мережу. Вона виявилася чатом, де шукають турнікети й того, хто підмінить на чергуванні</h3><p>Учасники мережі пояснили, що вони просто хороші люди, які випадково знайомі між собою.</p></article>
+      <article><span class="tag">Служба</span><h3>Військовий повернувся із закордонної відпустки. Командир шокований: «Я думав, це міф»</h3><p>Пізніше командир уточнив, що мав на увазі відпустку.</p></article>
+      <article><span class="tag">Управління</span><h3>Гей на керівній посаді провів нараду за п'ятнадцять хвилин. У підрозділі почали службове розслідування</h3><p>Свідки стверджують, що після наради всі знали, що робити. Таке в частині сталося вперше.</p></article>
+      <article><span class="tag">Кар'єра</span><h3>Після року служби ветеран дізнався, що він тепер експерт із міжнародної логістики</h3><p>За цей час він доставив на позицію генератор, кота, піцу й комбата. Усе з-за кордону області.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="prognoz">
+  <div class="kicker mono">Прогноз на тиждень</div>
+  <h2>Ймовірність відпустки</h2>
+  <p class="sub">Синоптики Мінвайбвету радять тримати рапорт сухим і при собі.</p>
+
+  <div class="forecast" role="img" aria-label="Ймовірність відпустки за днями: понеділок 12, вівторок 8, середа 3, четвер 15, п'ятниця 0, субота 40, неділя 12 відсотків">
+    <div class="day"><span class="pct">12%</span><div class="col"><i style="height:12%"></i></div><span class="dn">пн</span></div>
+    <div class="day"><span class="pct">8%</span><div class="col"><i style="height:8%"></i></div><span class="dn">вт</span></div>
+    <div class="day"><span class="pct">3%</span><div class="col"><i style="height:3%"></i></div><span class="dn">ср</span></div>
+    <div class="day"><span class="pct">15%</span><div class="col"><i style="height:15%"></i></div><span class="dn">чт</span></div>
+    <div class="day"><span class="pct">0%</span><div class="col"><i style="height:0"></i></div><span class="dn">пт</span></div>
+    <div class="day sat"><span class="pct">40%</span><div class="col"><i style="height:40%"></i></div><span class="dn">сб</span></div>
+    <div class="day"><span class="pct">12%</span><div class="col"><i style="height:12%"></i></div><span class="dn">нд</span></div>
+  </div>
+  <ul class="notes">
+    <li><b>Ср</b>Перевірка з бригади. Опади у вигляді зауважень.</li>
+    <li><b>Чт</b>Можливі прояснення: комбат у доброму гуморі до обіду.</li>
+    <li><b>Пт</b>П'ятниця. Без коментарів.</li>
+    <li><b>Сб</b>Не відпустка, а тур у рандомне село. Участь добровільна й обов'язкова.</li>
+  </ul>
+  <p class="feels">Відчувається як 2%.</p>
+</section>
+
+<section id="prohramy">
+  <div class="kicker mono">Сітка мовлення</div>
+  <h2>Що слухати, поки чекаєш</h2>
+  <p class="sub">Час умовний. Як і все інше.</p>
+  <ol class="sched">
+    <li><time>06:00</time><div><h3>Доброго ранку, шикування</h3><p>Ранкове шоу для тих, хто вже рік як удома, але прокинувся о п'ятій сорок п'ять.</p></div></li>
+    <li><time>09:00</time><div><h3>Міжнародна логістика з експертом</h3><p>Як довезти посилку від поштового відділення до позиції трьома попутками й одним трактором. Гість студії: трактор.</p></div></li>
+    <li><time>12:00</time><div><h3>Вайбкодер-зумер пояснює</h3><p>Двадцятирічний сержант за ніч написав те, на що у відомства закладено бюджет до 2031 року. Просить не розповідати відомству.</p></div></li>
+    <li><time>15:00</time><div><h3>Консультант години</h3><p>Як домовитися з паном командиром так, щоб таки отримати заслужену й законом обіцяну відпустку. Спойлер: ніяк, але є нюанси.</p></div></li>
+    <li><time>18:00</time><div><h3>Тур вихідного дня</h3><p>Щотижня нове рандомне село. Цього тижня те саме, що й минулого: інших поки не звільнили від розкладу.</p></div></li>
+    <li><time>20:00</time><div><h3>Подихати</h3><p>Путівник для тих, хто перетнув кордон легально. Сьогодні Берлін: ніхто не питає, де ти служиш. Питають, чи є в тебе зарядка.</p></div></li>
+    <li><time>22:00</time><div><h3>Резиденція діджеїв у перегаворкє</h3><p>Сет до ранку. Перегаворка зайнята, нараду перенесли в коридор, коридор теж танцює.</p></div></li>
+    <li><time>03:00</time><div><h3>Нічний ефір</h3><p>Тиха музика й голос, який нічого не питає. Для тих, хто не спить. Тобто для всіх наших слухачів.</p></div></li>
+  </ol>
+</section>
+
+<section id="liniia">
+  <div class="kicker mono">Сервіси станції</div>
+  <h2>Подзвоніть нам. Ми спробуємо</h2>
+  <p class="sub">Гаряча лінія працює щодня. Інколи одночасно з операторами.</p>
+  <div class="duo">
+    <div class="card">
+      <h3>Гаряча лінія Мінвайбвету</h3>
+      <div class="phone">0 800 ЧЕКАЙТЕ</div>
+      <p id="answer" aria-live="polite">Підніміть слухавку. Вам обов'язково хтось відповість, ми в це віримо.</p>
+      <button class="call" id="call">Подзвонити</button>
+    </div>
+    <div class="card">
+      <h3>Хіт-парад тижня</h3>
+      <ol class="chart">
+        <li><div>Танго для двох підписів і печатки<small>оркестр стройової частини</small></div></li>
+        <li><div>Рапорте мій, рапорте<small>народна, слова теж народні</small></div></li>
+        <li><div>Не підписано (акустична версія)<small>комбат і його настрій</small></div></li>
+        <li><div>Сім кіл ВЛК (extended mix)<small>резиденти перегаворки</small></div></li>
+        <li><div>Блюз форми номер п'ять<small>виконується в трьох примірниках</small></div></li>
+        <li><div>365 днів у строю (club edit)<small>резиденти перегаворки, 128 ударів на хвилину</small></div></li>
+        <li><div>Ластівка<small>повільна, про те, що дім на місці й тебе там чекають</small></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Це сатира.</strong> Мінвайбвет, Вайбвет FM, усі програми, новини, актори й трактори вигадані. Справжні тут тільки черги.</p>
+  <p class="mono">Вайбвет FM · мовимо з перегаворки, поки нас не попросили</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var stations={
+    news:{f:"89.3",pos:8,root:587.33,show:"Новини щогодини, хороші щороку",lines:[
+      "Головна новина: ветеран оформив документи з першого разу. Повторюємо, це не навчальна тривога.",
+      "Британський актор знову зробив щось добре для нашого ветерана. Профільні відомства стежать за ситуацією з глибоким задоволенням.",
+      "До інших новин. Інших новин немає, ми ж домовлялися тільки про хороші."]},
+    weather:{f:"95.5",pos:38,root:440,show:"Прогноз відпусток",lines:[
+      "На завтра очікується відпустка, ймовірність 12%. Місцями рапорт, пориви командира до помірних.",
+      "У суботу тепло й сонячно в рандомному селі, куди ви їдете туром. Парасольку можна не брати, бронежилет беріть.",
+      "Довгостроковий прогноз: відпустка можлива після ротації. Дату ротації синоптики назвати соромляться."]},
+    main:{f:"102.4",pos:72,root:523.25,show:"Вечірній ефір із паном Ведучим",lines:[
+      "Добрий вечір, країно. З вами Вайбвет FM, і в нас чудові новини: одному ветерану сьогодні сказали «дякую за службу» і нічого не попросили навзамін.",
+      "Нам пише слухач Андрійко: «Чи правда, що бути ветераном класно?» Андрійку, правда. Особливо добре це видно з Лондона.",
+      "Нагадую: ви прекрасні, ви все зробили правильно, а довідку вам усе одно доведеться переробити. Залишайтеся з нами.",
+      "Привіт усім, хто слухає нас у черзі. Ви в хорошій компанії: там зараз уся наша аудиторія.",
+      "І окремо для тих, хто зараз у відпустці за кордоном. Ти не мусиш бути вдвічі кращим, щоб мати право на відпочинок. Досить бути."]},
+    music:{f:"106.7",pos:91,root:659.25,show:"клуб «перегаворка», вхід за рапортом",lines:[
+      "Наступна пісня звучить для всіх, хто чекає на довідку. Пісня довга.",
+      "А зараз повільна. Для тих, хто повернувся й досі звикає, що його люблять просто так, а не за службу.",
+      "Резиденція діджеїв передає вітання з перегаворки. Нарада, яку вони вигнали, досі стоїть у коридорі й хитає головою в ритм.",
+      "Триста шістдесят п'ять днів у строю, нуль днів відпустки. Це не скарга, це назва треку."]}
+  };
+  var cur="main",idx=0,timer=null;
+  var $=function(id){return document.getElementById(id);};
+  var elLine=$("line"),elShow=$("show"),elFreq=$("freq"),needle=$("needle"),
+      presets=[].slice.call(document.querySelectorAll(".preset"));
+
+  function render(auto){
+    var s=stations[cur];
+    document.body.dataset.st=cur;
+    elFreq.textContent=s.f+" FM · зараз в ефірі";
+    elShow.textContent=s.show;
+    elLine.textContent=s.lines[idx%s.lines.length];
+    elLine.classList.remove("swap");void elLine.offsetWidth;elLine.classList.add("swap");
+    needle.style.left=s.pos+"%";
+    if(auto)blip(s.root*2,0,0.025);
+  }
+  function cycle(){clearInterval(timer);timer=setInterval(function(){idx++;render(true);},9000);}
+  presets.forEach(function(b){
+    b.addEventListener("click",function(){
+      cur=b.dataset.s;idx=0;
+      presets.forEach(function(p){p.setAttribute("aria-pressed",p===b?"true":"false");});
+      render(false);cycle();
+      if(on){squeal();setBed(cur);arp(stations[cur].root,[0,2,4],0.5);}
+    });
+  });
+  document.body.dataset.st=cur;
+  needle.style.left=stations.main.pos+"%";
+  cycle();
+
+  /* ================= audio ================= */
+  var ctx=null,master=null,fx=null,noiseBuf=null,bed=null,on=false,btn=$("sound");
+  var PENTA=[1,9/8,5/4,3/2,5/3,2,9/4,5/2,3,10/3,4];
+
+  function init(){
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw new Error("no audio");
+    ctx=new AC();
+    master=ctx.createGain();master.gain.value=0.9;master.connect(ctx.destination);
+    var len=ctx.sampleRate*2;noiseBuf=ctx.createBuffer(1,len,ctx.sampleRate);
+    var d=noiseBuf.getChannelData(0);for(var i=0;i<len;i++)d[i]=Math.random()*2-1;
+    /* shared echo for the interface sounds */
+    fx=ctx.createGain();fx.connect(master);
+    var dl=ctx.createDelay(1);dl.delayTime.value=0.17;
+    var fb=ctx.createGain();fb.gain.value=0.3;var wet=ctx.createGain();wet.gain.value=0.3;
+    fx.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(wet);wet.connect(master);
+    setInterval(tick,80);
+  }
+
+  /* ---- interface sounds ---- */
+  function blip(freq,delay,vol,type){
+    if(!on||!ctx)return;
+    try{
+      var t=ctx.currentTime+(delay||0),o=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain();
+      o.type=type||"triangle";o.frequency.value=freq;o2.type="sine";o2.frequency.value=freq*2;
+      var g2=ctx.createGain();g2.gain.value=0.3;
+      g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.09,t+0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.32);
+      o.connect(g);o2.connect(g2);g2.connect(g);g.connect(fx);
+      o.start(t);o2.start(t);o.stop(t+0.35);o2.stop(t+0.35);
+    }catch(e){}
+  }
+  function arp(root,steps,octave,gap){
+    steps.forEach(function(s,i){blip(root*(octave||1)*PENTA[s],i*(gap||0.07),0.08);});
+  }
+  function squeal(){
+    try{
+      var o=ctx.createOscillator(),g=ctx.createGain(),t=ctx.currentTime;
+      o.type="sine";o.frequency.setValueAtTime(1800,t);o.frequency.exponentialRampToValueAtTime(320,t+0.4);
+      g.gain.setValueAtTime(0.04,t);g.gain.exponentialRampToValueAtTime(0.0001,t+0.45);
+      o.connect(g);g.connect(master);o.start(t);o.stop(t+0.5);
+    }catch(e){}
+  }
+
+  /* ---- station beds ---- */
+  function makeBed(name){
+    var out=ctx.createGain(),t=ctx.currentTime,srcs=[];
+    out.gain.setValueAtTime(0,t);out.gain.linearRampToValueAtTime(1,t+0.45);out.connect(master);
+    function noise(type,freq,q,vol){
+      var s=ctx.createBufferSource();s.buffer=noiseBuf;s.loop=true;
+      var f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;
+      var g=ctx.createGain();g.gain.value=vol;
+      s.connect(f);f.connect(g);g.connect(out);s.start();srcs.push(s);return f;
+    }
+    function osc(type,freq,vol,dest){
+      var o=ctx.createOscillator();o.type=type;o.frequency.value=freq;
+      var g=ctx.createGain();g.gain.value=vol;o.connect(g);g.connect(dest||out);o.start();srcs.push(o);return o;
+    }
+    if(name==="main"){            /* warm valve hiss, mains hum, vinyl dust */
+      noise("bandpass",2200,0.6,0.035);osc("sine",50,0.012);osc("sine",100,0.004);
+    }else if(name==="news"){      /* thin bright air, teletype, time pips */
+      noise("highpass",3600,0.5,0.016);noise("bandpass",900,2,0.008);
+    }else if(name==="weather"){   /* wind that breathes, shortwave whistle */
+      var f=noise("lowpass",520,1.2,0.07);
+      osc("sine",0.13,330,f.frequency);
+      var w=osc("sine",1420,0.005);osc("sine",0.31,60,w.frequency);
+    }else{                        /* the club next door */
+      noise("highpass",6500,0.5,0.008);
+    }
+    return {name:name,out:out,srcs:srcs,next:t+0.12,step:0};
+  }
+  function setBed(name){
+    if(bed){
+      var old=bed,t=ctx.currentTime;
+      old.out.gain.cancelScheduledValues(t);old.out.gain.setValueAtTime(old.out.gain.value,t);
+      old.out.gain.linearRampToValueAtTime(0,t+0.3);
+      setTimeout(function(){old.srcs.forEach(function(s){try{s.stop();}catch(e){}});old.out.disconnect();},600);
+    }
+    bed=makeBed(name);
+  }
+  function burst(b,t,dur,type,freq,vol){
+    var s=ctx.createBufferSource();s.buffer=noiseBuf;
+    var f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;
+    var g=ctx.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    s.connect(f);f.connect(g);g.connect(b.out);s.start(t,Math.random()*1.5,dur+0.02);
+  }
+  function tone(b,t,type,f0,f1,dur,vol,lp){
+    var o=ctx.createOscillator(),g=ctx.createGain();o.type=type;
+    o.frequency.setValueAtTime(f0,t);if(f1)o.frequency.exponentialRampToValueAtTime(f1,t+dur);
+    g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    if(lp){var f=ctx.createBiquadFilter();f.type="lowpass";f.frequency.value=lp;o.connect(f);f.connect(g);}else o.connect(g);
+    g.connect(b.out);o.start(t);o.stop(t+dur+0.02);
+  }
+  function tick(){
+    if(!on||!bed||!ctx)return;
+    var b=bed,now=ctx.currentTime;
+    if(b.next<now)b.next=now+0.05;
+    while(b.next<now+0.25){
+      var t=b.next,s=b.step++;
+      if(b.name==="music"){                     /* 128 bpm, sixteenth notes, heard through a wall */
+        if(s%4===0)tone(b,t,"sine",120,42,0.26,0.3,220);
+        if(s%4===2)burst(b,t,0.03,"highpass",7500,0.028);
+        if(s%16===14)burst(b,t,0.09,"bandpass",1800,0.03);
+        var k=s%64;
+        if(k===0||k===3||k===6||k===32||k===35){
+          [220,261.63,329.63].forEach(function(f){tone(b,t,"sawtooth",f,0,0.2,0.022,1100);});
+        }
+        b.next+=60/128/4;
+      }else if(b.name==="news"){                /* teletype runs, then a time pip */
+        var c=s%44;
+        if(c<14&&Math.random()>0.2)burst(b,t,0.012,"bandpass",2600,0.07);
+        if(s%132===131)tone(b,t,"sine",1000,0,0.09,0.03);
+        b.next+=0.075;
+      }else if(b.name==="main"){                /* dust on the record */
+        if(Math.random()<0.14)burst(b,t,0.006,"highpass",1500,0.05+Math.random()*0.06);
+        b.next+=0.13;
+      }else{                                    /* far-off morse behind the wind */
+        if(s%23===0||s%23===2)tone(b,t,"sine",1890,0,0.07,0.006);
+        b.next+=0.21;
+      }
+    }
+  }
+
+  btn.addEventListener("click",function(){
+    try{
+      if(!ctx)init();
+      on=!on;
+      if(on){ctx.resume();setBed(cur);arp(stations[cur].root,[0,2,3,5],1,0.08);}
+      else{arp(stations[cur].root,[3,0],1,0.09);var c=ctx;setTimeout(function(){if(!on)c.suspend();},450);}
+      btn.setAttribute("aria-pressed",on?"true":"false");
+      btn.textContent=on?"Вимкнути звук":"Увімкнути звук";
+    }catch(e){btn.textContent="Звук недоступний";btn.disabled=true;}
+  });
+
+  /* ================= vibe counter ================= */
+  var total=0,combo=0,comboT=null,elTotal=$("total");
+  [].slice.call(document.querySelectorAll(".lead,.news article")).forEach(function(a){
+    var b=document.createElement("button");b.className="vibe";b.type="button";
+    b.innerHTML='+ вайб <span>0</span>';var n=0,sp=b.querySelector("span");
+    b.addEventListener("click",function(){
+      n++;total++;sp.textContent=n;elTotal.textContent=total;
+      b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
+      clearTimeout(comboT);comboT=setTimeout(function(){combo=0;},1400);
+      blip(523.25*PENTA[Math.min(combo,PENTA.length-1)],0,0.1);
+      combo++;
+      if(total%5===0)arp(1046.5,[0,2,4,5,7],1,0.055);
+    });
+    a.appendChild(b);
+  });
+
+  /* ================= hotline ================= */
+  var answers=[
+    "Ваш дзвінок дуже важливий для нас. Ви в черзі 4 817-й.",
+    "Щоб дізнатися статус заявки, натисніть 1. Щоб подати заявку на статус заявки, натисніть 2.",
+    "Оператор зараз не може відповісти: він теж чекає на відпустку.",
+    "Ви в черзі 4 816-й. Бачите, система працює.",
+    "Орієнтовний час очікування: до демобілізації.",
+    "Вашу довідку знайдено! Це не ваша довідка.",
+    "Для вас звучить музика. Вона закінчиться раніше, ніж черга. Жартуємо, не закінчиться.",
+    "Робочий день гарячої лінії завершено. Він тривав з 11:00 до 11:15. Дякуємо, що ви з нами."
+  ],a=0,elA=$("answer"),call=$("call");
+  call.addEventListener("click",function(){
+    elA.textContent=answers[a%answers.length];a++;
+    call.textContent=a%answers.length===0?"Подзвонити ще раз":"Залишатися на лінії";
+    /* three dial tones, then a hopeful ding */
+    blip(697,0,0.05,"sine");blip(1209,0,0.05,"sine");
+    blip(770,0.11,0.05,"sine");blip(1336,0.11,0.05,"sine");
+    blip(852,0.22,0.05,"sine");blip(1477,0.22,0.05,"sine");
+    if(a%answers.length===0)arp(392,[3,0],1,0.16);else blip(1567.98,0.4,0.07);
+  });
+})();
+</script>
+</body>
+</html>

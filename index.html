@@ -223,6 +223,36 @@ body[data-st="music"] .call{color:#16040e}
 #colq{font-family:var(--f-display);font-size:clamp(21px,4.8vw,28px);line-height:1.28;margin:12px 0 4px;max-width:30em;min-height:5.2em}
 #colq.typing::after{content:"";display:inline-block;width:.5em;height:1em;background:#ff4fae;margin-left:3px;vertical-align:-.12em;animation:pulse .7s infinite}
 
+/* ---------- petting room + village-shop menu ---------- */
+.petbox{background:var(--panel);border:1px solid var(--panel-edge);border-radius:12px;padding:18px;display:grid;gap:14px}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pick button{border:1.5px solid var(--ivory-dim);background:transparent;color:var(--ivory);border-radius:999px;padding:7px 14px;
+  font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.pick button[aria-pressed="true"]{background:var(--amber);border-color:var(--amber);color:#1a100b}
+.stage{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;border-radius:10px;overflow:hidden;
+  background:radial-gradient(ellipse 70% 60% at 50% 70%,#ffffff14,transparent 70%),#120b07;border:1px solid #000}
+.stage svg{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
+.an{display:none}.stage[data-a="cat"] .an-cat,.stage[data-a="dog"] .an-dog,.stage[data-a="rat"] .an-rat,.stage[data-a="bird"] .an-bird{display:block}
+.ec,.tongue{display:none}.stage.happy .ec,.stage.happy .tongue{display:block}.stage.happy .eo{display:none}
+.breath{transform-origin:160px 200px;animation:breath 3.2s ease-in-out infinite}
+.stage.happy .breath{animation-duration:1.6s}
+@keyframes breath{50%{transform:scale(1.025,.975)}}
+.stage.happy .wag{transform-origin:245px 165px;animation:wag .28s ease-in-out infinite alternate}
+@keyframes wag{from{transform:rotate(-12deg)}to{transform:rotate(14deg)}}
+.heart{position:absolute;pointer-events:none;font-size:22px;color:#ff4fae;animation:heart 1.1s ease-out forwards}
+@keyframes heart{to{transform:translateY(-70px) scale(1.5);opacity:0}}
+.meter{height:10px;background:#120b07;border-radius:999px;overflow:hidden;border:1px solid #000}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--neon));transition:width .15s linear}
+#petstatus{margin:0;font-style:italic;color:#ffe2a8;min-height:1.6em}
+.petmeta{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;align-items:center;color:var(--ivory-dim);font-size:15px}
+#pethint button{border:0;background:none;color:var(--mint);text-decoration:underline;padding:0;font:inherit}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.dish{background:var(--panel);border:1px solid var(--panel-edge);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.dish h3{font-family:var(--f-display);font-weight:400;font-size:21px;line-height:1.2}
+.dish p{margin:0;color:var(--ivory-dim);font-size:15.5px}
+.dish .score{margin-top:auto;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-transform:lowercase;letter-spacing:-.035em;font-size:16px;line-height:1.3}
+
 @media (max-width:420px){
   .preset{font-size:10.5px}.preset b{font-size:13px}
   .forecast{gap:4px;padding:14px 8px 10px}.pct{font-size:11px}
@@ -375,6 +405,92 @@ body[data-st="music"] .call{color:#16040e}
         <li><div>Ластівка<small>повільна, про те, що дім на місці й тебе там чекають</small></div></li>
       </ol>
     </div>
+  </div>
+</section>
+
+<section id="hladyty">
+  <div class="kicker mono">Кімната розвантаження</div>
+  <h2>Погладь когось. Це наказ</h2>
+  <p class="sub">Процедуру схвалено Мінвайбветом. Довідка не потрібна, черги немає. Води пальцем або мишкою.</p>
+  <div class="petbox">
+    <div class="pick" role="group" aria-label="Кого гладити">
+      <button type="button" data-a="cat" aria-pressed="true">котик</button>
+      <button type="button" data-a="dog" aria-pressed="false">собачка</button>
+      <button type="button" data-a="rat" aria-pressed="false">щурик</button>
+      <button type="button" data-a="bird" aria-pressed="false">птах</button>
+    </div>
+    <div class="stage" id="petstage" data-a="cat" role="img" aria-label="Тваринка, яку можна гладити">
+      <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="160" cy="203" rx="110" ry="9" fill="#000" opacity=".45"/>
+        <g class="an an-cat"><g class="breath">
+          <path d="M248 168q44-8 30-56" fill="none" stroke="#c9822b" stroke-width="15" stroke-linecap="round"/>
+          <ellipse cx="160" cy="152" rx="96" ry="50" fill="#f0a93a"/>
+          <polygon points="121,74 126,28 152,58" fill="#f0a93a"/><polygon points="199,74 194,28 168,58" fill="#f0a93a"/>
+          <polygon points="128,62 130,40 143,56" fill="#ffd9c2"/><polygon points="192,62 190,40 177,56" fill="#ffd9c2"/>
+          <circle cx="160" cy="96" r="46" fill="#f0a93a"/>
+          <path d="M146 54v14M160 51v16M174 54v14" stroke="#c9822b" stroke-width="5" stroke-linecap="round"/>
+          <g class="eo"><ellipse cx="143" cy="93" rx="5" ry="7" fill="#21150e"/><ellipse cx="177" cy="93" rx="5" ry="7" fill="#21150e"/></g>
+          <g class="ec" fill="none" stroke="#21150e" stroke-width="3" stroke-linecap="round"><path d="M136 93q7 7 14 0"/><path d="M170 93q7 7 14 0"/></g>
+          <polygon points="155,105 165,105 160,111" fill="#ff8f8f"/>
+          <path d="M160 111q-6 8-12 3M160 111q6 8 12 3" fill="none" stroke="#21150e" stroke-width="2" stroke-linecap="round"/>
+          <path d="M128 106l-24-5M128 112l-24 4M192 106l24-5M192 112l24 4" stroke="#fff3cf" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse cx="126" cy="190" rx="20" ry="9" fill="#ffd27a"/><ellipse cx="194" cy="190" rx="20" ry="9" fill="#ffd27a"/>
+        </g></g>
+        <g class="an an-dog"><g class="breath">
+          <g class="wag"><path d="M245 165q36-14 34-52" fill="none" stroke="#a37a52" stroke-width="16" stroke-linecap="round"/></g>
+          <ellipse cx="160" cy="152" rx="96" ry="50" fill="#c9a37a"/>
+          <circle cx="160" cy="94" r="46" fill="#c9a37a"/>
+          <ellipse cx="116" cy="98" rx="15" ry="32" fill="#8a6442" transform="rotate(14 116 98)"/>
+          <ellipse cx="204" cy="98" rx="15" ry="32" fill="#8a6442" transform="rotate(-14 204 98)"/>
+          <ellipse cx="160" cy="112" rx="24" ry="17" fill="#f2e3bd"/>
+          <ellipse cx="160" cy="103" rx="8" ry="6" fill="#21150e"/>
+          <rect class="tongue" x="153" y="116" width="14" height="20" rx="7" fill="#ff7d9c"/>
+          <path d="M148 116q12 9 24 0" fill="none" stroke="#21150e" stroke-width="2.5" stroke-linecap="round"/>
+          <g class="eo"><circle cx="142" cy="86" r="6" fill="#21150e"/><circle cx="178" cy="86" r="6" fill="#21150e"/></g>
+          <g class="ec" fill="none" stroke="#21150e" stroke-width="3" stroke-linecap="round"><path d="M135 87q7-7 14 0"/><path d="M171 87q7-7 14 0"/></g>
+          <ellipse cx="126" cy="190" rx="21" ry="10" fill="#f2e3bd"/><ellipse cx="194" cy="190" rx="21" ry="10" fill="#f2e3bd"/>
+        </g></g>
+        <g class="an an-rat"><g class="breath">
+          <path d="M246 178q50 6 44-38" fill="none" stroke="#f0a7a7" stroke-width="6" stroke-linecap="round"/>
+          <ellipse cx="160" cy="158" rx="88" ry="44" fill="#bdb6ae"/>
+          <circle cx="120" cy="66" r="22" fill="#bdb6ae"/><circle cx="200" cy="66" r="22" fill="#bdb6ae"/>
+          <circle cx="120" cy="66" r="14" fill="#f4bcbc"/><circle cx="200" cy="66" r="14" fill="#f4bcbc"/>
+          <ellipse cx="160" cy="104" rx="42" ry="40" fill="#bdb6ae"/>
+          <g class="eo"><circle cx="144" cy="96" r="5.5" fill="#21150e"/><circle cx="176" cy="96" r="5.5" fill="#21150e"/></g>
+          <g class="ec" fill="none" stroke="#21150e" stroke-width="3" stroke-linecap="round"><path d="M138 97q6 6 12 0"/><path d="M170 97q6 6 12 0"/></g>
+          <circle cx="160" cy="124" r="6" fill="#f0a7a7"/>
+          <path d="M150 122l-30-6M150 127l-30 5M170 122l30-6M170 127l30 5" stroke="#fff3cf" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse cx="134" cy="194" rx="14" ry="7" fill="#f4bcbc"/><ellipse cx="186" cy="194" rx="14" ry="7" fill="#f4bcbc"/>
+        </g></g>
+        <g class="an an-bird"><g class="breath">
+          <polygon points="218,150 276,132 268,170" fill="#237a6e"/>
+          <path d="M146 196v10M174 196v10" stroke="#f0a93a" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="160" cy="146" rx="68" ry="54" fill="#58c9b9"/>
+          <ellipse cx="180" cy="152" rx="34" ry="26" fill="#3aa596" transform="rotate(18 180 152)"/>
+          <ellipse cx="150" cy="166" rx="30" ry="24" fill="#d9fff8"/>
+          <circle cx="150" cy="84" r="36" fill="#58c9b9"/>
+          <path d="M142 52q4-18 14-20M152 50q8-14 20-14" fill="none" stroke="#3aa596" stroke-width="5" stroke-linecap="round"/>
+          <polygon points="112,84 132,78 132,94" fill="#f0a93a"/>
+          <g class="eo"><circle cx="146" cy="80" r="6" fill="#21150e"/><circle cx="148" cy="78" r="2" fill="#fff"/></g>
+          <g class="ec" fill="none" stroke="#21150e" stroke-width="3" stroke-linecap="round"><path d="M139 81q7 6 14 0"/></g>
+        </g></g>
+      </svg>
+    </div>
+    <div class="meter" aria-hidden="true"><i id="petbar"></i></div>
+    <p id="petstatus" aria-live="polite">Котик чекає. Він нікуди не поспішає, і тобі не радить.</p>
+    <div class="petmeta"><span id="petcount">Погладжено разів: 0. Норматив не встановлено.</span><span id="pethint">Звук вимкнено. <button type="button" id="petsound">Увімкнути муркотіння</button></span></div>
+  </div>
+</section>
+
+<section id="hastrotur">
+  <div class="kicker mono">Гастротур</div>
+  <h2>Меню сільського магазину. Оцінює сомельє</h2>
+  <p class="sub">Висока кухня там, де до найближчого ресторану дві області. Сезонне меню: завжди.</p>
+  <div class="menu">
+    <div class="dish"><h3>Мівіна з гострим соусом</h3><p>Нотки паприки, тривоги й дому. Подавати в казанку, їсти стоячи. Соусу багато не буває, буває мало мівіни.</p><span class="score">Вайб 10 з 10</span></div>
+    <div class="dish"><h3>Енергетик із кавою три в одному</h3><p>Купаж «Чергування». Серце просить пощади, наряд просить ще. Не поєднується зі сном, але його й так не подають.</p><span class="score">Вайб 7 з 10, пульс 140</span></div>
+    <div class="dish"><h3>Хот-дог із заправки</h3><p>Страва, заради якої варто доїхати до траси. Критики одностайні: це найкращий ресторан у радіусі ротації.</p><span class="score">Вайб 11 з 10</span></div>
+    <div class="dish"><h3>Згущенка з батоном</h3><p>Десерт. Мішленівський інспектор не приїхав, бо не знайшов село. Його проблеми.</p><span class="score">Вайб 9 з 10</span></div>
   </div>
 </section>
 
@@ -643,6 +759,80 @@ body[data-st="music"] .call{color:#16040e}
       }).catch(function(){ns.textContent="Не вдалося запланувати сповіщення. Спробуй ще раз.";});
     });
     paint();if(enabled)plan().catch(function(){});
+  })();
+
+  /* ================= petting room ================= */
+  (function(){
+    var stage=$("petstage"),bar=$("petbar"),stEl=$("petstatus"),cntEl=$("petcount"),hint=$("pethint"),
+        picks=[].slice.call(document.querySelectorAll(".pick button")),
+        animal="cat",energy=0,dist=0,last=null,strokes=0,tier=-1,pet=null;
+    var A={
+      cat:{snd:{ft:"lowpass",f:170,q:1,rate:25,vol:0.6},lines:["Котик чекає. Він нікуди не поспішає, і тобі не радить.","Котик дозволив.","Котик увімкнув двигун.","Котик у повній бойовій готовності до сну."]},
+      dog:{snd:{ft:"bandpass",f:1400,q:1.2,rate:5.5,vol:0.12},lines:["Собачка чекає й уже тебе любить.","Хвіст пішов.","Собачка вважає тебе найкращою людиною в підрозділі.","Собачка щаслива. Це був наказ, і вона його виконала."]},
+      rat:{snd:{ft:"highpass",f:3200,q:0.7,rate:11,vol:0.05},lines:["Щурик придивляється.","Щурик дозволив почухати за вушком.","Щурик клацає зубками. У щурів це означає щастя.","Щурик розтікся млинцем."]},
+      bird:{snd:null,lines:["Птах дивиться одним оком.","Птах підставив голівку.","Птах розпушився.","Птах співає. Тривогу скасовано."]}
+    };
+    try{strokes=parseInt(localStorage.getItem("pet-strokes"),10)||0;}catch(e){}
+    function count(){cntEl.textContent="Погладжено разів: "+strokes+". Норматив не встановлено.";}
+    count();
+    function dropPet(){
+      if(!pet)return;var p=pet;pet=null;
+      try{p.out.gain.setTargetAtTime(0,ctx.currentTime,0.05);}catch(e){}
+      setTimeout(function(){p.srcs.forEach(function(s){try{s.stop();}catch(e){}});try{p.out.disconnect();}catch(e){}},400);
+    }
+    function makePet(){
+      var s=A[animal].snd;if(!s)return;
+      var src=ctx.createBufferSource();src.buffer=noiseBuf;src.loop=true;
+      var f=ctx.createBiquadFilter();f.type=s.ft;f.frequency.value=s.f;f.Q.value=s.q;
+      var am=ctx.createGain();am.gain.value=0.5;
+      var lfo=ctx.createOscillator();lfo.frequency.value=s.rate;var lg=ctx.createGain();lg.gain.value=0.5;
+      var out=ctx.createGain();out.gain.value=0;
+      src.connect(f);f.connect(am);lfo.connect(lg);lg.connect(am.gain);am.connect(out);out.connect(master);
+      src.start();lfo.start();
+      pet={out:out,srcs:[src,lfo],vol:s.vol,animal:animal};
+    }
+    picks.forEach(function(b){b.addEventListener("click",function(){
+      animal=b.dataset.a;stage.dataset.a=animal;energy=0;tier=-1;dropPet();
+      picks.forEach(function(p){p.setAttribute("aria-pressed",p===b?"true":"false");});
+      blip(659.25,0,0.06);
+    });});
+    $("petsound").addEventListener("click",function(){if(!on)btn.click();});
+    function heart(x,y){
+      var h=document.createElement("span");h.className="heart";h.textContent="♥";
+      h.style.left=(x-8)+"px";h.style.top=(y-20)+"px";stage.appendChild(h);
+      setTimeout(function(){if(h.parentNode)h.parentNode.removeChild(h);},1150);
+    }
+    function move(e){
+      var r=stage.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+      if(last){
+        var d=Math.sqrt((x-last.x)*(x-last.x)+(y-last.y)*(y-last.y));
+        energy=Math.min(1,energy+d/850);dist+=d;
+        if(dist>520){
+          dist=0;strokes++;count();heart(x,y);
+          try{localStorage.setItem("pet-strokes",String(strokes));}catch(er){}
+          blip(523.25*PENTA[strokes%6],0,0.05);
+          if(strokes%10===0)arp(1046.5,[0,2,4,5,7],1,0.055);
+          try{if(navigator.vibrate)navigator.vibrate(12);}catch(er){}
+        }
+      }
+      last={x:x,y:y};
+    }
+    stage.addEventListener("pointerdown",function(e){last=null;move(e);try{stage.setPointerCapture(e.pointerId);}catch(er){}});
+    stage.addEventListener("pointermove",move);
+    ["pointerup","pointercancel","pointerleave"].forEach(function(n){stage.addEventListener(n,function(){last=null;});});
+    setInterval(function(){
+      energy*=0.94;if(energy<0.01)energy=0;
+      bar.style.width=Math.round(energy*100)+"%";
+      stage.classList.toggle("happy",energy>0.35);
+      var t=energy<0.05?0:energy<0.35?1:energy<0.7?2:3;
+      if(t!==tier){tier=t;stEl.textContent=A[animal].lines[t];}
+      hint.hidden=on;
+      if(on&&ctx){
+        if(!pet&&energy>0.03)makePet();
+        if(pet)pet.out.gain.setTargetAtTime(energy*pet.vol,ctx.currentTime,0.12);
+        if(animal==="bird"&&energy>0.3&&Math.random()<energy*0.3)blip(2600+Math.random()*1900,0,0.05,"sine");
+      }else if(pet&&!on){dropPet();}
+    },100);
   })();
 
   /* ================= hotline ================= */

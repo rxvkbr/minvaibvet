@@ -659,7 +659,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
              zh:"https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=Noto+Serif+SC:wght@700;900&display=swap"};
   function applyLang(){
     var de=document.documentElement;de.lang=LANG;de.dir=LANG==="ar"?"rtl":"ltr";
-    if(FONTS[LANG]&&!document.getElementById("font-"+LANG)){var l=document.createElement("link");l.id="font-"+LANG;l.rel="stylesheet";l.href=FONTS[LANG];document.head.appendChild(l);}
+    if(FONTS[LANG]&&!window.NO_REMOTE_FONTS&&!document.getElementById("font-"+LANG)){var l=document.createElement("link");l.id="font-"+LANG;l.rel="stylesheet";l.href=FONTS[LANG];document.head.appendChild(l);}
     i18nNodes.forEach(function(o){if(o.n.parentNode)o.n.nodeValue=o.a+t(o.k)+o.b;});
     i18nAttrs.forEach(function(o){o.el.setAttribute("aria-label",t(o.k));});
     [].slice.call(document.querySelectorAll(".langs button")).forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===LANG?"true":"false");});

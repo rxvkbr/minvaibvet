@@ -389,7 +389,7 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
       <p id="answer" aria-live="polite">Підніміть слухавку. Вам обов'язково хтось відповість, ми в це віримо.</p>
       <button class="call" id="call">Подзвонити</button>
     </div>
-    <div class="card">
+    <div class="card" id="donate">
       <h3>Підтримати станцію</h3>
       <p style="margin:0 0 16px;color:var(--ivory-dim)">Гроші підуть на домен, застосунок і каву три в одному для редакції. На відпустку не витратимо: її все одно не дадуть. Це не збір на потреби військових.</p>
       <a class="call" href="https://send.monobank.ua/jar/AC4G66LERn" target="_blank" rel="noopener">Кинути в банку</a>
@@ -398,6 +398,9 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
       <h3>Хороша новина щодня</h3>
       <p id="nstate" style="margin:0 0 16px;color:var(--ivory-dim)">Щоранку о дев'ятій одна хороша новина. Ми їх довго шукали, шкода, якщо пропадуть.</p>
       <button class="call" id="nbtn" type="button">Увімкнути сповіщення</button>
+      <h3 style="margin-top:22px">Доброго ранку, шикування</h3>
+      <p id="astate" style="margin:0 0 16px;color:var(--ivory-dim)">Будильник о 05:45, як на службі. Єдина різниця: він одразу каже, що можна спати далі.</p>
+      <button class="call" id="abtn" type="button">Увімкнути будильник</button>
     </div>
     <div class="card">
       <h3>Хіт-парад тижня</h3>
@@ -765,6 +768,27 @@ body[data-st="music"] .dish h3{font-family:var(--f-club);font-weight:800;text-tr
       }).catch(function(){ns.textContent="Не вдалося запланувати сповіщення. Спробуй ще раз.";});
     });
     paint();if(enabled)plan().catch(function(){});
+
+    /* the app shows no donation link; the site keeps it */
+    var don=$("donate");if(don)don.hidden=true;
+
+    /* 05:45 wake-up that tells you to go back to sleep */
+    var ab=$("abtn"),as=$("astate"),alarm=false,AID=100;
+    try{alarm=localStorage.getItem("alarm-545")==="1";}catch(e){}
+    function apaint(){ab.textContent=alarm?"Вимкнути будильник":"Увімкнути будильник";if(alarm)as.textContent="Увімкнено. Щодня о 05:45 станція нагадає, що шикування скасовано.";}
+    ab.addEventListener("click",function(){
+      if(alarm){
+        LN.cancel({notifications:[{id:AID}]}).catch(function(){});
+        alarm=false;try{localStorage.setItem("alarm-545","0");}catch(e){}
+        as.textContent="Вимкнено. Спи, скільки хочеш. Це теж наказ.";apaint();return;
+      }
+      LN.requestPermissions().then(function(r){
+        if(r.display!=="granted"){as.textContent="Телефон не дозволив сповіщення. Увімкни їх для застосунку в налаштуваннях і натисни ще раз.";return;}
+        return LN.schedule({notifications:[{id:AID,title:"Доброго ранку, шикування!",body:"Жартуємо. Шикування скасовано, ти вдома. Спи далі.",schedule:{on:{hour:5,minute:45},allowWhileIdle:true}}]})
+          .then(function(){alarm=true;try{localStorage.setItem("alarm-545","1");}catch(e){}apaint();arp(392,[0,2,4],1,0.09);});
+      }).catch(function(){as.textContent="Не вдалося поставити будильник. Спробуй ще раз.";});
+    });
+    apaint();
   })();
 
   /* ================= petting room ================= */

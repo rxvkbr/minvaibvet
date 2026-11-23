@@ -4,7 +4,7 @@
   "private": true,
   "description": "Native shells (Android, iOS) for the Vaibvet FM satire site",
   "scripts": {
-    "web": "mkdir -p www && cp ../index.html www/index.html",
+    "web": "node scripts/web.js",
     "sync": "npm run web && cap sync"
   },
   "dependencies": {

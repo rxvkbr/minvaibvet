@@ -16,6 +16,7 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        registerPlugin(PurrPlugin.class);
         super.onCreate(savedInstanceState);
         started = true;
     }

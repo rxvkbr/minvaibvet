@@ -637,6 +637,13 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   if(LANG!=="uk"&&!I18N[LANG])LANG="uk";
   function t(s){var d=I18N[LANG];return (d&&d[s])||s;}
   function tf(s,o){var r=t(s);for(var k in o)r=r.split("{"+k+"}").join(o[k]);return r;}
+  function nativePlugin(name){
+    var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;
+    var known=(C.PluginHeaders||[]).some(function(x){return x.name===name;});if(!known)return null;
+    if(C.Plugins&&C.Plugins[name])return C.Plugins[name];
+    if(C.registerPlugin){try{return C.registerPlugin(name);}catch(e){}}
+    return null;
+  }
   var i18nHooks=[],i18nNodes=[],i18nAttrs=[],HAS=/[А-Яа-яЇїІіЄєҐґ]/;
   (function collect(root){
     var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
@@ -951,9 +958,8 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
 
   /* ================= daily good news (native app only) ================= */
   (function(){
-    var C=window.Capacitor;
-    if(!C||!C.isNativePlatform||!C.isNativePlatform()||!C.Plugins||!C.Plugins.LocalNotifications)return;
-    var LN=C.Plugins.LocalNotifications,card=$("napp"),nb=$("nbtn"),ns=$("nstate"),enabled=false,DAYS=14;
+    var LN=nativePlugin("LocalNotifications");if(!LN)return;
+    var card=$("napp"),nb=$("nbtn"),ns=$("nstate"),enabled=false,DAYS=14;
     try{enabled=localStorage.getItem("daily-news")==="1";}catch(e){}
     card.hidden=false;
     function paint(){
@@ -1037,6 +1043,28 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
       src.start();lfo.start();
       pet={out:out,srcs:[src,lfo],vol:s.vol,animal:animal};
     }
+    var PURR=nativePlugin("Purr"),hap={pat:null,lvl:-1,at:0},webBuzzAt=0;
+    function haptics(){
+      var pat=animal==="cat"?"cat":animal==="dog"?"dog":animal==="rat"?"rat":null;
+      var lvl=energy<0.08||!pat?0:Math.min(4,1+Math.floor(energy*4)),now=Date.now();
+      if(PURR){
+        if(lvl===0){if(hap.lvl>0){PURR.stop().catch(function(){});}hap.lvl=0;hap.pat=null;return;}
+        if((lvl!==hap.lvl||pat!==hap.pat)&&now-hap.at>250){
+          hap.lvl=lvl;hap.pat=pat;hap.at=now;PURR.play({pattern:pat,intensity:lvl/4}).catch(function(){});
+        }
+        return;
+      }
+      if(!navigator.vibrate||lvl===0||now<webBuzzAt)return;
+      /* browsers without amplitude control: pulse width carries the feeling */
+      var seq=[],i;
+      if(pat==="cat"){var on=6+lvl*3;for(i=0;i<10;i++)seq.push(on,40-on);}
+      else if(pat==="dog"){seq.push(20+lvl*8,280);}
+      else{for(i=0;i<5;i++)seq.push(5,70);}
+      try{navigator.vibrate(seq);}catch(e){}
+      webBuzzAt=now+380;
+    }
+    function hapticsOff(){if(PURR&&hap.lvl>0){PURR.stop().catch(function(){});}hap.lvl=0;hap.pat=null;try{if(!PURR&&navigator.vibrate)navigator.vibrate(0);}catch(e){}}
+    document.addEventListener("visibilitychange",function(){if(document.hidden)hapticsOff();});
     picks.forEach(function(b){b.addEventListener("click",function(){
       animal=b.dataset.a;stage.dataset.a=animal;energy=0;tier=-1;dropPet();
       picks.forEach(function(p){p.setAttribute("aria-pressed",p===b?"true":"false");});
@@ -1058,7 +1086,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
           try{localStorage.setItem("pet-strokes",String(strokes));}catch(er){}
           blip(523.25*PENTA[strokes%6],0,0.05);
           if(strokes%10===0)arp(1046.5,[0,2,4,5,7],1,0.055);
-          try{if(navigator.vibrate)navigator.vibrate(12);}catch(er){}
+          if(!PURR)try{if(navigator.vibrate)navigator.vibrate(12);}catch(er){}
         }
       }
       last={x:x,y:y};
@@ -1079,6 +1107,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
         if(animal==="bird"&&energy>0.3&&Math.random()<energy*0.3)blip(2600+Math.random()*1900,0,0.05,"sine");
         if(animal==="raven"&&energy>0.35&&Math.random()<energy*0.12){var cf=250+Math.random()*50;blip(cf,0,0.07,"sawtooth");blip(cf*0.94,0.16,0.06,"sawtooth");}
       }else if(pet&&!on){dropPet();}
+      haptics();
     },100);
   })();
 

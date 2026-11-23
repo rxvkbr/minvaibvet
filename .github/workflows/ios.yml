@@ -11,10 +11,14 @@ on:
       - "app/**"
       - ".github/workflows/ios.yml"
   workflow_dispatch:
+    inputs:
+      runner:
+        description: "macOS runner label"
+        default: macos-latest
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ${{ inputs.runner || 'macos-latest' }}
     defaults:
       run:
         working-directory: app

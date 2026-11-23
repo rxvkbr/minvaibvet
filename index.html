@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Вайбвет FM</title>
 <meta name="description" content="Вайбвет FM: сатирична радіостанція вигаданого Мінвайбвету про сюрність буття українського ветерана. Це жарт, а не державний сайт.">
 <meta property="og:title" content="Вайбвет FM">
@@ -1952,6 +1952,49 @@ html.app .paper{padding:16px 14px 6px;border-radius:10px}
   html.app #s-home>header .sign{display:none}
 }
 @media (max-width:350px){.tbar button{font-size:9.5px;letter-spacing:.02em}.hcard{padding:14px 12px}.hcard .big{font-size:40px}.mtile{min-height:118px}.mtile b{font-size:17.5px}}
+
+/* ---------- app polish: safe areas, floating tab bar, glowing card edges ---------- */
+html.app{--edge:linear-gradient(135deg,#ff5d4770,#f0a93a40 45%,#58c9b960);--fl:10px}
+html.app body{padding-top:calc(var(--abar) + var(--sat) + 4px);padding-bottom:calc(var(--tbar) + var(--fl) + max(var(--sab),10px) + 22px)}
+html.app .wrap{padding-inline:max(14px,env(safe-area-inset-left,0px)) max(14px,env(safe-area-inset-right,0px))}
+.abar{box-shadow:0 8px 24px #0006}
+.tbar{inset:auto max(var(--fl),env(safe-area-inset-left,0px)) max(var(--sab),var(--fl));height:var(--tbar);padding-bottom:0;
+  border:1px solid transparent;border-radius:26px;overflow:hidden;
+  background:linear-gradient(#170d08f5,#170d08f5) padding-box,var(--edge) border-box;
+  box-shadow:0 14px 40px #000c,0 0 0 1px #0008,0 0 28px #ff5d4722}
+.tind{top:9px;height:40px;border-radius:16px}
+@media (min-width:700px){.tbar{left:50%;right:auto;width:min(620px,calc(100vw - 2*var(--fl)));transform:translateX(-50%);padding-inline:0}}
+.toast{bottom:calc(var(--tbar) + var(--fl) + max(var(--sab),10px) + 14px)}
+
+/* radio: softer, rounder, less brown frame */
+html.app .radio{margin-top:16px;padding:12px;border:1px solid transparent;border-radius:28px;
+  background:linear-gradient(180deg,#5a3521,#2a180f) padding-box,linear-gradient(180deg,#a8683f,#3a2216 60%,#ff5d4766) border-box;
+  box-shadow:inset 0 2px 0 #ffffff14,0 18px 40px #000a,0 0 30px #ff5d4718}
+html.app .dial{border-radius:18px;padding:12px 14px 28px}
+html.app .display{border-radius:18px;padding:16px 16px 18px;min-height:0}
+html.app .controls{gap:8px;margin-top:12px}
+html.app .preset{border-radius:14px}
+html.app .lower{margin-top:12px}
+html.app .grille{border-radius:14px;height:48px}
+html.app .marq{margin-inline:-14px}
+
+/* cards everywhere get the same glowing edge and rounder corners */
+html.app .hcard:not(.wide),html.app .card,html.app .forecast,html.app .petbox,html.app .dish{
+  border:1px solid transparent;border-radius:20px;
+  background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--edge) border-box;
+  box-shadow:0 10px 26px #0007}
+html.app .hcard:not(.wide){box-shadow:0 6px 0 #120a06,0 12px 24px #0006}
+html.app .hcard.wide{border-radius:20px}
+html.app .card,html.app .petbox,html.app .dish{padding:18px 16px}
+html.app .duo,html.app .menu{gap:12px}
+html.app .paper{border-radius:16px;box-shadow:0 14px 34px #000a,0 0 0 1px #c9b58c}
+html.app .breaking{border-radius:18px}
+html.app .stage{border-radius:16px}
+html.app .room .laptop .screen{border-radius:14px}
+html.app .sched{border-top:0}
+html.app .sched li{padding:14px 14px;margin-bottom:10px;border:1px solid transparent;border-radius:18px;
+  background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--edge) border-box}
+html.app .backbar{margin-top:4px}
 </style>
 <script id="app-shell">
 (function(){

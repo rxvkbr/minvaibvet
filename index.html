@@ -358,6 +358,11 @@ body[data-st="music"] .call{color:#16040e}
       <p id="answer" aria-live="polite">Підніміть слухавку. Вам обов'язково хтось відповість, ми в це віримо.</p>
       <button class="call" id="call">Подзвонити</button>
     </div>
+    <div class="card" id="napp" hidden>
+      <h3>Хороша новина щодня</h3>
+      <p id="nstate" style="margin:0 0 16px;color:var(--ivory-dim)">Щоранку о дев'ятій одна хороша новина. Ми їх довго шукали, шкода, якщо пропадуть.</p>
+      <button class="call" id="nbtn" type="button">Увімкнути сповіщення</button>
+    </div>
     <div class="card">
       <h3>Хіт-парад тижня</h3>
       <ol class="chart">
@@ -566,11 +571,14 @@ body[data-st="music"] .call{color:#16040e}
 
   /* ================= vibe counter ================= */
   var total=0,combo=0,comboT=null,elTotal=$("total");
+  try{total=parseInt(localStorage.getItem("vibe-total"),10)||0;}catch(e){}
+  elTotal.textContent=total;
   [].slice.call(document.querySelectorAll(".lead,.news article")).forEach(function(a){
     var b=document.createElement("button");b.className="vibe";b.type="button";
     b.innerHTML='+ вайб <span>0</span>';var n=0,sp=b.querySelector("span");
     b.addEventListener("click",function(){
       n++;total++;sp.textContent=n;elTotal.textContent=total;
+      try{localStorage.setItem("vibe-total",String(total));}catch(e){}
       b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
       clearTimeout(comboT);comboT=setTimeout(function(){combo=0;},1400);
       blip(523.25*PENTA[Math.min(combo,PENTA.length-1)],0,0.1);
@@ -602,6 +610,40 @@ body[data-st="music"] .call{color:#16040e}
       if(n>=text.length){clearInterval(typeT);elQ.classList.remove("typing");blip(2093,0.05,0.07);}
     },28);
   });
+
+  /* ================= daily good news (native app only) ================= */
+  (function(){
+    var C=window.Capacitor;
+    if(!C||!C.isNativePlatform||!C.isNativePlatform()||!C.Plugins||!C.Plugins.LocalNotifications)return;
+    var LN=C.Plugins.LocalNotifications,card=$("napp"),nb=$("nbtn"),ns=$("nstate"),enabled=false,DAYS=14;
+    try{enabled=localStorage.getItem("daily-news")==="1";}catch(e){}
+    card.hidden=false;
+    function paint(){
+      nb.textContent=enabled?"Вимкнути сповіщення":"Увімкнути сповіщення";
+      if(enabled)ns.textContent="Увімкнено. Новини заплановано на два тижні вперед; відкривай застосунок, щоб ми підвезли нові.";
+    }
+    function ids(){var a=[];for(var i=1;i<=DAYS;i++)a.push({id:i});return a;}
+    function plan(){
+      var heads=[].slice.call(document.querySelectorAll(".lead h3,.news h3")).map(function(e){return e.textContent;}),list=[],now=new Date();
+      for(var i=1;i<=DAYS;i++){
+        var at=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,9,0,0);
+        list.push({id:i,title:"Хороша новина дня",body:heads[(i+now.getDate())%heads.length],schedule:{at:at}});
+      }
+      return LN.cancel({notifications:ids()}).catch(function(){}).then(function(){return LN.schedule({notifications:list});});
+    }
+    nb.addEventListener("click",function(){
+      if(enabled){
+        LN.cancel({notifications:ids()}).catch(function(){});
+        enabled=false;try{localStorage.setItem("daily-news","0");}catch(e){}
+        ns.textContent="Вимкнено. Хороші новини чекатимуть на тебе тут.";paint();return;
+      }
+      LN.requestPermissions().then(function(r){
+        if(r.display!=="granted"){ns.textContent="Телефон не дозволив сповіщення. Увімкни їх для застосунку в налаштуваннях і натисни ще раз.";return;}
+        return plan().then(function(){enabled=true;try{localStorage.setItem("daily-news","1");}catch(e){}paint();arp(523.25,[0,2,4,5],1,0.07);});
+      }).catch(function(){ns.textContent="Не вдалося запланувати сповіщення. Спробуй ще раз.";});
+    });
+    paint();if(enabled)plan().catch(function(){});
+  })();
 
   /* ================= hotline ================= */
   var answers=[

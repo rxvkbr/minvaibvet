@@ -2,14 +2,17 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Вайбвет FM · Конфіденційність</title>
 <meta name="description" content="Політика конфіденційності сатиричного проєкту Вайбвет FM. Privacy policy of the Vibevet FM satire project.">
 <style>
 :root{--bg:#1a100b;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ivory);font:17px/1.6 Georgia,"PT Serif",serif}
-main{max-width:720px;margin:0 auto;padding:40px 18px 60px}
+main{max-width:720px;margin:0 auto;padding:40px 18px calc(60px + env(safe-area-inset-bottom))}
+.back{position:sticky;top:0;z-index:5;display:flex;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg) 70%,#1a100b00)}
+.back a{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:9px 16px;color:var(--ivory);text-decoration:none;font:14px ui-monospace,Menlo,monospace;-webkit-tap-highlight-color:transparent}
+.back a:active{transform:scale(.96)}
 h1{font-size:clamp(28px,6vw,40px);line-height:1.15;margin:0 0 6px;text-wrap:balance}
 h2{font-size:22px;margin:36px 0 8px;color:var(--amber)}
 h3{font-size:17px;margin:22px 0 4px}
@@ -22,6 +25,7 @@ a{color:var(--amber)}
 </style>
 </head>
 <body>
+<div class="back"><a href="index.html#more" id="back">← назад · back</a></div>
 <main>
   <p class="meta">Вайбвет FM · Vibevet FM</p>
   <h1>Політика конфіденційності · Privacy policy</h1>
@@ -82,5 +86,6 @@ a{color:var(--amber)}
     <p>If this policy changes, we will update this page and the date at the top. Questions can be raised in the <a href="https://github.com/rxvkbr/minvaibvet/issues">project's GitHub repository</a>.</p>
   </section>
 </main>
+<script>document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});</script>
 </body>
 </html>

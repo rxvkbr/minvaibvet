@@ -217,6 +217,12 @@ body[data-st="music"] .call{color:#16040e}
 
 @media (prefers-reduced-motion:reduce){.marq{overflow-x:auto}}
 
+.column{border-top:3px double var(--ink);margin-top:-1px;padding:16px 0 20px}
+.col-head{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;color:#5b4630}
+.col-head .tag{margin:0}
+#colq{font-family:var(--f-display);font-size:clamp(21px,4.8vw,28px);line-height:1.28;margin:12px 0 4px;max-width:30em;min-height:5.2em}
+#colq.typing::after{content:"";display:inline-block;width:.5em;height:1em;background:#ff4fae;margin-left:3px;vertical-align:-.12em;animation:pulse .7s infinite}
+
 @media (max-width:420px){
   .preset{font-size:10.5px}.preset b{font-size:13px}
   .forecast{gap:4px;padding:14px 8px 10px}.pct{font-size:11px}
@@ -292,6 +298,11 @@ body[data-st="music"] .call{color:#16040e}
       <article><span class="tag">Сенсація тижня</span><h3>Чоловік прокинувся в неділю, і нічого не сталося. Вчені називають це вихідним</h3><p>За словами очевидця, надворі були туман, сонце й вівці. Він досі перевіряє, чи це не навчання.</p></article>
       <article><span class="tag">Інфраструктура</span><h3>Кіт прийшов погрітися на теплу зупинку. Ветеран зауважив, що зупинку, виявляється, можна гріти</h3><p>Кіт від коментарів відмовився й залишився до ранку.</p></article>
       <article><span class="tag">Кар'єра</span><h3>Після року служби ветеран дізнався, що він тепер експерт із міжнародної логістики</h3><p>За цей час він доставив на позицію генератор, кота, піцу й комбата. Усе з-за кордону області.</p></article>
+    </div>
+    <div class="column">
+      <div class="col-head"><span class="tag">Колонка</span><span class="mono">Вайб і велике село · пише Андрійко, з ноутбуком, у перегаворці</span></div>
+      <p id="colq" aria-live="polite">Я дивився на свій рапорт і мимоволі замислився: якщо відпустку обіцяє закон, а дає командир, то з ким із них у мене насправді стосунки?</p>
+      <button class="vibe" id="colnext" type="button">наступне питання</button>
     </div>
   </div>
 </section>
@@ -567,6 +578,29 @@ body[data-st="music"] .call{color:#16040e}
       if(total%5===0)arp(1046.5,[0,2,4,5,7],1,0.055);
     });
     a.appendChild(b);
+  });
+
+  /* ================= column ================= */
+  var questions=[
+    "Я дивився на свій рапорт і мимоволі замислився: якщо відпустку обіцяє закон, а дає командир, то з ким із них у мене насправді стосунки?",
+    "Того вечора я подумав: чи можна вважати рапорт любовним листом, якщо на нього теж не відповідають?",
+    "У місті, де ніхто не питає, де ти служиш, я впіймав себе на думці: а що, як нормальне життя і є той самий емоційно недоступний чоловік?",
+    "І тут я замислився: ми чекаємо на довідку чи це довідка чекає, поки ми будемо до неї готові?",
+    "Пізніше, за третьою кавою, я спитав себе: якщо таємна мережа складається з хороших людей, які просто знайомі, то чи не є це звичайною дружбою з поганим піаром?",
+    "Кіт на теплій зупинці змусив мене замислитися: чому він знає, що заслуговує на тепло, а я досі перевіряю, чи маю на нього право?",
+    "Я закрив ноутбук і подумав: можливо, найсміливіше, що може зробити ветеран у неділю зранку, це нічого?"
+  ],qi=0,typeT=null,elQ=$("colq"),qBtn=$("colnext");
+  qBtn.addEventListener("click",function(){
+    qi=(qi+1)%questions.length;
+    var text=questions[qi],n=0;
+    clearInterval(typeT);
+    if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches){elQ.textContent=text;blip(2093,0,0.06);return;}
+    elQ.textContent="";elQ.classList.add("typing");
+    typeT=setInterval(function(){
+      n+=2;elQ.textContent=text.slice(0,n);
+      if(n%6===0)blip(1500+Math.random()*700,0,0.018,"square");
+      if(n>=text.length){clearInterval(typeT);elQ.classList.remove("typing");blip(2093,0.05,0.07);}
+    },28);
   });
 
   /* ================= hotline ================= */

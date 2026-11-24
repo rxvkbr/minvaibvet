@@ -3181,11 +3181,13 @@ html.app .backbar{margin-top:4px}
           var sum=m[3]||String(a.digest||"").replace(/^sha256:/,"");if(!/^[0-9a-f]{64}$/.test(sum))return;
           if(!best||+m[2]>best.v)best={v:+m[2],url:a.browser_download_url,sum:sum};});
         if(!best){status("свіжий");return;}
+        /* remember the pending bundle together with the bundle we are running: a new store/TestFlight build
+           resets the updater, and a bare "already downloaded" flag would then block updates forever */
         var done="";try{done=localStorage.getItem("ota-next")||"";}catch(e){}
-        if(done===String(best.v)){status("випуск "+best.v+" чекає перезапуску");return;}
+        if(done===best.v+"@"+mine){status("випуск "+best.v+" чекає перезапуску");return;}
         status("завантажую "+best.v);
         return U.download({url:best.url,version:String(best.v),checksum:best.sum}).then(function(b){return U.next({id:b.id});})
-          .then(function(){try{localStorage.setItem("ota-next",String(best.v));}catch(e){}status("випуск "+best.v+" буде після перезапуску");});
+          .then(function(){try{localStorage.setItem("ota-next",best.v+"@"+mine);}catch(e){}status("випуск "+best.v+" буде після перезапуску");});
       }).catch(function(e){status("помилка: "+((e&&e.message)||e));}).then(function(){busy=false;});
   }
   setTimeout(check,3000);setTimeout(paint,1500);

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мрія для свого · Вайбвет FM</title>
+<meta name="description" content="Мрія для свого: ветерани й військові, які щось дуже хочуть, але самі не попросять. Обери картку і здійсни мрію через редакцію Вайбвет FM.">
+<meta property="og:title" content="Мрія для свого · Вайбвет FM">
+<meta property="og:description" content="Маленькі мрії українських ветеранів і військових. Обери, кому сьогодні станеш дивом.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:url" content="https://minvaibvet.pp.ua/mriya">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&family=Lobster&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a100b;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse 90% 40% at 50% 0,#3a2114 0,transparent 70%),var(--bg);color:var(--ivory);font:18px/1.6 "PT Serif",Georgia,serif}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg) 70%,#1a100b00)}
+.top a{border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 15px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace}
+main{max-width:760px;margin:0 auto;padding:10px 18px calc(80px + env(safe-area-inset-bottom))}
+.kicker{font:12px "PT Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+h1{font:400 clamp(40px,10vw,68px)/1 "Lobster",Georgia,cursive;margin:10px 0 12px;color:#ffe9e2;text-shadow:0 0 14px #ff5d4788,0 0 40px #ff5d4744}
+.lead{font-size:20px;font-style:italic;color:#fff3d6;margin:0 0 22px;max-width:36em}
+h2{font:400 26px "Yeseva One",Georgia,serif;margin:38px 0 12px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 10px}
+.steps div{background:var(--panel);border:1px solid var(--edge);border-radius:16px;padding:14px;font-size:15px;line-height:1.45}
+.steps b{display:block;font:400 30px "Yeseva One",serif;color:var(--amber);margin-bottom:4px}
+.cards{display:grid;gap:18px}
+.card{position:relative;background:var(--panel);border:1px solid var(--edge);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:200px 1fr}
+.card .vis{position:relative;min-height:220px;display:grid;place-items:center;overflow:hidden}
+.card .vis svg{width:100%;height:100%;position:absolute;inset:0}
+.card .body{padding:18px 20px 18px}
+.card .who{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card h3{margin:0;font:400 28px "Yeseva One",serif}
+.card .age{font:13px "PT Mono",monospace;color:var(--dim)}
+.tag{position:absolute;top:12px;left:12px;z-index:2;font:11px "PT Mono",monospace;letter-spacing:.1em;background:#000a;color:var(--ivory);border:1px solid #fff3;border-radius:999px;padding:3px 9px}
+.card .lbl{font:11.5px "PT Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:12px 0 2px}
+.card p{margin:0;font-size:16.5px;line-height:1.55}
+.card .wish{font-size:19px;font-style:italic;color:#fff3d6}
+.need{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.need span{font:12.5px "PT Mono",monospace;background:#0004;border:1px solid var(--edge);border-radius:999px;padding:4px 10px}
+.go{margin-top:16px;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;font:15px "PT Mono",monospace;letter-spacing:.06em;cursor:pointer;background:linear-gradient(135deg,var(--amber),var(--coral));color:#1a100b;box-shadow:0 5px 0 #8a3a22}
+.go:active{transform:translateY(3px);box-shadow:0 2px 0 #8a3a22}
+.panel{background:var(--panel);border:1px solid var(--edge);border-radius:20px;padding:18px 20px}
+.panel ul{margin:8px 0 0;padding-left:1.2em}.panel li{margin:.25em 0;font-size:16.5px}
+.safe{border-color:var(--mint);background:linear-gradient(135deg,#2b1a11,#1d2a27)}
+.safe h3{margin:0 0 6px;font:400 22px "Yeseva One",serif;color:var(--mint)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2b1a11;border:1px solid var(--amber);border-radius:999px;padding:10px 18px;font:14px "PT Mono",monospace;z-index:9;max-width:92vw;text-align:center}
+.foot{margin-top:34px;font:12.5px/1.6 "PT Mono",monospace;color:var(--dim)}
+.foot a{color:var(--amber)}
+@media (max-width:620px){.card{grid-template-columns:1fr}.card .vis{min-height:170px}.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more" id="back">← назад</a></div>
+<main>
+  <div class="kicker">Мінвайбвет · відділ маленьких див</div>
+  <h1>Мрія для свого</h1>
+  <p class="lead">Ветерани й військові рідко про щось просять. Особливо для себе. Тут — маленькі мрії тих, хто сам не попросить. Обери, кому сьогодні станеш дивом.</p>
+
+  <div class="steps">
+    <div><b>1</b>Обери картку. Прочитай, хто ця людина і про що мріє.</div>
+    <div><b>2</b>Натисни «Здійснити». Відкриється готовий лист до редакції з усіма деталями.</div>
+    <div><b>3</b>Редакція зв'яже вас, усе перевірить і допоможе, щоб мрія справді збулася.</div>
+  </div>
+
+  <h2>Чекають на диво</h2>
+  <div class="cards" id="cards"></div>
+
+  <h2>Ти ветеран чи військовий?</h2>
+  <div class="panel">
+    <p style="margin:0">Є маленька мрія, про яку незручно просити? Напиши нам. Не треба доводити, що «заслужив». Заслужив.</p>
+    <ul>
+      <li>ім'я або позивний, як хочеш, щоб тебе називали;</li>
+      <li>два-три речення про себе: що любиш, що тебе тримає;</li>
+      <li>мрія і приблизно, що для неї треба;</li>
+      <li>фото чи малюнок, за бажанням, можна без обличчя.</li>
+    </ul>
+    <button class="go" type="button" id="mine" style="margin-top:14px">Розповісти про свою мрію ✉</button>
+  </div>
+
+  <h2>Безпека понад усе</h2>
+  <div class="panel safe">
+    <h3>Чого ми ніколи не публікуємо</h3>
+    <ul>
+      <li>прізвища, номери підрозділів, місця служби чи проживання, будь-що про позиції;</li>
+      <li>телефони, адреси й номери карток. Контакти передаються лише через редакцію і лише з дозволу обох сторін.</li>
+    </ul>
+    <p style="margin:12px 0 0;font-size:16px">Ми не просимо переказувати гроші незнайомцям. Якщо хтось пише від імені «Мрії для свого» й просить перекази на картку, це не ми. Кожну картку на сайті публікуємо лише з явної згоди людини.</p>
+  </div>
+
+  <div class="foot">Зараз на сайті приклади: герої вигадані, щоб показати формат. Справжні картки з'являтимуться, щойно люди погодяться розповісти про себе.<br>«Мрія для свого» — проєкт Вайбвет FM. Мінвайбвет вигаданий, а мрії справжні.<br><a href="index.html">← на головну Вайбвет FM</a></div>
+</main>
+<script>
+(function(){
+  /* the mailbox for wishes: set it here once it exists (kept out of the HTML so spam bots don't harvest it) */
+  var BOX=["",""]; /* ["user","domain.tld"] */
+  var MAIL=BOX[0]&&BOX[1]?BOX[0]+"@"+BOX[1]:"";
+
+  var W=[
+    {name:"Кіт-137",age:"34",vis:"moon",ex:true,
+     about:"Пів року на сході, тепер учиться спати вдома. Любить котів, гречку з тушонкою і коли ніхто нічого не питає.",
+     wish:"Один раз поспати дванадцять годин у тихій кімнаті з видом на ліс, де ніхто не скаже «підйом».",
+     need:["ніч у тихому готелі","сніданок у ліжко","≈ 3 000 грн"]},
+    {name:"Ластівка",age:"27",vis:"banjo",ex:true,
+     about:"Повернулась із реабілітації, слухає ZWYNTAR на повторі. Каже, що руки треба чимось зайняти, бо голова сама не справляється.",
+     wish:"Банджо і три уроки, щоб зіграти «Мексиканця» хоча б наполовину так, як вони.",
+     need:["вживане банджо","3 уроки","≈ 6 000 грн"]},
+    {name:"Мірошник",age:"41",vis:"sea",ex:true,
+     about:"Мама два роки чекала його вдома й жодного разу не поскаржилась. Сам каже, що це вона служила, а не він.",
+     wish:"Звозити маму на море на вихідні. Вона була там тільки в молодості й досі згадує.",
+     need:["2 квитки на потяг","2 ночі біля моря","≈ 8 000 грн"]}
+  ];
+  var VIS={
+    moon:'<svg viewBox="0 0 200 220" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2342"/><stop offset="1" stop-color="#2b1a11"/></linearGradient></defs><rect width="200" height="220" fill="url(#a)"/><circle cx="140" cy="60" r="26" fill="#f6e7b8"/><circle cx="152" cy="52" r="24" fill="#1b2342"/><g fill="#f6e7b8" opacity=".8"><circle cx="40" cy="40" r="1.5"/><circle cx="80" cy="70" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="170" cy="120" r="1"/></g><path d="M0 170l30-40 20 25 25-45 25 40 20-20 30 35 25-30 25 35V220H0z" fill="#16241b"/><rect x="40" y="160" width="120" height="26" rx="8" fill="#e9dcc0"/><rect x="40" y="150" width="34" height="16" rx="6" fill="#fff"/><text x="120" y="152" font-size="16" fill="#f6e7b8" font-family="PT Mono">z z z</text></svg>',
+    banjo:'<svg viewBox="0 0 200 220" preserveAspectRatio="xMidYMid slice"><rect width="200" height="220" fill="#3a1f14"/><circle cx="100" cy="150" r="48" fill="#e9dcc0" stroke="#8a5a2b" stroke-width="8"/><circle cx="100" cy="150" r="10" fill="#c9a66b"/><rect x="94" y="20" width="12" height="96" fill="#6b4a32"/><rect x="88" y="14" width="24" height="18" rx="4" fill="#4a3222"/><g stroke="#f2e3bd" stroke-width="1"><line x1="97" y1="24" x2="97" y2="190"/><line x1="100" y1="24" x2="100" y2="190"/><line x1="103" y1="24" x2="103" y2="190"/></g><g fill="#f0a93a"><text x="20" y="60" font-size="26">♪</text><text x="150" y="90" font-size="22">♫</text></g></svg>',
+    sea:'<svg viewBox="0 0 200 220" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb38a"/><stop offset=".55" stop-color="#ffd9a8"/></linearGradient></defs><rect width="200" height="220" fill="url(#s)"/><circle cx="100" cy="110" r="30" fill="#ff8a5c"/><rect y="118" width="200" height="102" fill="#3a8fa0"/><path d="M0 140q25-8 50 0t50 0t50 0t50 0" stroke="#bfe8ee" stroke-width="3" fill="none"/><path d="M0 165q25-8 50 0t50 0t50 0t50 0" stroke="#bfe8ee" stroke-width="2" fill="none" opacity=".7"/><rect y="190" width="200" height="30" fill="#e8cf9a"/><g fill="#2b1a11"><circle cx="70" cy="178" r="6"/><rect x="65" y="183" width="10" height="14" rx="3"/><circle cx="88" cy="176" r="7"/><rect x="82" y="182" width="12" height="16" rx="3"/></g></svg>'
+  };
+  var box=document.getElementById("cards");
+  W.forEach(function(w){
+    var c=document.createElement("article");c.className="card";
+    c.innerHTML='<div class="vis">'+VIS[w.vis]+(w.ex?'<span class="tag">приклад</span>':'')+'</div><div class="body"><div class="who"><h3></h3><span class="age"></span></div>'+
+      '<div class="lbl">трохи про нього</div><p class="about"></p><div class="lbl">мрія</div><p class="wish"></p><div class="lbl">що треба</div><div class="need"></div>'+
+      '<button class="go" type="button">Здійснити ✨</button></div>';
+    c.querySelector("h3").textContent=w.name;c.querySelector(".age").textContent=w.age+" років";
+    c.querySelector(".about").textContent=w.about;c.querySelector(".wish").textContent=w.wish;
+    if(/Ластівка/.test(w.name))c.querySelectorAll(".lbl")[0].textContent="трохи про неї";
+    w.need.forEach(function(n){var s=document.createElement("span");s.textContent=n;c.querySelector(".need").appendChild(s);});
+    c.querySelector(".go").addEventListener("click",function(){send("Здійснити мрію: "+w.name,
+"Привіт, редакціє Вайбвет FM!\n\nХочу здійснити мрію: "+w.name+" — «"+w.wish+"»\n\nЯк хочу допомогти (залиш потрібне):\n- оплатити повністю\n- оплатити частину: ___ грн\n- подарувати річ / послугу: ___\n- особисто організувати (наприклад, я з цього міста)\n\nПро мене:\nІм'я: \nМісто / країна: \nЯк зі мною зручно зв'язатися: \n\nЯ розумію, що редакція спершу зв'яжеться зі мною, перевірить деталі й лише потім, за згодою обох сторін, познайомить нас.\n\n— надіслано зі сторінки «Мрія для свого»");});
+    box.appendChild(c);
+  });
+  document.getElementById("mine").addEventListener("click",function(){send("Моя мрія для «Мрії для свого»",
+"Привіт, редакціє Вайбвет FM!\n\nЯк мене називати (ім'я або позивний): \nВік (за бажанням): \n\nТрохи про мене (2–3 речення: що люблю, що мене тримає):\n\n\nМоя мрія:\n\n\nЩо для неї треба, приблизно:\n\n\nФото чи малюнок: додаю / не треба (можна без обличчя)\n\nЯ погоджуюсь, що редакція опублікує картку з цим текстом. Прізвище, підрозділ, місця служби й контакти не публікуються.\n\n— надіслано зі сторінки «Мрія для свого»");});
+
+  function send(subj,body){
+    if(!MAIL){toast("Скринька «Мрії для свого» відкривається. Зовсім скоро ✉");return;}
+    location.href="mailto:"+MAIL+"?subject="+encodeURIComponent(subj)+"&body="+encodeURIComponent(body);
+  }
+  var tT=null;function toast(m){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);clearTimeout(tT);tT=setTimeout(function(){d.remove();},2800);}
+  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
+})();
+</script>
+</body>
+</html>

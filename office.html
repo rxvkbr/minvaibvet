@@ -161,6 +161,8 @@ table.cells{border-collapse:collapse;table-layout:fixed;font-variant-numeric:tab
 /* ---------- radio tab ---------- */
 #v-radio iframe{border:0;width:100%;height:100%;background:#1a100b}
 #v-desk iframe{border:0;width:100%;height:100%;background:var(--bg)}
+#v-rec iframe,#v-fin iframe{border:0;width:100%;height:100%;background:#0f1418}
+.fi.p{background:#1d3a4a;color:#bfe8ff}.fi.f{background:#2c3a1a;color:#d8f0a0}
 html.ondesk body::after{display:none}
 html.ondesk #bslow,html.ondesk #bfast,html.ondesk .boss{display:none}
 html.onweb body::after{display:none}
@@ -268,6 +270,8 @@ html.lag .tab .tt{filter:blur(1.5px)}
       </div></div>
     </section>
     <section class="view" id="v-desk" role="tabpanel"><iframe id="desk" title="Вайбвет Стіл"></iframe></section>
+    <section class="view" id="v-rec" role="tabpanel"><iframe id="rec" title="Тиха кімната"></iframe></section>
+    <section class="view" id="v-fin" role="tabpanel"><iframe id="fin" title="Гроші без паніки"></iframe></section>
     <section class="view" id="v-radio" role="tabpanel"><iframe id="radio" title="Вайбвет FM" loading="lazy"></iframe></section>
   </div>
   <div class="status"><span class="g" id="st1">● з'єднання стабільне</span><span id="st2"></span><span id="st3"></span><span class="sp" id="clock"></span></div>
@@ -314,11 +318,15 @@ addEventListener("pointerdown",function(e){if(e.isTrusted&&!lagging&&e.target.cl
 
 /* ================= tabs: a real tab strip ================= */
 var APPS={desk:{fi:"s",ic:"▦",t:"Стіл · робочий набір"},delta:{fi:"d",ic:"Δ",t:"Δ · ситуаційна обізнаність"},sheet:{fi:"x",ic:"X",t:"звіт_final_v7(2).xlsx"},
-  doc:{fi:"w",ic:"W",t:"рапорт_відпустка_НОВИЙ.docx"},radio:{fi:"r",ic:"FM",t:"Вайбвет FM · 102.4"}};
+  doc:{fi:"w",ic:"W",t:"рапорт_відпустка_НОВИЙ.docx"},radio:{fi:"r",ic:"FM",t:"Вайбвет FM · 102.4"},
+  rec:{fi:"p",ic:"🌊",t:"Тиха кімната",priv:1,src:"vidnovlennia.html"},fin:{fi:"f",ic:"💸",t:"Гроші без паніки",priv:1,src:"finansy.html"}};
+/* private rooms show up only after you switch them on in the radio's Конструктор, same as on the phone */
+function privOn(v){try{return !!((JSON.parse(localStorage.getItem("vv-ui")||"{}").priv||{})[v]);}catch(e){return false;}}
 var URLS={desk:'vaib://<b>стіл.мінвайбвет</b>/ · тут усе справжнє, а дані лишаються на цьому пристрої',delta:'vaib://<b>дельта.мінвайбвет</b>/ситуація?сектор=ПЕРЕГАВОРКА&шар=корови',
   sheet:'vaib://<b>диск.мінвайбвет</b>/Звіти/2026/НЕ_ВИДАЛЯТИ/звіт_final_v7(2).xlsx',
   doc:'vaib://<b>диск.мінвайбвет</b>/Рапорти/рапорт_відпустка_НОВИЙ_остаточний.docx',
-  radio:'vaib://<b>minvaibvet.pp.ua</b>/ · 102.4 FM'};
+  radio:'vaib://<b>minvaibvet.pp.ua</b>/ · 102.4 FM',
+  rec:'vaib://<b>тиха-кімната</b>/ · приватно, усе лишається на цьому пристрої',fin:'vaib://<b>гроші-без-паніки</b>/ · приватно, усе лишається на цьому пристрої'};
 var GCOL=["#f0a93a","#58c9b9","#ff5d73","#6fc3ff","#c7a2ff","#9fd66a","#ff9ad5","#b3a37c"];
 var IDLE=30*60*1000; /* a tab nobody opened for 30 minutes counts as forgotten */
 var S={tabs:[],groups:[],active:null,seq:1},closed=[],cur=null,hist=[];
@@ -332,7 +340,7 @@ function load(){try{var o=JSON.parse(localStorage.getItem("office-tabs")||"null"
 function defaults(){var n=Date.now();S.tabs=["desk","delta","sheet","doc","radio"].map(function(v){return {id:uid(),kind:"app",v:v,pinned:v==="desk",used:n};});S.active=S.tabs[0].id;}
 function host(u){try{return new URL(u).hostname.replace(/^www\./,"");}catch(e){return "";}}
 function title(t){return t.kind==="app"?APPS[t.v].t:(t.title||(t.url?host(t.url):"Нова вкладка"));}
-function real(){return cur==="desk"||cur==="web";} /* real work: no autopilot, no satire */
+function real(){return cur==="desk"||cur==="web"||cur==="rec"||cur==="fin";} /* real work: no autopilot, no satire */
 /* pinned first, members of a group side by side, empty groups gone */
 function norm(){
   var first={};S.tabs.forEach(function(t,i){if(t.pinned)t.group=null;if(t.group&&first[t.group]===undefined)first[t.group]=i;});
@@ -391,10 +399,11 @@ function startPage(t){
   var d=document.createElement("div");d.className="start";
   d.innerHTML='<h2>Нова вкладка</h2><p>Введи адресу або запит у рядку вгорі. Або відкрий щось своє:</p><div class="tiles"></div><p class="sm">Пошук через DuckDuckGo · вкладки, групи й закріплення зберігаються лише на цьому пристрої</p>';
   var tl=d.querySelector(".tiles");
-  Object.keys(APPS).forEach(function(v){var b=document.createElement("button");b.innerHTML='<span class="fi '+APPS[v].fi+'">'+APPS[v].ic+'</span>';b.appendChild(document.createTextNode(APPS[v].t));
+  Object.keys(APPS).forEach(function(v){if(APPS[v].priv&&!privOn(v))return;var b=document.createElement("button");b.innerHTML='<span class="fi '+APPS[v].fi+'">'+APPS[v].ic+'</span>';b.appendChild(document.createTextNode(APPS[v].t));
     b.onclick=function(){var ex=S.tabs.filter(function(x){return x.kind==="app"&&x.v===v;})[0];if(ex){closeTabs([t.id],true);activate(ex.id);}else{t.kind="app";t.v=v;var s=$("v-"+t.id);if(s)s.remove();activate(t.id);}};tl.appendChild(b);});
   [["📰","Газета Вайбвет FM","https://minvaibvet.pp.ua/#gazeta"],["🗓","Календар Мінвайбвету","https://minvaibvet.pp.ua/#kalendar"]].forEach(function(w){
     var b=document.createElement("button");b.innerHTML='<span class="fi web">'+w[0]+'</span>';b.appendChild(document.createTextNode(w[1]));b.onclick=function(){go(w[2]);};tl.appendChild(b);});
+  if(!privOn("rec")||!privOn("fin")){var hp=document.createElement("p");hp.className="sm";hp.textContent="Приватні розділи (🌊 Тиха кімната, 💸 Гроші без паніки) вмикаються у вкладці FM: Ще → Конструктор → Приватні розділи.";d.appendChild(hp);}
   return d;
 }
 function activate(id,fromHist){
@@ -405,6 +414,7 @@ function activate(id,fromHist){
   [].forEach.call(document.querySelectorAll(".view"),function(s){s.classList.toggle("on",s.id===vid);});
   if(cur==="radio"&&!$("radio").getAttribute("src"))$("radio").src="index.html";
   if(cur==="desk"&&!$("desk").getAttribute("src"))$("desk").src="stil.html?embed";
+  if(APPS[cur]&&APPS[cur].src&&!$(cur).getAttribute("src"))$(cur).src=APPS[cur].src;
   de.classList.toggle("ondesk",real());de.classList.toggle("onweb",cur==="web");
   if(real()&&typeof auto!=="undefined"&&auto)setAuto(false,true);
   if(cur==="delta")sizeMap();
@@ -964,7 +974,7 @@ function frame(now){
   requestAnimationFrame(frame);
 }
 if(!load())defaults();
-var hv=(location.hash||"").slice(1);if(/^(sheet|doc|delta|desk|radio)$/.test(hv))openApp(hv);else activate(TB(S.active)?S.active:S.tabs[0].id,true);
+var hv=(location.hash||"").slice(1);if(/^(sheet|doc|delta|desk|radio|rec|fin)$/.test(hv))openApp(hv);else activate(TB(S.active)?S.active:S.tabs[0].id,true);
 sizeMap();status();hud();chart();requestAnimationFrame(frame);
 })();
 </script>

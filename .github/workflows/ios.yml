@@ -66,6 +66,8 @@ jobs:
           # pasting into the secrets form can mangle line breaks: rebuild a clean PEM from the base64 body
           BODY=$(sed -e 's/-----BEGIN PRIVATE KEY-----//' -e 's/-----END PRIVATE KEY-----//' "$KEY" | tr -d ' \r\n\t')
           { echo "-----BEGIN PRIVATE KEY-----"; echo "$BODY" | fold -w 64; echo "-----END PRIVATE KEY-----"; } > "$KEY"
+          N=$(printf '%s' "$BODY" | base64 --decode 2>/dev/null | wc -c | tr -d ' ')
+          echo "key body: ${#BODY} base64 chars, $N bytes (a valid App Store Connect key is 138 bytes)"
           echo "BUILD_NUMBER=$(date -u +%y%m%d%H%M)" >> "$GITHUB_ENV"
 
       - name: Archive (signed)

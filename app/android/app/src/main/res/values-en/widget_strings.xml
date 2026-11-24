@@ -75,7 +75,7 @@
         <item>The hotline\'s working day is over. It lasted from 11:00 to 11:15. Thank you for being with us.</item>
     </string-array>
     <string name="widget_stil_name" formatted="false">Vibevet Desk</string>
-    <string name="widget_stil_desc" formatted="false">Shopping list and today's tasks, with one-tap add buttons</string>
+    <string name="widget_stil_desc" formatted="false">Shopping list and today\'s tasks, with one-tap add buttons</string>
     <string name="w_stil_title" formatted="false">DESK · SHOPPING &amp; TASKS</string>
     <string name="w_stil_empty" formatted="false">Your shopping list and today\'s tasks will show up here. Add the first one.</string>
     <string name="w_stil_count" formatted="true">on the list: %1$d</string>

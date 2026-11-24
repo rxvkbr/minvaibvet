@@ -30,6 +30,9 @@ button:active{transform:scale(.96)}
 input,textarea,select{background:#0008;border:1px solid var(--edge2);border-radius:10px;padding:8px 10px;outline:none;min-width:0}
 input:focus,textarea:focus,select:focus{border-color:var(--amber)}
 textarea{resize:vertical}
+/* iPhone zooms the whole page into any field with text smaller than 16px and leaves it shifted sideways */
+@media (pointer:coarse){input,textarea,select{font-size:16px}}
+html,body{overflow-x:hidden}
 .btn{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--edge2);font-size:13px;white-space:nowrap}
 .btn.pri{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:600}
 .btn.sm{height:28px;padding:0 10px;font-size:12px}
@@ -96,6 +99,8 @@ p.sub{margin:0 0 16px;color:var(--dim);font-size:13.5px}
 .list li.late .x{color:var(--red)}
 .chk{width:20px;height:20px;flex:none;border-radius:6px;border:1.5px solid var(--edge2);display:grid;place-items:center;font-size:12px}
 .chk.on{background:var(--green);border-color:var(--green);color:var(--ink)}
+.qlist li{border-bottom:1px dashed #ffffff10}
+.qlist input:focus{border:0;box-shadow:inset 0 -1px 0 var(--amber)}
 .pomo{text-align:center}
 .pomo .big{font-size:52px;margin:4px 0 10px}
 .pomo .ring{height:6px;border-radius:9px;background:#ffffff10;overflow:hidden;margin:0 0 12px}
@@ -382,7 +387,7 @@ var WIDGETS={
   shop:{n:"Покупки",s:"Список у магазин: дописав, купив, викреслив"},
   today:{n:"Сьогодні",s:"Задачі на сьогодні й прострочені"},
   pomo:{n:"Фокус-таймер",s:"25 хвилин роботи, 5 відпочинку"},
-  quick:{n:"Швидка нотатка",s:"Записати думку, поки не втекла"},
+  quick:{n:"Швидка нотатка",s:"Текст або список із галочками"},
   deadlines:{n:"Дедлайни",s:"Що наближається: задачі й події"},
   cards:{n:"Картки",s:"Скільки карток час повторити"},
   medfact:{n:"Медфакт дня",s:"Один факт на день від Вайбвет FM"},
@@ -471,11 +476,43 @@ W.pomo=function(el){
   paint();
 };
 W.quick=function(el){
-  wh(el,"Швидка нотатка");var ta=h("textarea",{rows:5,style:"width:100%",placeholder:"Пиши тут. Зберігається саме."});ta.value=load("quick","");
-  var t;ta.addEventListener("input",function(){clearTimeout(t);t=setTimeout(function(){save("quick",ta.value);},300);});
-  el.appendChild(ta);el.appendChild(h("div",{class:"row",style:"margin-top:8px"},[h("button",{class:"btn sm",text:"→ У нотатки",onclick:function(){if(!ta.value.trim())return;var a=load("notes",[]);a.unshift({id:uid(),t:ta.value.trim().split("\n")[0].slice(0,60),b:ta.value,tag:"",ts:Date.now()});save("notes",a);ta.value="";save("quick","");toast("Перенесено в нотатки");}}),
-    h("button",{class:"btn sm ghost",text:"Очистити",onclick:function(){ta.value="";save("quick","");}})]));
+  var mode=load("quickmode","text");
+  var sw=h("span",{class:"row",style:"gap:4px;margin-left:auto"},[["text","¶ текст"],["list","☑ список"]].map(function(m){return h("button",{class:"btn sm"+(mode===m[0]?" pri":""),style:"height:24px;padding:0 9px;font-size:11px",text:m[1],onclick:function(){
+    if(m[0]===mode)return;if(m[0]==="list"&&!load("qlist",[]).length){var txt=load("quick","");if(txt.trim())save("qlist",txt.split("\n").map(function(l){return l.replace(/^\s*([-•*]|\[[ x]\])\s*/i,"").trim();}).filter(Boolean).map(function(l){return {id:uid(),t:l,done:false};}));}
+    save("quickmode",m[0]);R.desk();}});}));
+  el.appendChild(h("h3",null,["Швидка нотатка",sw]));
+  if(mode==="list"){quickList(el);return;}
+  var ta=h("textarea",{rows:4,style:"width:100%;overflow-y:hidden;resize:none;line-height:1.5",placeholder:"Пиши тут. Зберігається саме."});ta.value=load("quick","");
+  /* grows with the text, but never taller than the screen minus a margin, so the page can still be scrolled past it */
+  function fit(){var cap=Math.max(140,(window.innerHeight||700)-260);ta.style.height="auto";var hgt=Math.min(ta.scrollHeight+2,cap);ta.style.height=hgt+"px";ta.style.overflowY=ta.scrollHeight+2>cap?"auto":"hidden";}
+  ta.addEventListener("input",function(){fit();save("quick",ta.value);});
+  el.appendChild(ta);requestAnimationFrame(fit);addEventListener("resize",function(){if(ta.isConnected)fit();});
+  el.appendChild(h("div",{class:"row",style:"margin-top:8px"},[h("button",{class:"btn sm",text:"→ У нотатки",onclick:function(){if(!ta.value.trim())return;var a=load("notes",[]);a.unshift({id:uid(),t:ta.value.trim().split("\n")[0].slice(0,60),b:ta.value,tag:"",ts:Date.now()});save("notes",a);ta.value="";save("quick","");fit();toast("Перенесено в нотатки");}}),
+    h("button",{class:"btn sm ghost",text:"Очистити",onclick:function(){ta.value="";save("quick","");fit();}})]));
 };
+/* the alternative quick note: one bullet per line, Enter makes the next one, a tap ticks it off */
+function quickList(el){
+  var items=load("qlist",[]);if(!items.length)items=[{id:uid(),t:"",done:false}];
+  var ul=h("ul",{class:"list qlist",style:"gap:0"});
+  function persist(){save("qlist",items.filter(function(x,i){return x.t.trim()||i===items.length-1;}));}
+  function row(x){
+    var inp=h("input",{value:x.t,placeholder:"…",enterkeyhint:"next",style:"flex:1;border:0;background:none;padding:6px 2px;border-radius:0"+(x.done?";text-decoration:line-through;opacity:.55":"")});
+    var chk=h("button",{class:"chk"+(x.done?" on":""),text:x.done?"✓":"","aria-label":x.done?"Не зроблено":"Зроблено",onclick:function(){x.done=!x.done;persist();R.desk();}});
+    inp.addEventListener("input",function(){x.t=inp.value;persist();});
+    inp.addEventListener("keydown",function(e){var i=items.indexOf(x);
+      if(e.key==="Enter"){e.preventDefault();var n={id:uid(),t:"",done:false};items.splice(i+1,0,n);persist();var li=row(n);inp.closest("li").after(li);li.querySelector("input").focus();}
+      else if(e.key==="Backspace"&&!inp.value&&items.length>1){e.preventDefault();items.splice(i,1);persist();var prev=inp.closest("li").previousElementSibling||inp.closest("li").nextElementSibling;inp.closest("li").remove();if(prev){var pi=prev.querySelector("input");pi.focus();pi.setSelectionRange(pi.value.length,pi.value.length);}}
+      else if(e.key==="ArrowUp"||e.key==="ArrowDown"){var sib=e.key==="ArrowUp"?inp.closest("li").previousElementSibling:inp.closest("li").nextElementSibling;if(sib){e.preventDefault();sib.querySelector("input").focus();}}});
+    return h("li",{style:"padding:2px 4px"},[chk,inp]);
+  }
+  items.forEach(function(x){ul.appendChild(row(x));});
+  el.appendChild(ul);
+  var done=items.filter(function(x){return x.done;}).length;
+  el.appendChild(h("div",{class:"row",style:"margin-top:8px"},[
+    h("button",{class:"btn sm",text:"+ пункт",onclick:function(){var n={id:uid(),t:"",done:false};items.push(n);persist();var li=row(n);ul.appendChild(li);li.querySelector("input").focus();}}),
+    h("button",{class:"btn sm",text:"→ У нотатки",onclick:function(){var it=items.filter(function(x){return x.t.trim();});if(!it.length)return;var a=load("notes",[]);a.unshift({id:uid(),t:"Список "+new Date().toLocaleDateString("uk-UA"),b:it.map(function(x){return (x.done?"[x] ":"[ ] ")+x.t;}).join("\n"),tag:"",ts:Date.now()});save("notes",a);save("qlist",[]);R.desk();toast("Перенесено в нотатки");}}),
+    done?h("button",{class:"btn sm ghost",text:"Прибрати зроблене ("+done+")",onclick:function(){save("qlist",items.filter(function(x){return !x.done;}));R.desk();}}):null]));
+}
 function upcoming(){var t=today(),out=[];load("tasks",[]).forEach(function(x){if(x.col!==2&&x.due&&x.due>=t)out.push({d:x.due,t:x.t,k:"t"});});load("events",[]).forEach(function(x){if(x.d>=t)out.push({d:x.d,t:x.t,k:"e"});});return out.sort(function(a,b){return a.d<b.d?-1:1;});}
 W.deadlines=function(el){
   var u=upcoming();wh(el,"Дедлайни",u.length?u.length+"":"");

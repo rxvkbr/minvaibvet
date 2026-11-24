@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/hvylyna.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Географія співчуття · Колонка · Вайбвет FM</title>
+<meta name="description" content="Колонка Вайбвет FM: як регіони Європи відповідають на російську агресію. Допомога у відсотках ВВП, оборонні бюджети, опитування і чому відстань пояснює не все.">
+<meta property="og:title" content="Географія співчуття, або Чия це взагалі проблема">
+<meta property="og:description" content="Колонка Вайбвет FM. Порівнюємо регіони Європи за відповідями на російську агресію. Лонгрід на 9 хвилин.">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:url" content="https://minvaibvet.pp.ua/kolonka-heohrafiia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a100b;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ivory);font:19px/1.75 "PT Serif",Georgia,serif}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:3px 3px}
+.progress{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--amber),var(--coral));z-index:10}
+.back{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg) 70%,#1a100b00)}
+.back a,.back span{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 15px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",ui-monospace,Menlo,monospace}
+.back span{color:var(--dim)}
+article{max-width:680px;margin:0 auto;padding:24px 20px calc(80px + env(safe-area-inset-bottom))}
+.kicker{font:12px "PT Mono",ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+h1{font:400 clamp(32px,7vw,50px)/1.08 "Yeseva One",Georgia,serif;margin:14px 0 18px;text-wrap:balance}
+.lead{font-size:22px;line-height:1.55;color:#fff3d6;font-style:italic;margin:0 0 22px}
+.byline{display:flex;flex-wrap:wrap;gap:6px 16px;font:12.5px "PT Mono",monospace;color:var(--dim);letter-spacing:.04em;padding:14px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);margin-bottom:34px}
+h2{font:400 26px/1.2 "Yeseva One",Georgia,serif;color:var(--amber);margin:52px 0 14px}
+h2 small{display:block;font:12px "PT Mono",monospace;letter-spacing:.16em;color:var(--dim);margin-bottom:6px}
+p{margin:0 0 1.1em}
+.drop::first-letter{float:left;font:400 4.1em/.85 "Yeseva One",Georgia,serif;color:var(--coral);padding:.06em .1em 0 0}
+blockquote{margin:30px 0;padding:6px 0 6px 22px;border-left:3px solid var(--coral);font-size:22px;line-height:1.5;color:#fff3d6;font-style:italic}
+.aside{background:var(--panel);border:1px solid var(--edge);border-radius:16px;padding:20px 22px;margin:30px 0;font-size:17px;line-height:1.6}
+.aside b{color:var(--amber)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:20px 0 26px}
+ol.rules li{counter-increment:r;position:relative;padding:0 0 14px 52px}
+ol.rules li::before{content:counter(r);position:absolute;left:0;top:-2px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--amber);color:#1a100b;font:700 17px "PT Mono",monospace}
+.sep{text-align:center;color:var(--dim);letter-spacing:.8em;margin:40px 0}
+.end{margin-top:46px;padding-top:20px;border-top:1px solid var(--edge);font:13px/1.6 "PT Mono",monospace;color:var(--dim)}
+.end a{color:var(--amber)}
+a{color:var(--amber)}
+::selection{background:var(--coral);color:#1a100b}
+.map{margin:26px 0 30px;display:grid;gap:12px}
+.rg{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:14px 16px;font-size:15.5px;line-height:1.5}
+.rg h3{margin:0 0 6px;font:400 19px "Yeseva One",Georgia,serif;color:var(--ivory)}
+.rg .km{font:11.5px "PT Mono",monospace;color:var(--dim);letter-spacing:.06em}
+.bar{display:grid;grid-template-columns:118px 1fr 52px;align-items:center;gap:8px;font:12px "PT Mono",monospace;color:var(--dim);margin:5px 0}
+.bar i{display:block;height:9px;border-radius:5px;background:linear-gradient(90deg,var(--amber),var(--coral))}
+.bar b{color:var(--ivory);font-weight:400;text-align:right}
+.rg p{margin:.5em 0 0}
+@media (max-width:560px){body{font-size:18px}.lead{font-size:20px}blockquote{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="progress" id="pr"></div>
+<div class="back"><a href="index.html#gazeta" id="back">← до газети</a><span id="left">9 хв</span></div>
+<article>
+  <div class="kicker">Колонка · Вайб і велике село · відділ відстаней</div>
+  <h1>Географія співчуття, або Чия це взагалі проблема</h1>
+  <p class="lead">Пересічний «європеєць» нас не зрозуміє, бо ми далеко, and that's somebody else's problem. Редакція перевірила цю тезу цифрами: виміряла, як далеко від Росії закінчується чужа проблема і починається своя.</p>
+  <div class="byline"><span>Мінвайбвет · відділ відстаней</span><span>листопад 2026</span><span>≈9 хвилин · карта додається</span></div>
+
+  <p class="drop">Твіт редакції був короткий: пересічний «європеєць» нас ніколи не зрозуміє, бо для нього ми далеко, а далекі біди завжди чиїсь. Лапки навколо «європейця» тут не просто так. Європа не одна людина з однією думкою. Від Таллінна до Лісабона приблизно чотири тисячі кілометрів, і за цей шлях «наша проблема» поступово стає «вашою», а потім «якоюсь».</p>
+  <p>Тож ми зробили те, що роблять у ЦНАПі, коли заявник наполягає: взяли лінійку. Порівняли регіони за трьома показниками. Скільки країна віддала Україні у відсотках свого ВВП. Скільки витрачає на власну оборону. І що кажуть її громадяни в опитуваннях. Три різні речі: гроші уряду, страх уряду і настрій людей.</p>
+
+  <h2><small>Теза</small>Відстань до Москви як курс валют</h2>
+  <p>Найсвіжіший звіт Кільського інституту світової економіки, головного трекера допомоги Україні, дає цифру, яку можна вішати на стіну. У 2025 році Північна Європа становила лише 8% сукупного ВВП європейських донорів, але дала третину всієї європейської військової допомоги. Південна Європа має 19% ВВП і дала 3%. Західна Європа віддає приблизно пропорційно до свого економічного розміру.</p>
+  <p>Економісти Федерального резервного банку Сент-Луїса пішли далі й перевірили, чому одні країни дають більше за інші. Перший зв'язок, який видно на графіку: що ближче країна до Росії, то більшу частку ВВП вона віддає. Данія за 2022–2025 роки віддала близько 3% свого ВВП, найбільше в їхній вибірці.</p>
+  <blockquote>Співчуття в Європі має кілометраж. Що ближче кордон, то коротша розмова.</blockquote>
+
+  <h2><small>Карта</small>П'ять Європ, одна війна</h2>
+  <p>Ось як виглядає континент, якщо дивитися на нього очима заявника у вікні №4. Смужки показують оборонні витрати у відсотках ВВП за оцінками НАТО (для фронтових країн на 2026 рік, для решти на 2025-й). Шкала одна для всіх, максимум 5,5%.</p>
+  <div class="map">
+    <div class="rg"><div class="km">0–300 км від Росії · «ми це вже бачили»</div><h3>Балтія і Польща</h3>
+      <div class="bar"><span>Литва</span><i style="width:97%"></i><b>5,33%</b></div>
+      <div class="bar"><span>Естонія</span><i style="width:93%"></i><b>5,11%</b></div>
+      <div class="bar"><span>Латвія</span><i style="width:89%"></i><b>4,92%</b></div>
+      <div class="bar"><span>Польща</span><i style="width:85%"></i><b>4,68%</b></div>
+      <p>Естонія віддала Україні 2,8% свого ВВП, Литва поруч у трійці лідерів. Польща витрачає на армію більшу частку економіки, ніж США. Тут ніхто не питає, чия це проблема: у їхніх бабусь є досвід депортацій.</p></div>
+    <div class="rg"><div class="km">сусіди через море · «ми не будемо чекати»</div><h3>Північ</h3>
+      <p>Данія віддала Україні близько 2,9% свого ВВП, більше за всіх у Європі. Вона, Швеція й Норвегія разом із Німеччиною, Британією й Нідерландами становили в 2025 році ядро з шести країн, які фінансували оборону України. У весняному Євробарометрі 97% шведів і 96% фінів підтримують допомогу ЄС Україні. Це майже одностайність, якої в цих країнах не буває навіть щодо погоди.</p></div>
+    <div class="rg"><div class="km">1 500–2 000 км · «ми рахуємо»</div><h3>Західне ядро</h3>
+      <p>Німеччина віддає найбільше в абсолютних цифрах серед країн ЄС і в 2026 році планує збільшити військову допомогу до 11,5 млрд євро. Нідерланди далеко від Росії, але дають, як північні сусіди. Франція й Бельгія витрачають на оборону трохи більше 2% і мають один із найвищих боргів у ЄС.</p></div>
+    <div class="rg"><div class="km">2 500+ км · «ми співчуваємо»</div><h3>Південь</h3>
+      <div class="bar"><span>Іспанія</span><i style="width:36%"></i><b>≈2%</b></div>
+      <p>Італія, Іспанія й Португалія мобілізували для України приблизно 0,1% ВВП на рік (разом із Францією, за даними Кіля до кінця 2024 року), а допомога Іспанії та Італії потім ще й скоротилася. Але Іспанія підготувала понад 9 000 українських військових і в 2026 році оголосила пакет на мільярд євро. Південь не байдужий, він просто бачить інший кордон: Середземне море.</p></div>
+    <div class="rg"><div class="km">близько, але не туди · «ми сумніваємося»</div><h3>Скептики</h3>
+      <div class="bar"><span>Греція</span><i style="width:66%"></i><b>3,65%</b></div>
+      <div class="bar"><span>Чехія (2026)</span><i style="width:31%"></i><b>≈1,7%</b></div>
+      <p>У Болгарії, Греції та Словаччині найнижча підтримка допомоги ЄС Україні. Греція при цьому одна з п'яти країн НАТО, які вже витрачають понад 3,5% ВВП на оборону. Просто її армія дивиться на інший кордон. Чехія, яка ще недавно організовувала для України закупівлю снарядів, у 2026 році зменшує оборонні витрати приблизно до 1,7%.</p></div>
+  </div>
+
+  <h2><small>Антитеза</small>Чому лінійка бреше</h2>
+  <p>Якби все пояснювала відстань, Болгарія і Словаччина мали б бути поруч із Литвою, а Нідерланди поруч з Португалією. Не виходить. Тож відстань у кілометрах не головне. Важить відстань у пам'яті.</p>
+  <ol class="rules">
+    <li><b>Пам'ять сильніша за географію.</b> Балтійські країни та Польща пам'ятають російську владу як окупацію. У Болгарії та частині Словаччини Росія для багатьох лишається «старшим братом» або принаймні «нічого поганого не зробила». Однакова відстань, різні підручники історії.</li>
+    <li><b>Свої рахунки.</b> Нідерланди далеко від Росії, але в 2014 році над Донбасом збили MH17, і 196 громадян Нідерландів загинули. Після цього російська проблема перестала бути чужою. Іноді відстань скорочує не мапа, а труна.</li>
+    <li><b>Інший страх.</b> Греція витрачає на армію більшу частку ВВП, ніж більшість союзників, але дивиться при цьому не на Росію. Італія й Іспанія бачать загрозу з півдня. Це не байдужість, а інша черга у ЦНАПі.</li>
+    <li><b>Гроші й борги.</b> Італія, Франція й Бельгія мають борг понад 100% ВВП. Співчувати безкоштовно, а снаряди коштують.</li>
+    <li><b>Люди й уряди не одне й те саме.</b> У Євробарометрі весни 2026 року 76% європейців назвали війну загрозою безпеці ЄС, і 76% підтримали допомогу Україні до справедливого миру. Більшість усюди «за». Різниця в тому, скільки уряд готовий за це платити й ризикувати.</li>
+  </ol>
+  <p>І ще одна поправка, яка все змінює. Дедалі більше допомоги йде не напряму, а через спільні позики й гранти ЄС. За словами керівника Кільського трекера Крістофа Требеша, через це тягар розподіляється справедливіше, пропорційно до частки кожної країни в економіці блоку. Тобто пересічний іспанець платить за нашу оборону, навіть якщо про це не думає. Чужа проблема, спільний рахунок.</p>
+
+  <h2><small>Синтез</small>Що з цього нам</h2>
+  <p>Перше. Теза «для них ми далеко» правдива наполовину. Для половини Європи ми не далеко, а наступні. Литовці й естонці витрачають на армію більше за 5% ВВП не з солідарності, а з досвіду. Для них ми не чужа проблема, а попередження.</p>
+  <p>Друге. Для іншої половини ми справді далеко. Але це лікується не обуренням, а скороченням відстані. Нідерландам не треба було пояснювати, хто такий Путін, після MH17. Іспанцям варто показувати не карту фронту, а їхні 9 000 підготовлених українських військових: це вже їхня історія, а не наша.</p>
+  <p>Третє. Найнебезпечніша відстань не до Москви, а до правди. Болгарія й Словаччина близько географічно, але далеко інформаційно. Там «чужа проблема» звучить як «ваша провокація». І там нам потрібно найбільше розмовляти.</p>
+  <p class="sep">✦ ✦ ✦</p>
+  <p>Вікно №4 з цього приводу видало нову довідку: «Довідка про відстань до Росії». Строк дії необмежений, але цифра в ній змінюється щоразу, коли до заявника долітає дрон. Для мешканців Таллінна, Варшави й Вільнюса довідка видається автоматично. Для мешканців Лісабона потрібна особиста присутність.</p>
+
+  <div class="end">Колонка Вайбвет FM · Мінвайбвет вигаданий, а цифри справжні.<br>Джерела: Kiel Institute, Ukraine Support Tracker (лютий 2026) · Federal Reserve Bank of St. Louis, «Determinants of Foreign Aid to Ukraine» (травень 2026) · Standard Eurobarometer 105 (весна 2026) · NATO, оцінки оборонних витрат (липень 2026) · ICDS (Таллінн), «Defence Spending: Who Is Doing What?» (липень і вересень 2026).<br>Попередні колонки: <a href="kolonka-arendt.html">«Порада з безпечної відстані»</a> · <a href="kolonka-vidpovidalnist.html">«Провина й відповідальність»</a><br><a href="index.html">← на головну Вайбвет FM</a></div>
+</article>
+<script>
+(function(){
+  var pr=document.getElementById("pr"),left=document.getElementById("left"),art=document.querySelector("article"),total=9;
+  function upd(){var h=art.offsetHeight-innerHeight,y=Math.max(0,Math.min(1,scrollY/Math.max(1,h)));pr.style.width=(y*100)+"%";
+    var m=Math.ceil(total*(1-y));left.textContent=y>.98?"дочитано ✓":m+" хв";}
+  addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
+  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
+})();
+</script>
+</body>
+</html>

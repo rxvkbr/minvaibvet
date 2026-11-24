@@ -62,12 +62,17 @@ jobs:
           KEY="$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8"
           # the key may be stored as the file's text (pasted on github.com) or as base64 (from the script)
           if [ -n "$ASC_KEY_P8" ]; then printf '%s\n' "$ASC_KEY_P8" > "$KEY"; else echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY"; fi
-          grep -q "BEGIN PRIVATE KEY" "$KEY" || { echo "::error::ASC_KEY_P8 does not look like a .p8 key"; exit 1; }
-          # pasting into the secrets form can mangle line breaks: rebuild a clean PEM from the base64 body
-          BODY=$(sed -e 's/-----BEGIN PRIVATE KEY-----//' -e 's/-----END PRIVATE KEY-----//' "$KEY" | tr -d ' \r\n\t')
-          { echo "-----BEGIN PRIVATE KEY-----"; echo "$BODY" | fold -w 64; echo "-----END PRIVATE KEY-----"; } > "$KEY"
+          # accept the key however it was pasted: full .p8 text, the body alone, or base64 of the whole file
+          RAW=$(cat "$KEY")
+          if ! grep -q "BEGIN PRIVATE KEY" "$KEY"; then
+            DEC=$(printf '%s' "$RAW" | tr -d ' \r\n\t' | base64 --decode 2>/dev/null || true)
+            if printf '%s' "$DEC" | grep -q "BEGIN PRIVATE KEY"; then RAW="$DEC"; fi
+          fi
+          BODY=$(printf '%s' "$RAW" | sed -e 's/-----BEGIN PRIVATE KEY-----//' -e 's/-----END PRIVATE KEY-----//' | tr -d ' \r\n\t')
           N=$(printf '%s' "$BODY" | base64 --decode 2>/dev/null | wc -c | tr -d ' ')
-          echo "key body: ${#BODY} base64 chars, $N bytes (a valid App Store Connect key is 138 bytes)"
+          echo "key: ${#RAW} chars pasted, body ${#BODY} base64 chars, $N bytes (a valid App Store Connect key is 138 bytes)"
+          [ "$N" -ge 100 ] || { echo "::error::ASC_KEY_P8 is not a valid .p8 key (see sizes above)"; exit 1; }
+          { echo "-----BEGIN PRIVATE KEY-----"; echo "$BODY" | fold -w 64; echo "-----END PRIVATE KEY-----"; } > "$KEY"
           echo "BUILD_NUMBER=$(date -u +%y%m%d%H%M)" >> "$GITHUB_ENV"
 
       - name: Archive (signed)

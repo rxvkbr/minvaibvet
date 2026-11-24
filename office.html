@@ -133,6 +133,8 @@ html[data-theme="sand"]{--bg:#1a160d;--chrome:#2a2417;--chrome2:#342c1c;--edge:#
 html[data-theme="amber"] #v-delta canvas{filter:sepia(1) saturate(2.2) hue-rotate(-12deg) brightness(1.05)}
 html[data-theme="night"] #v-delta canvas{filter:hue-rotate(150deg) saturate(1.3)}
 html[data-theme="pink"] #v-delta canvas{filter:hue-rotate(230deg) saturate(1.4)}
+html[data-theme="mono"]{filter:grayscale(1)}
+html[data-theme="mono"] .pop{display:none}
 html[data-theme="sand"] #v-delta canvas{filter:sepia(.5) brightness(1.15)}
 html[data-theme="amber"] .page,html[data-theme="amber"] #v-sheet{filter:sepia(.55) saturate(1.3)}
 html[data-theme="pink"] .page{filter:hue-rotate(300deg) saturate(.8)}
@@ -239,6 +241,7 @@ function beep(f,d,v,type){
 function key(){beep(rnd(1400,2200),.03,.012,"square");}
 var PENTA=[1,9/8,5/4,3/2,5/3,2,9/4,5/2,3,10/3,4],combo=0,comboT=null,clicks=[];
 function pluck(f,v){
+  if(de.dataset.theme==="mono")v=(v||.05)*.25; /* calm: barely a click */
   if(!snd||!ac||ac.state!=="running")return;
   try{var t=ac.currentTime,o=ac.createOscillator(),o2=ac.createOscillator(),g=ac.createGain(),lp=ac.createBiquadFilter();
     f*=TSP();o.type="triangle";o.frequency.value=f;o2.type="sine";o2.frequency.value=f*2.01;lp.type="lowpass";lp.frequency.setValueAtTime(6000,t);lp.frequency.exponentialRampToValueAtTime(900,t+.25);
@@ -250,7 +253,7 @@ function dopamine(e){
   combo++;clearTimeout(comboT);comboT=setTimeout(function(){combo=0;},900);
   var st=Math.min(combo-1,PENTA.length-1),oct=combo>PENTA.length?2:1;
   pluck(392*PENTA[st]*oct,.05);if(combo%4===0)setTimeout(function(){pluck(392*PENTA[st]*2*oct,.03);},60);
-  if(combo>=3&&e){var d=document.createElement("div");d.className="pop";d.textContent=combo>=8?"×"+combo+"!!":"+"+combo;d.style.left=e.clientX+"px";d.style.top=(e.clientY-10)+"px";document.body.appendChild(d);setTimeout(function(){d.remove();},700);}
+  if(combo>=3&&e&&de.dataset.theme!=="mono"){var d=document.createElement("div");d.className="pop";d.textContent=combo>=8?"×"+combo+"!!":"+"+combo;d.style.left=e.clientX+"px";d.style.top=(e.clientY-10)+"px";document.body.appendChild(d);setTimeout(function(){d.remove();},700);}
   var n=Date.now();clicks=clicks.filter(function(c){return n-c<4000;});clicks.push(n);
   if(clicks.length>=16&&!lagging){clicks=[];lag("Забагато продуктивності за 4 секунди.");}
 }
@@ -552,7 +555,7 @@ $("bmix").addEventListener("pointerdown",function(){mixHold=setTimeout(function(
 $("bmix").addEventListener("click",function(){if(!mixHold&&!mixOn)return;clearTimeout(mixHold);mixHold=null;if(!mixOn)setMix(true);else setMix(true,true);});
 
 /* ================= colours ================= */
-var THEMES=[["zone","Зона"],["night","Нічна зміна"],["amber","Бурштин"],["pink","Рожевий окоп"],["sand","Пісочниця"]],ti=0;
+var THEMES=[["zone","Зона"],["night","Нічна зміна"],["amber","Бурштин"],["pink","Рожевий окоп"],["sand","Пісочниця"],["mono","Ч/Б · спокій"]],ti=0;
 try{var sv=localStorage.getItem("office-theme");THEMES.forEach(function(x,i){if(x[0]===sv)ti=i;});}catch(e){}
 function paintTheme(){de.dataset.theme=THEMES[ti][0];$("themelb").textContent=THEMES[ti][1];try{localStorage.setItem("office-theme",THEMES[ti][0]);}catch(e){}}
 $("btheme").addEventListener("click",function(){ti=(ti+1)%THEMES.length;paintTheme();toast("🎨 "+THEMES[ti][1]);});

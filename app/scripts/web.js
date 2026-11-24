@@ -17,7 +17,7 @@ fs.copyFileSync(path.join(site, "office.html"), path.join(www, "office.html"));
 fs.copyFileSync(path.join(site, "sova.html"), path.join(www, "sova.html"));
 fs.cpSync(path.join(site, "vendor"), path.join(www, "vendor"), { recursive: true });
 // extra pages: bundled fonts instead of Google Fonts, so the app makes no font requests
-for (const f of fs.readdirSync(site)) if (/^(kolonka-.*|kurs|mriya|merch|vidnovlennia|finansy|stil)\.html$/.test(f)) {
+for (const f of fs.readdirSync(site)) if (/^(kolonka-.*|kurs|mriya|merch|vidnovlennia|finansy|stil|prosvita-.*)\.html$/.test(f)) {
   let page = fs.readFileSync(path.join(site, f), "utf8");
   page = page.replace(/<link rel="preconnect" href="https:\/\/fonts\.googleapis\.com">\s*<link rel="preconnect" href="https:\/\/fonts\.gstatic\.com" crossorigin>\s*<link href="https:\/\/fonts\.googleapis\.com\/css2[^"]*" rel="stylesheet">/, '<link rel="stylesheet" href="fonts.css">');
   fs.writeFileSync(path.join(www, f), page);

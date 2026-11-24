@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/hvylyna.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Безкінечний диригент · Вайбвет FM</title>
+<meta name="description" content="Диригуй акордами рукою перед камерою: позиція руки обирає акорд, пальці додають барви, а коли руки немає, музика грає сама. Відео не залишає пристрій.">
+<meta property="og:title" content="Безкінечний диригент · Вайбвет FM">
+<meta property="og:description" content="Рука перед камерою обирає акорди. Коли рука відпочиває, гармонія йде далі сама.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/dyryhent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120b08;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ivory);font:16px/1.5 "PT Serif",Georgia,serif;overflow:hidden;-webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:"PT Mono",monospace}
+#stage{position:fixed;inset:0;touch-action:none}
+#cam{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);opacity:.32;filter:saturate(.6) sepia(.35)}
+#cv{position:absolute;inset:0;width:100%;height:100%}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 12px 10px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:#2b1a11cc;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:999px;padding:7px 13px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace;white-space:nowrap}
+.pill[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+.tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+#chord{position:fixed;left:0;right:0;top:calc(64px + env(safe-area-inset-top));text-align:center;pointer-events:none;z-index:4}
+#chord b{display:block;font:400 clamp(54px,13vw,120px)/1 "Yeseva One",Georgia,serif;color:var(--ivory);text-shadow:0 4px 40px #f0a93a55;transition:transform .25s}
+#chord b.pop{transform:scale(1.06)}
+#chord span{display:block;margin-top:6px;font:13px "PT Mono",monospace;color:var(--dim);letter-spacing:.12em}
+#trail{position:fixed;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom));z-index:4;text-align:center;font:12px "PT Mono",monospace;color:var(--dim);pointer-events:none;padding:0 10px}
+#trail i{font-style:normal;color:var(--ivory);opacity:.5}#trail i:last-child{opacity:1;color:var(--amber)}
+#forms{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(40px + env(safe-area-inset-bottom));z-index:5;display:none;gap:6px}
+body.pointer #forms{display:flex}
+#intro{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 30%,#2b1a11,#120b08 70%);overflow:auto}
+#intro .card{max-width:560px;text-align:center}
+#intro .k{font:12px "PT Mono",monospace;letter-spacing:.2em;color:var(--amber);text-transform:uppercase}
+#intro h1{font:400 clamp(36px,8vw,56px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 14px}
+#intro p{color:var(--dim);margin:0 0 12px}
+#intro ul{text-align:left;color:var(--ivory);margin:14px auto 18px;padding-left:20px;max-width:440px;font-size:15px}
+#intro li{margin:4px 0}
+#intro .go{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.big{border:0;border-radius:999px;padding:13px 22px;background:var(--amber);color:#1a100b;font:700 15px "PT Mono",monospace}
+.big.alt{background:none;border:1px solid var(--edge);color:var(--ivory);font-weight:400}
+#intro small{display:block;margin-top:16px;color:var(--dim);font:12px/1.6 "PT Mono",monospace}
+#msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:6;font:13px "PT Mono",monospace;color:var(--dim);background:#2b1a11ee;border:1px solid var(--edge);border-radius:12px;padding:10px 14px;display:none;max-width:86vw;text-align:center}
+@media (max-width:560px){.tools .lb{display:none}}
+</style>
+</head>
+<body>
+<div id="stage"><video id="cam" playsinline muted></video><canvas id="cv"></canvas></div>
+
+<div class="top">
+  <a class="pill" href="index.html#more" id="back">← назад</a>
+  <div class="tools">
+    <button class="pill" id="key" title="Тональність: клік на квінту вгору">C dur</button>
+    <button class="pill" id="mode" title="Мажор або мінор">мажор</button>
+    <button class="pill" id="arp" aria-pressed="false" title="Арпеджіо">♪<span class="lb"> арпеджіо</span></button>
+    <button class="pill" id="auto" aria-pressed="true" title="Коли рук немає, гармонія йде далі сама">∞<span class="lb"> сама</span></button>
+  </div>
+</div>
+
+<div id="chord"><b id="cn">·</b><span id="cr">підніми руку</span></div>
+<div id="forms" role="group" aria-label="Форма руки">
+  <button class="pill" data-f="0">✊ тримати</button><button class="pill" data-f="1">☝️ тризвук</button><button class="pill" data-f="2" aria-pressed="true">✌️ септ</button><button class="pill" data-f="3">🤟 нона</button><button class="pill" data-f="4">🖖 sus</button><button class="pill" data-f="5">🖐 все</button>
+</div>
+<div id="trail"></div>
+<div id="msg"></div>
+
+<div id="intro">
+  <div class="card">
+    <div class="k">Мінвайбвет · відділ гармонії</div>
+    <h1>Безкінечний диригент</h1>
+    <p>Рука перед камерою обирає акорд. Ти диригуєш, гармонія слухається. Опустиш руку, і вона піде далі сама, без кінця.</p>
+    <ul>
+      <li><b>Ліворуч–праворуч</b> — ступінь: I, ii, iii, IV, V, vi, vii.</li>
+      <li><b>Вище–нижче</b> — регістр і яскравість.</li>
+      <li><b>Пальці</b> — барва: ☝️ тризвук, ✌️ септакорд, 🤟 нона, 🖖 затримання, 🖐 усе разом з арпеджіо, ✊ тримати акорд.</li>
+      <li><b>Друга рука</b> — гучність: вище голосніше.</li>
+      <li><b>Потримай руку біля краю</b> — модуляція на квінту.</li>
+    </ul>
+    <div class="go"><button class="big" id="start">🎥 Диригувати рукою</button><button class="big alt" id="startp">👆 Без камери</button></div>
+    <small>Відео не залишає пристрій і нікуди не записується. Модель, що розпізнає руку, при першому запуску завантажується з серверів Google (MediaPipe). Без камери керуєш пальцем або мишкою.</small>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var NAMES=["C","C♯","D","E♭","E","F","F♯","G","A♭","A","B♭","B"];
+var KEYN={dur:"dur",moll:"moll"};
+var SCALE={maj:[0,2,4,5,7,9,11],min:[0,2,3,5,7,8,10]};
+var ROMAN=["I","II","III","IV","V","VI","VII"];
+/* where a chord tends to go next, for the endless mode */
+var NEXT={maj:[[3,4,5,1,2],[4,6,4],[5,3],[4,0,1,4],[0,5,0],[1,3,4],[0,2]],min:[[3,4,5,2,6],[4,4,6],[5,3],[4,0,6],[0,5,0],[3,1,6],[0,2]]};
+var S={key:0,mode:"maj",deg:-1,form:2,ext:"7",notes:[],arp:false,auto:true,vol:.7,bright:.5,zone:-1,zoneT:0,edge:0,edgeT:0,seenHand:0,trail:[],pointer:false,pDown:false,px:.5,py:.5};
+var ctx,master,filt,wet,dry,voices={},arpT=null,arpI=0,autoT=null;
+
+/* ---------------- harmony ---------------- */
+function scaleOf(){var s=SCALE[S.mode].slice();return s;}
+function chordPcs(deg,form){
+  var sc=scaleOf(),lead=S.mode==="min"&&(deg===4||deg===6);/* harmonic minor: V and vii get the leading tone */
+  function pc(i){var d=(deg+i)%7,o=sc[d];if(S.mode==="min"&&d===6&&lead)o=11;return (S.key+o)%12;}
+  var idx;
+  if(form===4)idx=[0,3,4];else if(form===1)idx=[0,2,4];else if(form===3)idx=[0,2,4,8];else if(form===5)idx=[0,2,4,6,8];else idx=[0,2,4,6];
+  return idx.map(pc);
+}
+function qual(pcs){
+  var r=pcs[0],iv=pcs.map(function(p){return (p-r+12)%12;});
+  var has=function(n){return iv.indexOf(n)>=0;};
+  var tri=has(4)&&has(7)?"":has(3)&&has(7)?"m":has(3)&&has(6)?"dim":has(5)&&has(7)?"sus4":has(4)&&has(8)?"aug":"";
+  var s="";
+  if(tri==="sus4")return {n:"sus4",r:"sus"};
+  if(has(11))s=tri==="m"?"m(maj7)":"maj7";else if(has(10))s=tri==="dim"?"m7♭5":tri==="m"?"m7":"7";else s=tri==="dim"?"°":tri;
+  if(has(2)||has(14))s+=(has(10)||has(11))?(s==="7"?"":"")+"⁹":"add9";
+  if(s==="7⁹")s="9";if(s==="m7⁹")s="m9";if(s==="maj7⁹")s="maj9";
+  return {n:s,r:tri};
+}
+function roman(deg,pcs){var q=qual(pcs).r,R=ROMAN[deg];return (q==="m"||q==="dim")?R.toLowerCase()+(q==="dim"?"°":""):R;}
+function voice(pcs,bright){
+  var center=50+bright*18,out=[],bass=36+((pcs[0]-36%12+12)%12);if(bass<38)bass+=12;out.push(bass);
+  pcs.forEach(function(p,i){var n=p+12*Math.round((center-p)/12);if(i>2)n+=12*(n<center?1:0);out.push(n);});
+  out=out.filter(function(n,i,a){return a.indexOf(n)===i;}).sort(function(a,b){return a-b;});
+  return out;
+}
+function setChord(deg,form,why){
+  if(form===0&&S.deg>=0)return; /* fist: hold */
+  if(form===0)form=2;
+  if(deg===S.deg&&form===S.form)return;
+  S.deg=deg;S.form=form;var pcs=chordPcs(deg,form);S.notes=voice(pcs,S.bright);
+  play(S.notes);
+  var name=NAMES[pcs[0]]+qual(pcs).n;
+  $("cn").textContent=name;$("cn").classList.remove("pop");void $("cn").offsetWidth;$("cn").classList.add("pop");
+  $("cr").textContent=roman(deg,pcs)+" · "+NAMES[S.key]+" "+(S.mode==="maj"?"dur":"moll")+(why?" · "+why:"");
+  S.trail.push(name);if(S.trail.length>9)S.trail.shift();
+  $("trail").innerHTML=S.trail.map(function(t){return "<i>"+t+"</i>";}).join(" → ");
+  setArp(form===5||S.arp);
+}
+function modulate(step){
+  S.key=(S.key+step+12)%12;keyLabel();var d=S.deg;S.deg=-1;if(d>=0)setChord(d,S.form,"модуляція");
+}
+function keyLabel(){$("key").textContent=NAMES[S.key]+" "+(S.mode==="maj"?"dur":"moll");$("mode").textContent=S.mode==="maj"?"мажор":"мінор";}
+
+/* ---------------- sound ---------------- */
+function mtof(m){return 440*Math.pow(2,(m-69)/12);}
+function audio(){
+  if(ctx)return;
+  ctx=new (window.AudioContext||window.webkitAudioContext)();
+  master=ctx.createGain();master.gain.value=S.vol*.5;
+  filt=ctx.createBiquadFilter();filt.type="lowpass";filt.frequency.value=1800;filt.Q.value=.6;
+  var conv=ctx.createConvolver(),len=ctx.sampleRate*3.2,ir=ctx.createBuffer(2,len,ctx.sampleRate);
+  for(var c=0;c<2;c++){var d=ir.getChannelData(c);for(var i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6);}
+  conv.buffer=ir;wet=ctx.createGain();wet.gain.value=.55;dry=ctx.createGain();dry.gain.value=.7;
+  filt.connect(dry);filt.connect(conv);conv.connect(wet);dry.connect(master);wet.connect(master);master.connect(ctx.destination);
+}
+function play(notes){
+  if(!ctx)return;var t=ctx.currentTime,keep={};
+  notes.forEach(function(n){keep[n]=1;if(voices[n])return;
+    var g=ctx.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(n<48?.16:.09,t+.35);
+    var oscs=[-7,7].map(function(cents){var o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=mtof(n);o.detune.value=cents;o.connect(g);o.start(t);return o;});
+    var s=ctx.createOscillator();s.type="triangle";s.frequency.value=mtof(n);s.connect(g);s.start(t);oscs.push(s);
+    g.connect(filt);voices[n]={g:g,o:oscs};});
+  Object.keys(voices).forEach(function(k){if(keep[k])return;var v=voices[k];delete voices[k];
+    v.g.gain.cancelScheduledValues(t);v.g.gain.setValueAtTime(v.g.gain.value,t);v.g.gain.linearRampToValueAtTime(0,t+1.4);
+    v.o.forEach(function(o){o.stop(t+1.5);});});
+}
+function pluck(n,t){
+  var o=ctx.createOscillator(),g=ctx.createGain();o.type="triangle";o.frequency.value=mtof(n);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.14,t+.01);g.gain.exponentialRampToValueAtTime(.001,t+.9);
+  o.connect(g);g.connect(filt);o.start(t);o.stop(t+1);
+}
+function setArp(on){
+  if(on&&!arpT&&ctx){var next=ctx.currentTime+.05;arpT=setInterval(function(){
+      while(next<ctx.currentTime+.12){var up=S.notes.filter(function(n){return n>=48;});if(up.length){var seq=up.concat(up.slice(1,-1).reverse());pluck(seq[arpI%seq.length]+12,next);arpI++;}next+=60/84/2;}
+    },30);}
+  else if(!on&&arpT){clearInterval(arpT);arpT=null;}
+}
+function shape(){ /* brightness and loudness follow the hand smoothly */
+  if(!ctx)return;var t=ctx.currentTime;
+  filt.frequency.setTargetAtTime(500+S.bright*S.bright*5200,t,.15);
+  master.gain.setTargetAtTime(S.vol*.5,t,.2);
+}
+
+/* ---------------- endless mode ---------------- */
+function autoStep(){
+  if(!S.auto||Date.now()-S.seenHand<4000)return;
+  var from=S.deg<0?0:S.deg,opts=NEXT[S.mode][from],d=opts[Math.floor(Math.random()*opts.length)];
+  var forms=[1,2,2,3,2,4],f=forms[Math.floor(Math.random()*forms.length)];
+  if(Math.random()<.06&&d===0){modulate(Math.random()<.5?7:5);}
+  S.bright=Math.max(.2,Math.min(.85,S.bright+(Math.random()-.5)*.2));shape();
+  setChord(d,f,"сама");
+}
+
+/* ---------------- hand → music ---------------- */
+function handInput(x,y,form,vol){
+  S.seenHand=Date.now();S.lastForm=form;
+  var zone=Math.max(0,Math.min(6,Math.floor(x*7))),now=performance.now();
+  S.bright=Math.max(0,Math.min(1,1-y));if(vol!=null)S.vol=Math.max(.05,Math.min(1,1-vol));shape();
+  if(zone!==S.zone){S.zone=zone;S.zoneT=now;}
+  if(zone===S.deg&&form!==S.form)setChord(zone,form);
+  var e=x<.05?-1:x>.95?1:0;if(e!==S.edge){S.edge=e;S.edgeT=now;}
+  tick();
+}
+/* runs every frame too, so a hand that stays still still gets its chord and its modulation */
+function tick(){
+  if(Date.now()-S.seenHand>400){S.edge=0;return;}
+  var now=performance.now();
+  if(S.zone>=0&&S.zone!==S.deg&&(now-S.zoneT>160||S.deg<0))setChord(S.zone,S.lastForm);
+  if(S.edge&&now-S.edgeT>1300){S.edgeT=now+99999;modulate(S.edge>0?7:5);}
+}
+var dist=function(a,b){return Math.hypot(a.x-b.x,a.y-b.y);};
+function fingers(L){
+  var w=L[0],n=0;[[8,6],[12,10],[16,14],[20,18]].forEach(function(p){if(dist(L[p[0]],w)>dist(L[p[1]],w)*1.12)n++;});
+  if(dist(L[4],L[17])>dist(L[3],L[17])*1.08&&dist(L[4],L[5])>dist(L[2],L[5])*.9)n++;
+  return Math.min(5,n);
+}
+function palm(L){var x=0,y=0;[0,5,9,13,17].forEach(function(i){x+=L[i].x;y+=L[i].y;});return {x:1-x/5,y:y/5};}
+
+/* ---------------- drawing ---------------- */
+var cv=$("cv"),g2=cv.getContext("2d"),hands=[];
+function fit(){var r=devicePixelRatio||1;cv.width=innerWidth*r;cv.height=innerHeight*r;g2.setTransform(r,0,0,r,0,0);}
+addEventListener("resize",fit);fit();
+function draw(){
+  var W=innerWidth,H=innerHeight;g2.clearRect(0,0,W,H);
+  for(var z=0;z<7;z++){
+    var x0=z*W/7,on=z===S.deg;
+    g2.fillStyle=on?"rgba(240,169,58,.14)":z%2?"rgba(255,255,255,.015)":"rgba(255,255,255,.035)";g2.fillRect(x0,0,W/7,H);
+    var pcs=chordPcs(z,S.form===0?2:S.form);
+    g2.fillStyle=on?"#f0a93a":"rgba(242,227,189,.45)";g2.font="600 "+(W<560?14:18)+"px 'PT Mono',monospace";g2.textAlign="center";
+    var ly=S.pointer?H-120:H-74;g2.fillText(roman(z,pcs),x0+W/14,ly);
+    g2.font=(W<560?11:13)+"px 'PT Mono',monospace";g2.fillStyle=on?"#f2e3bd":"rgba(185,164,127,.6)";g2.fillText(NAMES[pcs[0]]+qual(pcs).n,x0+W/14,ly+18);
+  }
+  if(S.edge){g2.fillStyle="rgba(88,201,185,.25)";g2.fillRect(S.edge<0?0:W*.95,0,W*.05,H);}
+  hands.forEach(function(h,hi){
+    g2.fillStyle=hi?"#58c9b9":"#f0a93a";
+    h.forEach(function(p){g2.beginPath();g2.arc((1-p.x)*W,p.y*H,hi?3:4,0,7);g2.fill();});
+  });
+  if(S.pointer&&S.pDown){g2.strokeStyle="#f0a93a";g2.lineWidth=2;g2.beginPath();g2.arc(S.px*W,S.py*H,26,0,7);g2.stroke();}
+  tick();requestAnimationFrame(draw);
+}
+
+/* ---------------- camera ---------------- */
+var MP="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+function say(t,ms){var m=$("msg");m.textContent=t;m.style.display=t?"block":"none";if(ms)setTimeout(function(){if(m.textContent===t)m.style.display="none";},ms);}
+async function startCam(){
+  say("Вмикаю камеру й завантажую модель руки…");
+  var video=$("cam"),stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:640},height:{ideal:480}},audio:false});}
+  catch(e){say("Камера недоступна. Перемикаю на керування пальцем.",3500);startPointer();return;}
+  video.srcObject=stream;await video.play();
+  var lm;
+  try{
+    var v=await import(MP+"/vision_bundle.mjs");
+    var fs=await v.FilesetResolver.forVisionTasks(MP+"/wasm");
+    lm=await v.HandLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",delegate:"GPU"},runningMode:"VIDEO",numHands:2});
+  }catch(e){say("Модель руки не завантажилась (потрібен інтернет). Поки керуй пальцем.",4000);startPointer();return;}
+  say("Підніми руку в кадр 🖐",2500);
+  var last=-1;
+  (function loop(){
+    if(video.readyState>=2&&video.currentTime!==last){last=video.currentTime;
+      var r=lm.detectForVideo(video,performance.now());hands=r.landmarks||[];
+      if(hands.length){
+        var ps=hands.map(palm),main=0;if(ps.length>1&&ps[1].x>ps[0].x)main=1;
+        var other=ps.length>1?ps[1-main].y:null;
+        handInput(ps[main].x,ps[main].y,fingers(hands[main]),other);
+      }
+    }
+    requestAnimationFrame(loop);
+  })();
+}
+function startPointer(){
+  S.pointer=true;document.body.classList.add("pointer");
+  var st=$("stage");
+  function pos(e){S.px=e.clientX/innerWidth;S.py=e.clientY/innerHeight;handInput(S.px,S.py,pForm,null);}
+  st.addEventListener("pointerdown",function(e){S.pDown=true;st.setPointerCapture(e.pointerId);pos(e);});
+  st.addEventListener("pointermove",function(e){if(S.pDown)pos(e);});
+  st.addEventListener("pointerup",function(){S.pDown=false;S.seenHand=Date.now()-300;});
+  setInterval(function(){if(S.pDown)S.seenHand=Date.now();},100);
+}
+var pForm=2;
+$("forms").addEventListener("click",function(e){var b=e.target.closest("[data-f]");if(!b)return;pForm=+b.dataset.f;
+  [].forEach.call(this.children,function(c){c.setAttribute("aria-pressed",c===b?"true":"false");});
+  if(S.deg>=0&&pForm)setChord(S.deg,pForm);});
+addEventListener("keydown",function(e){if(e.key>="0"&&e.key<="5"){pForm=+e.key;var b=document.querySelector('[data-f="'+e.key+'"]');if(b)b.click();}});
+
+function begin(cam){
+  audio();if(ctx.state==="suspended")ctx.resume();
+  $("intro").style.display="none";keyLabel();draw();
+  setChord(0,2,"почали");
+  autoT=setInterval(autoStep,3200);
+  if(cam)startCam();else startPointer();
+}
+$("start").onclick=function(){begin(true);};
+$("startp").onclick=function(){begin(false);};
+$("key").onclick=function(){modulate(7);};
+$("mode").onclick=function(){S.mode=S.mode==="maj"?"min":"maj";keyLabel();var d=S.deg;S.deg=-1;if(d>=0)setChord(d,S.form);};
+$("arp").onclick=function(){S.arp=!S.arp;this.setAttribute("aria-pressed",S.arp);setArp(S.arp||S.form===5);};
+$("auto").onclick=function(){S.auto=!S.auto;this.setAttribute("aria-pressed",S.auto);};
+document.addEventListener("visibilitychange",function(){if(!ctx)return;if(document.hidden)ctx.suspend();else ctx.resume();});
+keyLabel();
+})();
+</script>
+</body>
+</html>

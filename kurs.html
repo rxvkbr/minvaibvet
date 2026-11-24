@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Базовий курс емоційної саморегуляції · Вайбвет FM</title>
+<meta name="description" content="Короткий практичний курс від Вайбвет FM для хлопців і ветеранів: тіло, дихання, заземлення, назвати емоцію, пауза перед гнівом, сон і «разом». Без моралі, з практиками на екрані.">
+<meta property="og:title" content="Базовий курс емоційної саморегуляції для хлопців і ветеранів">
+<meta property="og:description" content="Сім коротких уроків із практиками прямо на екрані. Довідка про проходження не потрібна.">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:url" content="https://minvaibvet.pp.ua/kurs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a100b;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:radial-gradient(ellipse 90% 40% at 50% 0,#2f1c11 0,transparent 70%),var(--bg);color:var(--ivory);font:18px/1.7 "PT Serif",Georgia,serif}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg) 70%,#1a100b00)}
+.top a,.top span{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 15px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",ui-monospace,Menlo,monospace}
+.top span{color:var(--dim)}
+main{max-width:680px;margin:0 auto;padding:16px 18px calc(80px + env(safe-area-inset-bottom))}
+.kicker{font:12px "PT Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+h1{font:400 clamp(30px,7vw,46px)/1.1 "Yeseva One",Georgia,serif;margin:12px 0 14px;text-wrap:balance}
+.lead{font-size:20px;line-height:1.55;font-style:italic;color:#fff3d6;margin:0 0 18px}
+.note{background:#0003;border:1px dashed var(--edge);border-radius:14px;padding:12px 16px;font-size:15px;line-height:1.55;color:var(--dim);margin:0 0 22px}
+.map{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:0 0 28px}
+.map a{height:8px;border-radius:99px;background:var(--edge)}
+.map a.done{background:var(--mint)}
+.lesson{background:var(--panel);border:1px solid var(--edge);border-radius:22px;padding:22px 20px;margin:0 0 18px;scroll-margin-top:70px}
+.lesson h2{font:400 26px/1.2 "Yeseva One",Georgia,serif;margin:4px 0 12px}
+.lesson h2 small{display:block;font:12px "PT Mono",monospace;letter-spacing:.16em;color:var(--amber);margin-bottom:6px}
+.lesson p{margin:0 0 .9em}
+.lesson ul{margin:0 0 1em;padding-left:1.2em}.lesson li{margin:.2em 0}
+.why{font-size:15.5px;color:var(--dim);border-left:3px solid var(--mint);padding-left:12px;margin:12px 0}
+.prac{background:#0004;border:1px solid var(--edge);border-radius:18px;padding:16px;margin:14px 0 6px}
+.prac b.t{display:block;font:12px "PT Mono",monospace;letter-spacing:.14em;color:var(--mint);margin-bottom:8px;text-transform:uppercase}
+.btn{border:0;border-radius:999px;padding:11px 18px;font:14px "PT Mono",monospace;letter-spacing:.04em;cursor:pointer;background:var(--amber);color:#1a100b;box-shadow:0 4px 0 #8a5a12}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a12}
+.btn.ghost{background:none;color:var(--ivory);border:1.5px solid var(--edge);box-shadow:none}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.done-btn{margin-top:14px}
+.lesson.ok .done-btn{background:var(--mint);box-shadow:0 4px 0 #2a7a6e}
+/* breathing */
+.breath{display:grid;place-items:center;gap:10px;padding:10px 0}
+.orb{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ffe3a8,var(--amber) 55%,#a8641a);box-shadow:0 0 40px #f0a93a55;transform:scale(.55);transition:transform 4s ease-in-out}
+.orb.in{transform:scale(1)}
+.bstate{font:15px "PT Mono",monospace;letter-spacing:.06em;color:var(--ivory);min-height:1.4em}
+/* grounding */
+.g54 button{display:block;width:100%;text-align:left;border:1px solid var(--edge);background:#0003;color:var(--ivory);border-radius:14px;padding:10px 14px;margin:0 0 8px;font:16px "PT Serif",serif;cursor:pointer}
+.g54 button i{font-style:normal;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--edge);margin-right:10px;font:14px "PT Mono",monospace}
+.g54 button.on{border-color:var(--mint)}.g54 button.on i{background:var(--mint);color:#0d2b27}
+/* emotions */
+.emo{display:flex;flex-wrap:wrap;gap:7px}
+.emo button{border:1.5px solid var(--edge);background:#0003;color:var(--ivory);border-radius:999px;padding:7px 12px;font:14px "PT Serif",serif;cursor:pointer}
+.emo button.on{background:var(--coral);border-color:var(--coral);color:#1a100b}
+.emo-out{margin-top:10px;font-style:italic;color:#fff3d6;min-height:1.5em}
+.stop{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stop div{background:#0004;border:1px solid var(--edge);border-radius:14px;padding:10px 8px;text-align:center;font-size:14px;line-height:1.35}
+.stop div b{display:block;font:400 28px "Yeseva One",serif;color:var(--coral)}
+.help{background:linear-gradient(135deg,#2b1a11,#1d2a27);border:1.5px solid var(--mint)}
+.help a.call{display:inline-flex;gap:8px;align-items:center;margin:4px 8px 4px 0;background:var(--mint);color:#0d2b27;text-decoration:none;border-radius:999px;padding:10px 16px;font:15px "PT Mono",monospace}
+.cert{display:none;text-align:center;border:2px double var(--amber);border-radius:22px;padding:26px 18px;margin:26px 0;background:repeating-linear-gradient(45deg,#2b1a11 0 12px,#2e1c12 12px 24px)}
+.cert.on{display:block;animation:pop .6s cubic-bezier(.3,1.6,.5,1)}
+.cert h3{font:400 28px "Yeseva One",serif;margin:6px 0}
+@keyframes pop{from{transform:scale(.8);opacity:0}}
+@media (prefers-reduced-motion:reduce){.orb{transition:none}}
+@media (max-width:420px){.stop{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more" id="back">← назад</a><span id="prog">0 / 7</span></div>
+<main>
+  <div class="kicker">Мінвайбвет · навчальний відділ</div>
+  <h1>Базовий курс емоційної саморегуляції для хлопців і ветеранів</h1>
+  <p class="lead">Сім коротких уроків про те, як не вибухати, не завмирати й повертатися в себе. Без моралізаторства. З практиками прямо на екрані. Довідка про проходження не потрібна.</p>
+  <p class="note">Це не терапія і не замінює психолога чи лікаря. Це базова гігієна, як чистити зуби, тільки для голови. Якщо зараз дуже погано, одразу переходь до <a href="#l7" style="color:var(--mint)">уроку 7</a>, там контакти.</p>
+  <div class="map" id="map"></div>
+
+  <section class="lesson" id="l1" data-n="1">
+    <h2><small>УРОК 1 · 3 ХВ</small>Сильний — не той, хто нічого не відчуває</h2>
+    <p>Нас довго вчили, що емоції — це для слабких, а «справжній чоловік» тримає все в собі. Проблема в тому, що «в собі» нічого не зникає. Воно копиться й вилазить збоку: безсонням, вибухами на рідних, спиною, яка болить без причини, або тим, що просто нічого не відчуваєш.</p>
+    <p>Саморегуляція — це не «заборонити собі відчувати». Це вміння бути з тим, що відчуваєш, і при цьому лишатися за кермом. Як водій, який чує, що мотор ричить, але не випускає руль.</p>
+    <p class="why">Після служби нервова система довго лишається в режимі «бойової готовності». Це не поломка. Це налаштування, яке колись рятувало, і його можна поступово перенастроїти на мирне життя.</p>
+    <button class="btn done-btn" type="button">Зрозумів ✓</button>
+  </section>
+
+  <section class="lesson" id="l2" data-n="2">
+    <h2><small>УРОК 2 · 4 ХВ</small>Тіло знає першим</h2>
+    <p>Уяви коридор. Посередині — зона, де ти можеш думати, говорити й вирішувати. Психологи називають її «вікном толерантності».</p>
+    <ul>
+      <li><b>Вище вікна</b> — перезбудження: серце б'ється, щелепи стиснуті, все дратує, хочеться бити або тікати.</li>
+      <li><b>Нижче вікна</b> — заціпеніння: порожнеча, «мені все одно», важкість, хочеться лягти й зникнути.</li>
+    </ul>
+    <p>Обидва стани — це не характер, а фізіологія. І тіло подає сигнали раніше, ніж голова розуміє, що відбувається.</p>
+    <div class="prac"><b class="t">Практика · 30 секунд</b>Зупинись і пройдись увагою: щелепи, плечі, кулаки, живіт, дихання. Де напружено? Нічого не виправляй, просто помітити — вже половина роботи.</div>
+    <button class="btn done-btn" type="button">Помітив ✓</button>
+  </section>
+
+  <section class="lesson" id="l3" data-n="3">
+    <h2><small>УРОК 3 · 3 ХВ</small>Довгий видих — вбудована кнопка «тихіше»</h2>
+    <p>Найшвидший легальний спосіб заспокоїти нервову систему — подовжити видих. Коли видих довший за вдих, тіло отримує сигнал «загрози немає».</p>
+    <div class="prac"><b class="t">Практика · дихання 4–6</b>
+      <div class="breath"><div class="orb" id="orb"></div><div class="bstate" id="bstate">Натисни «почати»</div>
+        <div class="row"><button class="btn" type="button" id="bgo">Почати · 1 хв</button><button class="btn ghost" type="button" id="bsigh">Подвійний вдих</button></div></div>
+      <p style="font-size:15px;color:var(--dim);margin:8px 0 0">«Подвійний вдих»: два короткі вдихи носом поспіль, потім довгий повільний видих ротом. Два-три рази, і стає помітно легше.</p>
+    </div>
+    <button class="btn done-btn" type="button">Подихав ✓</button>
+  </section>
+
+  <section class="lesson" id="l4" data-n="4">
+    <h2><small>УРОК 4 · 3 ХВ</small>Заземлення: повернутися сюди</h2>
+    <p>Коли накриває спогад або тривога, голова живе «там», а тіло — тут. Заземлення повертає увагу в теперішнє через органи чуттів. Тихо, непомітно, працює навіть у черзі в ЦНАП.</p>
+    <div class="prac g54" id="g54"><b class="t">Практика · 5-4-3-2-1</b>
+      <button type="button"><i>5</i>речей, які бачу</button>
+      <button type="button"><i>4</i>речі, яких можу торкнутися</button>
+      <button type="button"><i>3</i>звуки, які чую</button>
+      <button type="button"><i>2</i>запахи</button>
+      <button type="button"><i>1</i>смак або одна добра думка</button>
+    </div>
+    <button class="btn done-btn" type="button">Я тут ✓</button>
+  </section>
+
+  <section class="lesson" id="l5" data-n="5">
+    <h2><small>УРОК 5 · 3 ХВ</small>Назви, щоб приборкати</h2>
+    <p>Дослідження показують: коли людина називає свою емоцію словами, мозок трохи пригальмовує тривожну реакцію. Чим точніше слово, тим краще. «Норм», «злий» і «втомився» — замало для дорослого словника.</p>
+    <div class="prac"><b class="t">Практика · що зараз всередині?</b>
+      <div class="emo" id="emo"></div>
+      <div class="emo-out" id="emoOut"></div>
+    </div>
+    <p class="why">Емоція — це повідомлення, а не наказ. Злість часто каже «перейшли мою межу». Сум каже «мені це було важливо». Тривога каже «я хочу, щоб усі були в безпеці».</p>
+    <button class="btn done-btn" type="button">Назвав ✓</button>
+  </section>
+
+  <section class="lesson" id="l6" data-n="6">
+    <h2><small>УРОК 6 · 4 ХВ</small>Пауза перед вибухом</h2>
+    <p>Між подією й реакцією є маленький проміжок. Ціль — зробити його на кілька секунд ширшим. Для цього є простий протокол:</p>
+    <div class="stop"><div><b>С</b>Стоп. Нічого не кажи і не роби</div><div><b>В</b>Видих. Довгий, як в уроці 3</div><div><b>П</b>Помітити. Що в тілі, яке слово</div><div><b>Д</b>Діяти. Вже свідомо, а не на автоматі</div></div>
+    <p style="margin-top:14px">Іноді найсильніша дія — вийти з кімнати й сказати «я повернуся за десять хвилин, бо зараз скажу щось, про що пошкодую». Це не слабкість. Це контроль.</p>
+    <p class="why">Окремо про сон, рух і алкоголь. Сон — головний регулятор настрою, без нього всі уроки працюють гірше. Рух, хоч би 20 хвилин ходьби, «спалює» зайву бойову готовність. Алкоголь швидко глушить, але погіршує сон і завтрашній настрій, тож це позика під великі відсотки.</p>
+    <button class="btn done-btn" type="button">Запам'ятав ✓</button>
+  </section>
+
+  <section class="lesson help" id="l7" data-n="7">
+    <h2><small>УРОК 7 · ГОЛОВНИЙ</small>Разом легше. Це не гасло, а механізм</h2>
+    <p>Жодна техніка не замінить людину поруч. Побратим, друг, мама, психолог — розмова з тим, хто тебе бачить, регулює нервову систему краще за будь-яке дихання.</p>
+    <p>Звертатися по допомогу варто, якщо:</p>
+    <ul>
+      <li>більше двох тижнів поганий сон, кошмари чи флешбеки;</li>
+      <li>часто «вибухаєш» або, навпаки, нічого не відчуваєш;</li>
+      <li>рятуєшся алкоголем чи іншими речовинами;</li>
+      <li>з'являються думки, що краще б тебе не було.</li>
+    </ul>
+    <p><b>Куди дзвонити (Україна):</b></p>
+    <a class="call" href="tel:7333">📞 7333 · Lifeline Ukraine</a>
+    <p style="font-size:15px;color:var(--dim);margin:8px 0 12px">Цілодобово, безкоштовно й анонімно. Лінія створювалася саме для ветеранів та їхніх близьких. Якщо не відповіли одразу, спробуй ще раз або напиши в чат на lifelineukraine.com. Твій дзвінок важливий.</p>
+    <a class="call" href="tel:0800211444" style="background:var(--amber);color:#1a100b">📞 0 800 211 444 · лінія емоційної підтримки</a>
+    <p style="font-size:15px;color:var(--dim);margin:8px 0 0">Щодня з 10:00 до 20:00, безкоштовно. Якщо є безпосередня небезпека для життя — <b style="color:var(--ivory)">112</b>.</p>
+    <button class="btn done-btn" type="button">Я знаю, куди дзвонити ✓</button>
+  </section>
+
+  <div class="cert" id="cert">
+    <div class="kicker">Мінвайбвет посвідчує</div>
+    <h3>Курс пройдено</h3>
+    <p>Ти знаєш, як подихати, повернутися сюди, назвати, що відчуваєш, і поставити паузу. А ще знаєш, що не мусиш усе тягти сам.</p>
+    <p style="font:13px 'PT Mono',monospace;color:var(--dim)">Довідка не потрібна. Норматив не встановлено. Повторювати можна скільки завгодно.</p>
+    <a class="btn" href="index.html#hladyty" style="display:inline-block;text-decoration:none;margin-top:8px">Тепер погладити котика →</a>
+  </div>
+</main>
+<script>
+(function(){
+  var KEY="kurs-done",done={};try{done=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
+  var L=[].slice.call(document.querySelectorAll(".lesson")),map=document.getElementById("map");
+  L.forEach(function(l){var a=document.createElement("a");a.href="#"+l.id;a.setAttribute("aria-label","Урок "+l.dataset.n);map.appendChild(a);l._dot=a;});
+  function paint(){var n=0;L.forEach(function(l){var ok=!!done[l.dataset.n];l.classList.toggle("ok",ok);l._dot.classList.toggle("done",ok);if(ok)n++;});
+    document.getElementById("prog").textContent=n+" / "+L.length;document.getElementById("cert").classList.toggle("on",n===L.length);}
+  L.forEach(function(l){l.querySelector(".done-btn").addEventListener("click",function(){done[l.dataset.n]=1;try{localStorage.setItem(KEY,JSON.stringify(done));}catch(e){}paint();
+    var nx=L[L.indexOf(l)+1];if(nx&&!done[nx.dataset.n])setTimeout(function(){nx.scrollIntoView({behavior:"smooth"});},250);
+    else if(Object.keys(done).length===L.length)setTimeout(function(){document.getElementById("cert").scrollIntoView({behavior:"smooth",block:"center"});},250);});});
+  paint();
+
+  /* breathing 4-6 */
+  var orb=document.getElementById("orb"),st=document.getElementById("bstate"),run=null;
+  function stop(msg){clearTimeout(run);run=null;orb.classList.remove("in");orb.style.transitionDuration="";st.textContent=msg||"Готово. Як ти?";}
+  function cycle(left){
+    if(left<=0){stop();return;}
+    orb.style.transitionDuration="4s";orb.classList.add("in");st.textContent="Вдих… 4";
+    run=setTimeout(function(){orb.style.transitionDuration="6s";orb.classList.remove("in");st.textContent="Видих… 6";
+      run=setTimeout(function(){cycle(left-10);},6000);},4000);
+  }
+  document.getElementById("bgo").addEventListener("click",function(){if(run){stop("Зупинено. Теж нормально.");return;}cycle(60);});
+  document.getElementById("bsigh").addEventListener("click",function(){
+    clearTimeout(run);orb.style.transitionDuration="1.2s";orb.classList.add("in");st.textContent="Вдих носом…";
+    run=setTimeout(function(){st.textContent="…і ще трошки!";orb.style.transform="scale(1.08)";
+      run=setTimeout(function(){orb.style.transform="";orb.style.transitionDuration="6s";orb.classList.remove("in");st.textContent="Довгий видих ротом…";
+        run=setTimeout(function(){stop("Ще раз чи два — і досить.");},6000);},900);},1300);
+  });
+
+  /* grounding */
+  [].forEach.call(document.querySelectorAll("#g54 button"),function(b){b.addEventListener("click",function(){b.classList.toggle("on");
+    if(document.querySelectorAll("#g54 button.on").length===5)document.getElementById("g54").insertAdjacentHTML("beforeend",'<p style="margin:6px 0 0;color:var(--mint)">Ти тут. Цього достатньо.</p>');});});
+
+  /* emotions */
+  var E=[["злість","Злість часто охороняє межу. Яку межу зараз перейшли?"],["роздратування","Роздратування — це маленька злість від утоми. Чи давно ти відпочивав?"],["тривога","Тривога хоче, щоб усі були в безпеці. Що з цього ти можеш зробити саме зараз?"],["сум","Сум означає, що щось було важливим. Йому можна просто бути."],["порожнеча","Порожнеча — теж стан, а не вирок. Часто це втома нервової системи. Довгий видих і щось тепле в руки."],["провина","Провина питає: «чи можу я щось виправити?» Якщо так — маленький крок. Якщо ні — ти не мусиш нести це сам."],["сором","Сором шепоче «зі мною щось не так». Скажи це вголос комусь, кому довіряєш: сором не витримує світла."],["самотність","Самотність — сигнал, що потрібен зв'язок. Кому можна написати прямо зараз?"],["втома","Втома — не лінь. Тіло просить паузи, а не нового наказу."],["полегшення","Полегшення — запам'ятай, що його спричинило. Це твій ресурс."],["вдячність","Вдячність — найкращий відновник. За що саме сьогодні?"],["спокій","Спокій. Помітити його так само важливо, як помітити тривогу."]];
+  var box=document.getElementById("emo"),out=document.getElementById("emoOut");
+  E.forEach(function(e){var b=document.createElement("button");b.type="button";b.textContent=e[0];b.addEventListener("click",function(){
+    [].forEach.call(box.children,function(x){x.classList.toggle("on",x===b);});out.textContent="Зараз: "+e[0]+". "+e[1];});box.appendChild(b);});
+
+  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
+})();
+</script>
+</body>
+</html>

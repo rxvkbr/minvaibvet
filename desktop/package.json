@@ -19,7 +19,7 @@
   },
   "build": {
     "appId": "ua.pp.minvaibvet.office",
-    "productName": "Вайбвет Офіс",
+    "productName": "Vaibvet Office",
     "artifactName": "VaibvetOffice-${version}-${os}-${arch}.${ext}",
     "files": [
       "main.js",
@@ -42,7 +42,11 @@
         }
       ],
       "icon": "build/icon.png",
-      "identity": "-"
+      "identity": "-",
+      "extendInfo": {
+        "CFBundleDisplayName": "Вайбвет Офіс",
+        "LSApplicationCategoryType": "public.app-category.entertainment"
+      }
     },
     "dmg": {
       "title": "Вайбвет Офіс"

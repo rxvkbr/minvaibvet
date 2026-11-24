@@ -14,6 +14,8 @@ fs.mkdirSync(fontsOut, { recursive: true });
 fs.copyFileSync(path.join(root, "node_modules/@capacitor/core/dist/capacitor.js"), path.join(www, "capacitor.js"));
 fs.copyFileSync(path.join(site, "privacy.html"), path.join(www, "privacy.html"));
 fs.copyFileSync(path.join(site, "office.html"), path.join(www, "office.html"));
+fs.copyFileSync(path.join(site, "sova.html"), path.join(www, "sova.html"));
+fs.cpSync(path.join(site, "vendor"), path.join(www, "vendor"), { recursive: true });
 for (const f of fs.readdirSync(site)) if (/^(kolonka-.*|kurs)\.html$/.test(f)) fs.copyFileSync(path.join(site, f), path.join(www, f));
 fs.cpSync(path.join(site, "img"), path.join(www, "img"), { recursive: true });
 

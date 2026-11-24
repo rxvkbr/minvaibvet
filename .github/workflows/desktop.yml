@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["office.html", "desktop/**", ".github/workflows/desktop.yml"]
+    paths: ["office.html", "sova.html", "vendor/**", "desktop/**", ".github/workflows/desktop.yml"]
 
 permissions:
   contents: write

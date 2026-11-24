@@ -8,4 +8,5 @@ fs.mkdirSync(www, { recursive: true });
 for (const f of ["office.html", "index.html", "privacy.html"]) {
   fs.copyFileSync(path.join(site, f), path.join(www, f));
 }
+fs.cpSync(path.join(site, "img"), path.join(www, "img"), { recursive: true });
 console.log("www ready:", fs.readdirSync(www).join(", "));

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" font-family="PT Mono, ui-monospace, Menlo, monospace">
+<title>Карикатура Мінвайбвету: Військова кімната, машина судного дня і рандомний український хлопець</title>
+<defs>
+  <radialGradient id="lamp" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="#f6e7b8" stop-opacity=".35"/><stop offset="1" stop-color="#f6e7b8" stop-opacity="0"/></radialGradient>
+  <g id="gen"><circle cx="0" cy="-58" r="17" fill="#e9c9a3"/><path d="M-19 -66h38l-5-12h-28z" fill="#55603a"/><rect x="-21" y="-70" width="42" height="6" rx="2" fill="#3d4628"/><path d="M-24 -40h48l6 44h-60z" fill="#5d6b3c"/><circle cx="-10" cy="-28" r="3" fill="#d9a441"/><circle cx="-2" cy="-28" r="3" fill="#d9a441"/><circle cx="6" cy="-28" r="3" fill="#e0603f"/></g>
+  <g id="guy"><circle cx="0" cy="-74" r="15" fill="#e9c9a3"/><path d="M-15 -80a15 15 0 0 1 30 0h6v5h-36z" fill="#2b5797"/><path d="M-20 -58q20-8 40 0l5 44h-50z" fill="#3a3f35"/><path d="M-7 -58h14v8h-14z" fill="#f2d24a"/><rect x="-18" y="-14" width="14" height="40" fill="#2b2e28"/><rect x="4" y="-14" width="14" height="40" fill="#2b2e28"/><path d="M-22 26h18v6h-20zM4 26h18v6h-18z" fill="#111"/></g>
+  <clipPath id="c1"><rect x="12" y="12" width="384" height="400" rx="10"/></clipPath>
+  <clipPath id="c2"><rect x="408" y="12" width="384" height="400" rx="10"/></clipPath>
+  <clipPath id="c3"><rect x="804" y="12" width="384" height="400" rx="10"/></clipPath>
+</defs>
+<rect width="1200" height="460" fill="#0d0f0a"/>
+<!-- panel frames -->
+<g fill="#171a12" stroke="#454d33" stroke-width="3">
+  <rect x="12" y="12" width="384" height="400" rx="10"/><rect x="408" y="12" width="384" height="400" rx="10"/><rect x="804" y="12" width="384" height="400" rx="10"/>
+</g>
+<g font-size="13" fill="#8e8b70" letter-spacing="1">
+  <text x="28" y="36">18:00 · ВІЙСЬКОВА КІМНАТА</text><text x="424" y="36">18:03 · ЗАХОДИТЬ ХТОСЬ</text><text x="820" y="36">18:04 · І ВИХОДИТЬ</text>
+</g>
+
+<!-- ===== panel 1 ===== -->
+<g clip-path="url(#c1)">
+  <ellipse cx="204" cy="40" rx="170" ry="120" fill="url(#lamp)"/>
+  <rect x="110" y="52" width="270" height="92" rx="4" fill="#0b1a1a" stroke="#2c5a5a"/>
+  <path d="M124 110q34-30 70-6t70-14t96 4" stroke="#6fc3b2" stroke-width="2" fill="none" opacity=".6"/>
+  <g fill="#e0603f"><circle cx="170" cy="92" r="4"/><circle cx="240" cy="104" r="4"/><circle cx="320" cy="86" r="4"/></g>
+  <text x="245" y="134" font-size="11" fill="#e0603f" text-anchor="middle">ТРИВОГА · ТРИВОГА</text>
+  <ellipse cx="200" cy="330" rx="104" ry="28" fill="#2a2f1c" stroke="#454d33"/>
+  <use href="#gen" x="140" y="320"/><use href="#gen" x="200" y="312"/><use href="#gen" x="260" y="320"/>
+  <!-- doomsday box -->
+  <rect x="300" y="250" width="84" height="104" rx="6" fill="#3a1f14" stroke="#b4552e" stroke-width="3"/>
+  <circle cx="342" cy="278" r="12" fill="#e0603f"><animate attributeName="opacity" values="1;.2;1" dur="1s" repeatCount="indefinite"/></circle>
+  <text x="342" y="314" font-size="9" fill="#f0a93a" text-anchor="middle">МАШИНА</text><text x="342" y="326" font-size="9" fill="#f0a93a" text-anchor="middle">СУДНОГО</text><text x="342" y="338" font-size="9" fill="#f0a93a" text-anchor="middle">ДНЯ</text>
+  <path d="M300 344q-20 10-24 34t-30 18" stroke="#111" stroke-width="4" fill="none"/><rect x="236" y="392" width="20" height="10" fill="#666"/>
+  <!-- ambassador with the balloon of greatness -->
+  <rect x="22" y="352" width="44" height="8" fill="#4d4229"/><circle cx="32" cy="348" r="5" fill="#d9a441"/><circle cx="44" cy="348" r="5" fill="#e9c9a3"/><circle cx="56" cy="348" r="5" fill="#b4552e"/>
+  <line x1="70" y1="290" x2="70" y2="150" stroke="#aaa"/>
+  <ellipse cx="70" cy="118" rx="40" ry="34" fill="#c2412d"/><text x="70" y="123" font-size="12" fill="#fff" text-anchor="middle" font-weight="700">ВЕЛИЧ</text>
+  <g transform="translate(70 400)"><circle cx="0" cy="-58" r="17" fill="#e9c9a3"/><rect x="-19" y="-80" width="38" height="10" fill="#222"/><path d="M-24 -40h48l6 44h-60z" fill="#2a2a2a"/><rect x="14" y="-46" width="16" height="8" rx="3" fill="#d9a441"/></g>
+  <g font-size="12"><rect x="150" y="168" width="150" height="40" rx="8" fill="#f2e3bd"/><path d="M200 208l-6 14 18-14z" fill="#f2e3bd"/><text x="225" y="185" text-anchor="middle" fill="#1b1b1b">Що робити?!</text><text x="225" y="200" text-anchor="middle" fill="#1b1b1b">Скликаймо нараду!</text></g>
+  <g font-size="12"><rect x="20" y="276" width="104" height="26" rx="8" fill="#f2e3bd"/><text x="72" y="293" text-anchor="middle" fill="#1b1b1b">Вона сама 🥪</text></g>
+</g>
+
+<!-- ===== panel 2 ===== -->
+<g clip-path="url(#c2)">
+  <ellipse cx="600" cy="40" rx="170" ry="120" fill="url(#lamp)"/>
+  <ellipse cx="560" cy="330" rx="120" ry="28" fill="#2a2f1c" stroke="#454d33"/>
+  <use href="#gen" x="490" y="320"/><use href="#gen" x="560" y="312"/><use href="#gen" x="630" y="320"/>
+  <g font-size="22" fill="#f2e3bd"><text x="474" y="244">?</text><text x="552" y="236">?!</text><text x="622" y="244">?</text></g>
+  <rect x="690" y="250" width="86" height="104" rx="6" fill="#3a1f14" stroke="#b4552e" stroke-width="3"/>
+  <circle cx="733" cy="278" r="12" fill="#e0603f"/>
+  <text x="733" y="320" font-size="9" fill="#f0a93a" text-anchor="middle">СУДНОГО ДНЯ</text>
+  <!-- the guy, crouched, plug in hand -->
+  <g transform="translate(676 380) scale(.92)"><use href="#guy"/></g>
+  <path d="M690 344q-2 10 4 14" stroke="#111" stroke-width="4" fill="none"/>
+  <rect x="694" y="356" width="20" height="10" rx="2" fill="#666"/>
+  <rect x="620" y="370" width="34" height="22" rx="4" fill="#7d8a4a"/><circle cx="637" cy="366" r="7" fill="none" stroke="#c9c7bb" stroke-width="4"/>
+  <text x="637" y="406" font-size="9" fill="#8e8b70" text-anchor="middle">скотч</text>
+  <g font-size="12"><rect x="600" y="160" width="176" height="56" rx="8" fill="#f2e3bd"/><path d="M690 216l-4 16 16-16z" fill="#f2e3bd"/>
+    <text x="688" y="181" text-anchor="middle" fill="#1b1b1b">Та тут просто</text><text x="688" y="197" text-anchor="middle" fill="#1b1b1b">штекер. І скотчем</text><text x="688" y="211" text-anchor="middle" fill="#1b1b1b">про всяк випадок.</text></g>
+  <g transform="translate(450 300)"><circle cx="0" cy="-58" r="17" fill="#e9c9a3"/><rect x="-19" y="-80" width="38" height="10" fill="#222"/><path d="M-24 -40h48l6 44h-60z" fill="#2a2a2a"/></g>
+  <line x1="450" y1="230" x2="450" y2="140" stroke="#aaa"/><ellipse cx="450" cy="116" rx="30" ry="26" fill="#c2412d"/><text x="450" y="121" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">ВЕЛИЧ</text>
+</g>
+
+<!-- ===== panel 3 ===== -->
+<g clip-path="url(#c3)">
+  <ellipse cx="996" cy="40" rx="170" ry="120" fill="url(#lamp)"/>
+  <rect x="1110" y="150" width="62" height="236" fill="#0b0d08" stroke="#454d33" stroke-width="3"/><text x="1141" y="140" font-size="10" fill="#9fd66a" text-anchor="middle">ВИХІД</text>
+  <g transform="translate(1124 384)"><use href="#guy"/><rect x="18" y="-50" width="12" height="16" rx="2" fill="#f2e3bd"/><path d="M22 -56q2-6 6 0" stroke="#ccc" fill="none"/></g>
+  <ellipse cx="930" cy="330" rx="104" ry="26" fill="#2a2f1c" stroke="#454d33"/>
+  <use href="#gen" x="870" y="320"/><use href="#gen" x="930" y="312"/><use href="#gen" x="990" y="320"/>
+  <g fill="#3a1f14"><ellipse cx="870" cy="270" rx="4" ry="6"/><ellipse cx="930" cy="262" rx="4" ry="6"/><ellipse cx="990" cy="270" rx="4" ry="6"/></g>
+  <rect x="1030" y="270" width="64" height="80" rx="6" fill="#1d3a22" stroke="#9fd66a" stroke-width="2"/>
+  <circle cx="1062" cy="292" r="10" fill="#9fd66a"/><path d="M1040 320h44M1040 330h44" stroke="#c9c7bb" stroke-width="7" opacity=".8"/>
+  <text x="1062" y="346" font-size="8" fill="#9fd66a" text-anchor="middle">ВИМКНЕНО</text>
+  <!-- the balloon has popped, the ambassador got small -->
+  <g transform="translate(838 312) scale(.7)"><circle cx="0" cy="-58" r="17" fill="#e9c9a3"/><rect x="-19" y="-80" width="38" height="10" fill="#222"/><path d="M-24 -40h48l6 44h-60z" fill="#2a2a2a"/></g>
+  <g fill="#c2412d"><path d="M838 190l-10-12 4 14z"/><path d="M846 196l14-8-12 12z"/><path d="M832 200l-16 2 14 4z"/><path d="M842 186l2-14 4 14z"/></g>
+  <line x1="838" y1="268" x2="838" y2="204" stroke="#aaa"/>
+  <text x="838" y="176" font-size="14" fill="#f0a93a" text-anchor="middle" font-weight="700">ПФФ</text>
+  <g font-size="11.5" fill="#d8d2b4"><text x="996" y="70" text-anchor="middle">Пішов. Ніхто не встиг сказати</text><text x="996" y="86" text-anchor="middle">«дякую за службу».</text>
+  <text x="996" y="112" text-anchor="middle" fill="#8e8b70">Велич здулася сама.</text></g>
+</g>
+<text x="1188" y="448" font-size="11" fill="#5d5b48" text-anchor="end">Мінвайбвет · карикатура · minvaibvet.pp.ua</text>
+</svg>

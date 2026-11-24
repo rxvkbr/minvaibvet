@@ -3,11 +3,22 @@ name: Android release (Google Play)
 # Run by hand from the Actions tab. Needs four repository secrets, created by
 # app/scripts/make-upload-key.sh: UPLOAD_KEYSTORE_BASE64, UPLOAD_STORE_PASSWORD,
 # UPLOAD_KEY_ALIAS, UPLOAD_KEY_PASSWORD.
+# Uploading to Play is keyless: GitHub's OIDC token is exchanged for the play-uploader
+# service account (set up by app/scripts/play-ci-setup.sh), which may only release to testing tracks.
 on:
   workflow_dispatch:
+    inputs:
+      track:
+        description: "Play track (alpha = closed testing)"
+        default: alpha
+      upload:
+        description: "Upload to Google Play"
+        type: boolean
+        default: true
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   bundle:
@@ -54,3 +65,14 @@ jobs:
           name: vaibvet-fm-release-aab
           path: app/android/app/build/outputs/bundle/release/app-release.aab
           retention-days: 14
+      - name: Sign in to Google Cloud (no stored key)
+        if: ${{ inputs.upload }}
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/489459531851/locations/global/workloadIdentityPools/github/providers/minvaibvet
+          service_account: play-uploader@minvaibvet-ci-20092.iam.gserviceaccount.com
+      - name: Upload to Google Play
+        if: ${{ inputs.upload }}
+        run: |
+          npm install --no-save --no-audit --no-fund googleapis
+          node scripts/play-upload.js android/app/build/outputs/bundle/release/app-release.aab "${{ inputs.track }}"

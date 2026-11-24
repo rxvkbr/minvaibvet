@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вайбвет Стіл · робочий набір</title>
+<meta name="description" content="Вайбвет Стіл: віджети, нотатки, таблиці з формулами, задачі, картки для повторення й календар. Усе зберігається тільки на цьому пристрої.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314170f'/%3E%3Crect x='14' y='16' width='36' height='26' rx='4' fill='none' stroke='%23d9a441' stroke-width='5'/%3E%3Cpath d='M24 50h16' stroke='%23d9a441' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0d0f0a;--panel:#151810;--panel2:#1c2016;--edge:#2c3222;--edge2:#434b31;
+  --text:#e2dcbe;--dim:#9a967a;--amber:#d9a441;--green:#9fd66a;--red:#e0603f;--cyan:#6fc3b2;--ink:#140f04;
+  --mono:"PT Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+html[data-theme="night"]{--bg:#070b12;--panel:#0c1320;--panel2:#111b2c;--edge:#1c2a40;--edge2:#2a3e5c;--text:#d6e6f6;--dim:#7d90a8;--amber:#6fc3ff;--green:#7af0d0}
+html[data-theme="amber"]{--bg:#0e0900;--panel:#160e02;--panel2:#1e1405;--edge:#3a2708;--edge2:#5a3c0c;--text:#ffd88a;--dim:#b4893a;--amber:#ffb000;--green:#ffcf73;--red:#ff7a2f}
+html[data-theme="pink"]{--bg:#120812;--panel:#1c0c1c;--panel2:#261326;--edge:#41213f;--edge2:#62305e;--text:#ffe0f2;--dim:#b483a5;--amber:#ff6fb5;--green:#c7a2ff;--red:#ff5d73}
+html[data-theme="sand"]{--bg:#1a160d;--panel:#2a2417;--panel2:#342c1c;--edge:#4d4229;--edge2:#6b5b37;--text:#f4ead0;--dim:#b3a37c;--amber:#e8b04a;--green:#c3d77a}
+html[data-theme="mono"]{filter:grayscale(1)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:15px/1.45 var(--sans);-webkit-text-size-adjust:100%}
+body{display:flex;flex-direction:column;min-height:100%}
+button,input,textarea,select{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.96)}
+input,textarea,select{background:#0008;border:1px solid var(--edge2);border-radius:10px;padding:8px 10px;outline:none;min-width:0}
+input:focus,textarea:focus,select:focus{border-color:var(--amber)}
+textarea{resize:vertical}
+.btn{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--edge2);font-size:13px;white-space:nowrap}
+.btn.pri{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:600}
+.btn.sm{height:28px;padding:0 10px;font-size:12px}
+.btn.ghost{border-color:transparent;color:var(--dim)}
+.btn.danger{color:var(--red);border-color:#e0603f66}
+.ic{width:34px;height:34px;border-radius:10px;display:inline-grid;place-items:center;color:var(--dim);font-size:16px}
+.ic:hover{background:#ffffff0d;color:var(--text)}
+.muted{color:var(--dim)}
+.mono{font-family:var(--mono)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grow{flex:1}
+
+/* ---------- shell ---------- */
+header.top{display:flex;align-items:center;gap:8px;padding:calc(8px + var(--st)) 12px 8px;background:var(--panel);border-bottom:1px solid var(--edge);position:sticky;top:0;z-index:20}
+.brand{font:700 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);white-space:nowrap}
+.brand small{color:var(--dim);font-weight:400;letter-spacing:.06em;margin-left:6px}
+html.embed .backbtn{display:none}
+.shell{flex:1;display:flex;min-height:0}
+nav.side{width:188px;flex:none;padding:12px 8px;border-right:1px solid var(--edge);background:var(--panel);display:flex;flex-direction:column;gap:2px}
+nav.side button{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:10px;color:var(--dim);text-align:left;font-size:14px}
+nav.side button .e{width:22px;text-align:center;font-size:17px}
+nav.side button[aria-current="page"]{background:var(--panel2);color:var(--text);box-shadow:inset 3px 0 0 var(--amber)}
+nav.side .sp{flex:1}
+nav.side .modebtn{font-size:12.5px}
+main{flex:1;min-width:0;padding:16px;overflow:auto}
+.app{display:none;max-width:1180px;margin:0 auto}
+.app.on{display:block;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+h2.t{margin:0 0 4px;font-size:22px}
+p.sub{margin:0 0 16px;color:var(--dim);font-size:13.5px}
+.card{background:var(--panel);border:1px solid var(--edge);border-radius:16px;padding:14px}
+.toast{position:fixed;left:50%;bottom:calc(84px + var(--sb));transform:translateX(-50%);background:var(--panel2);border:1px solid var(--edge2);padding:10px 16px;border-radius:999px;font:12.5px var(--mono);z-index:90;box-shadow:0 8px 30px #000a;animation:in .25s;max-width:90vw;text-align:center}
+.empty{padding:26px 12px;text-align:center;color:var(--dim);border:1px dashed var(--edge2);border-radius:14px}
+@media (max-width:760px){
+  nav.side{position:fixed;left:0;right:0;bottom:0;width:auto;height:calc(60px + var(--sb));padding:4px 4px var(--sb);flex-direction:row;border-right:0;border-top:1px solid var(--edge);z-index:30;gap:0}
+  nav.side button{flex:1;flex-direction:column;justify-content:center;gap:1px;height:56px;padding:0;font-size:10.5px;text-align:center}
+  nav.side button .e{font-size:19px}
+  nav.side button[aria-current="page"]{box-shadow:inset 0 3px 0 var(--amber)}
+  nav.side .sp,nav.side .modebtn{display:none}
+  main{padding:12px 12px calc(76px + var(--sb))}
+  .brand small{display:none}
+}
+
+/* ---------- desk widgets ---------- */
+.desk{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;align-items:start}
+.w{background:var(--panel);border:1px solid var(--edge);border-radius:18px;padding:14px;position:relative;min-height:120px}
+.w.wide{grid-column:span 2}
+@media (max-width:600px){.w.wide{grid-column:auto}}
+.w h3{margin:0 0 10px;font:700 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:8px}
+.w h3 .a{margin-left:auto;font-weight:400;letter-spacing:.04em;text-transform:none;color:var(--dim);font-size:11.5px}
+.wtools{display:none;position:absolute;top:8px;right:8px;gap:2px;background:var(--panel2);border:1px solid var(--edge2);border-radius:10px;padding:2px;z-index:2}
+.editing .wtools{display:flex}
+.wtools button{width:28px;height:28px;border-radius:8px;color:var(--dim);font-size:13px}
+.wtools button:hover{color:var(--text);background:#ffffff10}
+.editing .w{outline:1px dashed var(--edge2);outline-offset:3px}
+.clock b{display:block;font:700 46px/1 var(--mono);letter-spacing:-.02em}
+.clock .d{margin-top:6px;color:var(--dim)}
+.clock .wk{margin-top:10px;font-size:13px}
+.big{font:700 40px/1 var(--mono)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.list li{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px dashed #ffffff10;font-size:14px}
+.list li:last-child{border-bottom:0}
+.list li .x{margin-left:auto;font:11.5px var(--mono);color:var(--dim);white-space:nowrap}
+.list li.late .x{color:var(--red)}
+.chk{width:20px;height:20px;flex:none;border-radius:6px;border:1.5px solid var(--edge2);display:grid;place-items:center;font-size:12px}
+.chk.on{background:var(--green);border-color:var(--green);color:var(--ink)}
+.pomo{text-align:center}
+.pomo .big{font-size:52px;margin:4px 0 10px}
+.pomo .ring{height:6px;border-radius:9px;background:#ffffff10;overflow:hidden;margin:0 0 12px}
+.pomo .ring i{display:block;height:100%;background:var(--amber);width:0;transition:width .5s linear}
+.mf p{margin:0}.mf .f{font-size:16px;line-height:1.4}.mf .v{margin-top:8px;font-style:italic;color:var(--amber);font-size:14px}
+.mood .faces{display:flex;gap:6px;justify-content:space-between}
+.mood .faces button{flex:1;height:44px;border-radius:12px;border:1px solid var(--edge);font-size:22px;filter:grayscale(.7);opacity:.7}
+.mood .faces button.on{filter:none;opacity:1;border-color:var(--amber);background:#d9a44122}
+.bars{display:flex;gap:6px;align-items:flex-end;height:54px;margin-top:12px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font:10px var(--mono);color:var(--dim)}
+.bars i{display:block;width:100%;border-radius:4px 4px 2px 2px;background:var(--cyan);min-height:2px}
+.stepper{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px}
+.stepper button{width:30px;height:30px;border-radius:9px;border:1px solid var(--edge2)}
+.addpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.addpick button{text-align:left;padding:10px 12px;border-radius:12px;border:1px solid var(--edge2);font-size:13.5px}
+.addpick button small{display:block;color:var(--dim);font-size:11.5px}
+
+/* ---------- notes ---------- */
+.split{display:grid;grid-template-columns:280px 1fr;gap:12px;min-height:60vh}
+@media (max-width:760px){.split{grid-template-columns:1fr}.split.open .pane-l{display:none}.split:not(.open) .pane-r{display:none}}
+.pane-l{display:flex;flex-direction:column;gap:8px}
+.nlist{display:flex;flex-direction:column;gap:6px;overflow:auto;max-height:70vh}
+.nitem{padding:10px 12px;border-radius:12px;border:1px solid var(--edge);background:var(--panel);text-align:left;width:100%}
+.nitem b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nitem span{display:block;font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nitem.on{border-color:var(--amber)}
+.tag{display:inline-block;font:10.5px var(--mono);padding:1px 7px;border-radius:999px;border:1px solid var(--edge2);color:var(--dim);margin-right:4px}
+.pane-r{display:flex;flex-direction:column;gap:8px}
+.ntitle{font-size:20px;font-weight:700;background:none;border:0;border-bottom:1px solid var(--edge);border-radius:0;padding:6px 2px}
+.nbody{flex:1;min-height:52vh;font:15px/1.6 var(--sans);background:var(--panel);border-color:var(--edge)}
+.prev{flex:1;min-height:52vh;background:var(--panel);border:1px solid var(--edge);border-radius:10px;padding:14px 16px;overflow:auto}
+.prev h1,.prev h2,.prev h3{margin:.6em 0 .3em}.prev p{margin:.4em 0}.prev ul{margin:.3em 0;padding-left:1.3em}.prev code{font-family:var(--mono);background:#ffffff10;padding:1px 5px;border-radius:5px}
+.prev li.done{text-decoration:line-through;color:var(--dim)}
+
+/* ---------- sheets ---------- */
+.fxbar{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.fxbar .ref{width:62px;text-align:center;font:13px var(--mono);color:var(--dim);border:1px solid var(--edge2);border-radius:10px;padding:8px 0}
+.fxbar input{flex:1;font-family:var(--mono)}
+.gridwrap{overflow:auto;border:1px solid var(--edge2);border-radius:12px;max-height:64vh;background:#f5f4ee}
+table.g{border-collapse:collapse;table-layout:fixed;color:#1d1d1b;font:13px var(--sans);font-variant-numeric:tabular-nums}
+table.g th,table.g td{border:1px solid #d9d7cc;height:28px;width:104px;max-width:104px;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.g th{background:#e9e8df;color:#666;font-weight:400;font-size:11.5px;text-align:center;position:sticky;top:0;z-index:1}
+table.g th.rh{width:40px;position:sticky;left:0;z-index:1}
+table.g tr:first-child th.rh{z-index:2}
+table.g td.n{text-align:right}
+table.g td.err{color:#b4231b}
+table.g td.sel{outline:2px solid #1d6b3a;outline-offset:-2px;background:#eef6ea}
+table.g td.b{font-weight:700}
+.stabs{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.stabs button{height:30px;padding:0 12px;border-radius:9px;border:1px solid var(--edge);font-size:12.5px;color:var(--dim)}
+.stabs button.on{border-color:var(--green);color:var(--text)}
+.help{font-size:12.5px;color:var(--dim);margin-top:8px}
+
+/* ---------- tasks ---------- */
+.kan{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:860px){.kan{grid-template-columns:1fr}}
+.col{background:var(--panel);border:1px solid var(--edge);border-radius:16px;padding:10px;min-height:160px}
+.col h4{margin:2px 4px 10px;font:700 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:flex}
+.col h4 span{margin-left:auto;color:var(--dim);font-weight:400}
+.task{background:var(--panel2);border:1px solid var(--edge);border-radius:12px;padding:9px 10px;margin-bottom:8px}
+.task .tt{font-size:14px;word-break:break-word}
+.task .meta{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.task .meta .due{font:11.5px var(--mono);color:var(--dim)}
+.task .meta .due.late{color:var(--red)}
+.task .mv{margin-left:auto;display:flex;gap:2px}
+.task .mv button{width:28px;height:26px;border-radius:7px;color:var(--dim);font-size:13px}
+.task .mv button:hover{background:#ffffff10;color:var(--text)}
+.addtask{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;margin-bottom:12px}
+@media (max-width:600px){.addtask{grid-template-columns:1fr 1fr}.addtask input[type=text]{grid-column:1/-1}}
+
+/* ---------- cards ---------- */
+.decks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.deck{padding:14px;border-radius:16px;border:1px solid var(--edge);background:var(--panel);text-align:left}
+.deck b{display:block;font-size:16px}
+.deck .due{margin-top:8px;font:12px var(--mono);color:var(--amber)}
+.study{max-width:620px;margin:0 auto;text-align:center}
+.flash{min-height:220px;display:grid;place-items:center;padding:24px;border-radius:20px;border:1px solid var(--edge2);background:var(--panel);font-size:20px;line-height:1.4;cursor:pointer;white-space:pre-wrap}
+.flash .back{display:block;margin-top:16px;padding-top:16px;border-top:1px dashed var(--edge2);color:var(--amber);font-size:18px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.grade button{height:48px;border-radius:14px;border:1px solid var(--edge2);font-size:14px}
+.grade button small{display:block;font:11px var(--mono);color:var(--dim)}
+.clist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.clist li{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;padding:8px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--edge);font-size:13.5px}
+@media (max-width:600px){.clist li{grid-template-columns:1fr auto}.clist li span:nth-child(2){grid-column:1;color:var(--dim)}}
+
+/* ---------- calendar ---------- */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .dn{font:11px var(--mono);color:var(--dim);text-align:center;padding:4px 0;text-transform:uppercase}
+.cal button{aspect-ratio:1/.86;border-radius:12px;border:1px solid var(--edge);background:var(--panel);display:flex;flex-direction:column;align-items:flex-start;padding:6px 7px;font-size:13px;overflow:hidden;min-height:44px}
+.cal button.out{opacity:.35}
+.cal button.today{border-color:var(--amber)}
+.cal button.sel{background:var(--panel2);box-shadow:inset 0 0 0 2px var(--amber)}
+.cal .dots{display:flex;gap:3px;margin-top:auto;flex-wrap:wrap}
+.cal .dots i{width:6px;height:6px;border-radius:50%;background:var(--cyan)}
+.cal .dots i.t{background:var(--amber)}
+.calside{margin-top:12px}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;background:#000a;z-index:80;display:grid;place-items:center;padding:16px;animation:in .2s}
+.modal .box{width:min(560px,100%);max-height:86vh;overflow:auto;background:var(--panel);border:1px solid var(--edge2);border-radius:20px;padding:18px}
+.modal h3{margin:0 0 6px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.modes button{padding:14px;border-radius:14px;border:1px solid var(--edge2);text-align:left}
+.modes button b{display:block;font-size:15px}
+.modes button small{color:var(--dim);font-size:12px}
+.modes button.on{border-color:var(--amber);background:#d9a44118}
+@media (max-width:480px){.modes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="ic backbtn" id="back" href="index.html#more" aria-label="Назад">←</a>
+  <div class="brand">Вайбвет Стіл<small>робочий набір · <span id="modeName"></span></small></div>
+  <span class="grow"></span>
+  <button class="ic" id="bTheme" title="Колір" aria-label="Колір">🎨</button>
+  <button class="ic" id="bMenu" title="Резервна копія та налаштування" aria-label="Меню">⋯</button>
+</header>
+<div class="shell">
+  <nav class="side" id="nav" aria-label="Програми"></nav>
+  <main id="main">
+    <section class="app" id="a-desk">
+      <div class="row" style="margin-bottom:12px">
+        <div class="grow"><h2 class="t" id="hello">Робочий стіл</h2><p class="sub" style="margin:0" id="hellosub"></p></div>
+        <button class="btn sm" id="deskEdit">✎ Налаштувати віджети</button>
+      </div>
+      <div class="desk" id="desk"></div>
+      <div class="card" id="deskAdd" style="display:none;margin-top:12px"><b>Додати віджет</b><div class="addpick" id="addpick"></div></div>
+    </section>
+    <section class="app" id="a-notes">
+      <div class="split" id="nsplit">
+        <div class="pane-l">
+          <div class="row"><input id="nq" class="grow" placeholder="Пошук у нотатках"><button class="btn pri" id="nNew">+ Нотатка</button></div>
+          <div class="row" id="ntpl"></div>
+          <div class="nlist" id="nlist"></div>
+        </div>
+        <div class="pane-r" id="npane"></div>
+      </div>
+    </section>
+    <section class="app" id="a-sheets">
+      <div class="row" style="margin-bottom:8px"><h2 class="t grow" id="sname">Таблиці</h2>
+        <button class="btn sm" id="sTpl">Шаблон…</button><button class="btn sm" id="sCsv">⇩ CSV</button><label class="btn sm">⇧ CSV<input type="file" id="sImp" accept=".csv,text/csv" hidden></label></div>
+      <div class="fxbar"><span class="ref" id="sref">A1</span><input id="sfx" placeholder="Значення або формула, наприклад =СУМ(B2:B9)" autocomplete="off" spellcheck="false"></div>
+      <div class="gridwrap" id="gwrap"><table class="g" id="grid"></table></div>
+      <div class="stabs" id="stabs"></div>
+      <p class="help">Формули починаються з «=». Є: СУМ/SUM, СРЗНАЧ/AVERAGE, МІН/MIN, МАКС/MAX, РАХУНОК/COUNT, ОКРУГЛ/ROUND, ЯКЩО/IF, ABS, СЬОГОДНІ/TODAY, ДНІВДО (днів до дати), а також + − × ÷ ^ і &amp;. Діапазон: A1:B5. Стрілки, Enter і Tab ходять клітинками, Delete стирає. Подвійний тап по назві аркуша перейменовує його.</p>
+    </section>
+    <section class="app" id="a-tasks">
+      <h2 class="t">Задачі</h2><p class="sub">Три колонки, дата й мітка. Прострочене червоне, але без осуду.</p>
+      <div class="addtask"><input type="text" id="tNew" placeholder="Що треба зробити?"><input type="date" id="tDue"><select id="tTag"></select><button class="btn pri" id="tAdd">Додати</button></div>
+      <div class="row" style="margin-bottom:10px" id="tfilter"></div>
+      <div class="kan" id="kan"></div>
+    </section>
+    <section class="app" id="a-cards">
+      <div id="cardsView"></div>
+    </section>
+    <section class="app" id="a-cal">
+      <div class="row" style="margin-bottom:10px"><button class="ic" id="cPrev">‹</button><h2 class="t" id="cTitle" style="margin:0"></h2><button class="ic" id="cNext">›</button><span class="grow"></span><button class="btn sm" id="cToday">Сьогодні</button></div>
+      <div class="cal" id="cal"></div>
+      <div class="card calside" id="cside"></div>
+    </section>
+  </main>
+</div>
+<script>
+(function(){
+"use strict";
+var de=document.documentElement;
+if(/[?&]embed\b/.test(location.search)||window.VV_DESKTOP){de.classList.add("embed");}
+var $=function(id){return document.getElementById(id);};
+function h(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){var v=attrs[k];if(v==null||v===false)continue;
+  if(k==="class")e.className=v;else if(k==="text")e.textContent=v;else if(k==="html")e.innerHTML=v;else if(k.slice(0,2)==="on")e.addEventListener(k.slice(2),v);else e.setAttribute(k,v===true?"":v);}
+  (kids||[]).forEach(function(c){if(c==null||c===false)return;e.appendChild(typeof c==="string"?document.createTextNode(c):c);});return e;}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function load(k,d){try{var v=localStorage.getItem("vvs-"+k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function save(k,v){try{localStorage.setItem("vvs-"+k,JSON.stringify(v));}catch(e){toast("Не вдалося зберегти: пам'ять браузера заповнена.");}}
+var toastT;function toast(m){var o=document.querySelector(".toast");if(o)o.remove();var d=h("div",{class:"toast",text:m});document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(function(){d.remove();},2600);}
+function pad(n){return (n<10?"0":"")+n;}
+function iso(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
+function today(){return iso(new Date());}
+function dayDiff(a,b){return Math.round((new Date(a+"T12:00")-new Date(b+"T12:00"))/864e5);}
+function addDays(s,n){var d=new Date(s+"T12:00");d.setDate(d.getDate()+n);return iso(d);}
+var MON=["січня","лютого","березня","квітня","травня","червня","липня","серпня","вересня","жовтня","листопада","грудня"];
+var MONN=["Січень","Лютий","Березень","Квітень","Травень","Червень","Липень","Серпень","Вересень","Жовтень","Листопад","Грудень"];
+var WDS=["нд","пн","вт","ср","чт","пт","сб"];
+var WD=["неділя","понеділок","вівторок","середа","четвер","п'ятниця","субота"];
+function human(s){var n=dayDiff(s,today());if(n===0)return "сьогодні";if(n===1)return "завтра";if(n===-1)return "учора";if(n<0)return Math.abs(n)+" дн. тому";if(n<7)return "через "+n+" дн.";var d=new Date(s+"T12:00");return d.getDate()+" "+MON[d.getMonth()];}
+function confirmBox(msg,ok){var m=h("div",{class:"modal"},[h("div",{class:"box"},[h("h3",{text:msg}),h("div",{class:"row",style:"justify-content:flex-end;margin-top:14px"},[
+  h("button",{class:"btn",text:"Скасувати",onclick:function(){m.remove();}}),h("button",{class:"btn danger",text:"Так",onclick:function(){m.remove();ok();}})])])]);
+  m.addEventListener("click",function(e){if(e.target===m)m.remove();});document.body.appendChild(m);}
+function download(name,text,type){var a=h("a",{href:URL.createObjectURL(new Blob([text],{type:type||"text/plain"})),download:name});document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
+
+/* ================= theme (shared with Вайбвет Офіс) ================= */
+var THEMES=[["zone","Зона"],["night","Нічна зміна"],["amber","Бурштин"],["pink","Рожевий окоп"],["sand","Пісочниця"],["mono","Ч/Б"]],ti=0;
+try{var sv=localStorage.getItem("office-theme");THEMES.forEach(function(x,i){if(x[0]===sv)ti=i;});}catch(e){}
+function paintTheme(){de.dataset.theme=THEMES[ti][0];try{localStorage.setItem("office-theme",THEMES[ti][0]);}catch(e){}}
+paintTheme();
+$("bTheme").addEventListener("click",function(){ti=(ti+1)%THEMES.length;paintTheme();toast("🎨 "+THEMES[ti][1]);});
+addEventListener("storage",function(e){if(e.key==="office-theme"){THEMES.forEach(function(x,i){if(x[0]===e.newValue)ti=i;});paintTheme();}});
+
+/* ================= modes: who is at the desk ================= */
+var MODES={
+  med:{n:"Студент-медик",s:"Конспекти, картки до КРОК, розклад пар",w:["clock","today","cards","pomo","medfact","deadlines"],tags:["Навчання","Анатомія","Фізіологія","КРОК","Побут"]},
+  vet:{n:"Ветеран у цивільному",s:"Документи, дедлайни ЦНАПу, бюджет, самопочуття",w:["clock","today","mood","spend","deadlines","medfact"],tags:["Документи","ЦНАП","Здоров'я","Гроші","Побут"]},
+  office:{n:"Офісна робота",s:"Задачі, нотатки дзвінків, фокус-таймер",w:["clock","today","pomo","quick","deadlines","cal"],tags:["Клієнт","Дзвінок","Внутрішнє","Терміново","Побут"]},
+  art:{n:"Творчість",s:"Чернетки, ідеї, ритм письма",w:["clock","quick","pomo","today","mood","medfact"],tags:["Ідея","Чернетка","Колонка","Відео","Побут"]}};
+var cfg=load("cfg",null);
+function modeName(){return cfg&&MODES[cfg.mode]?MODES[cfg.mode].n:"";}
+function tags(){var t=cfg&&MODES[cfg.mode]?MODES[cfg.mode].tags.slice():["Робота","Навчання","Побут"];(load("tags",[])).forEach(function(x){if(t.indexOf(x)<0)t.push(x);});return t;}
+function pickMode(first){
+  var box,m=h("div",{class:"modal"},[box=h("div",{class:"box"},[h("h3",{text:first?"Для чого тобі Стіл?":"Режим Столу"}),
+    h("p",{class:"muted",style:"margin:0",text:"Режим лише підбирає віджети, мітки й шаблони. Усі програми доступні завжди, а дані зберігаються тільки на цьому пристрої."})])]);
+  var g=h("div",{class:"modes"});
+  Object.keys(MODES).forEach(function(k){g.appendChild(h("button",{class:cfg&&cfg.mode===k?"on":"",onclick:function(){setMode(k,first);m.remove();}},[h("b",{text:MODES[k].n}),h("small",{text:MODES[k].s})]));});
+  box.appendChild(g);if(!first)m.addEventListener("click",function(e){if(e.target===m)m.remove();});document.body.appendChild(m);
+}
+function setMode(k,first){
+  var keepW=cfg&&cfg.widgets&&!first;cfg=cfg||{};cfg.mode=k;
+  if(!keepW||confirmResetW){cfg.widgets=MODES[k].w.map(function(t){return {id:uid(),t:t,wide:false};});}
+  save("cfg",cfg);
+  if(first)seed(k);
+  $("modeName").textContent=modeName();renderAll();toast("Режим: "+MODES[k].n);
+}
+var confirmResetW=true;
+
+/* ================= seed: a gentle start ================= */
+function seed(k){
+  var notes=load("notes",[]);
+  if(!notes.length){
+    notes.push({id:uid(),t:"Ласкаво просимо до Столу",tag:"",ts:Date.now(),b:"# Це твій Стіл\n\nТут усе справжнє: нотатки, таблиці з формулами, задачі, картки для повторення й календар.\n\n- Дані живуть **тільки на цьому пристрої**. Резервна копія в меню «⋯».\n- Віджети на Столі можна переставляти й прибирати кнопкою «Налаштувати віджети».\n- Нотатки розуміють простий markdown: # заголовок, - список, [ ] справа, **жирний**.\n\n[ ] Подивитися всі програми зліва\n[ ] Додати першу задачу\n[x] Відкрити Стіл"});
+    save("notes",notes);
+  }
+  if(k==="med"&&!load("decks",[]).length){
+    var C=[["Норма калію в сироватці крові (дорослі, типові референтні значення)","3,5–5,0 ммоль/л"],["Норма натрію в сироватці крові","135–145 ммоль/л"],["Глюкоза крові натщесерце, норма (капілярна, ВООЗ)","3,3–5,5 ммоль/л"],
+      ["Хвилинний об'єм серця дорослого в спокої","≈ 5 л/хв (УО ≈ 70 мл × ЧСС ≈ 70)"],["Нерв, що іннервує діафрагму","Діафрагмальний нерв (n. phrenicus), C3–C5"],["Головний збудник позалікарняної пневмонії в дорослих","Streptococcus pneumoniae"],
+      ["Антидот при отруєнні парацетамолом","N-ацетилцистеїн"],["Скільки сегментів у правій легені","10 бронхолегеневих сегментів"]];
+    save("decks",[{id:uid(),n:"Приклад: швидкі норми й факти",cards:C.map(function(c){return {id:uid(),f:c[0],b:c[1],box:0,due:today()};})}]);
+  }
+  if(k==="vet"&&!load("tasks",[]).length){
+    save("tasks",[{id:uid(),t:"Перевірити, які довідки потрібні в ЦНАПі",col:0,due:addDays(today(),2),tag:"ЦНАП"},{id:uid(),t:"Записати витрати за тиждень",col:0,due:addDays(today(),6),tag:"Гроші"},{id:uid(),t:"Відкрити Стіл",col:2,due:"",tag:"Побут"}]);
+  }
+}
+
+/* ================= navigation ================= */
+var APPS=[["desk","🗂","Стіл"],["notes","📝","Нотатки"],["sheets","📊","Таблиці"],["tasks","✅","Задачі"],["cards","🧠","Картки"],["cal","📅","Календар"]],cur="desk";
+var nav=$("nav");
+APPS.forEach(function(a){nav.appendChild(h("button",{"data-a":a[0],onclick:function(){go(a[0]);}},[h("span",{class:"e",text:a[1]}),h("span",{text:a[2]})]));});
+nav.appendChild(h("span",{class:"sp"}));
+nav.appendChild(h("button",{class:"modebtn",onclick:function(){pickMode(false);}},[h("span",{class:"e",text:"⚙"}),h("span",{text:"Режим"})]));
+function go(a,noHash){
+  cur=a;[].forEach.call(nav.querySelectorAll("[data-a]"),function(b){if(b.dataset.a===a)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
+  APPS.forEach(function(x){$("a-"+x[0]).classList.toggle("on",x[0]===a);});
+  if(!noHash)try{history.replaceState(null,"","#"+a);}catch(e){}
+  R[a]&&R[a]();$("main").scrollTop=0;
+}
+var R={};
+function renderAll(){R[cur]&&R[cur]();}
+$("back").addEventListener("click",function(e){try{if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}}catch(x){}});
+
+/* ================= DESK: widgets ================= */
+var MEDFACTS=[{"f": "Слизова шлунка оновлюється за кілька днів. Тому кислота, яка розчиняє м'ясо, не перетравлює сам шлунок.", "v": "Регулярне оновлення — найкращий захист. Шлунок радить."}, {"f": "Еритроцит живе близько 120 днів, а повне коло по тілу кров проходить приблизно за хвилину.", "v": "Тобто за день кожна клітина крові встигає більше, ніж ЦНАП за тиждень."}, {"f": "Печінка може відрости до повного об'єму після того, як хірурги видалили до двох третин її маси.", "v": "Єдиний орган, який реально відновлюється після наради."}, {"f": "У рогівці немає кровоносних судин. Кисень вона бере просто з повітря та слізної рідини.", "v": "Тому прозора. Як ідеальна звітність."}, {"f": "Під час інфаркту болить ліва рука, бо нервові волокна серця й руки заходять у ті самі сегменти спинного мозку. Мозок плутає адресу.", "v": "Відбитий біль: коли проблема в одному місці, а скаржиться інше. Знайомо."}, {"f": "Найменша кістка людини, стремінце в середньому вусі, має близько трьох міліметрів.", "v": "Маленька, а без неї не почуєш, як тобі дякують за службу."}, {"f": "Мозок важить приблизно 2% маси тіла, але в спокої споживає близько 20% усієї енергії.", "v": "Навіть коли ти нічого не робиш, він працює. Дай йому поспати."}, {"f": "У стінці кишечника сотні мільйонів нейронів, більше, ніж у спинному мозку. Цю мережу називають ентеричною нервовою системою.", "v": "«Відчуття в животі» має власну нервову систему."}, {"f": "Серце б'ється приблизно сто тисяч разів на добу.", "v": "Без вихідних і без рапорту на відпустку."}, {"f": "Пересаджене серце без нервових зв'язків б'ється частіше, близько 90–100 разів на хвилину. Це власний ритм синусового вузла, без «гальма» блукаючого нерва.", "v": "Блукаючий нерв — це той, хто весь час каже серцю «спокійно»."}, {"f": "Синдром такоцубо, або «синдром розбитого серця», — справжня гостра кардіоміопатія, яка буває після сильного стресу або горя.", "v": "Серце буквально змінює форму від болю. І здебільшого відновлюється."}, {"f": "На видиху пульс трохи сповільнюється, на вдиху пришвидшується. Це дихальна синусова аритмія, нормальне явище.", "v": "Тому довгий видих справді заспокоює. Курс саморегуляції в «Ще» на цьому й побудований."}, {"f": "Втрата крові — головна причина смертей на полі бою, яким можна запобігти. Тому турнікет і тампонада вчать першими.", "v": "Час накладання турнікета записують завжди: від тривалості ішемії залежить, що робитимуть хірурги."}, {"f": "Чадний газ зв'язується з гемоглобіном у сотні разів міцніше, ніж кисень, і не має запаху.", "v": "Генератор і пічку в закритому приміщенні не вмикаємо. Датчик CO коштує менше, ніж одна довідка."}, {"f": "Пеніцилін Флемінг помітив у 1928 році, коли повернувся з відпустки до чашок Петрі, які забув прибрати.", "v": "Відпустка — доведений науковий інструмент. Передайте командиру."}, {"f": "У 1847 році Земмельвайс змусив лікарів мити руки розчином хлорного вапна, і смертність від пологової гарячки різко впала. Колеги йому не повірили.", "v": "Хороша новина, перевірена двічі, і все одно ніхто не вірить. Наша рубрика."}, {"f": "Стетоскоп Лаеннек винайшов у 1816 році, бо йому було ніяково прикладати вухо до грудей молодої пацієнтки. Він згорнув аркуш паперу в трубку.", "v": "Найкращі винаходи народжуються з ніяковості."}, {"f": "Шкіра — найбільший орган людини, близько 15% маси тіла.", "v": "І вона пам'ятає дотики. Обійми рекомендовані."}, {"f": "Нігті на руках ростуть приблизно втричі швидше, ніж на ногах.", "v": "Медицина не знає, чому руки поспішають. Ми підозрюємо роботу з документами."}, {"f": "Смакові клітини язика оновлюються приблизно раз на два тижні.", "v": "Навіть якщо кава три в одному вбила смак, за два тижні буде новий."}, {"f": "Зранку людина вища приблизно на сантиметр, ніж увечері: за день міжхребцеві диски стискаються.", "v": "Звіти на зріст подавайте зранку."}, {"f": "Гикавка — мимовільне скорочення діафрагми. Характерний звук дає голосова щілина, яка раптово закривається.", "v": "Діафрагма теж інколи робить щось без наказу."}, {"f": "ПТСР — не слабкість, а стан, який лікується. Найкращі докази мають травмофокусовані психотерапії: пролонгована експозиція, когнітивна терапія обробки травми, EMDR.", "v": "Звернутися по допомогу — це навичка, а не вирок."}, {"f": "Фантомні відчуття після ампутації бувають у більшості людей. Мозок ще довго зберігає «карту» кінцівки.", "v": "Дзеркальна терапія інколи зменшує фантомний біль. Мозку можна показати нову карту."}, {"f": "Період напіввиведення кофеїну — близько п'яти годин, у різних людей від трьох до семи.", "v": "Кава о 17:00 о десятій вечора все ще наполовину з тобою."}, {"f": "Алкоголь допомагає заснути, але пригнічує REM-фазу сну, і в другій половині ночі сон стає рваним.", "v": "Нічний ефір Вайбвет FM працює для тих, хто прокинувся о третій. Але краще спати."}, {"f": "Слово «вакцина» походить від латинського vacca — корова. Дженнер у 1796 році щепив хлопчика коров'ячою віспою, щоб захистити від натуральної.", "v": "Корова врятувала більше людей, ніж будь-яка нарада."}, {"f": "Бантинг продав патент на інсулін Торонтському університету за символічний один долар: ліки мали бути доступними.", "v": "Найкраща угода століття. Без тендера."}, {"f": "«Гусяча шкіра» — це скорочення крихітних м'язів біля волосяних фолікулів. У предків із густою шерстю так піднімалось хутро й зберігалось тепло.", "v": "Хутра вже нема, а реакція на хорошу пісню лишилась."}, {"f": "Права легеня має три частки, ліва — дві: місце звільнено для серця.", "v": "Тіло вміє поступитися місцем найважливішому."}, {"f": "У немовляти близько 300 кісткових елементів, у дорослого — 206. Частина з них з часом зростається.", "v": "Дорослішання — це коли окремі частини нарешті працюють разом."}, {"f": "Обійми, дотик і навіть погладжування собаки підвищують рівень окситоцину. Це показали дослідження.", "v": "Розділ «Гладити» має наукове обґрунтування."}, {"f": "Тривалий шум понад 85 дБ пошкоджує слух, а один постріл — це 140 дБ і більше. Шум у вухах (тинітус) — одна з найчастіших проблем ветеранів.", "v": "Беруші — теж засіб захисту. І аудіограма після служби — не зайве."}, {"f": "При переохолодженні реанімацію не припиняють, доки людину не зігріли: «ніхто не мертвий, доки не теплий і мертвий».", "v": "Холод уповільнює обмін речовин і дає мозку більше часу."}, {"f": "Голодний шлунок бурчить через мігрувальний моторний комплекс: хвилі скорочень, які раз на півтори-дві години «вичищають» кишку між прийомами їжі.", "v": "Це не скарга. Це прибирання."}, {"f": "Під час REM-сну більшість скелетних м'язів майже паралізовані, щоб людина не виконувала рухи зі сну.", "v": "Тіло на ніч саме себе ставить на запобіжник."}, {"f": "У дорослих тварин нові нейрони утворюються в гіпокампі, і біг цей процес посилює. Чи так само в дорослої людини, науковці досі сперечаються.", "v": "Але що прогулянки корисні для настрою й пам'яті, не сперечається ніхто."}, {"f": "Рана загоюється у чотири фази: гемостаз, запалення, проліферація, ремоделювання. Рубець набирає міцність ще місяцями.", "v": "Загоєння — це процес, а не подія. Як і повернення додому."}, {"f": "Кістка постійно перебудовується: остеокласти руйнують стару тканину, остеобласти будують нову. Скелет дорослого оновлюється приблизно за десять років.", "v": "Ремонт, який іде без перерви й ніколи не закінчується. Знайоме відчуття."}, {"f": "Сльози бувають трьох видів: базальні, рефлекторні й емоційні, і склад у них різний.", "v": "Плакати — фізіологічно передбачено. Довідка не потрібна."}];
+var WIDGETS={
+  clock:{n:"Годинник",s:"Час, дата, скільки до вихідних"},
+  today:{n:"Сьогодні",s:"Задачі на сьогодні й прострочені"},
+  pomo:{n:"Фокус-таймер",s:"25 хвилин роботи, 5 відпочинку"},
+  quick:{n:"Швидка нотатка",s:"Записати думку, поки не втекла"},
+  deadlines:{n:"Дедлайни",s:"Що наближається: задачі й події"},
+  cards:{n:"Картки",s:"Скільки карток час повторити"},
+  medfact:{n:"Медфакт дня",s:"Один факт на день від Вайбвет FM"},
+  mood:{n:"Самопочуття",s:"Настрій, сон і вода. Тільки для тебе"},
+  spend:{n:"Витрати",s:"Швидкий облік за місяць"},
+  cal:{n:"Міні-календар",s:"Тиждень наперед"}};
+var editing=false;
+$("deskEdit").addEventListener("click",function(){editing=!editing;this.textContent=editing?"✓ Готово":"✎ Налаштувати віджети";R.desk();});
+R.desk=function(){
+  var d=new Date(),hr=d.getHours();
+  $("hello").textContent=(hr<5?"Доброї ночі":hr<12?"Доброго ранку":hr<18?"Доброго дня":"Доброго вечора");
+  $("hellosub").textContent=WD[d.getDay()]+", "+d.getDate()+" "+MON[d.getMonth()]+" · "+modeName();
+  var desk=$("desk");desk.innerHTML="";desk.classList.toggle("editing",editing);
+  var ws=cfg.widgets||[];
+  if(!ws.length)desk.appendChild(h("div",{class:"empty",text:"Стіл порожній. Натисни «Налаштувати віджети» й додай щось."}));
+  ws.forEach(function(w,i){
+    var el=h("div",{class:"w"+(w.wide?" wide":"")});
+    el.appendChild(h("div",{class:"wtools"},[
+      h("button",{title:"Вище",text:"↑",onclick:function(){if(i>0){ws.splice(i-1,0,ws.splice(i,1)[0]);save("cfg",cfg);R.desk();}}}),
+      h("button",{title:"Нижче",text:"↓",onclick:function(){if(i<ws.length-1){ws.splice(i+1,0,ws.splice(i,1)[0]);save("cfg",cfg);R.desk();}}}),
+      h("button",{title:"Ширина",text:"↔",onclick:function(){w.wide=!w.wide;save("cfg",cfg);R.desk();}}),
+      h("button",{title:"Прибрати",text:"✕",onclick:function(){ws.splice(i,1);save("cfg",cfg);R.desk();}})]));
+    desk.appendChild(el);
+    try{W[w.t](el,w);}catch(e){el.appendChild(h("p",{class:"muted",text:"Віджет не завантажився."}));}
+  });
+  var add=$("deskAdd"),pk=$("addpick");add.style.display=editing?"block":"none";pk.innerHTML="";
+  if(editing)Object.keys(WIDGETS).forEach(function(k){pk.appendChild(h("button",{onclick:function(){ws.push({id:uid(),t:k,wide:false});cfg.widgets=ws;save("cfg",cfg);R.desk();toast("Додано: "+WIDGETS[k].n);}},[WIDGETS[k].n,h("small",{text:WIDGETS[k].s})]));});
+};
+function wh(el,title,aside){el.appendChild(h("h3",null,[title,aside?h("span",{class:"a",text:aside}):null]));}
+var W={};
+W.clock=function(el){
+  wh(el,"Годинник");var b=h("b"),d=h("div",{class:"d"}),wk=h("div",{class:"wk"});el.className+=" clock";el.appendChild(b);el.appendChild(d);el.appendChild(wk);
+  function tick(){if(!el.isConnected)return;var n=new Date();b.textContent=pad(n.getHours())+":"+pad(n.getMinutes());d.textContent=WD[n.getDay()]+", "+n.getDate()+" "+MON[n.getMonth()]+" "+n.getFullYear();
+    var dw=n.getDay(),left=dw===0||dw===6?0:6-dw;wk.textContent=left?"До суботи "+left+" "+(left===1?"день":left<5?"дні":"днів")+". Тримайся.":"Вихідні. Нікому нічого не винен.";setTimeout(tick,(60-n.getSeconds())*1000);}
+  tick();
+};
+function tasksDue(){var t=today();return load("tasks",[]).filter(function(x){return x.col!==2&&x.due&&x.due<=t;}).sort(function(a,b){return a.due<b.due?-1:1;});}
+W.today=function(el){
+  var ts=load("tasks",[]),list=tasksDue();wh(el,"Сьогодні",list.length?list.length+" спр.":"");
+  if(!list.length){el.appendChild(h("p",{class:"muted",style:"margin:0 0 8px",text:"На сьогодні нічого термінового. Рідкісний стан, насолоджуйся."}));}
+  var ul=h("ul",{class:"list"});
+  list.slice(0,6).forEach(function(x){ul.appendChild(h("li",{class:x.due<today()?"late":""},[h("button",{class:"chk",title:"Готово",onclick:function(){var a=load("tasks",[]);a.forEach(function(y){if(y.id===x.id)y.col=2;});save("tasks",a);toast("Готово ✓");R.desk();}}),h("span",{text:x.t}),h("span",{class:"x",text:human(x.due)})]));});
+  el.appendChild(ul);
+  var inp=h("input",{placeholder:"+ задача на сьогодні",style:"width:100%;margin-top:8px"});
+  inp.addEventListener("keydown",function(e){if(e.key==="Enter"&&inp.value.trim()){var a=load("tasks",[]);a.push({id:uid(),t:inp.value.trim(),col:0,due:today(),tag:""});save("tasks",a);R.desk();}});
+  el.appendChild(inp);
+};
+var pomo=load("pomo",{left:1500,run:false,mode:"work",at:0,done:{}});
+function pomoNow(){if(pomo.run){var el=Math.floor((Date.now()-pomo.at)/1000);return Math.max(0,pomo.left-el);}return pomo.left;}
+var ac=null;function bell(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();var t=ac.currentTime;[523.25,659.25,783.99].forEach(function(f,i){var o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(.0001,t+i*.18);g.gain.exponentialRampToValueAtTime(.12,t+i*.18+.02);g.gain.exponentialRampToValueAtTime(.0001,t+i*.18+1.2);o.connect(g);g.connect(ac.destination);o.start(t+i*.18);o.stop(t+i*.18+1.3);});}catch(e){}}
+W.pomo=function(el){
+  el.className+=" pomo";var n=(pomo.done[today()]||0);wh(el,"Фокус",n?"🍅 × "+n+" сьогодні":"");
+  var big=h("div",{class:"big"}),ring=h("div",{class:"ring"},[h("i")]),lbl=h("div",{class:"muted",style:"margin-bottom:10px;font-size:13px"});
+  var b1=h("button",{class:"btn pri"}),b2=h("button",{class:"btn",text:"↺ Скинути"});
+  el.appendChild(big);el.appendChild(lbl);el.appendChild(ring);el.appendChild(h("div",{class:"row",style:"justify-content:center"},[b1,b2]));
+  function full(){return pomo.mode==="work"?1500:300;}
+  function paint(){if(!el.isConnected)return;var s=pomoNow();big.textContent=pad(Math.floor(s/60))+":"+pad(s%60);lbl.textContent=pomo.mode==="work"?"Робота. Телефон екраном донизу.":"Перерва. Встань, видихни, попий води.";
+    ring.firstChild.style.width=(100*(1-s/full()))+"%";b1.textContent=pomo.run?"❚❚ Пауза":"▶ Старт";
+    if(pomo.run&&s<=0){if(pomo.mode==="work"){pomo.done[today()]=(pomo.done[today()]||0)+1;}pomo.mode=pomo.mode==="work"?"break":"work";pomo.left=full();pomo.run=false;save("pomo",pomo);bell();toast(pomo.mode==="break"?"🍅 Готово! П'ять хвилин перерви.":"Перерва скінчилась. Ще одне коло?");R.desk();return;}
+    if(pomo.run)setTimeout(paint,500);}
+  b1.addEventListener("click",function(){if(pomo.run){pomo.left=pomoNow();pomo.run=false;}else{pomo.at=Date.now();pomo.run=true;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume();}catch(e){}}save("pomo",pomo);paint();});
+  b2.addEventListener("click",function(){pomo.run=false;pomo.mode="work";pomo.left=1500;save("pomo",pomo);paint();});
+  paint();
+};
+W.quick=function(el){
+  wh(el,"Швидка нотатка");var ta=h("textarea",{rows:5,style:"width:100%",placeholder:"Пиши тут. Зберігається саме."});ta.value=load("quick","");
+  var t;ta.addEventListener("input",function(){clearTimeout(t);t=setTimeout(function(){save("quick",ta.value);},300);});
+  el.appendChild(ta);el.appendChild(h("div",{class:"row",style:"margin-top:8px"},[h("button",{class:"btn sm",text:"→ У нотатки",onclick:function(){if(!ta.value.trim())return;var a=load("notes",[]);a.unshift({id:uid(),t:ta.value.trim().split("\n")[0].slice(0,60),b:ta.value,tag:"",ts:Date.now()});save("notes",a);ta.value="";save("quick","");toast("Перенесено в нотатки");}}),
+    h("button",{class:"btn sm ghost",text:"Очистити",onclick:function(){ta.value="";save("quick","");}})]));
+};
+function upcoming(){var t=today(),out=[];load("tasks",[]).forEach(function(x){if(x.col!==2&&x.due&&x.due>=t)out.push({d:x.due,t:x.t,k:"t"});});load("events",[]).forEach(function(x){if(x.d>=t)out.push({d:x.d,t:x.t,k:"e"});});return out.sort(function(a,b){return a.d<b.d?-1:1;});}
+W.deadlines=function(el){
+  var u=upcoming();wh(el,"Дедлайни",u.length?u.length+"":"");
+  if(!u.length){el.appendChild(h("p",{class:"muted",style:"margin:0",text:"Нічого не наближається. Дати додаються в задачах і календарі."}));return;}
+  var ul=h("ul",{class:"list"});u.slice(0,6).forEach(function(x){ul.appendChild(h("li",null,[h("span",{text:x.k==="e"?"📅":"⏳"}),h("span",{text:x.t}),h("span",{class:"x",text:human(x.d)})]));});el.appendChild(ul);
+};
+function dueCards(){var t=today(),n=0;load("decks",[]).forEach(function(d){d.cards.forEach(function(c){if(c.due<=t)n++;});});return n;}
+W.cards=function(el){
+  var n=dueCards();wh(el,"Картки");el.appendChild(h("div",{class:"big",text:String(n)}));
+  el.appendChild(h("p",{class:"muted",style:"margin:6px 0 10px",text:n?"карток час повторити":"усе повторено. Мозок дякує"}));
+  el.appendChild(h("button",{class:"btn "+(n?"pri":""),text:n?"Повторити →":"До колод →",onclick:function(){go("cards");}}));
+};
+W.medfact=function(el){
+  el.className+=" mf";var day=Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5),i=(day*7+3)%Math.max(1,MEDFACTS.length);
+  var f=h("p",{class:"f"}),v=h("p",{class:"v"});wh(el,"✚ Медфакт дня");el.appendChild(f);el.appendChild(v);
+  function paint(){var m=MEDFACTS[i]||{f:"",v:""};f.textContent=m.f;v.textContent=m.v;}
+  el.appendChild(h("div",{class:"row",style:"margin-top:10px"},[h("button",{class:"btn sm",text:"ще факт ↻",onclick:function(){i=(i+1)%MEDFACTS.length;paint();}}),h("span",{class:"muted",style:"font-size:11.5px",text:"для цікавості, не замість лікаря"})]));paint();
+};
+var FACES=["😞","😕","😐","🙂","😄"];
+W.mood=function(el){
+  el.className+=" mood";var log=load("mood",{}),t=today(),e=log[t]||{m:0,s:0,w:0};wh(el,"Самопочуття","тільки на цьому пристрої");
+  function put(){log[t]=e;save("mood",log);}
+  var faces=h("div",{class:"faces"});FACES.forEach(function(f,i){faces.appendChild(h("button",{class:e.m===i+1?"on":"",text:f,"aria-label":"Настрій "+(i+1),onclick:function(){e.m=i+1;put();R.desk();}}));});el.appendChild(faces);
+  function step(lbl,key,stepv,max,unit){var v=h("b",{text:e[key]+" "+unit});return h("div",{class:"stepper"},[h("span",{class:"grow",text:lbl}),h("button",{text:"−",onclick:function(){e[key]=Math.max(0,+(e[key]-stepv).toFixed(1));v.textContent=e[key]+" "+unit;put();}}),v,h("button",{text:"+",onclick:function(){e[key]=Math.min(max,+(e[key]+stepv).toFixed(1));v.textContent=e[key]+" "+unit;put();}})]);}
+  el.appendChild(step("Сон","s",.5,16,"год"));el.appendChild(step("Вода","w",1,20,"скл."));
+  var bars=h("div",{class:"bars"});for(var k=6;k>=0;k--){var dd=addDays(t,-k),x=log[dd]||{},ht=x.m?(x.m/5*42):2;bars.appendChild(h("div",null,[h("i",{style:"height:"+ht+"px;"+(x.m?"":"opacity:.3")}),WDS[new Date(dd+"T12:00").getDay()]]));}
+  el.appendChild(bars);
+};
+W.spend=function(el){
+  var sp=load("spend",[]),m=today().slice(0,7),mine=sp.filter(function(x){return x.d.slice(0,7)===m;}),sum=mine.reduce(function(a,x){return a+x.a;},0);
+  wh(el,"Витрати",MONN[+m.slice(5)-1]);el.appendChild(h("div",{class:"big",text:sum.toLocaleString("uk-UA")+" ₴"}));
+  var a=h("input",{type:"number",inputmode:"decimal",placeholder:"сума",style:"width:90px"}),c=h("input",{placeholder:"на що",class:"grow"});
+  function add(){var v=parseFloat(String(a.value).replace(",","."));if(!(v>0))return;sp.push({id:uid(),d:today(),a:v,c:c.value.trim()||"інше"});save("spend",sp);R.desk();}
+  c.addEventListener("keydown",function(e){if(e.key==="Enter")add();});
+  el.appendChild(h("div",{class:"row",style:"margin-top:10px"},[a,c,h("button",{class:"btn sm pri",text:"+",onclick:add})]));
+  var by={};mine.forEach(function(x){by[x.c]=(by[x.c]||0)+x.a;});var ul=h("ul",{class:"list",style:"margin-top:8px"});
+  Object.keys(by).sort(function(p,q){return by[q]-by[p];}).slice(0,5).forEach(function(k){ul.appendChild(h("li",null,[h("span",{text:k}),h("span",{class:"x",text:by[k].toLocaleString("uk-UA")+" ₴"})]));});el.appendChild(ul);
+  if(mine.length)el.appendChild(h("button",{class:"btn sm ghost",style:"margin-top:6px",text:"⇩ CSV за місяць",onclick:function(){download("vytraty-"+m+".csv","Дата;Сума;На що\n"+mine.map(function(x){return x.d+";"+x.a+";"+x.c.replace(/;/g,",");}).join("\n"),"text/csv");}}));
+};
+W.cal=function(el){
+  wh(el,"Тиждень");var ul=h("ul",{class:"list"}),ev=load("events",[]),ts=load("tasks",[]);
+  for(var k=0;k<7;k++){var d=addDays(today(),k),items=ev.filter(function(x){return x.d===d;}).map(function(x){return x.t;}).concat(ts.filter(function(x){return x.due===d&&x.col!==2;}).map(function(x){return "⏳ "+x.t;}));
+    ul.appendChild(h("li",null,[h("b",{style:"width:92px;flex:none;font-size:13px",text:k===0?"сьогодні":k===1?"завтра":WD[new Date(d+"T12:00").getDay()]}),h("span",{class:items.length?"":"muted",style:"overflow:hidden;text-overflow:ellipsis;white-space:nowrap",text:items.length?items.join(" · "):"—"})]));}
+  el.appendChild(ul);
+};
+
+/* ================= NOTES ================= */
+var TPL={
+  "Конспект лекції":"# Лекція: \nДата: {d} · Викладач: \n\n## Головне за 3 речення\n- \n\n## Терміни\n- **термін** — визначення\n\n## Що незрозуміло\n[ ] \n\n## Питання до КРОК\n- ",
+  "Розбір клінічного випадку":"# Випадок: \nДата: {d}\n\n## Скарги\n\n## Анамнез\n\n## Об'єктивно\n\n## Попередній діагноз\n\n## Диференційна діагностика\n- \n\n## План обстеження\n[ ] \n\n## Чого я навчився\n",
+  "Нотатки дзвінка з клієнтом":"# Дзвінок: \nДата: {d} · Учасники: \n\n## Контекст\n\n## Що сказав клієнт\n- \n\n## Ризики / сигнали\n- \n\n## Домовленості\n[ ] Хто — що — до коли\n\n## Follow-up\n",
+  "Follow-up лист":"Тема: Підсумки нашої розмови {d}\n\nДоброго дня, ...!\n\nДякую за час сьогодні. Коротко, про що домовились:\n\n1. \n2. \n\nНаступний крок: ... до ...\n\nЯкщо щось пропустив, напишіть, будь ласка.\n\nЗ повагою,\n",
+  "Чекліст до ЦНАПу":"# ЦНАП: \nДата візиту: {d}\n\n## Взяти з собою\n[ ] Паспорт / ID-картка\n[ ] РНОКПП (ІПН)\n[ ] Посвідчення / УБД (якщо потрібно)\n[ ] Копії документів\n[ ] Ручка й зарядка\n\n## Що питати\n- \n\n## Що сказали (ім'я, вікно, термін)\n- ",
+  "Щоденник дня":"# {d}\n\nНастрій: \nСпав: \n\n## Що було добре\n- \n\n## Що було важко\n- \n\n## Одна річ на завтра\n[ ] ",
+  "Чернетка колонки":"# Назва колонки\n\n> Теза одним реченням: \n\n## Антитеза\n\n## Сцена / приклад\n\n## Висновок\n\nP.S. ",
+  "Ідея для відео":"# Ідея: \n\n## Хук (перші 5 секунд)\n\n## Три тези\n1. \n2. \n3. \n\n## Кадри / приклади\n- \n\n## Заклик наприкінці\n"};
+var nOpen=null,nPrev=false;
+function mdLite(s){
+  function inl(x){return x.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/`(.+?)`/g,"<code>$1</code>").replace(/(^|[\s(])\*(.+?)\*/g,"$1<i>$2</i>");}
+  var out=[],inList=false;s.split("\n").forEach(function(l,i){
+    var m;
+    if((m=l.match(/^\s*\[( |x)\]\s?(.*)$/i))){if(inList==="u"){out.push("</ul>");inList=false;}if(!inList){out.push("<ul style='list-style:none;padding-left:.2em'>");inList="c";}out.push("<li class='"+(m[1]!==" "?"done":"")+"'><button class='chk"+(m[1]!==" "?" on":"")+"' data-ln='"+i+"' style='display:inline-grid;vertical-align:-4px;margin-right:6px'>"+(m[1]!==" "?"✓":"")+"</button>"+inl(m[2])+"</li>");return;}
+    if((m=l.match(/^\s*[-•]\s+(.*)$/))||(m=l.match(/^\s*\d+\.\s+(.*)$/))){if(inList==="c"){out.push("</ul>");inList=false;}if(!inList){out.push("<ul>");inList="u";}out.push("<li>"+inl(m[1])+"</li>");return;}
+    if(inList){out.push("</ul>");inList=false;}
+    if((m=l.match(/^(#{1,3})\s+(.*)$/))){out.push("<h"+m[1].length+">"+inl(m[2])+"</h"+m[1].length+">");return;}
+    if((m=l.match(/^>\s?(.*)$/))){out.push("<p style='border-left:3px solid var(--amber);padding-left:10px;color:var(--dim)'>"+inl(m[1])+"</p>");return;}
+    out.push(l.trim()?"<p>"+inl(l)+"</p>":"");
+  });if(inList)out.push("</ul>");return out.join("");
+}
+R.notes=function(){
+  var notes=load("notes",[]),q=$("nq").value.trim().toLowerCase();
+  var tp=$("ntpl");if(!tp.childNodes.length){var sel=h("select",{class:"grow"},[h("option",{value:"",text:"+ з шаблону…"})]);Object.keys(TPL).forEach(function(k){sel.appendChild(h("option",{value:k,text:k}));});
+    sel.addEventListener("change",function(){if(!sel.value)return;var k=sel.value;sel.value="";newNote(k,TPL[k].replace(/\{d\}/g,new Date().toLocaleDateString("uk-UA")));});tp.appendChild(sel);}
+  var list=$("nlist");list.innerHTML="";
+  var shown=notes.filter(function(n){return !q||(n.t+" "+n.b).toLowerCase().indexOf(q)>=0;}).sort(function(a,b){return (b.pin?1:0)-(a.pin?1:0)||b.ts-a.ts;});
+  if(!shown.length)list.appendChild(h("div",{class:"empty",text:q?"Нічого не знайдено.":"Ще немає нотаток."}));
+  shown.forEach(function(n){list.appendChild(h("button",{class:"nitem"+(nOpen===n.id?" on":""),onclick:function(){nOpen=n.id;nPrev=false;R.notes();}},[h("b",{text:(n.pin?"📌 ":"")+(n.t||"Без назви")}),h("span",{text:new Date(n.ts).toLocaleDateString("uk-UA")+" · "+n.b.replace(/[#*\[\]>]/g,"").replace(/\s+/g," ").slice(0,70)})]));});
+  var pane=$("npane");pane.innerHTML="";var n=notes.filter(function(x){return x.id===nOpen;})[0];
+  $("nsplit").classList.toggle("open",!!n);
+  if(!n){pane.appendChild(h("div",{class:"empty",text:"Обери нотатку зліва або створи нову."}));return;}
+  var title=h("input",{class:"ntitle",value:n.t,placeholder:"Назва"}),body=h("textarea",{class:"nbody",spellcheck:"true"});body.value=n.b;
+  var tsave;function persist(){clearTimeout(tsave);tsave=setTimeout(function(){var a=load("notes",[]);a.forEach(function(x){if(x.id===n.id){x.t=title.value;x.b=body.value;x.ts=Date.now();}});save("notes",a);},250);}
+  title.addEventListener("input",persist);body.addEventListener("input",persist);
+  title.addEventListener("change",function(){R.notes();});
+  pane.appendChild(h("div",{class:"row"},[h("button",{class:"btn sm ghost",text:"← До списку",style:"display:"+(innerWidth<=760?"inline-flex":"none"),onclick:function(){nOpen=null;R.notes();}}),h("span",{class:"grow"}),
+    h("button",{class:"btn sm",text:nPrev?"✎ Редагувати":"👁 Перегляд",onclick:function(){nPrev=!nPrev;persistNow();R.notes();}}),
+    h("button",{class:"btn sm",text:n.pin?"Відкріпити":"📌",title:"Закріпити",onclick:function(){var a=load("notes",[]);a.forEach(function(x){if(x.id===n.id)x.pin=!x.pin;});save("notes",a);R.notes();}}),
+    h("button",{class:"btn sm",text:"⇩ .md",onclick:function(){download((n.t||"notatka").replace(/[\\/:*?"<>|]/g,"_")+".md",body.value,"text/markdown");}}),
+    h("button",{class:"btn sm",text:"→ задачі",title:"Усі [ ] пункти стануть задачами",onclick:function(){var c=0,a=load("tasks",[]);body.value.split("\n").forEach(function(l){var m=l.match(/^\s*\[ \]\s?(.+)$/);if(m&&m[1].trim()){a.push({id:uid(),t:m[1].trim(),col:0,due:"",tag:""});c++;}});save("tasks",a);toast(c?"Додано задач: "+c:"Немає пунктів «[ ]» для задач");}}),
+    h("button",{class:"btn sm danger",text:"🗑",title:"Видалити",onclick:function(){confirmBox("Видалити нотатку «"+(n.t||"Без назви")+"»?",function(){save("notes",load("notes",[]).filter(function(x){return x.id!==n.id;}));nOpen=null;R.notes();});}})]));
+  function persistNow(){var a=load("notes",[]);a.forEach(function(x){if(x.id===n.id){x.t=title.value;x.b=body.value;x.ts=Date.now();}});save("notes",a);n.b=body.value;}
+  pane.appendChild(title);
+  if(nPrev){var pv=h("div",{class:"prev",html:mdLite(n.b)});pv.addEventListener("click",function(e){var b=e.target.closest("[data-ln]");if(!b)return;var ls=n.b.split("\n"),k=+b.dataset.ln;ls[k]=ls[k].replace(/\[( |x)\]/i,function(_,c){return c===" "?"[x]":"[ ]";});n.b=ls.join("\n");body.value=n.b;persistNow();pv.innerHTML=mdLite(n.b);});pane.appendChild(pv);}
+  else pane.appendChild(body);
+};
+function newNote(t,b){var a=load("notes",[]),n={id:uid(),t:t||"",b:b||"",tag:"",ts:Date.now()};a.unshift(n);save("notes",a);nOpen=n.id;nPrev=false;R.notes();setTimeout(function(){var e=document.querySelector(t?".nbody":".ntitle");if(e)e.focus();},50);}
+$("nNew").addEventListener("click",function(){newNote("","");});
+$("nq").addEventListener("input",function(){R.notes();});
+
+/* ================= SHEETS: a real little spreadsheet ================= */
+var NC=12,NR=40,books=load("sheets",null);
+if(!books||!books.length)books=[{id:uid(),n:"Аркуш 1",c:{},rows:NR}];
+var si=0,sel={r:1,c:1};
+function cname(c){return String.fromCharCode(64+c);}
+function ref(r,c){return cname(c)+r;}
+function parseRef(s){var m=/^\$?([A-Z])\$?(\d+)$/.exec(s.toUpperCase());return m?{c:m[1].charCodeAt(0)-64,r:+m[2]}:null;}
+function saveBooks(){save("sheets",books);}
+function raw(sh,k){return sh.c[k]==null?"":String(sh.c[k]);}
+function num(v){if(typeof v==="number")return v;if(v===""||v==null)return 0;if(typeof v==="boolean")return v?1:0;var t=String(v).replace(/[\s\u00a0\u202f]/g,"").replace(",",".");return t===""?NaN:Number(t);}
+function dateOf(v){var s=String(v).trim(),m;if((m=/^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(s)))return m[1]+"-"+pad(+m[2])+"-"+pad(+m[3]);if((m=/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{4})$/.exec(s)))return m[3]+"-"+pad(+m[2])+"-"+pad(+m[1]);throw "#ДАТА?";}
+var FN={
+  SUM:function(a){return flat(a).reduce(function(s,x){var n=num(x);return s+(isNaN(n)?0:n);},0);},
+  AVERAGE:function(a){var v=flat(a).filter(function(x){return x!==""&&!isNaN(num(x));});if(!v.length)throw "#ДІЛ/0!";return FN.SUM([v])/v.length;},
+  MIN:function(a){var v=flat(a).filter(function(x){return x!==""&&!isNaN(num(x));}).map(num);return v.length?Math.min.apply(null,v):0;},
+  MAX:function(a){var v=flat(a).filter(function(x){return x!==""&&!isNaN(num(x));}).map(num);return v.length?Math.max.apply(null,v):0;},
+  COUNT:function(a){return flat(a).filter(function(x){return x!==""&&!isNaN(num(x));}).length;},
+  COUNTA:function(a){return flat(a).filter(function(x){return x!=="";}).length;},
+  ROUND:function(a){var p=Math.pow(10,num(a[1]||0));return Math.round(num(a[0])*p)/p;},
+  ABS:function(a){return Math.abs(num(a[0]));},
+  IF:function(a){return truthy(a[0])?(a.length>1?a[1]:true):(a.length>2?a[2]:false);},
+  TODAY:function(){return today();},
+  DAYSTO:function(a){return dayDiff(dateOf(a[0]),today());},
+  CONCAT:function(a){return flat(a).join("");}};
+var ALIAS={"СУМ":"SUM","СУММ":"SUM","СРЗНАЧ":"AVERAGE","СЕРЕДНЄ":"AVERAGE","МІН":"MIN","МИН":"MIN","МАКС":"MAX","РАХУНОК":"COUNT","СЧЁТ":"COUNT","РАХУНОКЗ":"COUNTA","ОКРУГЛ":"ROUND","ЯКЩО":"IF","ЕСЛИ":"IF","СЬОГОДНІ":"TODAY","ЗЧЕПИТИ":"CONCAT","ДНІВДО":"DAYSTO"};
+function flat(a){var o=[];a.forEach(function(x){if(Array.isArray(x))o=o.concat(flat(x));else o.push(x);});return o;}
+function truthy(v){if(typeof v==="string")return v!==""&&v!=="0"&&v.toUpperCase()!=="FALSE"&&v.toUpperCase()!=="ХИБНІСТЬ";return !!v;}
+function evalCell(sh,k,stack){
+  var s=raw(sh,k);if(s.charAt(0)!=="="){var n=num(s);return s.trim()!==""&&!isNaN(n)&&/^\s*-?[\d\s]*[.,]?\d+\s*$/.test(s)?n:s;}
+  if(stack[k])throw "#ЦИКЛ!";stack[k]=1;try{return formula(sh,s.slice(1),stack);}finally{delete stack[k];}
+}
+function formula(sh,src,stack){
+  var toks=[],i=0,m,re=/\s*(?:("(?:[^"]|"")*")|(\d+(?:[.,]\d+)?(?![A-Za-z(]))|(\$?[A-Za-z]\$?\d+(?::\$?[A-Za-z]\$?\d+)?)|([A-Za-zА-ЯІЇЄҐа-яіїєґЁё]+)\s*\(|(<=|>=|<>|[-+*/^&(),;=<>%]))/y;
+  while(i<src.length){re.lastIndex=i;m=re.exec(src);if(!m){if(/^\s*$/.test(src.slice(i)))break;throw "#ПОМИЛКА!";}i=re.lastIndex;
+    if(m[1])toks.push({s:m[1].slice(1,-1).replace(/""/g,'"')});else if(m[2])toks.push({n:+m[2].replace(",",".")});else if(m[3])toks.push({ref:m[3].toUpperCase()});else if(m[4])toks.push({fn:m[4].toUpperCase()});else toks.push({op:m[5]});}
+  var p=0;function peek(){return toks[p];}function isOp(o){var t=toks[p];return t&&t.op===o;}
+  function val(k){var v=evalCell(sh,k,stack);if(typeof v==="string"&&v.charAt(0)==="#")throw v;return v;}
+  function range(a,b){var A=parseRef(a),B=parseRef(b),out=[];if(!A||!B)throw "#ПОСИЛАННЯ!";for(var r=Math.min(A.r,B.r);r<=Math.max(A.r,B.r);r++)for(var c=Math.min(A.c,B.c);c<=Math.max(A.c,B.c);c++)out.push(val(ref(r,c)));return out;}
+  function prim(){var t=toks[p++];if(!t)throw "#ПОМИЛКА!";
+    if(t.n!=null)return t.n;if(t.s!=null)return t.s;
+    if(t.ref){var pr=t.ref.split(":");return pr.length===2?range(pr[0],pr[1]):val(pr[0]);}
+    if(t.fn){var f=FN[ALIAS[t.fn]||t.fn];if(!f)throw "#ІМ'Я?";var args=[];if(!isOp(")")){do{args.push(cmp());}while((isOp(";")||isOp(","))&&++p);}if(!isOp(")"))throw "#ПОМИЛКА!";p++;return f(args);}
+    if(t.op==="("){var v=cmp();if(!isOp(")"))throw "#ПОМИЛКА!";p++;return v;}
+    if(t.op==="-")return -N(unary());if(t.op==="+")return N(unary());throw "#ПОМИЛКА!";}
+  function N(v){if(Array.isArray(v))throw "#ЗНАЧ!";var n=num(v);if(isNaN(n))throw "#ЗНАЧ!";return n;}
+  function unary(){var v=prim();if(isOp("%")){p++;v=N(v)/100;}return v;}
+  function pow(){var v=unary();while(isOp("^")){p++;v=Math.pow(N(v),N(unary()));}return v;}
+  function mul(){var v=pow();while(isOp("*")||isOp("/")){var o=toks[p++].op,r=N(pow());if(o==="/"){if(r===0)throw "#ДІЛ/0!";v=N(v)/r;}else v=N(v)*r;}return v;}
+  function add(){var v=mul();while(isOp("+")||isOp("-")){var o=toks[p++].op,r=N(mul());v=o==="+"?N(v)+r:N(v)-r;}return v;}
+  function cat(){var v=add();while(isOp("&")){p++;v=String(v)+String(add());}return v;}
+  function cmp(){var v=cat();while(peek()&&/^(=|<>|<|>|<=|>=)$/.test(peek().op||"")){var o=toks[p++].op,r=cat(),a=isNaN(num(v))?v:num(v),b=isNaN(num(r))?r:num(r);
+    v=o==="="?a==b:o==="<>"?a!=b:o==="<"?a<b:o===">"?a>b:o==="<="?a<=b:a>=b;}return v;}
+  var out=cmp();if(p<toks.length)throw "#ПОМИЛКА!";if(Array.isArray(out))out=out[0];return out;
+}
+function show(v){if(typeof v==="boolean")return v?"ІСТИНА":"ХИБНІСТЬ";if(typeof v==="number"){if(!isFinite(v))return "#ЧИСЛО!";return Math.abs(v)>=1e12||(Math.abs(v)<1e-6&&v!==0)?v.toExponential(3):v.toLocaleString("uk-UA",{maximumFractionDigits:6});}return String(v);}
+function cellText(sh,k){try{return show(evalCell(sh,k,{}));}catch(e){return typeof e==="string"?e:"#ПОМИЛКА!";}}
+var gridBuilt=-1;
+R.sheets=function(){
+  var sh=books[si];if(!sh){si=0;sh=books[0];}NR=sh.rows||40;
+  var tb=$("grid"),html="<tr><th class='rh'></th>";for(var c=1;c<=NC;c++)html+="<th>"+cname(c)+"</th>";html+="</tr>";
+  for(var r=1;r<=NR;r++){html+="<tr><th class='rh'>"+r+"</th>";for(c=1;c<=NC;c++)html+="<td data-k='"+ref(r,c)+"'></td>";html+="</tr>";}
+  tb.innerHTML=html;paintGrid();
+  var st=$("stabs");st.innerHTML="";books.forEach(function(b,i){var btn=h("button",{class:i===si?"on":"",text:b.n,onclick:function(){if(si!==i){si=i;sel={r:1,c:1};R.sheets();}}});
+    btn.addEventListener("dblclick",function(){var n=prompt("Назва аркуша",b.n);if(n&&n.trim()){b.n=n.trim().slice(0,40);saveBooks();R.sheets();}});st.appendChild(btn);});
+  st.appendChild(h("button",{text:"+",title:"Новий аркуш",onclick:function(){books.push({id:uid(),n:"Аркуш "+(books.length+1),c:{},rows:40});si=books.length-1;saveBooks();R.sheets();}}));
+  st.appendChild(h("button",{text:"+10 рядків",onclick:function(){sh.rows=(sh.rows||40)+10;saveBooks();R.sheets();}}));
+  if(books.length>1)st.appendChild(h("button",{text:"🗑 аркуш",onclick:function(){confirmBox("Видалити аркуш «"+sh.n+"»?",function(){books.splice(si,1);si=0;saveBooks();R.sheets();});}}));
+  $("sname").textContent=sh.n;
+  selectCell(sel.r,sel.c,true);
+};
+function paintGrid(){var sh=books[si];[].forEach.call($("grid").querySelectorAll("td"),function(td){var k=td.dataset.k,s=raw(sh,k),t=s===""?"":cellText(sh,k);td.textContent=t;
+  td.className=(t.charAt(0)==="#"&&s.charAt(0)==="="?"err ":"")+(/^-?[\d\s\u00a0]+([.,]\d+)?$/.test(t.replace(/\u202f/g,""))?"n ":"")+(sel&&k===ref(sel.r,sel.c)?"sel":"")+(sh.b&&sh.b[k]?" b":"");});}
+function selectCell(r,c,quiet){var sh=books[si];r=Math.max(1,Math.min(NR,r));c=Math.max(1,Math.min(NC,c));sel={r:r,c:c};
+  [].forEach.call($("grid").querySelectorAll("td.sel"),function(x){x.classList.remove("sel");});var td=$("grid").querySelector("td[data-k='"+ref(r,c)+"']");if(td){td.classList.add("sel");if(!quiet)td.scrollIntoView({block:"nearest",inline:"nearest"});}
+  $("sref").textContent=ref(r,c);$("sfx").value=raw(sh,ref(r,c));}
+function commit(v){var sh=books[si],k=ref(sel.r,sel.c);if(v==="")delete sh.c[k];else sh.c[k]=v;saveBooks();paintGrid();}
+$("grid").addEventListener("click",function(e){var td=e.target.closest("td");if(!td)return;var p=parseRef(td.dataset.k);
+  if(fxFormula()&&document.activeElement===$("sfx")){var i=$("sfx");i.value+=td.dataset.k;i.focus();return;} /* click a cell while typing a formula: insert its reference */
+  selectCell(p.r,p.c);});
+$("grid").addEventListener("dblclick",function(){$("sfx").focus();});
+function fxFormula(){var v=$("sfx").value;return v.charAt(0)==="="&&/[(=+\-*/;,:&^<>]$/.test(v);}
+$("sfx").addEventListener("keydown",function(e){
+  if(e.key==="Enter"||e.key==="Tab"){e.preventDefault();commit(this.value);if(e.key==="Tab")selectCell(sel.r,sel.c+(e.shiftKey?-1:1));else selectCell(sel.r+(e.shiftKey?-1:1),sel.c);this.blur();$("gwrap").focus();}
+  else if(e.key==="Escape"){this.value=raw(books[si],ref(sel.r,sel.c));this.blur();$("gwrap").focus();}
+});
+$("sfx").addEventListener("blur",function(){var v=this.value;if(v!==raw(books[si],ref(sel.r,sel.c)))commit(v);});
+$("gwrap").tabIndex=0;
+$("gwrap").addEventListener("keydown",function(e){
+  if(cur!=="sheets"||document.activeElement===$("sfx"))return;
+  var k=e.key,mv={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1],Enter:[1,0],Tab:[0,e.shiftKey?-1:1]}[k];
+  if(mv){e.preventDefault();selectCell(sel.r+mv[0],sel.c+mv[1]);return;}
+  if(k==="Delete"||k==="Backspace"){e.preventDefault();commit("");$("sfx").value="";return;}
+  if((e.metaKey||e.ctrlKey)&&(k==="b"||k==="и")){e.preventDefault();var sh=books[si],kk=ref(sel.r,sel.c);sh.b=sh.b||{};sh.b[kk]=!sh.b[kk];saveBooks();paintGrid();return;}
+  if(k.length===1&&!e.metaKey&&!e.ctrlKey&&!e.altKey){e.preventDefault();var i=$("sfx");i.value=k;i.focus();}
+});
+var STPL={
+  "Бюджет місяця":{A1:"Стаття",B1:"План, ₴",C1:"Факт, ₴",D1:"Різниця",A2:"Житло",A3:"Їжа",A4:"Транспорт",A5:"Зв'язок",A6:"Здоров'я",A7:"Навчання",A8:"Відпочинок",A9:"Інше",A11:"РАЗОМ",B11:"=СУМ(B2:B9)",C11:"=СУМ(C2:C9)",D11:"=B11-C11",A13:"Дохід",B13:"",A14:"Залишок",B14:"=B13-C11",
+    D2:"=B2-C2",D3:"=B3-C3",D4:"=B4-C4",D5:"=B5-C5",D6:"=B6-C6",D7:"=B7-C7",D8:"=B8-C8",D9:"=B9-C9"},
+  "Розклад пар":{A1:"Час",B1:"Пн",C1:"Вт",D1:"Ср",E1:"Чт",F1:"Пт",A2:"08:30",A3:"10:10",A4:"11:50",A5:"13:30",A6:"15:10"},
+  "Трекер сну й самопочуття":{A1:"Дата",B1:"Ліг",C1:"Встав",D1:"Сон, год",E1:"Настрій 1–5",F1:"Примітка",A10:"Середнє",D10:"=ОКРУГЛ(СРЗНАЧ(D2:D8);1)",E10:"=ОКРУГЛ(СРЗНАЧ(E2:E8);1)"},
+  "Облік клієнтів":{A1:"Клієнт",B1:"Статус",C1:"Наступний крок",D1:"Дата",E1:"Ризик 1–5",F1:"Примітка",A12:"Середній ризик",E12:"=ОКРУГЛ(СРЗНАЧ(E2:E10);1)",A13:"Клієнтів",E13:"=РАХУНОКЗ(A2:A10)"},
+  "Документи й терміни":{A1:"Документ",B1:"Де отримати",C1:"Подано",D1:"Термін",E1:"Днів лишилось",A2:"",D2:"",E2:"=ЯКЩО(D2=\"\";\"\";ДНІВДО(D2))",F1:"Підказка: дату пиши як 25.12.2026"}};
+$("sTpl").addEventListener("click",function(){
+  var box,m=h("div",{class:"modal"},[box=h("div",{class:"box"},[h("h3",{text:"Новий аркуш із шаблону"})])]);
+  Object.keys(STPL).forEach(function(k){box.appendChild(h("button",{class:"btn",style:"margin:6px 6px 0 0",text:k,onclick:function(){var c={},t=STPL[k];for(var x in t)if(t[x]!=="")c[x]=t[x];var b={};["A1","B1","C1","D1","E1","F1","A11","A10","A12","A13","A14"].forEach(function(r){if(c[r])b[r]=true;});books.push({id:uid(),n:k,c:c,b:b,rows:40});si=books.length-1;saveBooks();m.remove();R.sheets();toast("Створено: "+k);}}));});
+  m.addEventListener("click",function(e){if(e.target===m)m.remove();});document.body.appendChild(m);
+});
+function csvCell(s){s=String(s);return /[;"\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;}
+$("sCsv").addEventListener("click",function(){var sh=books[si],maxR=0,maxC=0;Object.keys(sh.c).forEach(function(k){var p=parseRef(k);if(p){maxR=Math.max(maxR,p.r);maxC=Math.max(maxC,p.c);}});
+  var lines=[];for(var r=1;r<=maxR;r++){var row=[];for(var c=1;c<=maxC;c++){var k=ref(r,c);row.push(csvCell(raw(sh,k)===""?"":cellText(sh,k).replace(/\u00a0|\u202f/g," ")));}lines.push(row.join(";"));}
+  download(sh.n.replace(/[\\/:*?"<>|]/g,"_")+".csv","\ufeff"+lines.join("\n"),"text/csv");});
+$("sImp").addEventListener("change",function(){var f=this.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){
+  var txt=String(rd.result).replace(/^\ufeff/,""),sep=(txt.split("\n")[0].match(/;/g)||[]).length>=(txt.split("\n")[0].match(/,/g)||[]).length?";":",",c={},r=1;
+  var rows=[],row=[],cell="",q=false;for(var i=0;i<txt.length;i++){var ch=txt[i];if(q){if(ch==='"'){if(txt[i+1]==='"'){cell+='"';i++;}else q=false;}else cell+=ch;}
+    else if(ch==='"')q=true;else if(ch===sep){row.push(cell);cell="";}else if(ch==="\n"){row.push(cell.replace(/\r$/,""));rows.push(row);row=[];cell="";}else cell+=ch;}
+  if(cell!==""||row.length){row.push(cell);rows.push(row);}
+  rows.forEach(function(rw,ri){rw.slice(0,NC).forEach(function(v,ci){if(v!=="")c[ref(ri+1,ci+1)]=v;});});
+  books.push({id:uid(),n:f.name.replace(/\.csv$/i,"").slice(0,40),c:c,rows:Math.max(40,rows.length+5)});si=books.length-1;saveBooks();R.sheets();toast("Імпортовано рядків: "+rows.length);};rd.readAsText(f);this.value="";});
+
+/* ================= TASKS ================= */
+var COLS=["Треба","Роблю","Готово"],tf="";
+function fillTags(){var s=$("tTag");s.innerHTML="";s.appendChild(h("option",{value:"",text:"без мітки"}));tags().forEach(function(t){s.appendChild(h("option",{value:t,text:t}));});}
+R.tasks=function(){
+  fillTags();var ts=load("tasks",[]),t=today();
+  var f=$("tfilter");f.innerHTML="";[["","Усі"],["@today","Сьогодні"],["@late","Прострочені"]].concat(tags().map(function(x){return [x,x];})).forEach(function(x){f.appendChild(h("button",{class:"btn sm"+(tf===x[0]?" pri":""),text:x[1],onclick:function(){tf=x[0];R.tasks();}}));});
+  var k=$("kan");k.innerHTML="";
+  COLS.forEach(function(cn,ci){
+    var items=ts.filter(function(x){return x.col===ci&&(!tf||(tf==="@today"?x.due===t:tf==="@late"?(x.due&&x.due<t&&x.col!==2):x.tag===tf));})
+      .sort(function(a,b){return (a.due||"9")<(b.due||"9")?-1:(a.due||"9")>(b.due||"9")?1:0;});
+    var col=h("div",{class:"col"},[h("h4",null,[cn,h("span",{text:String(items.length)})])]);
+    if(!items.length)col.appendChild(h("p",{class:"muted",style:"font-size:13px;margin:6px 4px",text:ci===2?"Тут з'являтиметься зроблене.":"Порожньо."}));
+    items.forEach(function(x){var late=x.due&&x.due<t&&ci!==2;
+      col.appendChild(h("div",{class:"task"},[h("div",{class:"tt",text:x.t}),h("div",{class:"meta"},[x.tag?h("span",{class:"tag",text:x.tag}):null,x.due?h("span",{class:"due"+(late?" late":""),text:"⏳ "+human(x.due)}):null,
+        h("span",{class:"mv"},[ci>0?h("button",{title:"Назад",text:"←",onclick:function(){mvTask(x.id,-1);}}):null,ci<2?h("button",{title:"Далі",text:ci===1?"✓":"→",onclick:function(){mvTask(x.id,1);}}):null,
+          h("button",{title:"Змінити",text:"✎",onclick:function(){var n=prompt("Задача",x.t);if(n!=null&&n.trim()){var a=load("tasks",[]);a.forEach(function(y){if(y.id===x.id)y.t=n.trim();});save("tasks",a);R.tasks();}}}),
+          h("button",{title:"Видалити",text:"✕",onclick:function(){save("tasks",load("tasks",[]).filter(function(y){return y.id!==x.id;}));R.tasks();}})])])]));});
+    if(ci===2&&items.length>3)col.appendChild(h("button",{class:"btn sm ghost",text:"Прибрати зроблене",onclick:function(){confirmBox("Прибрати всі зроблені задачі?",function(){save("tasks",load("tasks",[]).filter(function(y){return y.col!==2;}));R.tasks();});}}));
+    k.appendChild(col);
+  });
+};
+function mvTask(id,d){var a=load("tasks",[]);a.forEach(function(y){if(y.id===id){y.col=Math.max(0,Math.min(2,y.col+d));if(y.col===2)toast("Готово ✓ Так тримати.");}});save("tasks",a);R.tasks();}
+function addTask(){var t=$("tNew").value.trim();if(!t)return;var a=load("tasks",[]);a.push({id:uid(),t:t,col:0,due:$("tDue").value||"",tag:$("tTag").value});save("tasks",a);$("tNew").value="";R.tasks();$("tNew").focus();}
+$("tAdd").addEventListener("click",addTask);$("tNew").addEventListener("keydown",function(e){if(e.key==="Enter")addTask();});
+
+/* ================= CARDS: Leitner boxes ================= */
+var IV=[0,1,3,7,14,30,60],cDeck=null,cStudy=null;
+R.cards=function(){
+  var v=$("cardsView");v.innerHTML="";var decks=load("decks",[]),t=today();
+  if(cStudy){studyView(v);return;}
+  var d=decks.filter(function(x){return x.id===cDeck;})[0];
+  if(!d){
+    v.appendChild(h("h2",{class:"t",text:"Картки"}));v.appendChild(h("p",{class:"sub",text:"Питання з одного боку, відповідь з іншого. Що знаєш, повторюється рідше, що ні, частіше. Так працює інтервальне повторення."}));
+    var g=h("div",{class:"decks"});
+    decks.forEach(function(x){var due=x.cards.filter(function(c){return c.due<=t;}).length;g.appendChild(h("button",{class:"deck",onclick:function(){cDeck=x.id;R.cards();}},[h("b",{text:x.n}),h("span",{class:"muted",style:"font-size:13px",text:x.cards.length+" карт."}),h("div",{class:"due",text:due?"повторити: "+due:"усе повторено ✓"})]));});
+    var inp=h("input",{placeholder:"Назва нової колоди"});
+    g.appendChild(h("div",{class:"deck"},[h("b",{text:"+ Нова колода"}),h("div",{class:"row",style:"margin-top:8px"},[inp,h("button",{class:"btn sm pri",text:"Створити",onclick:function(){if(!inp.value.trim())return;var a=load("decks",[]),n={id:uid(),n:inp.value.trim(),cards:[]};a.push(n);save("decks",a);cDeck=n.id;R.cards();}})])]));
+    v.appendChild(g);return;
+  }
+  var due=d.cards.filter(function(c){return c.due<=t;});
+  v.appendChild(h("div",{class:"row",style:"margin-bottom:8px"},[h("button",{class:"btn sm ghost",text:"← Колоди",onclick:function(){cDeck=null;R.cards();}}),h("h2",{class:"t grow",style:"margin:0",text:d.n}),
+    h("button",{class:"btn sm",text:"✎",title:"Перейменувати",onclick:function(){var n=prompt("Назва колоди",d.n);if(n&&n.trim()){var a=load("decks",[]);a.forEach(function(x){if(x.id===d.id)x.n=n.trim();});save("decks",a);R.cards();}}}),
+    h("button",{class:"btn sm danger",text:"🗑",onclick:function(){confirmBox("Видалити колоду «"+d.n+"» з усіма картками?",function(){save("decks",load("decks",[]).filter(function(x){return x.id!==d.id;}));cDeck=null;R.cards();});}})]));
+  v.appendChild(h("div",{class:"card row"},[h("div",{class:"grow"},[h("b",{style:"font-size:28px;font-family:var(--mono)",text:String(due.length)}),h("div",{class:"muted",style:"font-size:13px",text:"на повторення сьогодні з "+d.cards.length})]),
+    h("button",{class:"btn pri",text:due.length?"▶ Повторювати":"▶ Повторити все одно",disabled:d.cards.length?null:true,onclick:function(){cStudy={deck:d.id,q:(due.length?due:d.cards.slice()).map(function(c){return c.id;}).sort(function(){return Math.random()-.5;}),open:false,ok:0,n:0};R.cards();}})]));
+  var f=h("textarea",{rows:2,placeholder:"Питання",style:"width:100%"}),b=h("textarea",{rows:2,placeholder:"Відповідь",style:"width:100%"});
+  function addCard(){if(!f.value.trim()||!b.value.trim())return;var a=load("decks",[]);a.forEach(function(x){if(x.id===d.id)x.cards.push({id:uid(),f:f.value.trim(),b:b.value.trim(),box:0,due:today()});});save("decks",a);toast("Картку додано");R.cards();setTimeout(function(){var e=document.querySelector("#cardsView textarea");if(e)e.focus();},30);}
+  b.addEventListener("keydown",function(e){if(e.key==="Enter"&&(e.metaKey||e.ctrlKey))addCard();});
+  v.appendChild(h("div",{class:"card",style:"margin-top:12px;display:grid;gap:8px"},[h("b",{text:"Нова картка"}),f,b,h("div",{class:"row"},[h("button",{class:"btn pri",text:"Додати",onclick:addCard}),h("span",{class:"muted",style:"font-size:12px",text:"Ctrl/⌘+Enter. Можна вставити багато одразу: «питання — відповідь» з нового рядка."}),
+    h("button",{class:"btn sm",text:"Масово",onclick:function(){var txt=prompt("Кожен рядок: питання — відповідь");if(!txt)return;var a=load("decks",[]),c=0;a.forEach(function(x){if(x.id!==d.id)return;txt.split("\n").forEach(function(l){var m=l.split(/\s+[—–-]\s+|\t|\s*::\s*/);if(m.length>=2&&m[0].trim()){x.cards.push({id:uid(),f:m[0].trim(),b:m.slice(1).join(" — ").trim(),box:0,due:today()});c++;}});});save("decks",a);toast("Додано карток: "+c);R.cards();}})])]));
+  var ul=h("ul",{class:"clist"});d.cards.slice().reverse().forEach(function(c){ul.appendChild(h("li",null,[h("span",{text:c.f}),h("span",{text:c.b}),h("span",{class:"row",style:"gap:4px;flex-wrap:nowrap"},[h("span",{class:"tag",text:"рівень "+c.box}),h("button",{class:"ic",text:"✕",style:"width:28px;height:28px",onclick:function(){var a=load("decks",[]);a.forEach(function(x){if(x.id===d.id)x.cards=x.cards.filter(function(y){return y.id!==c.id;});});save("decks",a);R.cards();}})])]));});
+  v.appendChild(ul);
+};
+function studyView(v){
+  var a=load("decks",[]),d=a.filter(function(x){return x.id===cStudy.deck;})[0];if(!d){cStudy=null;R.cards();return;}
+  var id=cStudy.q[0],c=d.cards.filter(function(x){return x.id===id;})[0];
+  var wrap=h("div",{class:"study"});v.appendChild(wrap);
+  wrap.appendChild(h("div",{class:"row",style:"margin-bottom:12px"},[h("button",{class:"btn sm ghost",text:"✕ Завершити",onclick:function(){cStudy=null;R.cards();}}),h("span",{class:"grow muted mono",style:"text-align:right;font-size:12px",text:cStudy.n+" повторено · лишилось "+cStudy.q.length})]));
+  if(!c){wrap.appendChild(h("div",{class:"flash"},[h("div",null,["Усе! 🎉",h("span",{class:"back",text:"Правильно з першого разу: "+cStudy.ok+" з "+cStudy.n+". Мозок записав, решту покаже завтра."})])]));
+    wrap.appendChild(h("button",{class:"btn pri",style:"margin-top:12px",text:"До колоди",onclick:function(){cStudy=null;R.cards();}}));return;}
+  var fl=h("div",{class:"flash",tabindex:"0"},[h("div",null,[c.f,cStudy.open?h("span",{class:"back",text:c.b}):h("span",{class:"muted",style:"display:block;margin-top:14px;font-size:13px",text:"торкнись, щоб побачити відповідь"})])]);
+  fl.addEventListener("click",function(){if(!cStudy.open){cStudy.open=true;R.cards();}});wrap.appendChild(fl);
+  if(cStudy.open){
+    function grade(g){a.forEach(function(x){if(x.id!==d.id)return;x.cards.forEach(function(y){if(y.id!==c.id)return;
+        if(g===0)y.box=0;else if(g===1)y.box=Math.max(1,y.box);else y.box=Math.min(IV.length-1,y.box+1);y.due=addDays(today(),g===0?0:IV[y.box]);});});
+      save("decks",a);cStudy.q.shift();cStudy.n++;if(g===2)cStudy.ok++;if(g===0)cStudy.q.push(c.id);cStudy.open=false;R.cards();}
+    wrap.appendChild(h("div",{class:"grade"},[h("button",{onclick:function(){grade(0);}},["😵 Не знав",h("small",{text:"ще раз сьогодні"})]),h("button",{onclick:function(){grade(1);}},["🤔 Важко",h("small",{text:"завтра"})]),
+      h("button",{onclick:function(){grade(2);}},["😎 Знав",h("small",{text:"через "+IV[Math.min(IV.length-1,c.box+1)]+" дн."})])]));
+  }
+}
+addEventListener("keydown",function(e){if(cur!=="cards"||!cStudy||e.target.closest("input,textarea"))return;
+  if(e.key===" "||e.key==="Enter"){e.preventDefault();var f=document.querySelector(".flash");if(f)f.click();}
+  else if(e.key>="1"&&e.key<="3"){var b=document.querySelectorAll(".grade button")[+e.key-1];if(b)b.click();}});
+
+/* ================= CALENDAR ================= */
+var cm=new Date(),cdSel=today();cm.setDate(1);
+R.cal=function(){
+  var y=cm.getFullYear(),mo=cm.getMonth();$("cTitle").textContent=MONN[mo]+" "+y;
+  var cal=$("cal");cal.innerHTML="";["пн","вт","ср","чт","пт","сб","нд"].forEach(function(d){cal.appendChild(h("div",{class:"dn",text:d}));});
+  var first=new Date(y,mo,1),off=(first.getDay()+6)%7,start=new Date(y,mo,1-off),ev=load("events",[]),ts=load("tasks",[]),t=today();
+  for(var i=0;i<42;i++){var d=new Date(start);d.setDate(start.getDate()+i);var s=iso(d);
+    var dots=h("span",{class:"dots"});ev.filter(function(x){return x.d===s;}).slice(0,4).forEach(function(){dots.appendChild(h("i"));});ts.filter(function(x){return x.due===s&&x.col!==2;}).slice(0,4).forEach(function(){dots.appendChild(h("i",{class:"t"}));});
+    (function(s){cal.appendChild(h("button",{class:(d.getMonth()!==mo?"out ":"")+(s===t?"today ":"")+(s===cdSel?"sel":""),onclick:function(){cdSel=s;R.cal();}},[String(d.getDate()),dots]));})(s);
+    if(i>=34&&d.getMonth()!==mo&&(i+1)%7===0)break;}
+  var side=$("cside");side.innerHTML="";var dd=new Date(cdSel+"T12:00");
+  side.appendChild(h("b",{text:WD[dd.getDay()]+", "+dd.getDate()+" "+MON[dd.getMonth()]}));
+  var ul=h("ul",{class:"list",style:"margin-top:8px"}),items=0;
+  ev.filter(function(x){return x.d===cdSel;}).sort(function(a,b){return (a.tm||"")<(b.tm||"")?-1:1;}).forEach(function(x){items++;ul.appendChild(h("li",null,[h("span",{text:"📅"}),h("span",{text:(x.tm?x.tm+" · ":"")+x.t}),h("button",{class:"ic",style:"margin-left:auto;width:28px;height:28px",text:"✕",onclick:function(){save("events",load("events",[]).filter(function(y){return y.id!==x.id;}));R.cal();}})]));});
+  ts.filter(function(x){return x.due===cdSel;}).forEach(function(x){items++;ul.appendChild(h("li",null,[h("span",{text:x.col===2?"✅":"⏳"}),h("span",{text:x.t}),h("span",{class:"x",text:"задача"})]));});
+  if(!items)ul.appendChild(h("li",{class:"muted",text:"Вільний день."}));side.appendChild(ul);
+  var tin=h("input",{type:"time",style:"width:110px"}),inp=h("input",{class:"grow",placeholder:"Подія: пара, прийом, дзвінок…"});
+  function add(){if(!inp.value.trim())return;var a=load("events",[]);a.push({id:uid(),d:cdSel,tm:tin.value||"",t:inp.value.trim()});save("events",a);R.cal();}
+  inp.addEventListener("keydown",function(e){if(e.key==="Enter")add();});
+  side.appendChild(h("div",{class:"row",style:"margin-top:10px"},[tin,inp,h("button",{class:"btn pri",text:"Додати",onclick:add})]));
+  side.appendChild(h("button",{class:"btn sm ghost",style:"margin-top:8px",text:"⇩ .ics для Google/Apple Календаря",onclick:function(){
+    var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Vaibvet Stil//UK"];load("events",[]).forEach(function(x){var dt=x.d.replace(/-/g,"");L.push("BEGIN:VEVENT","UID:"+x.id+"@stil","DTSTAMP:"+dt+"T000000Z",x.tm?"DTSTART:"+dt+"T"+x.tm.replace(":","")+"00":"DTSTART;VALUE=DATE:"+dt,"SUMMARY:"+x.t.replace(/[,;\\]/g,function(c){return "\\"+c;}),"END:VEVENT");});L.push("END:VCALENDAR");download("vaibvet-stil.ics",L.join("\r\n"),"text/calendar");}}));
+};
+$("cPrev").addEventListener("click",function(){cm.setMonth(cm.getMonth()-1);R.cal();});
+$("cNext").addEventListener("click",function(){cm.setMonth(cm.getMonth()+1);R.cal();});
+$("cToday").addEventListener("click",function(){cm=new Date();cm.setDate(1);cdSel=today();R.cal();});
+
+/* ================= backup ================= */
+$("bMenu").addEventListener("click",function(){
+  var box,m=h("div",{class:"modal"},[box=h("div",{class:"box"},[h("h3",{text:"Стіл · дані"}),h("p",{class:"muted",style:"margin:0 0 12px",text:"Усе зберігається тільки на цьому пристрої, у пам'яті браузера чи застосунку. Ніхто, крім тебе, цього не бачить. Зроби резервну копію, щоб перенести на інший пристрій."})])]);
+  var imp=h("input",{type:"file",accept:".json,application/json",hidden:true});
+  imp.addEventListener("change",function(){var f=imp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var o=JSON.parse(rd.result);if(!o||o.app!=="vaibvet-stil")throw 0;confirmBox("Замінити всі дані Столу даними з файлу?",function(){Object.keys(o.data).forEach(function(k){localStorage.setItem("vvs-"+k,JSON.stringify(o.data[k]));});location.reload();});}catch(e){toast("Це не резервна копія Столу.");}};rd.readAsText(f);});
+  box.appendChild(h("div",{class:"row"},[h("button",{class:"btn pri",text:"⇩ Зберегти копію",onclick:function(){var o={app:"vaibvet-stil",v:1,at:new Date().toISOString(),data:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf("vvs-")===0)try{o.data[k.slice(4)]=JSON.parse(localStorage.getItem(k));}catch(e){}}download("vaibvet-stil-"+today()+".json",JSON.stringify(o,null,1),"application/json");}}),
+    h("label",{class:"btn"},["⇧ Відновити з копії",imp]),h("button",{class:"btn",text:"Режим…",onclick:function(){m.remove();pickMode(false);}})]));
+  box.appendChild(h("div",{class:"row",style:"margin-top:16px;justify-content:space-between"},[h("button",{class:"btn danger",text:"Стерти все",onclick:function(){confirmBox("Стерти всі нотатки, таблиці, задачі, картки й події на цьому пристрої? Це не скасувати.",function(){var ks=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf("vvs-")===0)ks.push(k);}ks.forEach(function(k){localStorage.removeItem(k);});location.reload();});}}),
+    h("button",{class:"btn",text:"Закрити",onclick:function(){m.remove();}})]));
+  m.addEventListener("click",function(e){if(e.target===m)m.remove();});document.body.appendChild(m);
+});
+
+/* ================= start ================= */
+var start=(location.hash||"").slice(1);
+if(!cfg||!cfg.mode){cfg={mode:"",widgets:[]};go(APPS.some(function(a){return a[0]===start;})?start:"desk",true);pickMode(true);}
+else{$("modeName").textContent=modeName();go(APPS.some(function(a){return a[0]===start;})?start:"desk",true);}
+addEventListener("hashchange",function(){var a=location.hash.slice(1);if(a!==cur&&APPS.some(function(x){return x[0]===a;}))go(a,true);});
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&cur==="desk")R.desk();});
+})();
+</script>
+</body>
+</html>

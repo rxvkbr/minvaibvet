@@ -5,7 +5,7 @@ const site = path.join(__dirname, "..", "..");
 const www = path.join(__dirname, "..", "www");
 fs.rmSync(www, { recursive: true, force: true });
 fs.mkdirSync(www, { recursive: true });
-for (const f of ["office.html", "sova.html", "index.html", "privacy.html"]) {
+for (const f of ["office.html", "stil.html", "sova.html", "index.html", "privacy.html"]) {
   fs.copyFileSync(path.join(site, f), path.join(www, f));
 }
 fs.cpSync(path.join(site, "img"), path.join(www, "img"), { recursive: true });

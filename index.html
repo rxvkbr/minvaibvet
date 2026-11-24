@@ -2428,6 +2428,11 @@ html.calm .spark,html.calm .pop{display:none!important}
 .cfg .row button.eye[aria-pressed="false"]{color:var(--ivory-dim)}
 .cfg .reset{justify-self:start;border:1px dashed var(--ivory-dim);background:none;color:var(--ivory-dim);border-radius:999px;padding:10px 18px;font:13px var(--f-mono);cursor:pointer}
 .hidtabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.appicons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.appicons button{background:none;border:0;padding:0;color:var(--ivory);font:11px var(--f-mono);display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.appicons img{width:100%;max-width:64px;aspect-ratio:1;border-radius:22%;border:2px solid transparent;box-shadow:0 4px 14px #0008}
+.appicons button[aria-pressed="true"] img{border-color:var(--amber);box-shadow:0 0 0 3px #f0a93a44,0 4px 14px #0008}
+.appicons span{text-align:center;line-height:1.2}
 .hidtabs:empty{display:none}
 .hidtabs button{border:1.5px solid var(--panel-edge);background:var(--panel);color:var(--ivory);border-radius:999px;padding:8px 14px;font:13px var(--f-mono);cursor:pointer}
 /* black-and-white version: for those who got too much dopamine */
@@ -2922,6 +2927,7 @@ html.app .backbar{margin-top:4px}
   function saveUI(){store("vv-ui",JSON.stringify(UI));}
   var SKINS=[["","Ефір","#1a100b","#f2e3bd",["#f0a93a","#ff5d47","#58c9b9"]],["zona","Зона","#10130c","#e4e0c4",["#d9a441","#9fd66a","#6fc3b2"]],["nich","Нічна зміна","#070b12","#dfeaf7",["#6fc3ff","#ff6f91","#7af0d0"]],
     ["burshtyn","Бурштин","#0e0900","#ffcf73",["#ffb000","#ff7a2f","#ffd590"]],["okop","Рожевий окоп","#120812","#ffd9f0",["#ff6fb5","#ff5d73","#c7a2ff"]],["pisok","Пісочниця","#1a160d","#f1e6c8",["#e8b04a","#e0603f","#9fd0c0"]]];
+  var APPICONS=[["efir","Ефір"],["zona","Зона"],["nich","Нічна зміна"],["burshtyn","Бурштин"],["okop","Рожевий окоп"],["ukr","Синьо-жовта"],["mono","Ч/Б"],["svitanok","Світанок"]];
   var FS=[["s","Дрібно"],["","Звично"],["l","Більше"],["xl","Для окулярів"]];
   var DOPA=[["full","Повний вайб"],["calm","Спокійно"],["mono","Чорно-біле"]];
   var STN=[["news","89.3"],["weather","95.5"],["main","102.4"],["music","106.7"]];
@@ -2986,6 +2992,15 @@ html.app .backbar{margin-top:4px}
       b.setAttribute("aria-pressed",(UI.skin||"")===k[0]?"true":"false");
       b.addEventListener("click",function(){UI.skin=k[0]||undefined;tick("click");note(i);saveUI();applyUI();drawCfg();});sw.appendChild(b);});
     g.appendChild(sw);
+    var AI=(function(){try{var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform()||!(C.PluginHeaders||[]).some(function(x){return x.name==="AppIcon";}))return null;return (C.Plugins&&C.Plugins.AppIcon)||(C.registerPlugin&&C.registerPlugin("AppIcon"))||null;}catch(e){return null;}})();
+    if(AI){
+      var gi=grp("Іконка застосунку","Якого кольору ластівка на головному екрані. Телефон може перепитати або на мить закрити застосунок, це нормально.");
+      var ib=el("div","appicons");
+      APPICONS.forEach(function(k){var b=el("button","");b.type="button";b.dataset.n=k[0];b.innerHTML='<img alt="" src="img/icons/'+k[0]+'.png"><span></span>';$("span",b).textContent=t(k[1]);
+        b.addEventListener("click",function(){tick("click");AI.set({name:k[0]}).then(function(){[].forEach.call(ib.children,function(x){x.setAttribute("aria-pressed",x.dataset.n===k[0]?"true":"false");});}).catch(function(){});});ib.appendChild(b);});
+      gi.appendChild(ib);
+      AI.get().then(function(r){[].forEach.call(ib.children,function(x){x.setAttribute("aria-pressed",x.dataset.n===(r&&r.name)?"true":"false");});}).catch(function(){});
+    }
     grp("Розмір тексту","Для тих, хто читає без окулярів, і для тих, хто вже ні.").appendChild(seg(FS,UI.fs||"",function(v){UI.fs=v||undefined;}));
     var dop=de.classList.contains("mono")?"mono":UI.calm?"calm":"full";
     grp("Дофамін","Скільки блиску, іскор і руху ти сьогодні витримаєш.").appendChild(seg(DOPA,dop,function(v){

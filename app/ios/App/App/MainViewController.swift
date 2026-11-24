@@ -5,6 +5,7 @@ import UIKit
 class MainViewController: CAPBridgeViewController {
     override open func capacitorDidLoad() {
         bridge?.registerPluginInstance(PurrPlugin())
+        bridge?.registerPluginInstance(AppIconPlugin())
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }

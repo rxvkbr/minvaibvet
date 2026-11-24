@@ -97,3 +97,42 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 }
+
+
+/// Lets the listener pick a coloured app icon (Конструктор → Іконка застосунку).
+/// The icons are AppIcon-<name> in Assets.xcassets; "efir" is the original one.
+@objc(AppIconPlugin)
+public class AppIconPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "AppIconPlugin"
+    public let jsName = "AppIcon"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "get", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "set", returnType: CAPPluginReturnPromise)
+    ]
+    static let names = ["zona", "nich", "burshtyn", "okop", "ukr", "mono", "svitanok"]
+
+    @objc func get(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let cur = UIApplication.shared.alternateIconName ?? ""
+            let name = cur.hasPrefix("AppIcon-") ? String(cur.dropFirst(8)) : "efir"
+            call.resolve(["name": name, "supported": UIApplication.shared.supportsAlternateIcons])
+        }
+    }
+
+    @objc func set(_ call: CAPPluginCall) {
+        let name = call.getString("name") ?? "efir"
+        if name != "efir" && !AppIconPlugin.names.contains(name) {
+            call.reject("Unknown icon")
+            return
+        }
+        DispatchQueue.main.async {
+            guard UIApplication.shared.supportsAlternateIcons else {
+                call.reject("Alternate icons are not supported")
+                return
+            }
+            UIApplication.shared.setAlternateIconName(name == "efir" ? nil : "AppIcon-" + name) { error in
+                if let error = error { call.reject(error.localizedDescription) } else { call.resolve(["name": name]) }
+            }
+        }
+    }
+}

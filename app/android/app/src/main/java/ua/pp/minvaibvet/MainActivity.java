@@ -18,6 +18,7 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(PurrPlugin.class);
         registerPlugin(StilWidgetPlugin.class);
+        registerPlugin(AppIconPlugin.class);
         super.onCreate(savedInstanceState);
         // A widget or an app shortcut may have started the app: jump there once the page has loaded.
         jump(getIntent(), 1600);

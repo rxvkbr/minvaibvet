@@ -281,7 +281,8 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 function load(k,d){try{var v=localStorage.getItem("vvs-"+k);return v?JSON.parse(v):d;}catch(e){return d;}}
 function save(k,v){try{localStorage.setItem("vvs-"+k,JSON.stringify(v));}catch(e){toast("Не вдалося зберегти: пам'ять браузера заповнена.");}if(k==="shop"||k==="tasks")syncWidget();}
 /* the phone's home-screen widget shows the shopping list and today's tasks (Android app) */
-function syncWidget(){try{var P=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.StilWidget;if(!P)return;
+function syncWidget(){try{var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform()||!(C.PluginHeaders||[]).some(function(x){return x.name==="StilWidget";}))return;
+  var P=(C.Plugins&&C.Plugins.StilWidget)||(C.registerPlugin&&C.registerPlugin("StilWidget"));if(!P)return;
   var sh=load("shop",[]).filter(function(x){return !x.done;}),t=today(),ts=load("tasks",[]).filter(function(x){return x.col!==2&&x.due&&x.due<=t;});
   var lines=sh.slice(0,8).map(function(x){return "• "+x.t;});if(sh.length>8)lines.push("…і ще "+(sh.length-8));
   if(ts.length){if(lines.length)lines.push("");ts.slice(0,3).forEach(function(x){lines.push("⏳ "+x.t);});}

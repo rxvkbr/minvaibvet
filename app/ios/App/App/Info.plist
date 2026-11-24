@@ -24,6 +24,33 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ua.pp.minvaibvet.stil-shop</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Покупки</string>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>cart</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ua.pp.minvaibvet.stil-note</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Нова нотатка</string>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>square.and.pencil</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ua.pp.minvaibvet.stil-desk</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Вайбвет Стіл</string>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>rectangle.grid.2x2</string>
+		</dict>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

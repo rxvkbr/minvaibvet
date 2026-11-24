@@ -18,7 +18,20 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity>
+
+        <receiver
+            android:name=".StilWidget"
+            android:exported="false"
+            android:label="@string/widget_stil_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_stil_info" />
+        </receiver>
 
         <receiver
             android:name=".ForecastWidget"

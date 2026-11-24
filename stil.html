@@ -212,7 +212,7 @@ table.g td.b{font-weight:700}
 </head>
 <body>
 <header class="top">
-  <a class="ic backbtn" id="back" href="index.html#more" aria-label="Назад">←</a>
+  <a class="ic backbtn" id="back" href="index.html" aria-label="Назад">←</a>
   <div class="brand">Вайбвет Стіл<small>робочий набір · <span id="modeName"></span></small></div>
   <span class="grow"></span>
   <button class="ic" id="bTheme" title="Колір" aria-label="Колір">🎨</button>
@@ -274,7 +274,13 @@ function h(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k 
   (kids||[]).forEach(function(c){if(c==null||c===false)return;e.appendChild(typeof c==="string"?document.createTextNode(c):c);});return e;}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function load(k,d){try{var v=localStorage.getItem("vvs-"+k);return v?JSON.parse(v):d;}catch(e){return d;}}
-function save(k,v){try{localStorage.setItem("vvs-"+k,JSON.stringify(v));}catch(e){toast("Не вдалося зберегти: пам'ять браузера заповнена.");}}
+function save(k,v){try{localStorage.setItem("vvs-"+k,JSON.stringify(v));}catch(e){toast("Не вдалося зберегти: пам'ять браузера заповнена.");}if(k==="shop"||k==="tasks")syncWidget();}
+/* the phone's home-screen widget shows the shopping list and today's tasks (Android app) */
+function syncWidget(){try{var P=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.StilWidget;if(!P)return;
+  var sh=load("shop",[]).filter(function(x){return !x.done;}),t=today(),ts=load("tasks",[]).filter(function(x){return x.col!==2&&x.due&&x.due<=t;});
+  var lines=sh.slice(0,8).map(function(x){return "• "+x.t;});if(sh.length>8)lines.push("…і ще "+(sh.length-8));
+  if(ts.length){if(lines.length)lines.push("");ts.slice(0,3).forEach(function(x){lines.push("⏳ "+x.t);});}
+  P.set({text:lines.join("\n"),shop:sh.length}).catch(function(){});}catch(e){}}
 var toastT;function toast(m){var o=document.querySelector(".toast");if(o)o.remove();var d=h("div",{class:"toast",text:m});document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(function(){d.remove();},2600);}
 function pad(n){return (n<10?"0":"")+n;}
 function iso(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
@@ -312,10 +318,10 @@ addEventListener("storage",function(e){if(e.key==="office-theme"){THEMES.forEach
 
 /* ================= modes: who is at the desk ================= */
 var MODES={
-  med:{n:"Студент-медик",s:"Конспекти, картки до КРОК, розклад пар",w:["clock","today","cards","pomo","medfact","deadlines"],tags:["Навчання","Анатомія","Фізіологія","КРОК","Побут"]},
-  vet:{n:"Ветеран у цивільному",s:"Документи, дедлайни ЦНАПу, бюджет, самопочуття",w:["clock","today","mood","spend","deadlines","medfact"],tags:["Документи","ЦНАП","Здоров'я","Гроші","Побут"]},
-  office:{n:"Офісна робота",s:"Задачі, нотатки дзвінків, фокус-таймер",w:["clock","today","pomo","quick","deadlines","cal"],tags:["Клієнт","Дзвінок","Внутрішнє","Терміново","Побут"]},
-  art:{n:"Творчість",s:"Чернетки, ідеї, ритм письма",w:["clock","quick","pomo","today","mood","medfact"],tags:["Ідея","Чернетка","Колонка","Відео","Побут"]}};
+  med:{n:"Студент-медик",s:"Конспекти, картки до КРОК, розклад пар",w:["clock","shop","today","cards","pomo","medfact","deadlines"],tags:["Навчання","Анатомія","Фізіологія","КРОК","Побут"]},
+  vet:{n:"Ветеран у цивільному",s:"Документи, дедлайни ЦНАПу, бюджет, самопочуття",w:["clock","shop","today","mood","spend","deadlines","medfact"],tags:["Документи","ЦНАП","Здоров'я","Гроші","Побут"]},
+  office:{n:"Офісна робота",s:"Задачі, нотатки дзвінків, фокус-таймер",w:["clock","shop","today","pomo","quick","deadlines","cal"],tags:["Клієнт","Дзвінок","Внутрішнє","Терміново","Побут"]},
+  art:{n:"Творчість",s:"Чернетки, ідеї, ритм письма",w:["clock","shop","quick","pomo","today","mood","medfact"],tags:["Ідея","Чернетка","Колонка","Відео","Побут"]}};
 var cfg=load("cfg",null);
 function modeName(){return cfg&&MODES[cfg.mode]?MODES[cfg.mode].n:"";}
 function tags(){var t=cfg&&MODES[cfg.mode]?MODES[cfg.mode].tags.slice():["Робота","Навчання","Побут"];(load("tags",[])).forEach(function(x){if(t.indexOf(x)<0)t.push(x);});return t;}
@@ -373,6 +379,7 @@ $("back").addEventListener("click",function(e){try{if(history.length>1&&document
 var MEDFACTS=[{"f": "Слизова шлунка оновлюється за кілька днів. Тому кислота, яка розчиняє м'ясо, не перетравлює сам шлунок.", "v": "Регулярне оновлення — найкращий захист. Шлунок радить."}, {"f": "Еритроцит живе близько 120 днів, а повне коло по тілу кров проходить приблизно за хвилину.", "v": "Тобто за день кожна клітина крові встигає більше, ніж ЦНАП за тиждень."}, {"f": "Печінка може відрости до повного об'єму після того, як хірурги видалили до двох третин її маси.", "v": "Єдиний орган, який реально відновлюється після наради."}, {"f": "У рогівці немає кровоносних судин. Кисень вона бере просто з повітря та слізної рідини.", "v": "Тому прозора. Як ідеальна звітність."}, {"f": "Під час інфаркту болить ліва рука, бо нервові волокна серця й руки заходять у ті самі сегменти спинного мозку. Мозок плутає адресу.", "v": "Відбитий біль: коли проблема в одному місці, а скаржиться інше. Знайомо."}, {"f": "Найменша кістка людини, стремінце в середньому вусі, має близько трьох міліметрів.", "v": "Маленька, а без неї не почуєш, як тобі дякують за службу."}, {"f": "Мозок важить приблизно 2% маси тіла, але в спокої споживає близько 20% усієї енергії.", "v": "Навіть коли ти нічого не робиш, він працює. Дай йому поспати."}, {"f": "У стінці кишечника сотні мільйонів нейронів, більше, ніж у спинному мозку. Цю мережу називають ентеричною нервовою системою.", "v": "«Відчуття в животі» має власну нервову систему."}, {"f": "Серце б'ється приблизно сто тисяч разів на добу.", "v": "Без вихідних і без рапорту на відпустку."}, {"f": "Пересаджене серце без нервових зв'язків б'ється частіше, близько 90–100 разів на хвилину. Це власний ритм синусового вузла, без «гальма» блукаючого нерва.", "v": "Блукаючий нерв — це той, хто весь час каже серцю «спокійно»."}, {"f": "Синдром такоцубо, або «синдром розбитого серця», — справжня гостра кардіоміопатія, яка буває після сильного стресу або горя.", "v": "Серце буквально змінює форму від болю. І здебільшого відновлюється."}, {"f": "На видиху пульс трохи сповільнюється, на вдиху пришвидшується. Це дихальна синусова аритмія, нормальне явище.", "v": "Тому довгий видих справді заспокоює. Курс саморегуляції в «Ще» на цьому й побудований."}, {"f": "Втрата крові — головна причина смертей на полі бою, яким можна запобігти. Тому турнікет і тампонада вчать першими.", "v": "Час накладання турнікета записують завжди: від тривалості ішемії залежить, що робитимуть хірурги."}, {"f": "Чадний газ зв'язується з гемоглобіном у сотні разів міцніше, ніж кисень, і не має запаху.", "v": "Генератор і пічку в закритому приміщенні не вмикаємо. Датчик CO коштує менше, ніж одна довідка."}, {"f": "Пеніцилін Флемінг помітив у 1928 році, коли повернувся з відпустки до чашок Петрі, які забув прибрати.", "v": "Відпустка — доведений науковий інструмент. Передайте командиру."}, {"f": "У 1847 році Земмельвайс змусив лікарів мити руки розчином хлорного вапна, і смертність від пологової гарячки різко впала. Колеги йому не повірили.", "v": "Хороша новина, перевірена двічі, і все одно ніхто не вірить. Наша рубрика."}, {"f": "Стетоскоп Лаеннек винайшов у 1816 році, бо йому було ніяково прикладати вухо до грудей молодої пацієнтки. Він згорнув аркуш паперу в трубку.", "v": "Найкращі винаходи народжуються з ніяковості."}, {"f": "Шкіра — найбільший орган людини, близько 15% маси тіла.", "v": "І вона пам'ятає дотики. Обійми рекомендовані."}, {"f": "Нігті на руках ростуть приблизно втричі швидше, ніж на ногах.", "v": "Медицина не знає, чому руки поспішають. Ми підозрюємо роботу з документами."}, {"f": "Смакові клітини язика оновлюються приблизно раз на два тижні.", "v": "Навіть якщо кава три в одному вбила смак, за два тижні буде новий."}, {"f": "Зранку людина вища приблизно на сантиметр, ніж увечері: за день міжхребцеві диски стискаються.", "v": "Звіти на зріст подавайте зранку."}, {"f": "Гикавка — мимовільне скорочення діафрагми. Характерний звук дає голосова щілина, яка раптово закривається.", "v": "Діафрагма теж інколи робить щось без наказу."}, {"f": "ПТСР — не слабкість, а стан, який лікується. Найкращі докази мають травмофокусовані психотерапії: пролонгована експозиція, когнітивна терапія обробки травми, EMDR.", "v": "Звернутися по допомогу — це навичка, а не вирок."}, {"f": "Фантомні відчуття після ампутації бувають у більшості людей. Мозок ще довго зберігає «карту» кінцівки.", "v": "Дзеркальна терапія інколи зменшує фантомний біль. Мозку можна показати нову карту."}, {"f": "Період напіввиведення кофеїну — близько п'яти годин, у різних людей від трьох до семи.", "v": "Кава о 17:00 о десятій вечора все ще наполовину з тобою."}, {"f": "Алкоголь допомагає заснути, але пригнічує REM-фазу сну, і в другій половині ночі сон стає рваним.", "v": "Нічний ефір Вайбвет FM працює для тих, хто прокинувся о третій. Але краще спати."}, {"f": "Слово «вакцина» походить від латинського vacca — корова. Дженнер у 1796 році щепив хлопчика коров'ячою віспою, щоб захистити від натуральної.", "v": "Корова врятувала більше людей, ніж будь-яка нарада."}, {"f": "Бантинг продав патент на інсулін Торонтському університету за символічний один долар: ліки мали бути доступними.", "v": "Найкраща угода століття. Без тендера."}, {"f": "«Гусяча шкіра» — це скорочення крихітних м'язів біля волосяних фолікулів. У предків із густою шерстю так піднімалось хутро й зберігалось тепло.", "v": "Хутра вже нема, а реакція на хорошу пісню лишилась."}, {"f": "Права легеня має три частки, ліва — дві: місце звільнено для серця.", "v": "Тіло вміє поступитися місцем найважливішому."}, {"f": "У немовляти близько 300 кісткових елементів, у дорослого — 206. Частина з них з часом зростається.", "v": "Дорослішання — це коли окремі частини нарешті працюють разом."}, {"f": "Обійми, дотик і навіть погладжування собаки підвищують рівень окситоцину. Це показали дослідження.", "v": "Розділ «Гладити» має наукове обґрунтування."}, {"f": "Тривалий шум понад 85 дБ пошкоджує слух, а один постріл — це 140 дБ і більше. Шум у вухах (тинітус) — одна з найчастіших проблем ветеранів.", "v": "Беруші — теж засіб захисту. І аудіограма після служби — не зайве."}, {"f": "При переохолодженні реанімацію не припиняють, доки людину не зігріли: «ніхто не мертвий, доки не теплий і мертвий».", "v": "Холод уповільнює обмін речовин і дає мозку більше часу."}, {"f": "Голодний шлунок бурчить через мігрувальний моторний комплекс: хвилі скорочень, які раз на півтори-дві години «вичищають» кишку між прийомами їжі.", "v": "Це не скарга. Це прибирання."}, {"f": "Під час REM-сну більшість скелетних м'язів майже паралізовані, щоб людина не виконувала рухи зі сну.", "v": "Тіло на ніч саме себе ставить на запобіжник."}, {"f": "У дорослих тварин нові нейрони утворюються в гіпокампі, і біг цей процес посилює. Чи так само в дорослої людини, науковці досі сперечаються.", "v": "Але що прогулянки корисні для настрою й пам'яті, не сперечається ніхто."}, {"f": "Рана загоюється у чотири фази: гемостаз, запалення, проліферація, ремоделювання. Рубець набирає міцність ще місяцями.", "v": "Загоєння — це процес, а не подія. Як і повернення додому."}, {"f": "Кістка постійно перебудовується: остеокласти руйнують стару тканину, остеобласти будують нову. Скелет дорослого оновлюється приблизно за десять років.", "v": "Ремонт, який іде без перерви й ніколи не закінчується. Знайоме відчуття."}, {"f": "Сльози бувають трьох видів: базальні, рефлекторні й емоційні, і склад у них різний.", "v": "Плакати — фізіологічно передбачено. Довідка не потрібна."}];
 var WIDGETS={
   clock:{n:"Годинник",s:"Час, дата, скільки до вихідних"},
+  shop:{n:"Покупки",s:"Список у магазин: дописав, купив, викреслив"},
   today:{n:"Сьогодні",s:"Задачі на сьогодні й прострочені"},
   pomo:{n:"Фокус-таймер",s:"25 хвилин роботи, 5 відпочинку"},
   quick:{n:"Швидка нотатка",s:"Записати думку, поки не втекла"},
@@ -409,6 +416,23 @@ R.desk=function(){
 };
 function wh(el,title,aside){el.appendChild(h("h3",null,[title,aside?h("span",{class:"a",text:aside}):null]));}
 var W={};
+W.shop=function(el){
+  var items=load("shop",[]),left=items.filter(function(x){return !x.done;}).length;wh(el,"🛒 Покупки",left?left+" купити":"");
+  var inp=h("input",{id:"shopIn",placeholder:"+ що купити (Enter)",style:"width:100%",autocomplete:"off",enterkeyhint:"done"});
+  function add(){var v=inp.value.trim();if(!v)return;var a=load("shop",[]);v.split(/\s*[,;]\s*/).forEach(function(x){if(x)a.unshift({id:uid(),t:x,done:false});});save("shop",a);inp.value="";R.desk();setTimeout(function(){var e=$("shopIn");if(e)e.focus();},20);}
+  inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();add();}});
+  el.appendChild(h("div",{class:"row",style:"flex-wrap:nowrap"},[inp,h("button",{class:"btn sm pri",text:"+",onclick:add})]));
+  var ul=h("ul",{class:"list",style:"margin-top:8px"});
+  items.slice().sort(function(a,b){return (a.done?1:0)-(b.done?1:0);}).forEach(function(x){
+    ul.appendChild(h("li",{style:x.done?"opacity:.5":null},[h("button",{class:"chk"+(x.done?" on":""),text:x.done?"✓":"","aria-label":x.done?"Повернути в список":"Куплено",onclick:function(){var a=load("shop",[]);a.forEach(function(y){if(y.id===x.id)y.done=!y.done;});save("shop",a);R.desk();}}),
+      h("span",{style:x.done?"text-decoration:line-through":null,text:x.t}),h("button",{class:"ic",style:"margin-left:auto;width:26px;height:26px;font-size:12px",text:"✕","aria-label":"Прибрати",onclick:function(){save("shop",load("shop",[]).filter(function(y){return y.id!==x.id;}));R.desk();}})]));});
+  if(!items.length)ul.appendChild(h("li",{class:"muted",style:"font-size:13px",text:"Порожньо. Можна кілька через кому: хліб, молоко, кава."}));
+  el.appendChild(ul);
+  var bought=items.filter(function(x){return x.done;}).length;
+  el.appendChild(h("div",{class:"row",style:"margin-top:6px"},[bought?h("button",{class:"btn sm ghost",text:"Прибрати куплене ("+bought+")",onclick:function(){save("shop",load("shop",[]).filter(function(y){return !y.done;}));R.desk();}}):null,
+    left?h("button",{class:"btn sm ghost",text:"↗ Поділитися",onclick:function(){var txt="Купити:\n"+load("shop",[]).filter(function(y){return !y.done;}).map(function(y){return "• "+y.t;}).join("\n");
+      if(navigator.share)navigator.share({text:txt}).catch(function(){});else{try{navigator.clipboard.writeText(txt);toast("Список скопійовано");}catch(e){}}}}):null]));
+};
 W.clock=function(el){
   wh(el,"Годинник");var b=h("b"),d=h("div",{class:"d"}),wk=h("div",{class:"wk"});el.className+=" clock";el.appendChild(b);el.appendChild(d);el.appendChild(wk);
   function tick(){if(!el.isConnected)return;var n=new Date();b.textContent=pad(n.getHours())+":"+pad(n.getMinutes());d.textContent=WD[n.getDay()]+", "+n.getDate()+" "+MON[n.getMonth()]+" "+n.getFullYear();
@@ -797,10 +821,22 @@ $("bMenu").addEventListener("click",function(){
 });
 
 /* ================= start ================= */
+/* shortcuts from the phone: #shop jumps straight into the shopping list, #note opens a new note */
+function ensureShop(){if(!cfg||!cfg.widgets)return;if(!cfg.widgets.some(function(w){return w.t==="shop";})){cfg.widgets.splice(Math.min(1,cfg.widgets.length),0,{id:uid(),t:"shop",wide:false});save("cfg",cfg);}}
+function route(h,first){
+  if(h==="shop"){ensureShop();if(cur!=="desk"||first)go("desk",true);else R.desk();try{history.replaceState(null,"","#desk");}catch(e){}
+    setTimeout(function(){var e=$("shopIn");if(e){e.scrollIntoView({block:"center"});e.focus();}},first?400:60);return true;}
+  if(h==="note"){go("notes",true);newNote("","");try{history.replaceState(null,"","#notes");}catch(e){}return true;}
+  if(h==="desk"&&cur!=="desk"){go("desk",true);return true;}
+  if(h!==cur&&APPS.some(function(x){return x[0]===h;})){go(h,true);return true;}
+  return false;
+}
 var start=(location.hash||"").slice(1);
-if(!cfg||!cfg.mode){cfg={mode:"",widgets:[]};go(APPS.some(function(a){return a[0]===start;})?start:"desk",true);pickMode(true);}
-else{$("modeName").textContent=modeName();go(APPS.some(function(a){return a[0]===start;})?start:"desk",true);}
-addEventListener("hashchange",function(){var a=location.hash.slice(1);if(a!==cur&&APPS.some(function(x){return x[0]===a;}))go(a,true);});
+if(cfg&&cfg.widgets&&!cfg.m1){cfg.m1=1;ensureShop();} /* everyone gets the shopping list once */
+if(!cfg||!cfg.mode){cfg={mode:"",widgets:[],m1:1};go("desk",true);pickMode(true);}
+else{$("modeName").textContent=modeName();if(!route(start,true))go("desk",true);}
+addEventListener("hashchange",function(){route(location.hash.slice(1),false);});
+syncWidget();
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&cur==="desk")R.desk();});
 })();
 </script>

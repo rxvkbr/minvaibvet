@@ -74,4 +74,15 @@
         <item>Для вас звучить музика. Вона закінчиться раніше, ніж черга. Жартуємо, не закінчиться.</item>
         <item>Робочий день гарячої лінії завершено. Він тривав з 11:00 до 11:15. Дякуємо, що ви з нами.</item>
     </string-array>
+    <string name="widget_stil_name" formatted="false">Вайбвет Стіл</string>
+    <string name="widget_stil_desc" formatted="false">Список покупок і задачі на сьогодні, плюс кнопки «додати»</string>
+    <string name="w_stil_title" formatted="false">СТІЛ · ПОКУПКИ Й СПРАВИ</string>
+    <string name="w_stil_empty" formatted="false">Тут з\'явиться список покупок і справи на сьогодні. Додай перше.</string>
+    <string name="w_stil_count" formatted="true">у списку: %1$d</string>
+    <string name="w_stil_shop" formatted="false">+ Покупка</string>
+    <string name="w_stil_note" formatted="false">+ Нотатка</string>
+    <string name="w_stil_open" formatted="false">Стіл</string>
+    <string name="sc_shop" formatted="false">Покупки</string>
+    <string name="sc_note" formatted="false">Нова нотатка</string>
+    <string name="sc_stil" formatted="false">Вайбвет Стіл</string>
 </resources>

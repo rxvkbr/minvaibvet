@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="shop" android:enabled="true" android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_shop" android:shortcutLongLabel="@string/sc_shop">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="ua.pp.minvaibvet" android:targetClass="ua.pp.minvaibvet.MainActivity">
+            <extra android:name="section" android:value="stil-shop" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="note" android:enabled="true" android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_note" android:shortcutLongLabel="@string/sc_note">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="ua.pp.minvaibvet" android:targetClass="ua.pp.minvaibvet.MainActivity">
+            <extra android:name="section" android:value="stil-note" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="stil" android:enabled="true" android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_stil" android:shortcutLongLabel="@string/sc_stil">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="ua.pp.minvaibvet" android:targetClass="ua.pp.minvaibvet.MainActivity">
+            <extra android:name="section" android:value="stil-desk" />
+        </intent>
+    </shortcut>
+</shortcuts>

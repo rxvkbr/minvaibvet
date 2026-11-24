@@ -2811,6 +2811,7 @@ html.app .backbar{margin-top:4px}
     {go:"prohramy",ic:"📻",c:"c2",b:"Сітка мовлення",s:"Час умовний. Як і все інше."},
     {go:"hastrotur",ic:"🌭",c:"c3",b:"Гастротур",s:"Оцінює сомельє"},
     {go:"muzyka",ic:"🎸",c:"c7 wide",b:"Рандомна крута українська музика",s:"цього тижня: ZWYNTAR"},
+    {go:"welcome",ic:"❓",c:"c2",b:"Що це взагалі таке?",s:"коротко про Вайбвет FM"},
     {go:"kalendar",ic:"🗓",c:"c4 wide",b:"Календар Мінвайбвету",s:"додай міністерство у свій календар · хвилина мовчання, п'ятниця, ротація"},
     {go:"holostiak",ic:"🌹",c:"c6 wide",b:"Холостяк (укргей едішн)",s:"реаліті-шоу · сезон 1 · троянди за графіком"},
     {go:"nederland",ic:"🌷",c:"c3 wide",b:"Дивовижності Нідерландщини",s:"очима українця · завжди десь є світло"},
@@ -2852,6 +2853,7 @@ html.app .backbar{margin-top:4px}
       }
       tick("click");note(i);
       if(x.go==="stil"){location.href="stil.html";return;}
+      if(x.go==="welcome"){if(window.VV_WELCOME)window.VV_WELCOME();return;}
       if(x.go==="office"){location.href="office.html";return;}
       if(x.go==="sova"){location.href="sova.html";return;}
       if(x.go==="kurs"){location.href="kurs.html";return;}
@@ -3251,6 +3253,31 @@ html.app .backbar{margin-top:4px}
 (function(){var b=document.getElementById("kalcopy");if(!b)return;b.addEventListener("click",function(){var u="https://minvaibvet.pp.ua/kalendar.ics",s=b.querySelector("small");
   function ok(){s.textContent="скопійовано ✓";setTimeout(function(){s.textContent="для Outlook та інших";},2200);}
   try{navigator.clipboard.writeText(u).then(ok,function(){prompt("Посилання на календар",u);});}catch(e){prompt("Посилання на календар",u);}});})();
+</script>
+<script id="welcome">
+/* First launch: say plainly what this is, because «Міністерство» looks a bit too serious */
+(function(){
+  var K="vv-welcome",seen=false;try{seen=!!localStorage.getItem(K);}catch(e){seen=true;}
+  function show(force){
+    if(document.querySelector(".vvw"))return;
+    var css=document.createElement("style");css.textContent=".vvw{position:fixed;inset:0;z-index:9000;background:#0b0705e6;display:grid;place-items:center;padding:18px;animation:vvwin .35s ease}@keyframes vvwin{from{opacity:0}}"+
+      ".vvw .b{width:min(460px,100%);max-height:90vh;overflow:auto;background:#1f130c;border:1px solid #4a2f1f;border-radius:22px;padding:22px 20px 18px;color:#f2e3bd;box-shadow:0 30px 80px #000c}"+
+      ".vvw h2{margin:0 0 8px;font:400 28px/1.15 'Yeseva One',Georgia,serif}.vvw p{margin:0 0 14px;font-size:17px;line-height:1.5}"+
+      ".vvw ul{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}.vvw li{display:flex;gap:12px;align-items:flex-start;background:#2b1a11;border-radius:14px;padding:10px 12px;font-size:15.5px;line-height:1.4}"+
+      ".vvw li i{font-style:normal;font-size:22px;line-height:1}.vvw small{display:block;font:12px 'PT Mono',monospace;color:#b9a47f;letter-spacing:.04em;margin-bottom:14px}"+
+      ".vvw button{width:100%;height:50px;border:0;border-radius:999px;background:#f0a93a;color:#1a100b;font-weight:700;font-size:16px;font-family:inherit;cursor:pointer}";
+    document.head.appendChild(css);
+    var w=document.createElement("div");w.className="vvw";w.setAttribute("role","dialog");w.setAttribute("aria-modal","true");
+    w.innerHTML='<div class="b"><h2>Що це взагалі таке?</h2><p>Не гра і не держсервіс. Вайбвет FM — приємний бульшит-застосунок: виглядає як мега-серйозне міністерство, а всередині тільки те, від чого приємно.</p>'+
+      '<ul><li><i>📻</i><span><b>Радіо</b> з хорошими новинами. Ми їх довго шукали.</span></li><li><i>📰</i><span><b>Газета</b> Мінвайбвету: сатира, колонки, карикатури.</span></li>'+
+      '<li><i>🐾</i><span><b>Гладити</b>: котик, капібара, одеська кішка. Водиш пальцем, вони муркочуть.</span></li><li><i>🗃</i><span><b>Стіл</b>: справжні нотатки, покупки й задачі, без жодної сатири.</span></li></ul>'+
+      '<small>Мінвайбвет вигаданий. Справжні тут лише черги й хвилина мовчання о 9:00.</small><button type="button">Зрозуміло, вмикай ефір</button></div>';
+    document.body.appendChild(w);
+    w.querySelector("button").addEventListener("click",function(){try{localStorage.setItem(K,"1");}catch(e){}w.style.transition="opacity .25s";w.style.opacity="0";setTimeout(function(){w.remove();},260);});
+  }
+  window.VV_WELCOME=function(){try{localStorage.removeItem(K);}catch(e){}show(true);};
+  if(!seen)setTimeout(function(){if(!document.documentElement.classList.contains("vv-silence"))show();},700);
+})();
 </script>
 <script id="lightbox">
 /* tap a picture in the paper to see it big; wide cartoons scroll sideways */

@@ -3,6 +3,7 @@ package ua.pp.minvaibvet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
+import androidx.activity.OnBackPressedCallback;
 import com.getcapacitor.BridgeActivity;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +21,21 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(StilWidgetPlugin.class);
         registerPlugin(AppIconPlugin.class);
         super.onCreate(savedInstanceState);
+        // System back walks back through the app's pages (gazette article -> gazette -> Ефір)
+        // and only leaves the app when there is nowhere left to go back to.
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                WebView w = getBridge() == null ? null : getBridge().getWebView();
+                if (w != null && w.canGoBack()) {
+                    w.goBack();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                    setEnabled(true);
+                }
+            }
+        });
         // A widget or an app shortcut may have started the app: jump there once the page has loaded.
         jump(getIntent(), 1600);
         started = true;

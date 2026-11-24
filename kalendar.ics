@@ -137,4 +137,24 @@ DESCRIPTION:Прийом до 11:45. Коронації після 12:00
  не реєструються. Вікно №4.
 TRANSP:TRANSPARENT
 END:VEVENT
+BEGIN:VEVENT
+UID:day-evanescence@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+RRULE:FREQ=YEARLY
+SUMMARY:🖤 День вдячності Evanescence · пам'яті с
+ естри Емі Лі
+DESCRIPTION:Для автора: пісні\, під які можна б
+ уло пережити найгірше й не зламатися. Ем
+ і Лі писала «Hello» і «Like You» про молодшу се
+ стру Бонні\, яка померла 1987 року трирічн
+ ою\, і цим показала\, що горе можна носити
+  з прямою спиною.\n\nДля читачів: день\, ко
+ ли можна сумувати вголос\, без пояснень. 
+ Вимкнути світло\, увімкнути фортепіано\,
+  подумати про своїх. Страждати глибоко\, 
+ але мирно.\nhttps://minvaibvet.pp.ua/#gazeta
+TRANSP:TRANSPARENT
+END:VEVENT
 END:VCALENDAR

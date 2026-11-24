@@ -48,6 +48,17 @@ EVENTS = [
      "Прийом до 11:45. Коронації після 12:00 не реєструються. Вікно №4.", False),
 ]
 
+# Days the Ministry has proclaimed. Every new one goes here: it lands in kalendar.ics
+# (a yearly all-day event) and in the list on the site, with why it matters.
+# date (MMDD), uid, title, for the author, for the readers, link
+DAYS = [
+    ("1124", "evanescence", "🖤 День вдячності Evanescence · пам'яті сестри Емі Лі",
+     "Для автора: пісні, під які можна було пережити найгірше й не зламатися. Емі Лі писала «Hello» і «Like You» про молодшу сестру Бонні, яка померла 1987 року трирічною, і цим показала, що горе можна носити з прямою спиною.",
+     "Для читачів: день, коли можна сумувати вголос, без пояснень. Вимкнути світло, увімкнути фортепіано, подумати про своїх. Страждати глибоко, але мирно.",
+     "https://minvaibvet.pp.ua/#gazeta"),
+]
+MONTHS = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"]
+
 VTZ = """BEGIN:VTIMEZONE
 TZID:Europe/Kyiv
 X-LIC-LOCATION:Europe/Kyiv
@@ -77,6 +88,28 @@ for uid, st, en, rr, summ, desc, alarm in EVENTS:
     if alarm:
         L += ["BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + esc(summ), "TRIGGER:PT0M", "END:VALARM"]
     L.append("END:VEVENT")
+for md, uid, summ, why_a, why_r, link in DAYS:
+    nxt = "%04d%s" % (2026, md)
+    import datetime
+    d = datetime.date(2026, int(md[:2]), int(md[2:]))
+    L += ["BEGIN:VEVENT", "UID:day-%s@minvaibvet.pp.ua" % uid, "DTSTAMP:" + STAMP,
+          "DTSTART;VALUE=DATE:" + d.strftime("%Y%m%d"), "DTEND;VALUE=DATE:" + (d + datetime.timedelta(days=1)).strftime("%Y%m%d"),
+          "RRULE:FREQ=YEARLY", "SUMMARY:" + esc(summ), "DESCRIPTION:" + esc(why_a + "\n\n" + why_r + "\n" + link),
+          "TRANSP:TRANSPARENT", "END:VEVENT"]
 L.append("END:VCALENDAR")
 open(os.path.join(ROOT, "kalendar.ics"), "w", newline="").write("\r\n".join(fold(x) for x in L) + "\r\n")
-print("kalendar.ics:", len(EVENTS), "events")
+print("kalendar.ics:", len(EVENTS), "events,", len(DAYS), "proclaimed days")
+
+# the list of proclaimed days on the site, between the markers in index.html
+import html
+idx = os.path.join(ROOT, "index.html")
+page = open(idx, encoding="utf-8").read()
+a, b = "<!--days-->", "<!--/days-->"
+if a in page and b in page:
+    items = "".join(
+        '<li class="kal-day"><i>щороку · %d %s</i><b>%s</b><span>%s</span><span>%s</span></li>' % (
+            int(md[2:]), MONTHS[int(md[:2]) - 1], html.escape(t), html.escape(wa), html.escape(wr))
+        for md, _u, t, wa, wr, _l in sorted(DAYS))
+    page = page[:page.index(a) + len(a)] + items + page[page.index(b):]
+    open(idx, "w", encoding="utf-8").write(page)
+    print("index.html: proclaimed days list updated")

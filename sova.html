@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Δ онлайн · FlyEye 3.0 (китайська збірка) · Мінвайбвет</title>
+<meta name="description" content="Δ онлайн: мультиплеєр Мінвайбвету. Літай на FlyEye 3.0 китайської збірки (飞眼 3.0 Pro Max) над коровами, котами й ЦНАПами разом з іншими. Сатира, усе вигадане.">
+<meta name="theme-color" content="#0d0f0a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314170f'/%3E%3Ccircle cx='22' cy='30' r='10' fill='none' stroke='%23d9a441' stroke-width='5'/%3E%3Ccircle cx='42' cy='30' r='10' fill='none' stroke='%23d9a441' stroke-width='5'/%3E%3Ccircle cx='22' cy='30' r='3' fill='%239fd66a'/%3E%3Ccircle cx='42' cy='30' r='3' fill='%239fd66a'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0d0f0a;--chrome:#171a12;--chrome2:#1f2318;--edge:#2f3524;--edge2:#454d33;
+  --text:#d8d2b4;--dim:#8e8b70;--amber:#d9a441;--rust:#b4552e;--olive:#7d8a4a;--green:#9fd66a;--red:#e0603f;--cyan:#6fc3b2;
+  --mono:"PT Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.4 var(--sans);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:repeating-linear-gradient(0deg,#0000 0 2px,#00000014 2px 3px),radial-gradient(ellipse at center,#0000 65%,#0006 100%);mix-blend-mode:multiply}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+canvas#world{position:fixed;inset:0;width:100%;height:100%;display:block}
+.mono{font-family:var(--mono)}
+
+/* top bar */
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:calc(8px + env(safe-area-inset-top)) 12px 8px;
+  background:linear-gradient(#0d0f0af2,#0d0f0acc);border-bottom:1px solid var(--edge)}
+.logo{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo .ow{color:var(--amber);font:700 15px var(--mono);letter-spacing:-2px}
+.logo b{font:700 15px var(--mono);letter-spacing:2px}
+.logo small{color:var(--dim);font:11px var(--mono)}
+.stat{display:flex;flex-direction:column;font:11px var(--mono);color:var(--dim);white-space:nowrap}
+.stat b{color:var(--text);font-size:13px}
+.stat b.g{color:var(--green)}
+.batt{width:120px}
+.bbar{height:8px;border:1px solid var(--edge2);border-radius:3px;margin-top:3px;overflow:hidden}
+.bbar i{display:block;height:100%;width:100%;background:var(--green);transition:width .2s,background .3s}
+.sp{flex:1}
+.tbtn{height:30px;padding:0 10px;border:1px solid var(--edge2);border-radius:8px;font:12px var(--mono);color:var(--dim);white-space:nowrap}
+.tbtn:hover{color:var(--text);border-color:var(--amber)}
+.live{display:flex;align-items:center;gap:6px;font:11px var(--mono);color:var(--dim)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--dim)}
+.live.on i{background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.6s infinite}
+.live.off i{background:var(--red)}
+@keyframes pulse{50%{opacity:.35}}
+
+/* panels */
+.panel{position:fixed;z-index:4;background:#11140ddd;border:1px solid var(--edge);border-radius:10px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.ph{font:11px var(--mono);color:var(--amber);letter-spacing:1px;padding:8px 10px 6px;border-bottom:1px solid var(--edge);display:flex;justify-content:space-between}
+.ph span{color:var(--dim)}
+#mission{left:12px;top:70px;width:270px}
+.mb{padding:10px}
+.mb .mt{font-weight:600;font-size:14px;margin-bottom:4px}
+.mb .md{color:var(--dim);font-size:12.5px}
+.prog{height:6px;background:#0008;border-radius:3px;margin-top:9px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--amber);transition:width .3s}
+.mb .pr{font:11px var(--mono);color:var(--dim);margin-top:5px;display:flex;justify-content:space-between}
+#board{right:12px;top:70px;width:250px}
+#board ol{list-style:none;margin:0;padding:6px 0;font:12px var(--mono);counter-reset:r}
+#board li{display:flex;gap:8px;padding:3px 10px;align-items:center;counter-increment:r}
+#board li::before{content:counter(r);color:var(--dim);width:14px;text-align:right}
+#board li .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#board li .sc{color:var(--amber)}
+#board li.me{background:#d9a44118}
+#board li.me .nm{color:var(--amber)}
+#board li .bt{opacity:.55}
+#feedp{right:12px;bottom:84px;width:320px;max-height:34vh;display:flex;flex-direction:column}
+#feed{list-style:none;margin:0;padding:6px 0;overflow:hidden;font-size:12.5px;flex:1}
+#feed li{padding:3px 10px;animation:fin .4s}
+#feed li time{color:var(--dim);font:10.5px var(--mono);margin-right:6px}
+#feed li.y{color:#e8cf8f}#feed li.r{color:#f08a6c}#feed li.c{color:var(--cyan)}
+@keyframes fin{from{opacity:0;transform:translateY(-4px)}}
+
+/* radio */
+.radio{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:4;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:min(720px,96vw)}
+.radio button{height:34px;padding:0 12px;border-radius:17px;background:#171a12e6;border:1px solid var(--edge2);font-size:13px}
+.radio button:hover{border-color:var(--amber)}
+.radio button:disabled{opacity:.4}
+.radio .lbl{font:11px var(--mono);color:var(--dim);align-self:center;margin-right:2px}
+
+/* minimap */
+#mini{position:fixed;left:12px;bottom:calc(60px + env(safe-area-inset-bottom));z-index:4;width:200px;height:134px;border:1px solid var(--edge);border-radius:8px;background:#0b0d08}
+
+/* toast + bubble */
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);z-index:20;background:#1f2318f2;border:1px solid var(--amber);color:var(--text);
+  padding:10px 16px;border-radius:10px;font-size:14px;max-width:90vw;text-align:center;animation:fin .3s;pointer-events:none}
+.toast.bad{border-color:var(--red)}
+
+/* overlay */
+#intro{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:radial-gradient(ellipse at center,#14170fe8,#0b0d08f8);padding:20px}
+.card{width:min(520px,100%);background:var(--chrome);border:1px solid var(--edge2);border-radius:14px;padding:22px 22px 18px;box-shadow:0 20px 80px #000a}
+.card h1{margin:0 0 2px;font:700 26px var(--mono);letter-spacing:3px}
+.card h1 .ow{color:var(--amber);letter-spacing:-3px;margin-right:8px}
+.card .sub{color:var(--dim);font:12px var(--mono);margin-bottom:16px}
+.card p{margin:0 0 12px;font-size:14px}
+.cs{display:flex;align-items:center;gap:10px;background:#0b0d08;border:1px solid var(--edge);border-radius:10px;padding:10px 12px;margin:14px 0}
+.cs small{display:block;color:var(--dim);font:11px var(--mono)}
+.cs b{font:700 18px var(--mono);color:var(--amber)}
+.cs button{margin-left:auto;font-size:22px;width:44px;height:44px;border-radius:10px;border:1px solid var(--edge2)}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px;color:var(--dim);margin:6px 0 16px}
+.keys kbd{font:12px var(--mono);color:var(--text);background:#0b0d08;border:1px solid var(--edge2);border-radius:5px;padding:1px 6px;white-space:nowrap}
+.go{width:100%;height:48px;border-radius:10px;background:var(--amber);color:#1a1405;font:700 16px var(--mono);letter-spacing:2px}
+.go:hover{filter:brightness(1.08)}
+.note{color:var(--dim);font-size:11.5px;margin-top:12px;text-align:center}
+.note a{color:var(--dim)}
+
+/* touch */
+#stick{position:fixed;z-index:6;width:120px;height:120px;border-radius:50%;border:1px solid #d8d2b455;background:#d8d2b40d;display:none;pointer-events:none}
+#stick i{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px;border-radius:50%;background:#d9a44188;border:1px solid var(--amber)}
+.tch{display:none;position:fixed;z-index:6;bottom:calc(64px + env(safe-area-inset-bottom));width:70px;height:70px;border-radius:50%;border:1px solid var(--amber);background:#d9a44122;color:var(--amber);font:700 12px var(--mono)}
+#tscan{right:16px}
+#tboost{right:96px;width:56px;height:56px;bottom:calc(70px + env(safe-area-inset-bottom));border-color:var(--cyan);color:var(--cyan);background:#6fc3b222}
+html.touch .tch{display:grid;place-items:center}
+html.touch .keyhint{display:none}
+
+@media (max-width:820px){
+  .logo small,.stat.hide-s{display:none}
+  .batt{width:80px}
+  #board{display:none}#board.open{display:block;top:62px;right:8px}
+  #feedp{display:none}
+  #mission{left:8px;right:8px;width:auto;top:62px}
+  .mb{padding:7px 10px}.mb .md{display:none}
+  #mini{width:130px;height:87px;left:8px;bottom:auto;top:150px}
+  .radio{bottom:calc(150px + env(safe-area-inset-bottom));max-width:96vw}
+  .radio button{height:30px;padding:0 9px;font-size:12px}
+  .radio .lbl{display:none}
+  .top{gap:8px;padding-left:8px;padding-right:8px}
+}
+@media (min-width:821px){#tbBoard{display:none}}
+@media (prefers-reduced-motion:reduce){#feed li,.toast{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="world" aria-label="Мапа Δ онлайн"></canvas>
+
+<header class="top">
+  <a class="logo" href="index.html" title="На головну Вайбвет FM" style="color:inherit;text-decoration:none"><span class="ow">Δ</span><b>ОНЛАЙН</b><small>飞眼 FlyEye 3.0 · китайська збірка</small></a>
+  <div class="live" id="live" title="Зв'язок з іншими гравцями"><i></i><span id="liveTxt">підключаємось…</span></div>
+  <div class="sp"></div>
+  <div class="stat hide-s"><span>позивний</span><b id="sName">—</b></div>
+  <div class="stat hide-s"><span>звання</span><b id="sRank">Рекрут</b></div>
+  <div class="stat hide-s"><span>швидкість · 速度</span><b id="sSpd">0</b></div>
+  <div class="stat"><span>вайби</span><b id="sScore" class="g">0</b></div>
+  <div class="stat batt"><span>заряд · 电量 <b id="sBatt" style="font-size:11px">100%</b></span><div class="bbar"><i id="bBar"></i></div></div>
+  <button class="tbtn" id="tbBoard" type="button">🏆</button>
+  <button class="tbtn" id="tbSound" type="button" title="Звук">🔔</button>
+</header>
+
+<section class="panel" id="mission" aria-live="polite">
+  <div class="ph">МІСІЯ <span id="mNum">№1</span></div>
+  <div class="mb"><div class="mt" id="mT">—</div><div class="md" id="mD"></div>
+    <div class="prog"><i id="mP"></i></div><div class="pr"><span id="mPr"></span><span id="mRw"></span></div></div>
+</section>
+
+<section class="panel" id="board">
+  <div class="ph">РЕЙТИНГ ВАЙБУ <span>24 год</span></div>
+  <ol id="boardL"></ol>
+</section>
+
+<section class="panel" id="feedp">
+  <div class="ph">СТРІЧКА СОВА <span>наживо</span></div>
+  <ol id="feed"></ol>
+</section>
+
+<canvas id="mini" width="400" height="268" aria-hidden="true"></canvas>
+
+<nav class="radio" id="radio" aria-label="Рація">
+  <span class="lbl">РАЦІЯ</span>
+</nav>
+
+<div id="stick"><i></i></div>
+<button class="tch" id="tscan" type="button">ФОТО</button>
+<button class="tch" id="tboost" type="button">⚡</button>
+
+<div id="intro" role="dialog" aria-modal="true" aria-labelledby="iT">
+  <div class="card">
+    <h1 id="iT"><span class="ow">Δ</span>онлайн</h1>
+    <div class="sub">Ситуаційна вайб-обізнаність · мультиплеєр · борт 飞眼 FlyEye 3.0</div>
+    <p>Тобі видали <b>FlyEye 3.0 китайської збірки</b>: на коробці 飞眼 3.0 Pro Max, в інструкції «крило тримати крилом». Це літак, а не квадрокоптер: зависати не вміє, гальмувати майже теж. Тримай швидкість і закладай віражі.</p><p>Над мапою вже літають інші: переписують корів, фотографують котів, шукають загублені довідки й обминають ЦНАПи.</p>
+    <div class="cs"><div><small>твій позивний</small><b id="iName">—</b></div><button id="iRoll" type="button" title="Інший позивний" aria-label="Інший позивний">🎲</button></div>
+    <div class="keys keyhint">
+      <kbd>A D / ← →</kbd><span>крен і віраж</span>
+      <kbd>W / ↑</kbd><span>газ</span>
+      <kbd>S / ↓</kbd><span>прибрати газ (повільно = 失速, звалювання)</span>
+      <kbd>Shift</kbd><span>форсаж (з'їдає заряд)</span>
+      <kbd>миша</kbd><span>затисни, щоб летіти до точки</span>
+      <kbd>Пробіл</kbd><span>фото: ідентифікувати все поруч</span>
+      <kbd>1–6</kbd><span>рація</span>
+    </div>
+    <p class="keyhint" style="color:var(--dim);font-size:12.5px">Заряд поповнюється, коли пролітаєш над точками ☕ і Перегаворкою. Над 🏛 ЦНАПом заряд тане втричі швидше.</p>
+    <p style="display:none;color:var(--dim);font-size:12.5px" id="iTouch">Ліва частина екрана — джойстик: вбік віраж, вгору газ, вниз гальмо. ФОТО і ⚡ форсаж справа.</p>
+    <button class="go" id="iGo" type="button">ЗЛЕТІТИ</button>
+    <div class="note">Гра-сатира Мінвайбвету. Усе вигадане: дрони, мапа, корови й навіть ЦНАП. Це не тренажер і не має стосунку до справжніх «Дельти», FlyEye чи будь-яких реальних систем. <a href="privacy.html">Приватність</a></div>
+  </div>
+</div>
+
+<script src="vendor/mqtt-5.16.1.min.js"></script>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var Q=new URLSearchParams(location.search);
+function rnd(a,b){return a+Math.random()*(b-a);}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function clamp(v,a,b){return v<a?a:v>b?b:v;}
+var SP="sova-"+((new URLSearchParams(location.search).get("net")==="local"&&/^[a-z0-9]{1,8}$/.test(new URLSearchParams(location.search).get("p")||""))?new URLSearchParams(location.search).get("p")+"-":"");
+function store(k,v){try{if(v===undefined)return localStorage.getItem(SP+k);localStorage.setItem(SP+k,v);}catch(e){return null;}}
+var isTouch=matchMedia("(pointer:coarse)").matches||"ontouchstart" in window;
+if(isTouch){document.documentElement.classList.add("touch");$("iTouch").style.display="block";}
+
+/* ================= callsigns: built from fixed word lists, never free text ================= */
+var CS_A=["Сова","Пугач","Корова","Кіт","Трактор","Довідка","Кава","Мівіна","Ластівка","Рапорт","Вайб","Їжак","Гуска","Бобер","Відпустка","Комбат"];
+var CS_F=[1,0,1,0,0,1,1,1,1,0,0,0,1,0,1,0]; /* grammatical gender of CS_A: 1 = feminine */
+var CS_B=[["Тихий","Тиха"],["Бадьорий","Бадьора"],["Мирний","Мирна"],["Сонний","Сонна"],["Впертий","Вперта"],["Ввічливий","Ввічлива"],["Задумливий","Задумлива"],["Ранковий","Ранкова"],["Нічний","Нічна"],["Польовий","Польова"],["Чемний","Чемна"],["Терплячий","Терпляча"]];
+function csF(c){return !!CS_F[c[0]%CS_A.length];}
+function csName(c){return CS_B[c[1]%CS_B.length][csF(c)?1:0]+" "+CS_A[c[0]%CS_A.length]+"-"+(c[2]%1000);}
+/* "знайшов(-ла)" -> "знайшов" / "знайшла", "приєднався(-лась)" -> "приєднався" / "приєдналась" */
+function gend(txt,f){return txt.replace(/([А-Яа-яІіЇїЄєҐґ']+)\(-(ла|лась)\)/g,function(_,w,suf){if(!f)return w;if(suf==="лась")return w.replace(/вся$/,"")+"лась";if(/шов$/.test(w))return w.replace(/шов$/,"шла");return w.replace(/в$/,"")+"ла";});}
+function csRoll(){return [Math.floor(rnd(0,CS_A.length)),Math.floor(rnd(0,CS_B.length)),Math.floor(rnd(100,1000))];}
+function validCs(c){return Array.isArray(c)&&c.length===3&&c.every(function(n){return Number.isInteger(n)&&n>=0&&n<1000;})&&c[0]<CS_A.length&&c[1]<CS_B.length;}
+var myCs;try{myCs=JSON.parse(store("cs"));}catch(e){}
+if(!validCs(myCs))myCs=csRoll();
+var myId=store("id");if(!myId||!/^[a-z0-9]{8}$/.test(myId)){myId=Math.random().toString(36).slice(2,10).padEnd(8,"0");store("id",myId);}
+$("iName").textContent=csName(myCs);
+$("iRoll").addEventListener("click",function(){myCs=csRoll();$("iName").textContent=csName(myCs);beep(880,.05,.03);});
+
+/* ================= ranks ================= */
+var RANKS=[[0,"Рекрут"],[150,"Курсант вайбу"],[400,"Старший по котах"],[900,"Інспектор корів"],[1600,"Майор кави 3в1"],[2800,"Полковник терпіння"],[5000,"Генерал відпустки"]];
+function rankOf(s){var r=RANKS[0][1];RANKS.forEach(function(x){if(s>=x[0])r=x[1];});return r;}
+function rankIdx(s){var r=0;RANKS.forEach(function(x,i){if(s>=x[0])r=i;});return r;}
+
+/* ================= sound ================= */
+var AC=null,soundOn=store("snd")!=="0";
+$("tbSound").textContent=soundOn?"🔔":"🔕";
+$("tbSound").addEventListener("click",function(){soundOn=!soundOn;store("snd",soundOn?"1":"0");this.textContent=soundOn?"🔔":"🔕";});
+function beep(f,d,v,type){if(!soundOn)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),gn=AC.createGain();o.type=type||"square";o.frequency.value=f;gn.gain.value=v||.03;gn.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.connect(gn);gn.connect(AC.destination);o.start();o.stop(AC.currentTime+d);}catch(e){}}
+function chord(fs){fs.forEach(function(f,i){setTimeout(function(){beep(f,.12,.03,"triangle");},i*80);});}
+
+/* ================= world (same for everyone: seeded) ================= */
+var WW=2400,WH=1600;
+var seed=2026;function srand(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+var BASE={x:1200,y:800,r:90,n:"ПЕРЕГАВОРКА"};
+var CNAPS=[{x:420,y:330,r:120},{x:1950,y:420,r:130},{x:1700,y:1280,r:115},{x:560,y:1220,r:110}];
+var COFFEE=[{x:820,y:620},{x:1600,y:760},{x:1150,y:1350},{x:300,y:820},{x:2150,y:1000},{x:1250,y:230}];
+var VILLAGES=[{x:700,y:420,n:"ВЕЛИКІ КОРІВКИ"},{x:1500,y:350,n:"ГОРОДИЩЕ-ДРУГЕ"},{x:2000,y:800,n:"МАЛІ ДОВІДКИ"},{x:900,y:1100,n:"ТИХИЙ ХУТІР"},{x:1400,y:1100,n:"НОВА ЧЕРГА"},{x:300,y:1450,n:"ПІД ТУМАНОМ"},{x:2200,y:1450,n:"ВІВЧАРКИ"}];
+var river=[],roads=[],houses=[],fields=[];
+(function(){
+  var y=140;for(var k=0;k<=24;k++){river.push([k*WW/24,y]);y+=srand()*120-35;if(y>WH-150)y-=200;}
+  VILLAGES.forEach(function(v){for(var h=0;h<9;h++)houses.push({x:v.x+srand()*170-85,y:v.y+srand()*120-60,w:14+srand()*12,h:12+srand()*10,a:srand()*.6-.3});});
+  var hubs=[BASE].concat(VILLAGES);
+  hubs.forEach(function(v,i){if(i===0)return;var a=hubs[Math.floor(srand()*i)],p=[];for(var t=0;t<=10;t++){var tt=t/10;p.push([a.x+(v.x-a.x)*tt+(t%10?srand()*60-30:0),a.y+(v.y-a.y)*tt+(t%10?srand()*60-30:0)]);}roads.push(p);});
+  for(var f=0;f<26;f++)fields.push({x:srand()*WW,y:srand()*WH,w:120+srand()*220,h:80+srand()*160,a:srand()*.8-.4,c:["#151a0e","#171c10","#13170d","#1a1d10"][f%4]});
+})();
+function inCnap(x,y){for(var i=0;i<CNAPS.length;i++){var c=CNAPS[i];if(Math.hypot(x-c.x,y-c.y)<c.r)return c;}return null;}
+function nearCoffee(x,y){for(var i=0;i<COFFEE.length;i++){if(Math.hypot(x-COFFEE[i].x,y-COFFEE[i].y)<70)return COFFEE[i];}return null;}
+function inBase(x,y){return Math.hypot(x-BASE.x,y-BASE.y)<BASE.r;}
+
+/* live objects: generated per 2-minute slot from the shared clock, so everyone sees the same herd */
+var KINDS={
+  cow:{ic:"🐄",n:"КОРОВА",c:"#d8d2b4",mv:14,pts:5,cnt:22},
+  cat:{ic:"🐈",n:"КІТ",c:"#9fd66a",mv:30,pts:12,cnt:12},
+  doc:{ic:"📄",n:"ДОВІДКА",c:"#e0603f",mv:9,pts:25,cnt:7},
+  tractor:{ic:"🚜",n:"ТРАКТОР",c:"#6fc3b2",mv:38,pts:8,cnt:5},
+  sheep:{ic:"🐑",n:"ВІВЦІ",c:"#d8d2b4",mv:10,pts:6,cnt:8},
+  hedgehog:{ic:"🦔",n:"ЇЖАК",c:"#d9a441",mv:12,pts:30,cnt:2}
+};
+var SLOT_MS=120000;
+var clockSkew=0; /* ms; adjusted from peers' timestamps if our clock is off */
+function now(){return Date.now()+clockSkew;}
+var objs=[],slot=-1,scanned={};
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function buildSlot(s){
+  var r=mulberry(s*7919+13),out=[];
+  Object.keys(KINDS).forEach(function(k){
+    for(var i=0;i<KINDS[k].cnt;i++){
+      var x=80+r()*(WW-160),y=80+r()*(WH-160);
+      if(k==="doc"){var c=CNAPS[Math.floor(r()*CNAPS.length)];if(r()<.5){x=c.x+r()*300-150;y=c.y+r()*300-150;}}
+      if(k==="sheep"&&r()<.7){x=1900+r()*450;y=1250+r()*320;}
+      out.push({id:s+":"+k+i,k:k,x0:x,y0:y,ph:r()*100,sp:.4+r()*.8,rad:60+r()*160});
+    }
+  });
+  return out;
+}
+/* deterministic motion from the shared clock: everybody sees the same cow in the same place */
+function objPos(o,t){
+  var K=KINDS[o.k],tt=t/1000*o.sp*K.mv/100;
+  return [clamp(o.x0+Math.sin(tt+o.ph)*o.rad*.9+Math.sin(tt*2.3+o.ph*2)*o.rad*.2,20,WW-20),clamp(o.y0+Math.cos(tt*.8+o.ph)*o.rad*.7,20,WH-20)];
+}
+function checkSlot(){var s=Math.floor(now()/SLOT_MS);if(s!==slot){slot=s;objs=buildSlot(s);scanned={};if(started)feed("c","🦉 СОВА оновила мапу: корови, коти й довідки переміщені на нові позиції.");}}
+
+/* wind: also from the shared clock */
+function wind(t){var s=t/1000;return [Math.sin(s*.05)*14+Math.sin(s*.17)*6,Math.cos(s*.037)*10+Math.sin(s*.11)*5];}
+
+/* ================= me ================= */
+var me={x:BASE.x+rnd(-40,40),y:BASE.y+rnd(-40,40),vx:0,vy:0,a:rnd(0,6.28),spd:150,bank:0,stall:0,edgeT:0,lowB:false,batt:100,score:0,boost:false,scan:0,crash:0,trail:[]};
+me.score=parseInt(store("score")||"0",10)||0;
+var started=false,lastCnapNag=0,cnapEnter=0;
+
+/* ================= peers ================= */
+var peers={}; /* id -> {cs,x,y,a,tx,ty,ta,score,batt,seen,bot,bubble,bubbleT,trail,scan} */
+var board={}; /* id -> {cs,s,ts,bot} */
+
+/* ================= network: public MQTT over WebSocket, or BroadcastChannel for local tests ================= */
+var NET={ok:false,pub:function(){}};
+var TP="minvaibvet/sova/v1/";
+var BROKER=Q.get("broker")||"wss://broker.emqx.io:8084/mqtt";
+function setLive(state,txt){var l=$("live");l.className="live "+state;$("liveTxt").textContent=txt;}
+function onMsg(kind,id,m){
+  if(id===myId||!/^[a-z0-9]{8}$/.test(id)||!m||typeof m!=="object")return;
+  if(kind==="p"){
+    if(m.bye){delete peers[id];return;}
+    if(!validCs(m.c))return;
+    var x=+m.x,y=+m.y;if(!isFinite(x)||!isFinite(y))return;
+    var p=peers[id];
+    if(!p){p=peers[id]={x:x,y:y,a:0,trail:[],bubble:"",bubbleT:0,scan:0};if(started)feed("c",gend("📡 "+csName(m.c)+" "+pick(["злетів(-ла) з Перегаворки.","вийшов(-ла) на зв'язок.","приєднався(-лась) до спостереження за коровами."]),csF(m.c)));}
+    p.cs=m.c;p.tx=clamp(x,0,WW);p.ty=clamp(y,0,WH);p.ta=+m.a||0;p.score=Math.max(0,Math.min(1e7,m.s|0));p.batt=clamp(m.b|0,0,100);p.boost=!!m.f;p.seen=performance.now();p.bot=false;
+    if(m.sc&&!p.scan)p.scan=1;
+    if(typeof m.t==="number"&&Math.abs(m.t-now())>15000&&Math.abs(m.t-Date.now())<36e5)clockSkew=clockSkew*.9+(m.t-Date.now())*.1;
+    board[id]={cs:m.c,s:p.score,ts:Date.now(),bot:false};
+  }else if(kind==="e"){
+    if(!validCs(m.c))return;var e=EV[m.e];if(!e)return;
+    var nm=csName(m.c),txt=gend(e[1].replace("{n}",nm),csF(m.c));feed(e[0],txt);
+    if(m.e.charAt(0)==="r"&&peers[id]){peers[id].bubble=e[2]||"";peers[id].bubbleT=3.5;}
+  }else if(kind==="s"){
+    if(!validCs(m.c)||typeof m.ts!=="number")return;
+    if(Date.now()-m.ts>864e5)return;
+    if(!board[id]||board[id].ts<m.ts)board[id]={cs:m.c,s:Math.max(0,Math.min(1e7,m.s|0)),ts:m.ts,bot:false};
+  }
+}
+function parseTopic(t){var r=t.slice(TP.length).split("/");return {kind:r[0],id:r[1]||""};}
+function startNet(){
+  if(Q.get("net")==="local"&&window.BroadcastChannel){
+    var bc=new BroadcastChannel("sova");
+    bc.onmessage=function(ev){var d=ev.data;if(d&&d.t)onMsg(d.k,d.i,d.m);};
+    NET={ok:true,pub:function(k,m,ret){bc.postMessage({t:1,k:k,i:myId,m:m});}};
+    setLive("on","локальна мережа");return;
+  }
+  if(!window.mqtt){setLive("off","офлайн · літаєш з ботами");return;}
+  var cl;
+  try{
+    cl=mqtt.connect(BROKER,{clientId:"sova_"+myId+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000,
+      will:{topic:TP+"p/"+myId,payload:JSON.stringify({bye:1}),qos:0,retain:false}});
+  }catch(e){setLive("off","офлайн · літаєш з ботами");return;}
+  cl.on("connect",function(){
+    cl.subscribe([TP+"p/+",TP+"e/+",TP+"s/+"]);setLive("on","на зв'язку");
+    if(started)publishScore();
+  });
+  cl.on("reconnect",function(){setLive("","перепідключаємось…");});
+  cl.on("offline",function(){NET.ok=false;setLive("off","офлайн · літаєш з ботами");});
+  cl.on("error",function(){});
+  cl.on("message",function(t,buf){
+    if(buf.length>600)return;var m;try{m=JSON.parse(buf.toString());}catch(e){return;}
+    var r=parseTopic(t);onMsg(r.kind,r.id,m);
+  });
+  NET={ok:false,pub:function(k,m,ret){if(!cl.connected)return;cl.publish(TP+k+"/"+myId,JSON.stringify(m),{qos:0,retain:!!ret});}};
+  Object.defineProperty(NET,"ok",{get:function(){return cl.connected;}});
+  addEventListener("pagehide",function(){try{cl.publish(TP+"p/"+myId,JSON.stringify({bye:1}));cl.end(true);}catch(e){}});
+}
+var lastPub=0,lastScorePub=0,pendScan=false;
+function publishPos(t){
+  if(!NET.ok||!started)return;
+  if(t-lastPub<160)return;lastPub=t;
+  NET.pub("p",{c:myCs,x:Math.round(me.x),y:Math.round(me.y),a:+me.a.toFixed(2),s:me.score,b:Math.round(me.batt),f:me.boost?1:0,sc:pendScan?1:0,t:Date.now()});
+  pendScan=false;
+}
+function publishScore(){if(!NET.ok)return;lastScorePub=performance.now();NET.pub("s",{c:myCs,s:me.score,ts:Date.now()},true);}
+function pubEvent(code){
+  if(NET.ok)NET.pub("e",{c:myCs,e:code});
+  var e=EV[code];if(e)feed(e[0],gend(e[1].replace("{n}",csName(myCs)+" (ти)"),csF(myCs)));
+}
+
+/* events: fixed codes, so nobody can put arbitrary text on everyone's screen */
+var EV={
+  m_docs:["g","📄 {n} знайшов(-ла) три втрачені довідки. ЦНАП уже просить четверту."],
+  m_cats:["g","🐈 {n} сфотографував(-ла) котів. Усі дружні. Один вимагав корму."],
+  m_cows:["g","🐄 {n} переписав(-ла) корів. Кількість збігається з минулим разом, корови — ні."],
+  m_trac:["g","🚜 {n} супроводив(-ла) трактор. Генератор, кіт і піца доставлені."],
+  m_coff:["g","☕ {n} доставив(-ла) каву 3в1 комбату. Боєздатність штабу +12%."],
+  m_cnap:["g","🏛 {n} пролетів(-ла) над ЦНАПом і не отримав(-ла) запиту на довідку. Рідкісний випадок."],
+  m_sheep:["g","🐑 {n} перевірив(-ла) овець за кордоном. Туман, сонце, вівці. Без змін."],
+  f_cnap:["r","🏛 {n} затримався(-лась) над ЦНАПом. Видано запит на ще одну довідку."],
+  f_batt:["y","🔋 {n} здійснив(-ла) аварійну посадку в городі. Бабуся нагодувала, повертається."],
+  hog:["y","🦔 {n} помітив(-ла) їжака. Їжак не помітив нікого. Статус: недоторканний."],
+  rank:["c","⭐ {n} отримав(-ла) нове звання. Відпустку ні."],
+  r1:["c","📻 {n}: «Плюс».","+"],
+  r2:["c","📻 {n}: «Бачу кота».","бачу кота 🐈"],
+  r3:["c","📻 {n}: «Де кава?»","де кава? ☕"],
+  r4:["c","📻 {n}: «Обережно, ЦНАП».","обережно, ЦНАП 🏛"],
+  r5:["c","📻 {n}: «Повертаюсь у Перегаворку».","додому 🏠"],
+  r6:["c","📻 {n}: «🫂»","🫂"]
+};
+var RADIO=[["r1","+"],["r2","🐈 бачу кота"],["r3","☕ де кава?"],["r4","🏛 ЦНАП"],["r5","🏠 додому"],["r6","🫂"]];
+var lastRadio=0;
+RADIO.forEach(function(r,i){var b=document.createElement("button");b.type="button";b.textContent=r[1];b.title="Клавіша "+(i+1);b.addEventListener("click",function(){radio(i);});$("radio").appendChild(b);r.el=b;});
+function radio(i){
+  if(!started)return;var t=performance.now();if(t-lastRadio<2500)return;lastRadio=t;
+  var r=RADIO[i];pubEvent(r[0]);me.bubble=EV[r[0]][2];me.bubbleT=3.5;beep(1320,.06,.025,"sine");
+  RADIO.forEach(function(x){x.el.disabled=true;});setTimeout(function(){RADIO.forEach(function(x){x.el.disabled=false;});},2500);
+}
+
+/* ================= bots: local, labeled, keep the map alive when few people are online ================= */
+var bots=[];
+function realCount(){var n=0,t=performance.now();for(var k in peers)if(!peers[k].bot&&t-peers[k].seen<8000)n++;return n;}
+function spawnBot(){
+  var b={id:"bot"+Math.random().toString(36).slice(2,7),cs:csRoll(),x:BASE.x+rnd(-60,60),y:BASE.y+rnd(-60,60),a:0,vx:0,vy:0,score:Math.floor(rnd(0,900)),goal:null,t:0,trail:[],bubble:"",bubbleT:0,scan:0,bot:true};
+  bots.push(b);board[b.id]={cs:b.cs,s:b.score,ts:Date.now(),bot:true};
+}
+function botTick(dt){
+  var want=Math.max(0,5-realCount());
+  while(bots.length<want)spawnBot();
+  if(bots.length>want&&Math.random()<dt*.05){var gone=bots.pop();delete board[gone.id];}
+  bots.forEach(function(b){
+    b.t-=dt;
+    if(!b.goal||b.t<0||Math.hypot(b.goal[0]-b.x,b.goal[1]-b.y)<80){
+      var r=Math.random();
+      if(r<.6&&objs.length){var o=pick(objs),p=objPos(o,now());b.goal=[p[0],p[1]];}
+      else if(r<.8){var c=pick(COFFEE);b.goal=[c.x,c.y];}else b.goal=[rnd(100,WW-100),rnd(100,WH-100)];
+      b.t=rnd(8,20);
+      if(Math.random()<.35){b.scan=1;b.score+=Math.floor(rnd(5,30));board[b.id].s=b.score;board[b.id].ts=Date.now();}
+      if(Math.random()<.04){var rr=pick(RADIO);b.bubble=EV[rr[0]][2];b.bubbleT=3.5;feed("c",gend(EV[rr[0]][1].replace("{n}",csName(b.cs)+" 🤖"),csF(b.cs)));}
+      else if(Math.random()<.05){var mk=pick(["m_docs","m_cats","m_cows","m_trac","m_coff","m_sheep"]);feed("g",gend(EV[mk][1].replace("{n}",csName(b.cs)+" 🤖"),csF(b.cs)));b.score+=60;board[b.id].s=b.score;}
+    }
+    var gd=Math.atan2(b.goal[1]-b.y,b.goal[0]-b.x),dd=((gd-b.a+Math.PI*3)%(Math.PI*2))-Math.PI;b.a+=clamp(dd*2,-1,1)*1.9*dt;
+    b.vx=Math.cos(b.a)*140;b.vy=Math.sin(b.a)*140;
+    var w=wind(now());b.x=clamp(b.x+(b.vx+w[0])*dt,10,WW-10);b.y=clamp(b.y+(b.vy+w[1])*dt,10,WH-10);
+    if(inCnap(b.x,b.y)&&Math.random()<dt*.4){b.goal=[BASE.x,BASE.y];}
+  });
+}
+
+/* ================= missions ================= */
+var MIS=[
+  {k:"docs",t:"Знайди 3 втрачені довідки 📄",d:"Довідки розлітаються біля ЦНАПів. Підлети й натисни ФОТО.",need:3,rw:90,ev:"m_docs"},
+  {k:"cats",t:"Сфотографуй 4 котів 🐈",d:"Коти дружні, але рухливі. Фото фіксує всіх у колі.",need:4,rw:80,ev:"m_cats"},
+  {k:"cows",t:"Перепиши 6 корів 🐄",d:"Корови нейтральні. Рахуй уважно: вони не стоять на місці.",need:6,rw:70,ev:"m_cows"},
+  {k:"trac",t:"Супроводь трактор 🚜",d:"Тримайся поруч з будь-яким трактором 15 секунд. Він везе генератор, кота й піцу.",need:15,rw:100,ev:"m_trac"},
+  {k:"coff",t:"Кава 3в1 для комбата ☕",d:"Забери каву на будь-якій точці ☕ і довези в Перегаворку.",need:2,rw:110,ev:"m_coff"},
+  {k:"cnap",t:"Проскоч над ЦНАПом 🏛",d:"Перетни будь-який ЦНАП швидше, ніж за 3 секунди. Затримаєшся — запросять ще одну довідку.",need:1,rw:120,ev:"m_cnap"},
+  {k:"sheep",t:"Перевір овець за кордоном 🐑",d:"Вівці пасуться на південному сході. Сфотографуй 3.",need:3,rw:85,ev:"m_sheep"}
+];
+var mi=parseInt(store("mi")||"0",10)%MIS.length,mprog=0,mnum=parseInt(store("mn")||"1",10)||1,carry=false;
+function mis(){return MIS[mi];}
+function showMission(){
+  var m=mis();$("mT").textContent=m.t;$("mD").textContent=m.d;$("mNum").textContent="№"+mnum;$("mRw").textContent="+"+m.rw+" вайбів";
+  var p=Math.min(1,mprog/m.need);$("mP").style.width=(p*100)+"%";
+  $("mPr").textContent=m.k==="trac"?Math.floor(mprog)+" / "+m.need+" с":m.k==="coff"?(carry?"кава на борту → Перегаворка":"забери каву на точці ☕"):m.k==="cnap"?"пролети ЦНАП":Math.floor(mprog)+" / "+m.need;
+}
+function missionDone(){
+  var m=mis();addScore(m.rw);pubEvent(m.ev);chord([523,659,784,1047]);toast("Місію виконано: "+m.t.replace(/\s\S+$/,"")+" · +"+m.rw+" вайбів");
+  var n;do{n=Math.floor(Math.random()*MIS.length);}while(n===mi);mi=n;mprog=0;carry=false;mnum++;store("mi",mi);store("mn",mnum);showMission();
+}
+function addScore(n){
+  var before=rankIdx(me.score);me.score+=n;store("score",me.score);
+  if(rankIdx(me.score)>before){toast("Нове звання: "+rankOf(me.score)+". Відпустку не надано.");pubEvent("rank");}
+  board[myId]={cs:myCs,s:me.score,ts:Date.now(),me:true};
+  if(performance.now()-lastScorePub>3000)publishScore();
+}
+
+/* ================= scan ================= */
+var scanCd=0,SCAN_R=130;
+function doScan(){
+  if(!started||scanCd>0||me.crash>0)return;scanCd=1.1;me.scan=1;pendScan=true;me.batt=Math.max(0,me.batt-1.5);beep(1760,.08,.03,"sine");
+  var t=now(),got=[],m=mis();
+  objs.forEach(function(o){
+    if(scanned[o.id])return;var p=objPos(o,t);if(Math.hypot(p[0]-me.x,p[1]-me.y)>SCAN_R)return;
+    scanned[o.id]=1;got.push(o);var K=KINDS[o.k];addScore(K.pts);
+    floaters.push({x:p[0],y:p[1]-20,t:1.4,s:"+"+K.pts+" "+K.ic});
+    if((m.k==="docs"&&o.k==="doc")||(m.k==="cats"&&o.k==="cat")||(m.k==="cows"&&o.k==="cow")||(m.k==="sheep"&&o.k==="sheep"))mprog++;
+    if(o.k==="hedgehog")pubEvent("hog");
+  });
+  if(!got.length)floaters.push({x:me.x,y:me.y-30,t:1.2,s:pick(["нічого нового","лише туман","трава","хмара, класифіковано"])});
+  showMission();if(mprog>=m.need&&["docs","cats","cows","sheep"].indexOf(m.k)>=0)missionDone();
+}
+var floaters=[];
+
+/* ================= input ================= */
+var keys={},joy={on:false,id:null,x0:0,y0:0,dx:0,dy:0},tBoost=false;
+addEventListener("keydown",function(e){
+  if(!started)return;
+  var k=e.key.toLowerCase();keys[k]=true;
+  if(k===" "){doScan();e.preventDefault();}
+  if(/^[1-6]$/.test(k))radio(+k-1);
+  if(k.indexOf("arrow")===0)e.preventDefault();
+});
+addEventListener("keyup",function(e){keys[e.key.toLowerCase()]=false;});
+addEventListener("blur",function(){keys={};});
+var cvs=$("world");
+cvs.addEventListener("pointerdown",function(e){
+  if(!started||e.pointerType==="mouse")return;
+  if(e.clientX<innerWidth*.6&&!joy.on){joy.on=true;joy.id=e.pointerId;joy.x0=e.clientX;joy.y0=e.clientY;joy.dx=joy.dy=0;var s=$("stick");s.style.display="block";s.style.left=(e.clientX-60)+"px";s.style.top=(e.clientY-60)+"px";s.firstChild.style.transform="";}
+});
+addEventListener("pointermove",function(e){
+  if(!joy.on||e.pointerId!==joy.id)return;var dx=e.clientX-joy.x0,dy=e.clientY-joy.y0,d=Math.hypot(dx,dy),mx=50;if(d>mx){dx=dx/d*mx;dy=dy/d*mx;}
+  joy.dx=dx/mx;joy.dy=dy/mx;$("stick").firstChild.style.transform="translate("+dx+"px,"+dy+"px)";
+});
+function joyEnd(e){if(joy.on&&e.pointerId===joy.id){joy.on=false;joy.dx=joy.dy=0;$("stick").style.display="none";}}
+addEventListener("pointerup",joyEnd);addEventListener("pointercancel",joyEnd);
+/* mouse: click to fly toward a point (desktop without keys) */
+var mouseGoal=null;
+cvs.addEventListener("mousedown",function(e){if(!started)return;mouseGoal=screenToWorld(e.clientX,e.clientY);});
+cvs.addEventListener("mousemove",function(e){if(mouseGoal&&e.buttons)mouseGoal=screenToWorld(e.clientX,e.clientY);});
+addEventListener("mouseup",function(){mouseGoal=null;});
+cvs.addEventListener("dblclick",function(){doScan();});
+$("tscan").addEventListener("pointerdown",function(e){e.preventDefault();doScan();});
+$("tboost").addEventListener("pointerdown",function(e){e.preventDefault();tBoost=true;});
+["pointerup","pointercancel","pointerleave"].forEach(function(ev){$("tboost").addEventListener(ev,function(){tBoost=false;});});
+$("tbBoard").addEventListener("click",function(){$("board").classList.toggle("open");});
+
+/* ================= feed + toast ================= */
+function feed(cls,txt){
+  var li=document.createElement("li");li.className=cls==="g"?"":cls;var tm=document.createElement("time");tm.textContent=new Date().toTimeString().slice(0,5);
+  li.appendChild(tm);li.appendChild(document.createTextNode(txt));var ol=$("feed");ol.insertBefore(li,ol.firstChild);while(ol.children.length>12)ol.lastChild.remove();
+}
+var toastT=null;
+function toast(msg,bad){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast"+(bad?" bad":"");d.textContent=msg;document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(function(){d.remove();},3200);}
+
+/* ================= render ================= */
+var g=cvs.getContext("2d"),SW=0,SH=0,dpr=1,cam={x:me.x,y:me.y},Z=1;
+function size(){dpr=Math.min(devicePixelRatio||1,2);SW=innerWidth;SH=innerHeight;cvs.width=SW*dpr;cvs.height=SH*dpr;Z=SW<700?.72:1;}
+addEventListener("resize",size);size();
+function screenToWorld(x,y){return [(x-SW/2)/Z+cam.x,(y-SH/2)/Z+cam.y];}
+/* static terrain prerendered once */
+var terr=document.createElement("canvas");terr.width=WW;terr.height=WH;
+(function(){
+  var t=terr.getContext("2d");t.fillStyle="#0b0d08";t.fillRect(0,0,WW,WH);
+  fields.forEach(function(f){t.save();t.translate(f.x,f.y);t.rotate(f.a);t.fillStyle=f.c;t.fillRect(-f.w/2,-f.h/2,f.w,f.h);t.strokeStyle="#1f2516";for(var i=-f.w/2;i<f.w/2;i+=9){t.beginPath();t.moveTo(i,-f.h/2);t.lineTo(i,f.h/2);t.stroke();}t.restore();});
+  t.strokeStyle="#1b2112";t.lineWidth=1;
+  for(var i=0;i<40;i++){t.beginPath();for(var x=0;x<=WW;x+=24){var y=WH*(i/40)+Math.sin(x*.006+i*1.7)*30+Math.sin(x*.0017+i)*50;x?t.lineTo(x,y):t.moveTo(x,y);}t.stroke();}
+  t.strokeStyle="#20271655";t.beginPath();for(var gx=0;gx<=WW;gx+=200){t.moveTo(gx,0);t.lineTo(gx,WH);}for(var gy=0;gy<=WH;gy+=200){t.moveTo(0,gy);t.lineTo(WW,gy);}t.stroke();
+  t.fillStyle="#3a4428";t.font="12px PT Mono, monospace";for(gx=0;gx<WW;gx+=200)for(gy=0;gy<WH;gy+=200)t.fillText(String.fromCharCode(65+gx/200)+(gy/200+1),gx+6,gy+16);
+  t.lineCap="round";t.lineJoin="round";
+  t.strokeStyle="#1f3d3d";t.lineWidth=26;t.beginPath();river.forEach(function(p,i){i?t.lineTo(p[0],p[1]):t.moveTo(p[0],p[1]);});t.stroke();
+  t.strokeStyle="#2c5a5a";t.lineWidth=14;t.stroke();
+  t.strokeStyle="#4a4630";t.lineWidth=3;t.setLineDash([10,8]);roads.forEach(function(r){t.beginPath();r.forEach(function(p,i){i?t.lineTo(p[0],p[1]):t.moveTo(p[0],p[1]);});t.stroke();});t.setLineDash([]);
+  houses.forEach(function(h){t.save();t.translate(h.x,h.y);t.rotate(h.a);t.fillStyle="#2a2a1c";t.fillRect(-h.w/2,-h.h/2,h.w,h.h);t.strokeStyle="#4d4a32";t.strokeRect(-h.w/2,-h.h/2,h.w,h.h);t.restore();});
+  t.textAlign="center";t.fillStyle="#6d6a52";t.font="13px PT Mono, monospace";VILLAGES.forEach(function(v){t.fillText(v.n,v.x,v.y-80);});
+  t.fillStyle="#465036";t.font="16px PT Mono, monospace";t.fillText("~ річка Вайбиця ~",river[6][0],river[6][1]-24);
+  t.fillStyle="#5a6040";t.font="14px PT Mono, monospace";t.fillText("ЗА КОРДОНОМ · ТУМАН, СОНЦЕ, ВІВЦІ",2100,1215);
+  t.strokeStyle="#5a604066";t.setLineDash([3,7]);t.beginPath();t.moveTo(1820,1600);t.quadraticCurveTo(1880,1300,2400,1180);t.stroke();t.setLineDash([]);
+})();
+var fogs=[];for(var fi=0;fi<14;fi++)fogs.push({x:rnd(0,WW),y:rnd(0,WH),r:rnd(140,320),p:rnd(0,6)});
+
+function drawDrone(x,y,a,col,name,opts){
+  opts=opts||{};g.save();g.translate(x,y);
+  if(opts.boost){g.fillStyle="#6fc3b244";g.beginPath();g.arc(0,0,26,0,7);g.fill();}
+  g.rotate(a);var bk=opts.bank||0,ws=1-Math.abs(bk)*.35;
+  g.globalAlpha=.25;g.fillStyle="#000";g.beginPath();g.ellipse(6,8,15,4,0,0,7);g.fill();g.globalAlpha=1;
+  g.strokeStyle=col;g.fillStyle=col+"33";g.lineWidth=1.6;g.lineJoin="round";
+  /* wing */
+  g.beginPath();g.moveTo(3,-19*ws);g.lineTo(7,-19*ws);g.lineTo(6,19*ws);g.lineTo(2,19*ws);g.closePath();g.fill();g.stroke();
+  /* fuselage */
+  g.beginPath();g.moveTo(14,0);g.quadraticCurveTo(12,-3,4,-3);g.lineTo(-12,-1.4);g.lineTo(-12,1.4);g.lineTo(4,3);g.quadraticCurveTo(12,3,14,0);g.closePath();g.fillStyle=col;g.fill();
+  /* tail */
+  g.beginPath();g.moveTo(-10,-7*ws);g.lineTo(-7,-7*ws);g.lineTo(-7,7*ws);g.lineTo(-10,7*ws);g.closePath();g.fillStyle=col+"33";g.fill();g.stroke();
+  /* pusher prop */
+  var sp=performance.now()/30;g.globalAlpha=.55;g.beginPath();g.moveTo(-13,-6*Math.sin(sp));g.lineTo(-13,6*Math.sin(sp));g.stroke();g.globalAlpha=.18;g.beginPath();g.ellipse(-13,0,1.5,6,0,0,7);g.fillStyle=col;g.fill();g.globalAlpha=1;
+  /* chinese decal */
+  g.save();g.rotate(Math.PI/2);g.font="bold 6px system-ui, sans-serif";g.textAlign="center";g.fillStyle="#e0603f";g.fillText("飞眼",-11*ws,-3.6);g.restore();
+  g.restore();
+  g.font="11px PT Mono, monospace";g.textAlign="center";g.fillStyle=col;g.fillText(name,x,y+28);
+  if(opts.bubble&&opts.bubbleT>0){
+    g.globalAlpha=Math.min(1,opts.bubbleT);g.font="13px system-ui, sans-serif";var w=g.measureText(opts.bubble).width+16;
+    g.fillStyle="#1f2318ee";g.strokeStyle=col;g.lineWidth=1;g.beginPath();if(g.roundRect)g.roundRect(x-w/2,y-48,w,22,8);else g.rect(x-w/2,y-48,w,22);g.fill();g.stroke();
+    g.fillStyle="#d8d2b4";g.fillText(opts.bubble,x,y-33);g.globalAlpha=1;
+  }
+}
+function drawScanRing(x,y,s,col){if(s<=0)return;g.globalAlpha=s;g.strokeStyle=col;g.lineWidth=2;g.beginPath();g.arc(x,y,SCAN_R*(1.15-s*.6),0,7);g.stroke();g.globalAlpha=1;}
+
+var T=0,last=performance.now(),targetPt=null;
+function frame(tm){
+  var dt=Math.min(.05,(tm-last)/1000);last=tm;T+=dt;checkSlot();var t=now(),w=wind(t);
+  /* --- me --- */
+  if(started){
+    var ix=0,iy=0;
+    if(keys.a||keys.arrowleft||keys["ф"])ix--;if(keys.d||keys.arrowright||keys["в"])ix++;if(keys.w||keys.arrowup||keys["ц"])iy--;if(keys.s||keys.arrowdown||keys["і"]||keys["ы"])iy++;
+    var keyIn=!!(ix||iy);
+    if(joy.on){ix=joy.dx;iy=joy.dy;keyIn=true;}
+    /* FlyEye 3.0: fixed wing. ix = bank/turn, iy<0 = throttle up, iy>0 = throttle down */
+    var steer=ix,thr=-iy;
+    if(mouseGoal&&!keyIn){var gd=Math.atan2(mouseGoal[1]-me.y,mouseGoal[0]-me.x),dd=((gd-me.a+Math.PI*3)%(Math.PI*2))-Math.PI;steer=clamp(dd*1.6,-1,1);thr=Math.hypot(mouseGoal[0]-me.x,mouseGoal[1]-me.y)>260?.6:0;}
+    /* map edge: autopilot turns home */
+    var edge=me.x<70||me.x>WW-70||me.y<70||me.y>WH-70;
+    if(edge){var hd=Math.atan2(WH/2-me.y,WW/2-me.x),de=((hd-me.a+Math.PI*3)%(Math.PI*2))-Math.PI;steer=clamp(de*2,-1,1);if(T-me.edgeT>6){me.edgeT=T;toast("返航 · Повернення додому: далі тільки туман і вівці.");}}
+    steer=clamp(steer,-1,1);thr=clamp(thr,-1,1);
+    me.boost=(keys.shift||tBoost)&&me.batt>5;
+    if(me.crash>0){steer=0;thr=0;me.boost=false;me.crash-=dt;if(me.crash<=0){me.x=BASE.x;me.y=BASE.y;me.spd=150;me.stall=0;me.a=rnd(0,6.28);me.batt=60;toast(gend("Повернувся(-лась) у Перегаворку. Заряд 60%. Гарантія 7 днів.",csF(myCs)));}}
+    var tgt=me.boost?320:thr>0?150+thr*80:150+thr*70; /* 80…230, boost 320 */
+    if(me.crash<=0)me.spd+=(tgt-me.spd)*Math.min(1,dt*(tgt>me.spd?1.1:.7));
+    me.bank+=(steer-me.bank)*Math.min(1,dt*4);
+    var rate=2.3*Math.sqrt(150/Math.max(me.spd,100));
+    if(me.crash<=0)me.a+=me.bank*rate*dt;
+    /* stall */
+    if(me.crash<=0&&me.spd<98){me.stall+=dt;if(me.stall>.3&&me.stall-dt<=.3){toast("失速 · ЗВАЛЮВАННЯ! Дай газу (W), бо буде город.",true);beep(440,.15,.04,"square");}
+      if(me.stall>2.4){me.crash=3;me.spd=0;toast("Звалювання в штопор. Сів у город. Бабуся вже несе вареники.",true);pubEvent("f_batt");addScore(-10);beep(220,.4,.04,"sawtooth");}}
+    else me.stall=Math.max(0,me.stall-dt*2);
+    var sp=me.crash>0?0:me.spd;me.vx=Math.cos(me.a)*sp;me.vy=Math.sin(me.a)*sp;
+    me.x=clamp(me.x+(me.vx+w[0]*(me.crash>0?0:1))*dt,10,WW-10);me.y=clamp(me.y+(me.vy+w[1]*(me.crash>0?0:1))*dt,10,WH-10);
+    var v=sp;
+    /* battery */
+    var cz=inCnap(me.x,me.y),drain=.55+v/230*.6+(me.boost?2.2:0)+(cz?2.6:0);
+    if(me.crash<=0)me.batt-=drain*dt;
+    var cf=nearCoffee(me.x,me.y);if(cf||inBase(me.x,me.y))me.batt=Math.min(100,me.batt+(cf?38:26)*dt);
+    if(me.batt<20&&!me.lowB&&me.crash<=0){me.lowB=true;toast("低电量 · Низький заряд. Курс на ☕.",true);}if(me.batt>40)me.lowB=false;
+    if(me.batt<=0&&me.crash<=0){me.batt=0;me.crash=3;me.vx=me.vy=0;me.spd=0;toast("电量耗尽 · Заряд скінчився. Аварійна посадка в городі. Бабуся вже несе вареники.",true);pubEvent("f_batt");addScore(-10);beep(220,.4,.04,"sawtooth");}
+    /* cnap nag */
+    var m=mis();
+    if(cz){
+      if(!cnapEnter)cnapEnter=T;
+      if(T-cnapEnter>3&&T-lastCnapNag>8){lastCnapNag=T;toast("🏛 禁飞区! ЦНАП запросив ще одну довідку. Вилітай, поки не попросили третю.",true);pubEvent("f_cnap");addScore(-5);beep(330,.25,.04,"sawtooth");}
+    }else if(cnapEnter){
+      var dur=T-cnapEnter;cnapEnter=0;
+      if(m.k==="cnap"&&dur<3){mprog=1;showMission();missionDone();}
+    }
+    /* missions with positional progress */
+    if(m.k==="trac"){
+      var near=objs.some(function(o){if(o.k!=="tractor")return false;var p=objPos(o,t);return Math.hypot(p[0]-me.x,p[1]-me.y)<150;});
+      if(near){mprog+=dt;if(Math.floor(mprog)!==Math.floor(mprog-dt))showMission();if(mprog>=m.need)missionDone();}
+    }else if(m.k==="coff"){
+      if(!carry&&cf){carry=true;mprog=1;showMission();toast("☕ Кава на борту. Курс на Перегаворку.");beep(990,.08,.03,"sine");}
+      if(carry&&inBase(me.x,me.y)){mprog=2;missionDone();}
+    }
+    me.trail.push([me.x,me.y]);if(me.trail.length>40)me.trail.shift();
+    if(me.scan>0)me.scan-=dt*1.6;if(scanCd>0)scanCd-=dt;if(me.bubbleT>0)me.bubbleT-=dt;
+    publishPos(tm);
+    if(tm-lastScorePub>30000)publishScore();
+  }
+  botTick(dt);
+  /* peers smoothing + timeout */
+  for(var id in peers){var p=peers[id];if(tm-p.seen>12000){if(started)feed("c",gend("📡 "+csName(p.cs)+" вийшов(-ла) зі зв'язку.",csF(p.cs)));delete peers[id];continue;}
+    var k=1-Math.pow(.0005,dt);p.x+=(p.tx-p.x)*k;p.y+=(p.ty-p.y)*k;var da=((p.ta-p.a+Math.PI*3)%(Math.PI*2))-Math.PI;p.a+=da*k;
+    p.trail.push([p.x,p.y]);if(p.trail.length>24)p.trail.shift();if(p.scan>0)p.scan-=dt*1.6;if(p.bubbleT>0)p.bubbleT-=dt;}
+  bots.forEach(function(b){b.trail.push([b.x,b.y]);if(b.trail.length>24)b.trail.shift();if(b.scan>0)b.scan-=dt*1.6;if(b.bubbleT>0)b.bubbleT-=dt;});
+
+  /* --- camera --- */
+  var ck=1-Math.pow(.02,dt);cam.x+=(me.x-cam.x)*ck;cam.y+=(me.y-cam.y)*ck;
+  var hw=SW/2/Z,hh=SH/2/Z;cam.x=clamp(cam.x,Math.min(hw,WW/2),Math.max(WW-hw,WW/2));cam.y=clamp(cam.y,Math.min(hh,WH/2),Math.max(WH-hh,WH/2));
+  g.setTransform(dpr,0,0,dpr,0,0);g.fillStyle="#070806";g.fillRect(0,0,SW,SH);
+  g.setTransform(dpr*Z,0,0,dpr*Z,dpr*(SW/2-cam.x*Z),dpr*(SH/2-cam.y*Z));
+  g.drawImage(terr,0,0);
+  /* cnaps */
+  CNAPS.forEach(function(c){var pul=.5+.5*Math.sin(T*2);g.fillStyle="rgba(224,96,63,"+(.07+pul*.05)+")";g.beginPath();g.arc(c.x,c.y,c.r,0,7);g.fill();g.strokeStyle="#e0603f88";g.setLineDash([8,6]);g.lineWidth=2;g.stroke();g.setLineDash([]);
+    g.font="28px system-ui, sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText("🏛",c.x,c.y);g.textBaseline="alphabetic";g.font="11px PT Mono, monospace";g.fillStyle="#e0603f";g.fillText("ЦНАП · 禁飞区",c.x,c.y+32);});
+  /* coffee */
+  COFFEE.forEach(function(c){g.strokeStyle="#d9a441";g.lineWidth=1.5;g.beginPath();g.arc(c.x,c.y,70,0,7);g.stroke();g.globalAlpha=.12;g.fillStyle="#d9a441";g.fill();g.globalAlpha=1;
+    g.font="22px system-ui, sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText("☕",c.x,c.y);g.textBaseline="alphabetic";g.font="10px PT Mono, monospace";g.fillStyle="#d9a441";g.fillText("КАВА 3В1 · 充电",c.x,c.y+84);});
+  /* base */
+  g.strokeStyle="#9fd66a";g.lineWidth=2;g.beginPath();g.arc(BASE.x,BASE.y,BASE.r,0,7);g.stroke();g.globalAlpha=.08;g.fillStyle="#9fd66a";g.fill();g.globalAlpha=1;
+  g.font="30px system-ui, sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText("🏠",BASE.x,BASE.y);g.textBaseline="alphabetic";g.font="12px PT Mono, monospace";g.fillStyle="#9fd66a";g.fillText(BASE.n,BASE.x,BASE.y+BASE.r+16);
+  /* radar sweep around me */
+  var sw=T*1.1,sg=g.createConicGradient?g.createConicGradient(sw,me.x,me.y):null;
+  if(sg&&started){sg.addColorStop(0,"#9fd66a2a");sg.addColorStop(.07,"#9fd66a00");sg.addColorStop(1,"#9fd66a00");g.fillStyle=sg;g.beginPath();g.arc(me.x,me.y,420,0,7);g.fill();}
+  /* objects */
+  var m2=mis(),best=null,bestD=1e9;
+  g.textAlign="center";g.textBaseline="middle";
+  objs.forEach(function(o){var p=objPos(o,t),K=KINDS[o.k],sc=scanned[o.id];
+    if(p[0]<cam.x-hw-40||p[0]>cam.x+hw+40||p[1]<cam.y-hh-40||p[1]>cam.y+hh+40){}else{
+      g.globalAlpha=sc?.35:1;g.strokeStyle=K.c;g.lineWidth=1.5;g.strokeRect(p[0]-15,p[1]-15,30,30);
+      if(!sc){var pul=(T*1.3+o.ph)%2;if(pul<1){g.globalAlpha=1-pul;g.beginPath();g.arc(p[0],p[1],15+pul*16,0,7);g.stroke();g.globalAlpha=1;}}
+      g.font="17px system-ui, sans-serif";g.fillText(K.ic,p[0],p[1]+1);g.font="9.5px PT Mono, monospace";g.fillStyle=K.c;g.fillText(sc?"✓ "+K.n:K.n,p[0],p[1]+25);g.globalAlpha=1;}
+    var want=(m2.k==="docs"&&o.k==="doc")||(m2.k==="cats"&&o.k==="cat")||(m2.k==="cows"&&o.k==="cow")||(m2.k==="sheep"&&o.k==="sheep")||(m2.k==="trac"&&o.k==="tractor");
+    if(want&&!sc){var d=Math.hypot(p[0]-me.x,p[1]-me.y);if(d<bestD){bestD=d;best=p;}}
+  });
+  if(m2.k==="coff"){if(carry)best=[BASE.x,BASE.y];else{bestD=1e9;COFFEE.forEach(function(c){var d=Math.hypot(c.x-me.x,c.y-me.y);if(d<bestD){bestD=d;best=[c.x,c.y];}});}}
+  if(m2.k==="cnap"){bestD=1e9;CNAPS.forEach(function(c){var d=Math.hypot(c.x-me.x,c.y-me.y);if(d<bestD){bestD=d;best=[c.x,c.y];}});}
+  targetPt=best;g.textBaseline="alphabetic";
+  /* fog */
+  fogs.forEach(function(f){var x=f.x+Math.sin(T*.05+f.p)*60,gr=g.createRadialGradient(x,f.y,0,x,f.y,f.r);gr.addColorStop(0,"#9fa38a1c");gr.addColorStop(1,"#9fa38a00");g.fillStyle=gr;g.beginPath();g.arc(x,f.y,f.r,0,7);g.fill();});
+  /* others */
+  function trail(tr,col){if(tr.length<2)return;g.strokeStyle=col;g.lineWidth=2;for(var i=1;i<tr.length;i++){g.globalAlpha=i/tr.length*.35;g.beginPath();g.moveTo(tr[i-1][0],tr[i-1][1]);g.lineTo(tr[i][0],tr[i][1]);g.stroke();}g.globalAlpha=1;}
+  bots.forEach(function(b){trail(b.trail,"#8e8b70");drawScanRing(b.x,b.y,b.scan,"#8e8b70");drawDrone(b.x,b.y,b.a,"#a8a488",csName(b.cs)+" 🤖",{bubble:b.bubble,bubbleT:b.bubbleT});});
+  for(var pid in peers){var pp=peers[pid];trail(pp.trail,"#6fc3b2");drawScanRing(pp.x,pp.y,pp.scan,"#6fc3b2");drawDrone(pp.x,pp.y,pp.a,"#6fc3b2",csName(pp.cs),{boost:pp.boost,bubble:pp.bubble,bubbleT:pp.bubbleT});}
+  /* me */
+  if(started){trail(me.trail,"#d9a441");drawScanRing(me.x,me.y,me.scan,"#d9a441");
+    if(me.crash>0){g.font="26px system-ui, sans-serif";g.textAlign="center";g.fillText("🥟",me.x,me.y+6);g.font="11px PT Mono, monospace";g.fillStyle="#e0603f";g.fillText("АВАРІЙНА ПОСАДКА · "+Math.ceil(me.crash),me.x,me.y+30);}
+    else drawDrone(me.x,me.y,me.a,"#d9a441",csName(myCs),{bank:me.bank,boost:me.boost,bubble:me.bubble,bubbleT:me.bubbleT});}
+  /* floaters */
+  floaters.forEach(function(f){f.t-=dt;f.y-=dt*24;g.globalAlpha=Math.max(0,Math.min(1,f.t));g.font="bold 13px PT Mono, monospace";g.fillStyle="#d9a441";g.textAlign="center";g.fillText(f.s,f.x,f.y);g.globalAlpha=1;});
+  floaters=floaters.filter(function(f){return f.t>0;});
+  /* wind arrow + target arrow (screen space) */
+  g.setTransform(dpr,0,0,dpr,0,0);
+  if(started&&targetPt){var sx=(targetPt[0]-cam.x)*Z+SW/2,sy=(targetPt[1]-cam.y)*Z+SH/2;
+    if(sx<30||sx>SW-30||sy<80||sy>SH-30){var ang=Math.atan2(sy-SH/2,sx-SW/2),ex=SW/2+Math.cos(ang)*Math.min(SW/2-40,SH/2-60)/Math.max(Math.abs(Math.cos(ang)),.01)*Math.abs(Math.cos(ang)),ey;
+      var rx=SW/2-36,ry=SH/2-70,s=Math.min(rx/Math.abs(Math.cos(ang)||.001),ry/Math.abs(Math.sin(ang)||.001));ex=SW/2+Math.cos(ang)*s;ey=SH/2+20+Math.sin(ang)*s;
+      g.save();g.translate(ex,ey);g.rotate(ang);g.fillStyle="#d9a441";g.globalAlpha=.6+.4*Math.sin(T*5);g.beginPath();g.moveTo(14,0);g.lineTo(-8,-9);g.lineTo(-4,0);g.lineTo(-8,9);g.closePath();g.fill();g.restore();g.globalAlpha=1;}}
+  var wx=SW-70,wy=SH-(isTouch?190:40);if(SW>820){wx=SW/2+380;wy=SH-34;}
+  g.font="10px PT Mono, monospace";g.fillStyle="#8e8b70";g.textAlign="center";g.fillText("ВІТЕР "+Math.round(Math.hypot(w[0],w[1])/4)+" м/с",wx,wy+20);
+  g.save();g.translate(wx,wy);g.rotate(Math.atan2(w[1],w[0]));g.strokeStyle="#8e8b70";g.lineWidth=2;g.beginPath();g.moveTo(-12,0);g.lineTo(12,0);g.lineTo(6,-5);g.moveTo(12,0);g.lineTo(6,5);g.stroke();g.restore();
+  drawMini();hudTick(tm);
+  requestAnimationFrame(frame);
+}
+
+/* minimap */
+var mg=$("mini").getContext("2d");
+function drawMini(){
+  var c=$("mini"),w=c.width,h=c.height,sx=w/WW,sy=h/WH;mg.setTransform(1,0,0,1,0,0);mg.drawImage(terr,0,0,w,h);mg.fillStyle="#0007";mg.fillRect(0,0,w,h);
+  CNAPS.forEach(function(k){mg.fillStyle="#e0603f55";mg.beginPath();mg.arc(k.x*sx,k.y*sy,k.r*sx,0,7);mg.fill();});
+  COFFEE.forEach(function(k){mg.fillStyle="#d9a441";mg.fillRect(k.x*sx-3,k.y*sy-3,6,6);});
+  mg.strokeStyle="#9fd66a";mg.lineWidth=2;mg.beginPath();mg.arc(BASE.x*sx,BASE.y*sy,8,0,7);mg.stroke();
+  bots.forEach(function(b){mg.fillStyle="#a8a488";mg.beginPath();mg.arc(b.x*sx,b.y*sy,3.5,0,7);mg.fill();});
+  for(var id in peers){var p=peers[id];mg.fillStyle="#6fc3b2";mg.beginPath();mg.arc(p.x*sx,p.y*sy,4.5,0,7);mg.fill();}
+  if(targetPt){mg.strokeStyle="#d9a441";mg.lineWidth=1.5;mg.beginPath();mg.arc(targetPt[0]*sx,targetPt[1]*sy,7+Math.sin(T*5)*2,0,7);mg.stroke();}
+  mg.fillStyle="#d9a441";mg.beginPath();mg.arc(me.x*sx,me.y*sy,5.5,0,7);mg.fill();
+  var hw=SW/2/Z,hh=SH/2/Z;mg.strokeStyle="#d8d2b466";mg.lineWidth=1;mg.strokeRect((cam.x-hw)*sx,(cam.y-hh)*sy,hw*2*sx,hh*2*sy);
+}
+
+/* HUD */
+var lastHud=0;
+function hudTick(tm){
+  if(tm-lastHud<250)return;lastHud=tm;
+  $("sScore").textContent=me.score.toLocaleString("uk-UA");$("sSpd").textContent=(me.crash>0?0:Math.round(me.spd*.5))+" км/год";$("sSpd").style.color=me.stall>0?"var(--red)":"";$("sRank").textContent=rankOf(me.score);
+  var b=Math.max(0,Math.round(me.batt));$("sBatt").textContent=b+"%";var bb=$("bBar");bb.style.width=b+"%";bb.style.background=b<20?"var(--red)":b<45?"var(--amber)":"var(--green)";
+  var rc=realCount();if(NET.ok)$("liveTxt").textContent=rc?("онлайн: "+(rc+1)+" · ботів: "+bots.length):("ти перший · ботів: "+bots.length);
+  /* board */
+  board[myId]={cs:myCs,s:me.score,ts:Date.now(),me:true};
+  var arr=Object.keys(board).map(function(k){var x=board[k];return {id:k,cs:x.cs,s:x.s,bot:x.bot,me:k===myId};}).sort(function(a,b){return b.s-a.s;});
+  var top=arr.slice(0,8);if(!top.some(function(x){return x.me;})){var mine=arr.findIndex(function(x){return x.me;});top[7]=arr[mine];}
+  var ol=$("boardL");ol.textContent="";
+  top.forEach(function(x){var li=document.createElement("li");if(x.me)li.className="me";var n=document.createElement("span");n.className="nm"+(x.bot?" bt":"");n.textContent=csName(x.cs)+(x.bot?" 🤖":"")+(x.me?" · ти":"");var s=document.createElement("span");s.className="sc";s.textContent=x.s.toLocaleString("uk-UA");li.appendChild(n);li.appendChild(s);ol.appendChild(li);});
+}
+
+/* ambient feed */
+var AMB=[["y","🏛 ЦНАП відкрився о 9:00. Черга вже о 8:15."],["g","🐈 Кіт зайняв теплу зупинку. Утримує позицію."],["y","🌫 Туман війни переходить у туман побуту."],
+  ["g","☕ Поповнено запас кави 3в1 на всіх точках."],["y","🐄 Корова перетнула лінію розмежування між двома городами."],["y","📡 Сигнал слабкий. Дрон думає про вічне."],
+  ["g","🕊 Ластівки повертаються додому. Ти теж."],["r","⚠ Нарада. Тривалість невідома."],["g","✅ Рапорт подано. Статус: на розгляді з 2025 року."],["y","💨 Вітер змінив напрям. Корови — ні."]];
+var CN=[["y","📦 飞眼 3.0: «Дякуємо за покупку! Залиште п'ять зірок 好评», — просить дрон посеред польоту."],["y","🔋 电量 100%. Реальний заряд — державна таємниця виробника."],
+  ["y","🛰 正在搜索卫星… Знайдено 3 супутники й одну корову."],["y","⚙ 固件更新: доступна прошивка 3.0.1 (4 ГБ). Дрон важить 2 кг."],["g","🧧 Бонус за вірність бренду: +0 вайбів. 谢谢!"],
+  ["y","📖 Інструкцію переклали через три мови. Розділ 7: «Не літати в дощ, якщо дощ»."],["g","🎁 У коробці знайшовся ще один пропелер. Від іншого дрона."],["y","🔊 Голосовий помічник дрона перейшов на мандаринську. Корови не заперечують."]];
+setInterval(function(){if(started&&Math.random()<.6){var e=Math.random()<.4?pick(CN):pick(AMB);feed(e[0],e[1]);}},14000);
+
+/* ================= start ================= */
+$("iGo").addEventListener("click",function(){
+  store("cs",JSON.stringify(myCs));$("sName").textContent=csName(myCs);$("intro").remove();started=true;
+  beep(660,.08,.03);setTimeout(function(){beep(990,.1,.03);},90);
+  feed("c","Δ Ласкаво просимо до Δ онлайн, "+csName(myCs)+". Борт 飞眼 FlyEye 3.0 розпаковано. Зв'язок стабільний, загроз: 0.");
+  toast("固件更新… Оновлення прошивки 99%… готово. Мова: 中文 / українська.");
+  board[myId]={cs:myCs,s:me.score,ts:Date.now(),me:true};
+  showMission();publishScore();
+});
+checkSlot();showMission();startNet();
+for(var bi=0;bi<4;bi++)spawnBot();
+bots.forEach(function(b){b.x=rnd(200,WW-200);b.y=rnd(200,WH-200);});
+requestAnimationFrame(frame);
+window.SOVA={me:me,peers:peers,bots:bots,board:board,net:NET,scan:doScan,mis:function(){return {m:mis(),p:mprog};}};
+})();
+</script>
+</body>
+</html>

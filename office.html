@@ -63,6 +63,7 @@ html.win32 .tabs,html.linux .tabs{padding-right:150px}
 .feed li .k{font:10px var(--mono);padding:1px 6px;border-radius:4px;margin-right:6px;background:#2a2f1c;color:var(--green)}
 .feed li .k.y{color:var(--amber)}.feed li .k.r{color:var(--red)}
 @keyframes in{from{opacity:0;transform:translateY(-6px)}}
+.golive{display:block;padding:10px 12px;color:var(--amber);text-decoration:none;font-size:12.5px;font-family:var(--mono)}.golive:hover{background:var(--chrome2)}
 .legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;padding:10px 12px;font-size:12px}
 .legend span{white-space:nowrap}
 .hud{position:absolute;left:12px;top:12px;font:11px var(--mono);color:var(--green);text-shadow:0 0 6px #9fd66a66;pointer-events:none;line-height:1.6}
@@ -192,6 +193,7 @@ html.lag .tab .tt{filter:blur(1.5px)}
       <div class="hud" id="hud"></div>
       <div class="side">
         <div class="panel feed"><h4>Події · онлайн</h4><ol id="feed"></ol></div>
+        <a class="panel golive" href="sova.html">🛩 <b>Δ онлайн</b> · злетіти разом з іншими ↗</a>
         <div class="panel"><h4>Умовні позначки</h4>
           <div class="legend"><span>🐄 корова, нейтральна</span><span>🐈 кіт, дружній</span><span>☕ кава 3в1</span><span>🏛 ЦНАП, ворожий</span><span>🚜 трактор, логістика</span><span>🐑 вівці, за кордоном</span><span>📄 довідка, втрачена</span><span>🌫 туман війни й побуту</span></div>
         </div>

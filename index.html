@@ -306,6 +306,15 @@ body[data-st="music"] .call{color:#16040e}
 .nls{display:grid;gap:12px;margin:14px 0}
 .nl{background:var(--panel);border:1px solid var(--panel-edge);border-left:4px solid #ff8a1f;border-radius:14px;padding:16px 18px}
 .nl .mono{color:#ff8a1f}
+.kal-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 18px}
+@media (max-width:420px){.kal-btns{grid-template-columns:1fr}}
+.kal-b{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border-radius:14px;border:1px solid var(--panel-edge);background:var(--panel);color:var(--ivory);text-decoration:none;text-align:left;font:inherit;cursor:pointer}
+.kal-b b{font:600 16px/1.3 var(--f-body,inherit)}.kal-b small{font:12px var(--f-mono);color:var(--ivory-dim);letter-spacing:.04em}
+.kal-b.pri{background:linear-gradient(135deg,#f0a93a33,#ff5d4722);border-color:#f0a93a88}
+.kal-list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}
+.kal-list li{display:grid;gap:2px;padding:12px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--panel-edge)}
+.kal-list i{font:normal 11.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--amber)}
+.kal-list b{font-weight:600}.kal-list span{color:var(--ivory-dim);font-size:15px}
 .hl-score{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0 4px;font-size:12px;letter-spacing:.06em;color:var(--ivory-dim)}
 .hl-score b{color:#ff6fb5}
 .hl .nl{border-left-color:#ff6fb5}
@@ -567,6 +576,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
     <div class="news">
       <article class="webnews webonly"><span class="tag">Цифра</span><h3>Мінвайбвет випустив додаток для Android. Google вимагає дванадцять тестувальників, які чотирнадцять днів його не видалять</h3><p>Набір відкрито. Відпустки в додатку теж немає, зате є віджети, котик муркоче просто в руці, а нові новини приходять раніше, ніж на сайт.</p><p class="links"><a href="https://groups.google.com/g/vaibvet-fm-testers" target="_blank" rel="noopener">1. Вступити в групу</a><a href="https://play.google.com/apps/testing/ua.pp.minvaibvet" target="_blank" rel="noopener">2. Стати тестувальником</a></p><small>Відкривайте в Chrome або Safari, з того Google-акаунта, що на телефоні. Потім встановіть Вайбвет FM з Google Play і не чіпайте чотирнадцять днів.</small></article>
       <article><span class="tag">Кіно</span><h3>Фільм тижня: «Доктор Стрейнджлав, або Як я перестав хвилюватися й полюбив бомбу»</h3><p>Кубрик, 1964 рік. Генерали ведуть світ до кінця, бо ніхто не може скасувати наказ, який уже віддано. Ветерани дивляться це як документальне кіно про канцелярію.</p><p>Мінвайбвет нагадує: Хіросіма й Наґасакі показали, що буває після таких наказів. Перестати хвилюватися можна. Полюбити бомбу — ні.</p></article>
+      <article><span class="tag">Сервіс</span><h3>Мінвайбвет тепер можна додати у свій календар. Відписатися можна без рапорту</h3><p>Хвилина мовчання о 9:00, п'ятниця без коментарів і ротація, яка щомісяця переноситься на наступний. Одна підписка для iPhone чи Google Календаря, і міністерство завжди з тобою. <a href="#kalendar">Підписатися →</a></p></article>
       <article><span class="tag">Гендерне просвітництво</span><h3>ЦНАП відмовив у спадкуванні корони: у заяві не вказано стать на момент сніданку</h3><p>Архієпископ коментарів не надав: коронація о 12:00, а прийом документів до 11:45. Редакція з цього приводу відкриває нову рубрику й розповідає, як право на трон працювало б, якби стать була змінною. Спойлер: середньовіччя не зламалося б, воно перерахувало б чергу.</p><p><a href="prosvita-tron.html">Читати лонгрід на 9 хвилин →</a></p></article>
       <article><span class="tag">Прем'єра</span><h3>Вайбвет FM запускає реаліті-шоу «Холостяк (укргей едішн)»</h3><p>Ветеран, Нідерланди, Голландський учасник і троянди за графіком. Перші два епізоди вже в ефірі: один милий, другий про телефон, якого не дали. Ім'я учасника засекречено до підписання згоди на зйомку. <a href="#holostiak">Дивитися шоу →</a></p></article>
       <article><span class="tag">Енергетика</span><h3>Одеська кішка стала першою споживачкою, яка щиро подякувала енергокомпанії</h3><p>Вимкнення застало її посеред процедури підстригання кігтів. За свідченнями мами, з якою кішка мешкає, світло зникло, руки довелося розтиснути, а кішка вигукнула «Слава ДТЕК!» і втекла до батька. Притулок їй надано, без довідки.</p><p>Решта родини тримається: запаси води є, світло дали на пару годин удень, зате вночі було, тож усі заряджені. Кігті підстрижено на одну лапу. Наступна спроба за графіком, якщо графік дозволить. Кішку можна погладити в розділі «Гладити», поки є світло.</p></article>
@@ -920,6 +930,28 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   </div>
 </section>
 
+<section id="kalendar">
+  <div class="kicker mono">Календар Мінвайбвету</div>
+  <h2>Додай міністерство у свій календар</h2>
+  <p class="sub">Одна підписка, і в твоєму телефоні з'являться всі важливі події відомства. Оновлюється сама. Відписатися можна будь-коли, навіть без рапорту.</p>
+  <div class="kal-btns">
+    <a class="kal-b pri" href="webcal://minvaibvet.pp.ua/kalendar.ics"><b>📱 iPhone, iPad, Mac</b><small>Календар Apple</small></a>
+    <a class="kal-b" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Fminvaibvet.pp.ua%2Fkalendar.ics" target="_blank" rel="noopener"><b>🗓 Google Календар</b><small>Android і браузер</small></a>
+    <button type="button" class="kal-b" id="kalcopy"><b>🔗 Скопіювати посилання</b><small>для Outlook та інших</small></button>
+    <a class="kal-b" href="kalendar.ics" download><b>⬇ Завантажити .ics</b><small>одноразово, без оновлень</small></a>
+  </div>
+  <ul class="kal-list">
+    <li><i>щодня · 9:00</i><b>🕯 Загальнонаціональна хвилина мовчання</b><span>Єдина несатирична подія календаря. З нагадуванням.</span></li>
+    <li><i>4-та субота листопада · 16:00</i><b>🕯 Запали свічку</b><span>Пам'ять жертв Голодоморів.</span></li>
+    <li><i>щопонеділка · 5:45</i><b>Шикування (скасовано)</b><span>Жартуємо. Спи далі. Без нагадування, звісно.</span></li>
+    <li><i>щосереди · 11:45</i><b>ЦНАП: кінець прийому документів</b><span>Коронації після 12:00 не реєструються.</span></li>
+    <li><i>щоп'ятниці</i><b>П'ятниця. Без коментарів</b><span>Ймовірність відпустки 0%.</span></li>
+    <li><i>щонеділі</i><b>Вихідний (вчені підтверджують)</b><span>І о 20:00 прогноз відпусток на тиждень.</span></li>
+    <li><i>щомісяця, 1-го</i><b>Ротація (найближчим часом)</b><span>Цього місяця перенесено на наступний.</span></li>
+  </ul>
+  <p class="sub" style="font-size:14px">Події позначені як «вільний час», тож не заважатимуть плануванню. Час київський: календар сам перерахує для Амстердама, Берліна чи Торонто.</p>
+</section>
+
 <section id="holostiak">
   <div class="kicker mono">Реаліті-шоу · сезон 1</div>
   <h2>Холостяк (укргей едішн)</h2>
@@ -954,6 +986,13 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
     <p>Тоді брати в 1900 році видали безкоштовну червону книжечку: де заправитися, де полагодити колесо, де переночувати й де поїсти. Логіка проста: що далі ти поїдеш по смачне, то швидше зітреш шину. Пізніше з'явилися зірки, і ця логіка в них зашита прямо: одна зірка — варто зупинитися, якщо будеш поруч, дві — варто зробити гак, три — варто вирушити в окрему подорож. Тобто щоб побачити зірки, треба мати машину, гроші на машину, бензин до машини і шини, які потім доведеться купити. Бажано мішленівські.</p>
     <p>А надувний непонятношо — це Бібендум, з 1898 року. Він складається зі стосу шин, тому такий пухкий. Білий він тому, що перші шини справді були білі: чорними їх зробили згодом, коли в гуму почали додавати сажу для міцності. На першому плакаті він підіймав келих, повний цвяхів і битого скла, з латинським «Nunc est bibendum», тобто «тепер саме час випити»: мовляв, наша шина ковтає все. Відтоді він трохи схуд і кинув пити цвяхи, але досі ходить по світу в білому.</p>
     <p><b>Мораль від сомельє Мінвайбвету.</b> Наш гастротур працює за тією самою моделлю, тільки навпаки: щоб скуштувати мівіну з гострим соусом, не треба ні машини, ні шин. Треба лише рапорт, рапорт на рапорт і рапорт до рапорту. Мішленівський інспектор до нас так і не доїхав: кажуть, у нього на ґрунтовці луснула шина. Ми запропонували йому новий комплект, але виявилося, що в нього немає довідки.</p>
+  </details>
+  <details class="legend-mi">
+    <summary><span class="mono">Легенда №2</span> Про калоктити, або Куди взимку дівається гастротур</summary>
+    <p>Кожна висока кухня рано чи пізно закінчується в одному місці. У рандомному селі це дерев'яна будочка в кінці городу, з сердечком на дверях і видом на зоряне небо, якого Мішлену й не снилося.</p>
+    <p>А тепер фізика. Узимку, коли надворі мінус двадцять, усе, що потрапляє вниз, замерзає раніше, ніж устигає розтектися. Шар за шаром, день за днем, із кожною мівіною й кожною згущенкою росте конус. Науковець сказав би, що це сталагміт, бо росте знизу вгору, а сталактит звисає зі стелі. Тож правильно було б «калагміт». Але село слухає не науковців, а сусіда Петра, і в народі закріпилося «калоктит». Мовознавці назвуть це народною етимологією, редакція — єдиною вертикаллю, яка в селі росте без бюджету, тендера й наради.</p>
+    <p>Десь до лютого вершина калоктиту впритул наближається до рівня сидіння, і настає момент, який у селі називають ротацією: хтось бере лом і йде рубати. Участь добровільна й обов'язкова. Навесні калоктит тане сам, і село робить вигляд, що його не було, як і щозими.</p>
+    <p><b>Мораль від сомельє Мінвайбвету.</b> Мішленівський інспектор, якщо колись таки доїде, поставить калоктиту три зірки: туди справді варто вирушити в окрему подорож. Узимку, у валянках і з ломом.</p>
   </details>
   <div class="menu">
     <div class="dish"><h3>Мівіна з гострим соусом</h3><p>Нотки паприки, тривоги й дому. Подавати в казанку, їсти стоячи. Соусу багато не буває, буває мало мівіни.</p><span class="score">Вайб 10 з 10</span></div>
@@ -2731,7 +2770,7 @@ html.app .backbar{margin-top:4px}
   kHead.className="khead";
   S.kolonka=screen("kolonka",[kHead,room]);
   S.pet=screen("pet",[$("#hladyty")]);
-  ["prognoz","prohramy","liniia","hastrotur","dodomu","muzyka","nederland","holostiak"].forEach(function(id){S[id]=screen(id,[$("#"+id)]);});
+  ["prognoz","prohramy","liniia","hastrotur","dodomu","muzyka","nederland","holostiak","kalendar"].forEach(function(id){S[id]=screen(id,[$("#"+id)]);});
   S.more=screen("more",[]);
   $$("section",wrap).forEach(function(s){s.style.marginTop="0";});
   var footer=$(".wrap > footer");
@@ -2772,6 +2811,7 @@ html.app .backbar{margin-top:4px}
     {go:"prohramy",ic:"📻",c:"c2",b:"Сітка мовлення",s:"Час умовний. Як і все інше."},
     {go:"hastrotur",ic:"🌭",c:"c3",b:"Гастротур",s:"Оцінює сомельє"},
     {go:"muzyka",ic:"🎸",c:"c7 wide",b:"Рандомна крута українська музика",s:"цього тижня: ZWYNTAR"},
+    {go:"kalendar",ic:"🗓",c:"c4 wide",b:"Календар Мінвайбвету",s:"додай міністерство у свій календар · хвилина мовчання, п'ятниця, ротація"},
     {go:"holostiak",ic:"🌹",c:"c6 wide",b:"Холостяк (укргей едішн)",s:"реаліті-шоу · сезон 1 · троянди за графіком"},
     {go:"nederland",ic:"🌷",c:"c3 wide",b:"Дивовижності Нідерландщини",s:"очима українця · завжди десь є світло"},
     {go:"liniia",ic:"☎️",c:"c4",b:"Гаряча лінія Мінвайбвету",s:"0 800 ЧЕКАЙТЕ"},
@@ -2829,7 +2869,7 @@ html.app .backbar{margin-top:4px}
   S.more.appendChild(mhead);S.more.appendChild(mgrid);S.more.appendChild(mlang);S.more.appendChild(footer);
 
   /* back bars for sub-screens */
-  ["prognoz","prohramy","liniia","hastrotur","dodomu","muzyka","nederland","holostiak"].forEach(function(id){
+  ["prognoz","prohramy","liniia","hastrotur","dodomu","muzyka","nederland","holostiak","kalendar"].forEach(function(id){
     var bb=el("div","backbar",'<button type="button" class="back"><span class="chev">‹</span><span class="bl"></span></button>');
     bb.querySelector("button").addEventListener("click",function(){tick();go("more");});
     S[id].insertBefore(bb,S[id].firstChild);
@@ -2908,7 +2948,7 @@ html.app .backbar{margin-top:4px}
   if(petStage)["pointerdown","touchstart"].forEach(function(ev){petStage.addEventListener(ev,function(){if(store("vv-pet-day")!==today){store("vv-pet-day",today);badges();}},{passive:true});});
 
   /* ---------- navigation with real back-button support ---------- */
-  var SUBS={prognoz:1,prohramy:1,liniia:1,hastrotur:1,dodomu:1,muzyka:1,nederland:1,holostiak:1};
+  var SUBS={prognoz:1,prohramy:1,liniia:1,hastrotur:1,dodomu:1,muzyka:1,nederland:1,holostiak:1,kalendar:1};
   function depth(id){return id==="home"?0:SUBS[id]?2:1;}
   function tabOf(id){return SUBS[id]?"more":id;}
   var cur="home",pending=null,mem={};
@@ -2948,7 +2988,7 @@ html.app .backbar{margin-top:4px}
   try{history.replaceState(st("home",0),"");}catch(e){}
 
   /* widget and link deep links: #hladyty, #prognoz, #gazeta... */
-  var HASH={hladyty:"pet",prognoz:"prognoz",novyny:"gazeta",gazeta:"gazeta",kolonka:"kolonka",hastrotur:"hastrotur",prohramy:"prohramy",liniia:"liniia",dodomu:"dodomu",muzyka:"muzyka",nederland:"nederland",holostiak:"holostiak",invite:"liniia",more:"more",nalashtuvannia:"nalashtuvannia"};
+  var HASH={hladyty:"pet",prognoz:"prognoz",novyny:"gazeta",gazeta:"gazeta",kolonka:"kolonka",hastrotur:"hastrotur",prohramy:"prohramy",liniia:"liniia",dodomu:"dodomu",muzyka:"muzyka",nederland:"nederland",holostiak:"holostiak",kalendar:"kalendar",invite:"liniia",more:"more",nalashtuvannia:"nalashtuvannia"};
   function hashNav(){
     var h=location.hash.slice(1);if(!HASH[h])return;
     var id=HASH[h];try{history.replaceState(st(id,ours()),"",location.pathname+location.search);}catch(e){}
@@ -3206,6 +3246,11 @@ html.app .backbar{margin-top:4px}
   btn.addEventListener("click",function(){var n;do{n=Math.floor(Math.random()*cards.length);}while(n===i&&cards.length>1);i=n;show(i);
     if(V&&V.arp)V.arp(196,[0,2,4,7],1,0.06);});
 })();
+</script>
+<script id="kal-js">
+(function(){var b=document.getElementById("kalcopy");if(!b)return;b.addEventListener("click",function(){var u="https://minvaibvet.pp.ua/kalendar.ics",s=b.querySelector("small");
+  function ok(){s.textContent="скопійовано ✓";setTimeout(function(){s.textContent="для Outlook та інших";},2200);}
+  try{navigator.clipboard.writeText(u).then(ok,function(){prompt("Посилання на календар",u);});}catch(e){prompt("Посилання на календар",u);}});})();
 </script>
 <script id="lightbox">
 /* tap a picture in the paper to see it big; wide cartoons scroll sideways */

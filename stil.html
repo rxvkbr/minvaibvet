@@ -854,6 +854,7 @@ R.cal=function(){
   function add(){if(!inp.value.trim())return;var a=load("events",[]);a.push({id:uid(),d:cdSel,tm:tin.value||"",t:inp.value.trim()});save("events",a);R.cal();}
   inp.addEventListener("keydown",function(e){if(e.key==="Enter")add();});
   side.appendChild(h("div",{class:"row",style:"margin-top:10px"},[tin,inp,h("button",{class:"btn pri",text:"Додати",onclick:add})]));
+  side.appendChild(h("a",{class:"btn sm ghost",style:"margin-top:8px;text-decoration:none",href:"webcal://minvaibvet.pp.ua/kalendar.ics",text:"🗓 + Календар Мінвайбвету"}));
   side.appendChild(h("button",{class:"btn sm ghost",style:"margin-top:8px",text:"⇩ .ics для Google/Apple Календаря",onclick:function(){
     var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Vaibvet Stil//UK"];load("events",[]).forEach(function(x){var dt=x.d.replace(/-/g,"");L.push("BEGIN:VEVENT","UID:"+x.id+"@stil","DTSTAMP:"+dt+"T000000Z",x.tm?"DTSTART:"+dt+"T"+x.tm.replace(":","")+"00":"DTSTART;VALUE=DATE:"+dt,"SUMMARY:"+x.t.replace(/[,;\\]/g,function(c){return "\\"+c;}),"END:VEVENT");});L.push("END:VCALENDAR");download("vaibvet-stil.ics",L.join("\r\n"),"text/calendar");}}));
 };

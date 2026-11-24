@@ -1,0 +1,140 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Minvaibvet//Kalendar//UK
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Календар Мінвайбвету
+X-WR-CALDESC:Сатира Вайбвет FM, крім хвилини мо
+ вчання. https://minvaibvet.pp.ua
+X-WR-TIMEZONE:Europe/Kyiv
+REFRESH-INTERVAL;VALUE=DURATION:P1D
+X-PUBLISHED-TTL:P1D
+BEGIN:VTIMEZONE
+TZID:Europe/Kyiv
+X-LIC-LOCATION:Europe/Kyiv
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0300
+TZNAME:EEST
+DTSTART:19700329T030000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0300
+TZOFFSETTO:+0200
+TZNAME:EET
+DTSTART:19701025T040000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:hvylyna@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;TZID=Europe/Kyiv:20261125T090000
+DTEND;TZID=Europe/Kyiv:20261125T090100
+RRULE:FREQ=DAILY
+SUMMARY:🕯 Загальнонаціональна хвилина мов
+ чання
+DESCRIPTION:Щодня о 9:00 за Києвом. За всіма\, чи
+ є життя забрала війна.\nУ цю хвилину Вайб
+ вет FM замовкає разом з країною.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:🕯 Загальнонаціональна хвилина м
+ овчання
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:svichka@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;TZID=Europe/Kyiv:20261128T160000
+DTEND;TZID=Europe/Kyiv:20261128T161500
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=4SA
+SUMMARY:🕯 Запали свічку · пам'ять жертв Гол
+ одоморів
+DESCRIPTION:Четверта субота листопада\, 16:00. С
+ вічка у вікні — для тих\, кому не дали хл
+ іба. Хліб на столі — для тих\, хто вижив\, 
+ щоб були ми.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:🕯 Запали свічку · пам'ять жертв Г
+ олодоморів
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:shykuvannia@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;TZID=Europe/Kyiv:20261130T054500
+DTEND;TZID=Europe/Kyiv:20261130T055000
+RRULE:FREQ=WEEKLY;BYDAY=MO
+SUMMARY:Шикування (скасовано)
+DESCRIPTION:Жартуємо. Шикування скасовано. Мо
+ жна спати далі.\nМінвайбвет\, сатира. https:/
+ /minvaibvet.pp.ua
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:pyatnytsia@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+RRULE:FREQ=WEEKLY;BYDAY=FR
+SUMMARY:П'ятниця. Без коментарів
+DESCRIPTION:Ймовірність відпустки: 0%. Рапорти
+ \, подані сьогодні\, читатимуть о 17:55.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:vykhidnyi@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Вихідний (вчені підтверджують)
+DESCRIPTION:Людина прокидається\, і нічого не 
+ відбувається. Вчені називають це вихідн
+ им. Перевіряти\, чи це не навчання\, не об
+ ов'язково.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:prognoz@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;TZID=Europe/Kyiv:20261129T200000
+DTEND;TZID=Europe/Kyiv:20261129T201000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Прогноз відпусток на тиждень
+DESCRIPTION:Синоптики Мінвайбвету радять три
+ мати рапорт сухим і при собі. Прогноз: http
+ s://minvaibvet.pp.ua/#prognoz
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:rotatsiia@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+RRULE:FREQ=MONTHLY;BYMONTHDAY=1
+SUMMARY:Ротація (найближчим часом)
+DESCRIPTION:Подія\, яка завжди відбудеться на
+ йближчим часом. Цього місяця перенесено
+  на наступний.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:tsnap@minvaibvet.pp.ua
+DTSTAMP:20261124T000000Z
+DTSTART;TZID=Europe/Kyiv:20261202T114500
+DTEND;TZID=Europe/Kyiv:20261202T115000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+SUMMARY:ЦНАП: кінець прийому документів
+DESCRIPTION:Прийом до 11:45. Коронації після 12:00 
+ не реєструються. Вікно №4.
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

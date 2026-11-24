@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><title>Петч «temet nosce» · Andrew Amand</title>
+<defs><filter id="st"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .15"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+<path id="a" d="M86 205a114 114 0 0 1 228 0"/></defs>
+<g filter="url(#st)">
+<circle cx="200" cy="200" r="190" fill="#111"/>
+<circle cx="200" cy="200" r="176" fill="none" stroke="#15e37f" stroke-width="8" stroke-dasharray="3 5"/>
+<circle cx="200" cy="200" r="150" fill="#f7f6f1"/>
+<circle cx="200" cy="215" r="58" fill="none" stroke="#111" stroke-width="6"/>
+<circle cx="200" cy="215" r="20" fill="#15e37f"/>
+<path d="M142 215h-40M298 215h-40" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+<text font-family="PT Serif,Georgia,serif" font-style="italic" font-size="34" fill="#111" text-anchor="middle"><textPath href="#a" startOffset="50%">temet nosce</textPath></text>
+<text x="200" y="318" font-family="PT Mono,monospace" font-size="15" fill="#555" text-anchor="middle" letter-spacing="3">ANDREW AMAND</text>
+</g></svg>

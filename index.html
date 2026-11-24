@@ -2738,5 +2738,29 @@ html.app .backbar{margin-top:4px}
 })();
 </script>
 
+<script id="ota">
+/* Content updates without the stores: the native shell stays, the web part (news, tales, words, design) comes from GitHub.
+   Checks the "app-bundle" release, downloads a newer www-n<API>-<stamp>.zip and switches to it on the next launch. */
+(function(){
+  var V=window.VV,U=V&&V.plugin&&V.plugin("CapacitorUpdater");if(!U)return;
+  U.notifyAppReady().catch(function(){});
+  var mine=window.VV_BUNDLE||0,api=window.VV_NATIVE_API||1;
+  function check(){
+    fetch("https://api.github.com/repos/rxvkbr/minvaibvet/releases/tags/app-bundle",{cache:"no-store"})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(rel){
+        if(!rel)return;var best=null;
+        (rel.assets||[]).forEach(function(a){var m=/^www-n(\d+)-(\d+)\.zip$/.exec(a.name||"");
+          if(m&&+m[1]===api&&+m[2]>mine&&(!best||+m[2]>best.v))best={v:+m[2],url:a.browser_download_url};});
+        if(!best)return;
+        try{if(localStorage.getItem("ota-next")===String(best.v))return;}catch(e){}
+        return U.download({url:best.url,version:String(best.v)}).then(function(b){return U.next({id:b.id});})
+          .then(function(){try{localStorage.setItem("ota-next",String(best.v));}catch(e){}});
+      }).catch(function(){});
+  }
+  setTimeout(check,4000);
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)check();});
+})();
+</script>
 </body>
 </html>

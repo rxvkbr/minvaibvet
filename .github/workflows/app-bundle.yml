@@ -1,0 +1,41 @@
+name: App content bundle (over the air)
+
+# Rebuilds the web part of the Android/iOS app and publishes it as a zip on the
+# "app-bundle" release. Installed apps pick it up on their next launch, no store update needed.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["index.html", "office.html", "privacy.html", "app/scripts/web.js"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: app-bundle
+  cancel-in-progress: true
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build www
+        working-directory: app
+        run: |
+          npm ci
+          export BUNDLE_STAMP=$(date -u +%y%m%d%H%M)
+          npm run web
+          API=$(node -p "require('./www/bundle.json').nativeApi")
+          cd www && zip -qr "$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}.zip" . && cd ..
+          echo "ZIP=$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}.zip" >> "$GITHUB_ENV"
+      - name: Publish, keeping the last three bundles
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view app-bundle >/dev/null 2>&1 || gh release create app-bundle --title "App content bundle" --notes "Web part of the Вайбвет FM app, delivered over the air. Not for manual download." --latest=false
+          gh release upload app-bundle "$ZIP" --clobber
+          gh release view app-bundle --json assets --jq '.assets[].name' | grep '^www-' | sort -t- -k3 -n | head -n -3 | while read -r a; do gh release delete-asset app-bundle "$a" -y; done

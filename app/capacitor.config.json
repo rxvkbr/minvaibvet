@@ -4,6 +4,16 @@
   "webDir": "www",
   "backgroundColor": "#1a100b",
   "plugins": {
-    "LocalNotifications": { "iconColor": "#ff5d47" }
+    "LocalNotifications": {
+      "iconColor": "#ff5d47"
+    },
+    "CapacitorUpdater": {
+      "autoUpdate": false,
+      "resetWhenUpdate": true,
+      "appReadyTimeout": 10000,
+      "statsUrl": "",
+      "updateUrl": "",
+      "channelUrl": ""
+    }
   }
 }

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/hvylyna.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Довідка з першого разу · ЦНАП Мінвайбвету</title>
+<meta name="description" content="Перший в історії сервіс, який видає довідку з першого разу. Уряд обіцяв ухвалити рішення одразу після цього. Перевіряємо.">
+<meta property="og:title" content="Довідка з першого разу · Вайбвет FM">
+<meta property="og:description" content="Вікно №4 відкрите. Без черги, без копії довідки, яку ви отримуєте.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/dovidka">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a100b;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ivory);font:18px/1.6 "PT Serif",Georgia,serif}
+button,input,select{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg),transparent)}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 14px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace}
+main{max-width:620px;margin:0 auto;padding:0 18px calc(40px + env(safe-area-inset-bottom))}
+.k{font:12px "PT Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);text-align:center}
+h1{font:400 clamp(32px,7vw,46px)/1.1 "Yeseva One",Georgia,serif;text-align:center;margin:8px 0 10px}
+.lead{text-align:center;color:var(--dim);margin:0 0 18px}
+.win{border:1px solid var(--edge);background:var(--panel);border-radius:18px;padding:18px}
+.win h2{margin:0 0 4px;font:700 14px "PT Mono",monospace;letter-spacing:.1em;color:var(--amber)}
+label{display:block;margin:12px 0 4px;font:12px "PT Mono",monospace;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+input,select{width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--edge);background:#140c08;outline:0;font-size:16px}
+input:focus,select:focus{border-color:var(--amber)}
+.go{display:block;width:100%;margin-top:16px;border:0;border-radius:999px;padding:14px;background:var(--amber);color:#1a100b;font:700 16px "PT Mono",monospace;cursor:pointer}
+.go:disabled{opacity:.5}
+.log{list-style:none;padding:0;margin:16px 0 0;font:14px/1.5 "PT Mono",monospace}
+.log li{display:flex;gap:10px;padding:7px 0;border-top:1px dashed var(--edge);opacity:0;animation:in .35s forwards}
+.log li b{flex:none;width:22px}
+.log li s{color:var(--coral);text-decoration-thickness:2px}
+@keyframes in{to{opacity:1}}
+#out{display:none;margin-top:18px}
+#out.on{display:block}
+canvas{width:100%;height:auto;border-radius:10px;box-shadow:0 20px 60px #000a}
+.row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.row .go{flex:1;margin:0;min-width:150px}
+.row .go.alt{background:none;border:1px solid var(--edge);color:var(--ivory);font-weight:400}
+.gov{margin-top:18px;border:1px solid var(--mint);border-radius:16px;padding:14px 16px;background:#1d2a24}
+.gov b{color:var(--mint);font:700 13px "PT Mono",monospace;letter-spacing:.1em}
+.gov p{margin:6px 0 0}
+.count{text-align:center;font:12px "PT Mono",monospace;color:var(--dim);margin-top:16px}
+</style>
+</head>
+<body>
+<div class="top"><a class="pill" href="index.html#gazeta">← до газети</a><span class="pill">вікно №4 · відкрито</span></div>
+<main>
+  <div class="k">ЦНАП Мінвайбвету · пілотний проєкт</div>
+  <h1>Довідка з першого разу</h1>
+  <p class="lead">Уряд пообіцяв ухвалити рішення, щойно хтось отримає довідку з першого разу. Мінвайбвет вирішив цю проблему. Без черги, без копії довідки, яку ви отримуєте, без «прийдіть завтра».</p>
+
+  <div class="win">
+    <h2>ЗАЯВА</h2>
+    <label for="who">Прізвище, ім'я (як захочете)</label>
+    <input id="who" maxlength="40" placeholder="наприклад: Вайбенко Андрій" autocomplete="off">
+    <label for="what">Довідка про</label>
+    <select id="what">
+      <option>те, що я існую</option>
+      <option>те, що довідка не потрібна</option>
+      <option>те, що я вже приходив учора</option>
+      <option>те, що я молодець</option>
+      <option>право на відпочинок без пояснень</option>
+      <option>відсутність довідок</option>
+      <option value="*">інше (вписати)…</option>
+    </select>
+    <input id="whatx" maxlength="60" placeholder="про що довідка?" style="margin-top:8px;display:none">
+    <label for="where">Для пред'явлення за місцем вимоги</label>
+    <select id="where">
+      <option>за місцем вимоги</option>
+      <option>мамі</option>
+      <option>командиру</option>
+      <option>деканату</option>
+      <option>собі в дзеркалі</option>
+      <option>вікну №5</option>
+    </select>
+    <button class="go" id="go">Подати з першого разу</button>
+    <ul class="log" id="log"></ul>
+  </div>
+
+  <div id="out">
+    <canvas id="cv" width="1200" height="1600" aria-label="Довідка"></canvas>
+    <div class="row"><button class="go" id="dl">⬇ Зберегти довідку</button><button class="go alt" id="share">↗ Поділитися</button></div>
+    <div class="gov" id="gov"><b>УРЯД ПОВІДОМЛЕНО</b><p id="decision"></p></div>
+  </div>
+  <p class="count" id="count"></p>
+</main>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var STEPS=[
+  ["🕐","<s>Черга: 47 людей перед вами</s> Черга скасована, ви перший."],
+  ["📄","<s>Потрібна копія довідки, яку ви отримуєте</s> Копію зроблено за вас, заочно."],
+  ["🍽","<s>Обідня перерва 12:00–14:00</s> Обід перенесено на потім."],
+  ["🖊","<s>Заповнити синьою ручкою, не чорною</s> Прийнято будь-якою."],
+  ["🔵","<s>Печатка в іншому кабінеті</s> Печатку принесли до вас."],
+  ["✅","Довідку видано з першого разу. Це не помилка."]];
+var DEC=["Вважати довідки з першого разу нормою з 1 січня 2027 року.","Вікно №5 скасувати як таке, що ніколи не працювало.","Обідню перерву в ЦНАПах перенести на час, коли там нікого немає.","Копію довідки, яку ви отримуєте, більше не вимагати. Навіть ретроспективно.","Створити робочу групу з питань того, як це сталося, і нічого не чіпати, поки воно працює.","Визнати, що черга була психологічною, і відпустити її."];
+var busy=false;
+$("what").onchange=function(){$("whatx").style.display=this.value==="*"?"block":"none";if(this.value==="*")$("whatx").focus();};
+function n(){try{return +(localStorage.getItem("vv-dovidky")||0);}catch(e){return 0;}}
+function count(){var c=n();$("count").textContent=c?"Довідок з першого разу на цьому пристрої: "+c+". Державна статистика: 0.":"Державна статистика довідок з першого разу: 0. Будьте першим.";}
+count();
+$("go").onclick=function(){
+  if(busy)return;busy=true;$("go").disabled=true;$("log").innerHTML="";$("out").classList.remove("on");
+  var i=0;(function step(){if(i<STEPS.length){var li=document.createElement("li");li.innerHTML="<b>"+STEPS[i][0]+"</b><span>"+STEPS[i][1]+"</span>";$("log").appendChild(li);i++;setTimeout(step,520);}else issue();})();
+};
+function wrap(g,t,x,y,w,lh){var words=t.split(" "),line="";words.forEach(function(wd){var test=line?line+" "+wd:wd;if(g.measureText(test).width>w&&line){g.fillText(line,x,y);y+=lh;line=wd;}else line=test;});if(line)g.fillText(line,x,y);return y+lh;}
+function issue(){
+  try{localStorage.setItem("vv-dovidky",n()+1);}catch(e){}
+  var who=$("who").value.trim()||"Пред'явник цієї довідки",what=$("what").value==="*"?($("whatx").value.trim()||"те, що треба"):$("what").options[$("what").selectedIndex].text,where=$("where").options[$("where").selectedIndex].text;
+  var d=new Date(),num="№ "+String(d.getFullYear()).slice(2)+"-"+String(Math.floor(Math.random()*90000)+10000)+"/1";
+  var cv=$("cv"),g=cv.getContext("2d"),W=1200,H=1600;
+  g.fillStyle="#f4ecd8";g.fillRect(0,0,W,H);
+  g.strokeStyle="#8a6d3b";g.lineWidth=6;g.strokeRect(50,50,W-100,H-100);g.lineWidth=2;g.strokeRect(68,68,W-136,H-136);
+  g.fillStyle="#3a2a18";g.textAlign="center";
+  g.font="28px 'PT Mono',monospace";g.fillText("МІНІСТЕРСТВО ВАЙБУ ВЕТЕРАНІВ · ЦНАП · ВІКНО №4",W/2,160);
+  g.font="96px 'Yeseva One',Georgia,serif";g.fillText("ДОВІДКА",W/2,300);
+  g.font="italic 40px 'PT Serif',Georgia,serif";g.fillStyle="#8a3b2a";g.fillText("видана з першого разу",W/2,365);
+  g.fillStyle="#3a2a18";g.font="28px 'PT Mono',monospace";g.fillText(num+" від "+d.toLocaleDateString("uk-UA"),W/2,425);
+  g.textAlign="left";g.font="40px 'PT Serif',Georgia,serif";
+  var y=540;y=wrap(g,"Видана: "+who+".",130,y,W-260,58);y=wrap(g,"Про: "+what+".",130,y,W-260,58);y+=20;
+  y=wrap(g,"Довідку отримано з першого разу, без черги, без копії довідки, яку отримують, і без повторного візиту. Факт засвідчено присутніми (нікого).",130,y,W-260,58);y+=20;
+  y=wrap(g,"Видана для пред'явлення: "+where+".",130,y,W-260,58);
+  y=wrap(g,"Строк дії: доки не попросять ще одну.",130,y+20,W-260,58);
+  g.font="24px 'PT Mono',monospace";g.fillText("Начальник вікна №4 ____________ (на обіді, але підписав)",130,1360);
+  /* stamp */
+  g.save();g.translate(880,1120);g.rotate(-.22);g.strokeStyle="rgba(40,70,160,.75)";g.fillStyle="rgba(40,70,160,.75)";g.lineWidth=7;
+  g.beginPath();g.arc(0,0,150,0,7);g.stroke();g.lineWidth=3;g.beginPath();g.arc(0,0,124,0,7);g.stroke();
+  g.textAlign="center";g.font="bold 30px 'PT Mono',monospace";g.fillText("З ПЕРШОГО",0,-10);g.fillText("РАЗУ",0,32);g.font="18px 'PT Mono',monospace";g.fillText("МІНВАЙБВЕТ · ЦНАП",0,-80);g.fillText("ВІКНО №4",0,92);g.restore();
+  g.textAlign="center";g.fillStyle="#8a6d3b";g.font="22px 'PT Mono',monospace";g.fillText("minvaibvet.pp.ua/dovidka · Мінвайбвет вигаданий, а довідка ваша",W/2,1500);
+  $("decision").textContent="Рішення ухвалено: "+DEC[Math.floor(Math.random()*DEC.length)]+" Ухвалення відбулося одразу, як і обіцяли. Можливо, вперше.";
+  $("out").classList.add("on");$("out").scrollIntoView({behavior:"smooth"});busy=false;$("go").disabled=false;$("go").textContent="Отримати ще одну (знову з першого разу)";count();
+}
+function blob(cb){$("cv").toBlob(cb,"image/png");}
+$("dl").onclick=function(){blob(function(b){var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="dovidka-z-pershoho-razu.png";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);});};
+$("share").onclick=function(){blob(function(b){var f=new File([b],"dovidka-z-pershoho-razu.png",{type:"image/png"});
+  if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:"Довідка з першого разу",text:"Отримав довідку з першого разу. Уряд, ваш хід. minvaibvet.pp.ua/dovidka"}).catch(function(){});
+  else $("dl").onclick();});};
+})();
+</script>
+</body>
+</html>

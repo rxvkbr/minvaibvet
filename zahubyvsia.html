@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/hvylyna.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Я загубився · тренажер для дітей · Вайбвет FM</title>
+<meta name="description" content="Лагідний тренажер для дітей: що робити, якщо загубився. Зупинитися, знайти безпечного дорослого, сказати чарівні слова й нікуди ні з ким не йти.">
+<meta property="og:title" content="Я загубився: тренажер для дітей">
+<meta property="og:description" content="Зупинись. Знайди безпечного дорослого. Скажи чарівні слова. Чекай на місці.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/zahubyvsia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1b2430;--panel:#24303f;--edge:#38495c;--ivory:#fff6e3;--dim:#b8c4d2;--sun:#ffc94a;--mint:#6fe0c4;--rose:#ff8fa3;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,#2f4157,var(--bg) 60%);color:var(--ivory);font:20px/1.55 "PT Serif",Georgia,serif}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:"PT Mono",monospace}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg),transparent)}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 14px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace}
+.stars{font:15px "PT Mono",monospace;color:var(--sun)}
+main{max-width:640px;margin:0 auto;padding:6px 18px calc(40px + env(safe-area-inset-bottom))}
+.scene{display:none;animation:in .35s ease}
+.scene.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero{font-size:84px;text-align:center;line-height:1;margin:10px 0 4px}
+h1,h2{font:400 34px/1.15 "Yeseva One",Georgia,serif;text-align:center;margin:6px 0 10px}
+h2{font-size:28px}
+p.lead{text-align:center;color:var(--dim);margin:0 0 16px}
+.bubble{background:var(--panel);border:1px solid var(--edge);border-radius:22px;padding:14px 18px;margin:12px 0;position:relative}
+.bubble b{color:var(--sun)}
+.choices{display:grid;gap:10px;margin:14px 0}
+.ch{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 16px;border-radius:18px;border:2px solid var(--edge);background:var(--panel);font-size:18px;line-height:1.35;transition:transform .12s}
+.ch:active{transform:scale(.98)}
+.ch .e{font-size:38px;flex:none;width:48px;text-align:center}
+.ch.good{border-color:var(--mint);background:#1f3b39}
+.ch.bad{border-color:var(--rose);background:#3b2630}
+.fb{display:none;margin:8px 0 0;padding:14px 16px;border-radius:18px;font-size:18px}
+.fb.good{display:block;background:#1f3b39;border:1px solid var(--mint)}
+.fb.bad{display:block;background:#3b2630;border:1px solid var(--rose)}
+.next{display:block;margin:18px auto 0;border:0;border-radius:999px;padding:14px 28px;background:var(--sun);color:#1b2430;font:700 17px "PT Mono",monospace}
+.next[hidden]{display:none}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.big{border:2px solid var(--edge);background:var(--panel);border-radius:20px;padding:14px 20px;font-size:19px;min-width:130px}
+.big[aria-pressed="true"]{border-color:var(--sun);color:var(--sun)}
+.say{display:flex;gap:12px;align-items:flex-start;background:var(--panel);border:1px dashed var(--sun);border-radius:20px;padding:14px 16px;margin:12px 0;font-size:21px}
+.say button{flex:none;border:0;background:var(--sun);color:#1b2430;border-radius:50%;width:46px;height:46px;font-size:20px}
+input.t{width:100%;padding:14px 16px;border-radius:16px;border:2px solid var(--edge);background:#141b24;color:var(--ivory);font:24px "PT Mono",monospace;letter-spacing:.08em;text-align:center;outline:0}
+input.t:focus{border-color:var(--sun)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:300px;margin:12px auto}
+.pad button{border:2px solid var(--edge);background:var(--panel);border-radius:16px;padding:12px 0;font:24px "PT Mono",monospace}
+.rules{counter-reset:r;list-style:none;padding:0;margin:12px 0}
+.rules li{counter-increment:r;display:flex;gap:12px;align-items:flex-start;margin:10px 0;font-size:19px}
+.rules li::before{content:counter(r);flex:none;width:34px;height:34px;border-radius:50%;background:var(--sun);color:#1b2430;display:grid;place-items:center;font:700 16px "PT Mono",monospace}
+.grown{margin-top:26px;font-size:16px;color:var(--dim)}
+.grown summary{cursor:pointer;color:var(--ivory);font:14px "PT Mono",monospace}
+.grown li{margin:6px 0}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.conf i{position:absolute;top:-30px;font-size:26px;font-style:normal;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(380deg)}}
+@media (prefers-reduced-motion:reduce){.scene,.conf i{animation:none}}
+</style>
+</head>
+<body>
+<div class="top"><a class="pill" href="index.html#more">← назад</a><span class="stars" id="stars" aria-live="polite"></span></div>
+<main>
+
+<!-- 0: hello -->
+<section class="scene on" id="s0">
+  <div class="hero">🦔</div>
+  <h1>Ой, а де мама?</h1>
+  <p class="lead">Привіт! Я Їжачок. Інколи у великому магазині чи парку можна загубитися. Це трапляється з усіма, навіть з дорослими. Давай потренуємось, що робити, щоб швидко знайти своїх.</p>
+  <div class="bubble">Хто сьогодні тренується?</div>
+  <div class="row"><button class="big" data-g="m">🧒 Я хлопчик</button><button class="big" data-g="f">👧 Я дівчинка</button></div>
+  <p class="lead mono" style="font-size:13px">Можна читати разом із дорослим. Їжачок уміє говорити: натискай 🔊.</p>
+</section>
+
+<!-- 1: stop -->
+<section class="scene" id="s1">
+  <div class="hero">🛒</div>
+  <h2 id="h1g">Ти обернувся, а мами поруч немає</h2>
+  <div class="bubble">Ти в магазині. Щойно мама була біля полиці з яблуками, а тепер її не видно. <b>Що зробиш найперше?</b></div>
+  <div class="choices" data-q="1">
+    <button class="ch" data-ok="0"><span class="e">🏃</span>Швидко побіжу шукати по всьому магазину</button>
+    <button class="ch" data-ok="1"><span class="e">🧍</span>Зупинюся, вдихну глибоко й стоятиму на місці</button>
+    <button class="ch" data-ok="0"><span class="e">🙈</span>Сховаюсь, щоб ніхто не бачив, що я плачу</button>
+  </div>
+  <div class="fb" data-fb="1"></div>
+  <button class="next" hidden>Далі →</button>
+</section>
+
+<!-- 2: who to ask, shop -->
+<section class="scene" id="s2">
+  <div class="hero">🏬</div>
+  <h2>Кого попросити про допомогу?</h2>
+  <div class="bubble">Ти стоїш на місці, вже трохи спокійніше. Тепер треба знайти <b>безпечного дорослого</b>. Обери, до кого підійдеш.</div>
+  <div class="choices" data-q="2">
+    <button class="ch" data-ok="1"><span class="e">🧑‍💼</span>Продавчиня на касі з бейджиком</button>
+    <button class="ch" data-ok="1"><span class="e">👩‍👧</span>Тьотя, яка теж прийшла зі своєю дитиною</button>
+    <button class="ch" data-ok="0"><span class="e">🚪</span>Нікого. Вийду на вулицю й пошукаю маму там</button>
+  </div>
+  <div class="fb" data-fb="2"></div>
+  <button class="next" hidden>Далі →</button>
+</section>
+
+<!-- 3: the tricky one -->
+<section class="scene" id="s3">
+  <div class="hero">🌳</div>
+  <h2>А тепер у парку</h2>
+  <div class="bubble">До тебе підходить дядько, усміхається й каже: «Я знаю твою маму! <b>Ходімо, я тебе до неї відведу</b>». Що відповіси?</div>
+  <div class="choices" data-q="3">
+    <button class="ch" data-ok="0"><span class="e">🤝</span>«Добре!» і піду з ним, він же знає маму</button>
+    <button class="ch" data-ok="1"><span class="e">✋</span>«Я нікуди не піду. Подзвоніть, будь ласка, мамі, я почекаю тут»</button>
+  </div>
+  <div class="fb" data-fb="3"></div>
+  <button class="next" hidden>Далі →</button>
+</section>
+
+<!-- 4: magic words -->
+<section class="scene" id="s4">
+  <div class="hero">🗣️</div>
+  <h2>Чарівні слова</h2>
+  <div class="bubble"><span id="pg">Ти підійшов</span> до безпечного дорослого. Скажи вголос разом зі мною. Натисни 🔊, послухай і повтори.</div>
+  <div class="say"><button data-say="w1" aria-label="Послухати">🔊</button><span id="w1"></span></div>
+  <div class="say"><button data-say="w2" aria-label="Послухати">🔊</button><span id="w2"></span></div>
+  <p class="lead">Як тебе звати? Можна написати, а можна просто сказати вголос.</p>
+  <input class="t" id="nm" maxlength="24" placeholder="Мене звати…" autocomplete="off">
+  <div class="say"><button data-say="w3" aria-label="Послухати">🔊</button><span id="w3">Мене звати… Я загубився.</span></div>
+  <button class="next" id="n4">Я сказав! →</button>
+</section>
+
+<!-- 5: phone number -->
+<section class="scene" id="s5">
+  <div class="hero">📱</div>
+  <h2>Мамин номер у голові</h2>
+  <div class="bubble">Найкраща суперсила: <b>знати напам'ять номер мами чи тата</b>. Тоді будь-який безпечний дорослий одразу подзвонить.</div>
+  <div id="pset">
+    <p class="lead">Дорослий, введи свій номер для тренування. Він лишиться тільки на цьому пристрої, і його можна стерти будь-коли.</p>
+    <input class="t" id="pnum" inputmode="tel" placeholder="0__ ___ __ __" autocomplete="off">
+    <div class="row"><button class="big" id="psave">Зберегти для тренування</button><button class="big" id="pskip">Пропустити</button></div>
+  </div>
+  <div id="ptry" hidden>
+    <p class="lead">А тепер ти: набери номер мами чи тата з пам'яті.</p>
+    <input class="t" id="pin" readonly aria-label="Номер, який ти набираєш">
+    <div class="pad" id="pad"></div>
+    <div class="fb" id="pfb"></div>
+    <p class="lead mono" style="font-size:13px"><button class="pill" id="pclear">стерти збережений номер</button></p>
+  </div>
+  <button class="next" id="n5" hidden>Далі →</button>
+</section>
+
+<!-- 6: wait -->
+<section class="scene" id="s6">
+  <div class="hero">🤗</div>
+  <h2>Чекаємо разом</h2>
+  <div class="bubble">Тьотя з каси подзвонила мамі. Мама вже біжить! Де ти будеш чекати?</div>
+  <div class="choices" data-q="6">
+    <button class="ch" data-ok="1"><span class="e">🧍‍♀️</span>Тут, поруч із тьотею з каси, поки мама прийде</button>
+    <button class="ch" data-ok="0"><span class="e">🚶</span>Піду їй назустріч, так буде швидше</button>
+  </div>
+  <div class="fb" data-fb="6"></div>
+  <button class="next" hidden>Далі →</button>
+</section>
+
+<!-- 7: done -->
+<section class="scene" id="s7">
+  <div class="hero">🏅</div>
+  <h1 id="done">Ти впорався!</h1>
+  <p class="lead">Мама прийшла, обійняла й сказала, що ти зробив усе правильно. Запам'ятай чотири правила Їжачка:</p>
+  <ol class="rules">
+    <li>Зупинись і стій на місці. Тебе вже шукають.</li>
+    <li>Знайди безпечного дорослого: продавчиню з бейджиком, охоронця, поліцейську або тьотю з дітками.</li>
+    <li>Скажи чарівні слова: «Я загубився. Допоможіть подзвонити мамі».</li>
+    <li>Нікуди ні з ким не йди, навіть з добрим. Чекай там, де тебе знайдуть.</li>
+  </ol>
+  <button class="next" id="again">Ще раз 🔁</button>
+  <details class="grown">
+    <summary>для дорослих · як закріпити</summary>
+    <ul>
+      <li>Пройдіть тренажер разом, а потім пограйте «наживо» в магазині: «Покажи, до кого ти підійшов би».</li>
+      <li>Вивчіть номер телефону як віршик або пісеньку. Для малечі — запишіть його на браслеті чи на внутрішньому боці куртки.</li>
+      <li>У людних місцях домовтеся про точку зустрічі: «Якщо загубились, стоїмо біля каси / фонтана».</li>
+      <li>Перед виходом сфотографуйте дитину, щоб показати, у чому вона вдягнена.</li>
+      <li>Говоріть не «чужі — погані», а «нікуди ні з ким не йди без мене, навіть зі знайомими, поки я не скажу». Діти рідко бояться приязних людей, тож правило має бути про дію, а не про страх.</li>
+      <li>В Україні поліція — 102, єдиний номер екстрених служб — 112.</li>
+    </ul>
+  </details>
+</section>
+
+</main>
+<div class="conf" id="conf"></div>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var G="m",stars=0,phone="";
+function w(m,f){return G==="f"?f:m;}
+var FB={
+  1:{ok:"Так! Коли ти стоїш на місці, мамі легше тебе знайти. Вона теж уже шукає тебе. Можна вдихнути носиком і повільно видихнути.",
+     no:"Розумію, хочеться бігти. Але так ви з мамою можете розминутися. Краще зупинитися й стояти там, де ти є. Спробуй ще раз."},
+  2:{ok:"Чудовий вибір! Працівники з бейджиком і мами з дітками — безпечні дорослі. Вони знають, що робити.",
+     no:"На вулиці загубитися ще легше. Не виходь нікуди. Краще знайди когось тут: касирку з бейджиком чи тьотю з дитиною."},
+  3:{ok:"Супер! Хороший дорослий завжди може подзвонити мамі й почекати з тобою. Йти кудись не треба.",
+     no:"Навіть якщо людина здається доброю, нікуди ні з ким не йди без мами. Справжній помічник подзвонить мамі й почекає з тобою тут. Спробуй ще."},
+  6:{ok:"Правильно! Стій там, де про тебе знають. Мама прийде саме сюди.",
+     no:"Якщо піти назустріч, можна знову розминутися. Чекай поруч із тьотею, мама вже знає, де ти."}};
+function speak(t){try{if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="uk-UA";u.rate=.9;u.pitch=1.15;speechSynthesis.speak(u);}catch(e){}}
+function star(){stars++;$("stars").textContent="⭐".repeat(Math.min(stars,7));}
+function confetti(){var c=$("conf"),em=["⭐","🎈","🦔","💛","🌟","🍎"];for(var i=0;i<26;i++){var e=document.createElement("i");e.textContent=em[i%em.length];e.style.left=Math.random()*100+"vw";e.style.animationDelay=Math.random()*.8+"s";c.appendChild(e);}setTimeout(function(){c.innerHTML="";},3600);}
+function show(n){[].forEach.call(document.querySelectorAll(".scene"),function(s){s.classList.toggle("on",s.id==="s"+n);});scrollTo(0,0);
+  var h=document.querySelector("#s"+n+" .bubble");if(h)speak(h.textContent);}
+function texts(){
+  $("w1").textContent="Вибачте, будь ласка, я "+w("загубився","загубилася")+".";
+  $("w2").textContent="Допоможіть мені подзвонити мамі.";
+  var nm=$("nm").value.trim();$("w3").textContent=(nm?"Мене звати "+nm+".":"Мене звати… (скажи своє ім'я)")+" Я "+w("загубився","загубилася")+".";
+  $("h1g").textContent=w("Ти обернувся","Ти обернулася")+", а мами поруч немає";$("pg").textContent=w("Ти підійшов","Ти підійшла");
+  $("n4").textContent=w("Я сказав! →","Я сказала! →");$("done").textContent=w("Ти впорався!","Ти впоралася!");
+}
+document.querySelectorAll("[data-g]").forEach(function(b){b.onclick=function(){G=b.dataset.g;texts();show(1);};});
+/* choice questions */
+document.querySelectorAll(".choices").forEach(function(box){
+  var q=box.dataset.q,sec=box.closest(".scene"),fb=sec.querySelector("[data-fb]"),nx=sec.querySelector(".next"),done=false;
+  box.addEventListener("click",function(e){var b=e.target.closest(".ch");if(!b)return;var ok=b.dataset.ok==="1";
+    b.classList.add(ok?"good":"bad");fb.className="fb "+(ok?"good":"bad");fb.textContent=(ok?"✅ ":"🤔 ")+FB[q][ok?"ok":"no"];speak(FB[q][ok?"ok":"no"]);
+    if(ok&&!done){done=true;star();nx.hidden=false;}});
+  nx.onclick=function(){show(+sec.id.slice(1)+1);};
+});
+document.querySelectorAll("[data-say]").forEach(function(b){b.onclick=function(){texts();speak($(b.dataset.say).textContent);};});
+$("nm").addEventListener("input",texts);
+$("n4").onclick=function(){star();show(5);};
+/* phone practice: the number stays on this device only */
+function digits(s){return (s||"").replace(/\D/g,"");}
+try{phone=localStorage.getItem("vv-kid-phone")||"";}catch(e){}
+function phoneUI(){$("pset").hidden=!!phone;$("ptry").hidden=!phone;if(!phone)$("n5").hidden=true;}
+$("psave").onclick=function(){var d=digits($("pnum").value);if(d.length<9){$("pnum").focus();return;}phone=d;try{localStorage.setItem("vv-kid-phone",d);}catch(e){}$("pnum").value="";phoneUI();};
+$("pskip").onclick=function(){show(6);};
+$("pclear").onclick=function(){phone="";try{localStorage.removeItem("vv-kid-phone");}catch(e){}$("pin").value="";phoneUI();};
+var pad=$("pad");"123456789⌫0✓".split("").forEach(function(k){var b=document.createElement("button");b.textContent=k;b.onclick=function(){
+  var v=$("pin").value,f=$("pfb");
+  if(k==="⌫")$("pin").value=v.slice(0,-1);
+  else if(k==="✓"){var ok=digits(v)===phone;f.className="fb "+(ok?"good":"bad");
+    f.textContent=ok?"✅ Ура! Ти знаєш номер напам'ять. Це справжня суперсила!":"🤔 Майже! Порівняй із дорослим і спробуй ще. Номер легше запам'ятати, якщо співати його як пісеньку.";
+    speak(f.textContent);if(ok){star();$("n5").hidden=false;}}
+  else if(v.length<13)$("pin").value=v+k;};pad.appendChild(b);});
+$("n5").onclick=function(){show(6);};
+var ob=new MutationObserver(function(){if($("s7").classList.contains("on")){confetti();speak("Ти "+w("впорався","впоралася")+"! Запам'ятай чотири правила Їжачка.");}});ob.observe($("s7"),{attributes:true});
+var o5=new MutationObserver(function(){if($("s5").classList.contains("on"))phoneUI();});o5.observe($("s5"),{attributes:true});
+$("again").onclick=function(){location.reload();};
+texts();
+})();
+</script>
+</body>
+</html>

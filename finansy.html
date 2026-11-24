@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Гроші без паніки · Вайбвет FM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#10150f;--panel:#1a2218;--edge:#2f3c2a;--ivory:#eef0e4;--dim:#a2ac93;--amber:#f0c06a;--green:#9fd66a;--coral:#ff7a66;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse 90% 40% at 50% 0,#1f2b1c 0,transparent 70%),var(--bg);color:var(--ivory);font:17px/1.6 "PT Serif",Georgia,serif}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg) 70%,#10150f00)}
+.top a,.top button{border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 15px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace;cursor:pointer}
+main{max-width:720px;margin:0 auto;padding:6px 18px calc(80px + env(safe-area-inset-bottom))}
+.kicker{font:12px "PT Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+h1{font:400 clamp(32px,7vw,46px)/1.1 "Yeseva One",Georgia,serif;margin:8px 0 10px}
+.lead{font-size:18px;color:var(--dim);margin:0 0 16px}
+.priv{font:12.5px/1.5 "PT Mono",monospace;color:var(--dim);border:1px dashed var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 16px}
+.box{background:var(--panel);border:1px solid var(--edge);border-radius:20px;padding:18px;margin:0 0 14px}
+.box h2{margin:0 0 8px;font:400 23px "Yeseva One",serif}
+.box h2 small{display:block;font:12px "PT Mono",monospace;letter-spacing:.14em;color:var(--green);margin-bottom:4px}
+.box p{margin:0 0 .7em}.box ul{margin:.2em 0 .8em;padding-left:1.2em}.box li{margin:.2em 0}
+label{display:block;font:12px "PT Mono",monospace;letter-spacing:.08em;color:var(--dim);margin:6px 0 3px}
+input{width:100%;background:#0006;border:1.5px solid var(--edge);border-radius:12px;color:var(--ivory);font:17px "PT Mono",monospace;padding:9px 12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.out{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.out div{background:#0005;border-radius:14px;padding:10px;text-align:center}
+.out b{display:block;font:700 20px "PT Mono",monospace;color:var(--amber)}
+.out small{font:12px "PT Mono",monospace;color:var(--dim)}
+.bar{display:flex;height:18px;border-radius:9px;overflow:hidden;margin-top:12px;background:#0006}
+.bar i{display:block;height:100%}
+.verdict{margin-top:10px;font-style:italic}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.chips button{border:1.5px solid var(--edge);background:#0004;color:var(--ivory);border-radius:999px;padding:8px 14px;font:14px "PT Serif",serif;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#0f1a0a}
+.tips p{background:#0004;border-left:3px solid var(--green);border-radius:0 12px 12px 0;padding:8px 12px;margin:8px 0}
+.warn{border-color:var(--coral)}.warn h2{color:var(--coral)}
+.foot{margin-top:26px;font:12px/1.6 "PT Mono",monospace;color:var(--dim)}
+@media (max-width:560px){.grid,.out{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more" id="back">← назад</a><button type="button" id="wipe">стерти все</button></div>
+<main>
+  <div class="kicker">приватний розділ · Гроші без паніки</div>
+  <h1>Базова фінграмотність для своїх</h1>
+  <p class="lead">Про гроші після служби: як не прогоріти, не потрапити до шахраїв і зібрати подушку. Простими словами, з калькуляторами.</p>
+  <p class="priv">🔒 Цифри, які ти вводиш, лишаються лише на цьому пристрої. Ми нічого не бачимо. Це загальні принципи, а не фінансова порада: ми не фінансові консультанти, а рішення завжди за тобою.</p>
+
+  <section class="box">
+    <h2><small>КРОК 0</small>Моя ситуація</h2>
+    <p style="font-size:15px;color:var(--dim)">Обери, що про тебе, і внизу з'являться поради саме для цього.</p>
+    <div class="chips" id="sit">
+      <button type="button" data-k="new">щойно звільнився</button><button type="button" data-k="debt">маю борги або кредити</button><button type="button" data-k="fam">утримую родину</button>
+      <button type="button" data-k="abroad">живу за кордоном</button><button type="button" data-k="biz">думаю про свою справу</button><button type="button" data-k="irr">дохід нерегулярний</button>
+    </div>
+    <div class="tips" id="tips"></div>
+  </section>
+
+  <section class="box">
+    <h2><small>КРОК 1</small>Карта грошей за місяць</h2>
+    <div class="grid">
+      <div><label>дохід, грн</label><input id="inc" type="number" inputmode="decimal"></div>
+      <div><label>обов'язкове: житло, їжа, ліки, зв'язок</label><input id="must" type="number" inputmode="decimal"></div>
+      <div><label>борги: щомісячні платежі</label><input id="dpay" type="number" inputmode="decimal"></div>
+      <div><label>для себе: кава, підписки, гулянки</label><input id="fun" type="number" inputmode="decimal"></div>
+      <div><label>відкладаю</label><input id="sav" type="number" inputmode="decimal"></div>
+    </div>
+    <div class="bar" id="bar"></div>
+    <div class="verdict" id="verd"></div>
+    <p style="font-size:14.5px;color:var(--dim);margin:10px 0 0">Орієнтир для старту: близько половини на обов'язкове, до третини на «для себе», від 10–20% відкладати й гасити борги. Це не закон, а компас: важливіше, щоб щомісяця хоч щось лишалося.</p>
+  </section>
+
+  <section class="box">
+    <h2><small>КРОК 2</small>Подушка безпеки</h2>
+    <p>Гроші, які лежать окремо на випадок, коли все піде не так: робота, здоров'я, ремонт. Мета — 3–6 місяців обов'язкових витрат. Тримати їх варто там, звідки можна швидко зняти, і окремо від повсякденної картки.</p>
+    <div class="grid"><div><label>маю відкладено, грн</label><input id="cush" type="number" inputmode="decimal"></div><div><label>міс. на подушку</label><input id="cm" type="number" value="6" inputmode="numeric"></div></div>
+    <div class="out"><div><b id="cTarget">0</b><small>ціль, грн</small></div><div><b id="cMonths">0</b><small>місяців уже покрито</small></div><div><b id="cETA">—</b><small>до цілі при нинішньому темпі</small></div></div>
+  </section>
+
+  <section class="box">
+    <h2><small>КРОК 3</small>Скільки насправді коштує кредит</h2>
+    <p style="font-size:15px;color:var(--dim)">Впиши, скільки взяв, скільки платиш щомісяця і скільки місяців. Побачиш справжню переплату й річну ставку, а не ту, що в рекламі.</p>
+    <div class="grid"><div><label>сума кредиту, грн</label><input id="lAmt" type="number" inputmode="decimal"></div><div><label>платіж на місяць</label><input id="lPay" type="number" inputmode="decimal"></div><div><label>місяців</label><input id="lN" type="number" inputmode="numeric"></div></div>
+    <div class="out"><div><b id="lTot">0</b><small>віддаси всього</small></div><div><b id="lOver">0</b><small>переплата</small></div><div><b id="lApr">—</b><small>реальна річна ставка</small></div></div>
+    <p style="margin:12px 0 0">Якщо боргів кілька: плати мінімум по всіх, а все зайве кидай на найдорожчий (з найвищою ставкою). Мікрокредити «до зарплати» зі ставкою за день зазвичай найдорожчі з усіх, їх закривай першими й нових не бери.</p>
+  </section>
+
+  <section class="box warn">
+    <h2><small>КРОК 4</small>Шахраї люблять військових</h2>
+    <ul>
+      <li><b>«Служба безпеки банку»</b> дзвонить і просить код із SMS або CVV. Справжній банк ніколи цього не просить. Кладеш слухавку й сам набираєш номер з картки.</li>
+      <li><b>«Виплата для військових, перейдіть за посиланням».</b> Будь-які виплати перевіряй лише в Дії, у своєму банку або на офіційних сайтах відомств.</li>
+      <li><b>«Побратим» просить терміново переказати.</b> Подзвони йому голосом або відео. Акаунти зламують.</li>
+      <li><b>«Інвестиції з гарантованим доходом» 10% на місяць.</b> Гарантованих високих доходів не буває. Буває піраміда.</li>
+      <li><b>Знайомство онлайн, яке швидко переходить до грошей.</b> Романтичні шахраї спеціально шукають військових.</li>
+    </ul>
+  </section>
+
+  <section class="box">
+    <h2><small>КРОК 5</small>Що варто знати про свої права</h2>
+    <p>Ветеранам і військовим належать певні виплати, пільги й програми: навчання, бізнес-гранти, психологічна та юридична допомога. Умови змінюються часто, тому ми навмисно не пишемо тут суми й правила, вони можуть застаріти.</p>
+    <ul><li>перевіряй актуальне в <b>Дії</b> та на сайті <b>Мінветеранів</b>;</li><li>питай у <b>ветеранському просторі</b> або <b>центрі надання адмінпослуг</b> твоєї громади (так, у ЦНАПі, але цього разу з довідкою, що допоможуть);</li><li>безоплатну правову допомогу дає система <b>БПД</b>.</li></ul>
+  </section>
+
+  <div class="foot">Гроші без паніки — приватний розділ Вайбвет FM. Вмикається й вимикається в Конструкторі ефіру. Не є фінансовою чи юридичною консультацією.</div>
+</main>
+<script>
+(function(){
+  var K="vv-finance",D={};try{D=JSON.parse(localStorage.getItem(K)||"{}")||{};}catch(e){}
+  function save(){try{localStorage.setItem(K,JSON.stringify(D));}catch(e){}}
+  var $=function(id){return document.getElementById(id);},n=function(id){return parseFloat($(id).value)||0;},f=function(x){return Math.round(x).toLocaleString("uk-UA");};
+  ["inc","must","dpay","fun","sav","cush","cm","lAmt","lPay","lN"].forEach(function(id){if(D[id]!=null)$(id).value=D[id];$(id).addEventListener("input",function(){D[id]=$(id).value;save();calc();});});
+  function calc(){
+    var inc=n("inc"),must=n("must"),dp=n("dpay"),fun=n("fun"),sav=n("sav"),spent=must+dp+fun+sav,left=inc-spent;
+    var parts=[[must,"#6f8fa8"],[dp,"#ff7a66"],[fun,"#f0c06a"],[sav,"#9fd66a"],[Math.max(0,left),"#3a4a33"]],tot=Math.max(inc,spent)||1;
+    $("bar").innerHTML=parts.map(function(p){return '<i style="width:'+(p[0]/tot*100)+'%;background:'+p[1]+'"></i>';}).join("");
+    var v="";
+    if(!inc)v="Впиши дохід, і побачиш картину.";
+    else if(left<0)v="Витрачаєш на "+f(-left)+" грн більше, ніж заробляєш. Перше завдання — знайти, де урізати, щоб вийти хоча б у нуль.";
+    else if(dp>inc*.4)v="Борги з'їдають понад 40% доходу. Це червона зона: варто поговорити з банком про реструктуризацію і не брати нових.";
+    else if(sav<inc*.05&&left<inc*.05)v="Майже нічого не лишається. Почни з малого: навіть 5% щомісяця на окремий рахунок.";
+    else v="Непогано. Лишається "+f(left+sav)+" грн на подушку й цілі. Головне — регулярність.";
+    $("verd").textContent=v;
+    var mm=Math.max(1,n("cm")),target=must*mm,cush=n("cush");
+    $("cTarget").textContent=f(target);$("cMonths").textContent=must?(cush/must).toFixed(1):"0";
+    var rate=sav+Math.max(0,left);$("cETA").textContent=!target?"—":cush>=target?"готово ✓":rate>0?Math.ceil((target-cush)/rate)+" міс.":"∞";
+    var A=n("lAmt"),P=n("lPay"),N=n("lN");
+    if(A&&P&&N){var tot2=P*N;$("lTot").textContent=f(tot2);$("lOver").textContent=f(tot2-A);
+      var lo=0,hi=1;for(var i=0;i<80;i++){var r=(lo+hi)/2,pv=r?P*(1-Math.pow(1+r,-N))/r:P*N;if(pv>A)lo=r;else hi=r;}
+      var apr=(Math.pow(1+(lo+hi)/2,12)-1)*100;$("lApr").textContent=tot2<=A?"0%":(apr>999?">999":apr.toFixed(0))+"%";}
+    else{$("lTot").textContent="0";$("lOver").textContent="0";$("lApr").textContent="—";}
+  }
+  calc();
+  var TIPS={
+    new:["Перші 3 місяці після звільнення — не час для великих покупок і «вкладень», які пропонують знайомі. Спершу зрозумій свої щомісячні витрати в цивільному житті.","Якщо отримав великі виплати, розклади їх одразу: частину — на подушку окремим рахунком, частину — на конкретні цілі. Гроші, що лежать на картці, тануть непомітно."],
+    debt:["Випиши всі борги: кому, скільки, яка ставка, який платіж. Сам список уже знижує тривогу.","Плати мінімум по всіх, а все вільне — на найдорожчий борг. Якщо не тягнеш, говори з банком до прострочки: про реструктуризацію домовлятися легше заздалегідь."],
+    fam:["Подушка для родини — ближче до 6 місяців, ніж до 3.","Домовтеся вдома про «гроші без питань» для кожного. Невелика сума, яку не треба пояснювати, знімає половину сварок."],
+    abroad:["Майже скрізь вигідніше мати місцеву картку для щоденних витрат і українську для зв'язку з домом. Дивись на курс і комісії обміну, вони з'їдають більше, ніж здається.","Податки країни, де живеш, можуть стосуватися й твоїх доходів з України. Про це варто спитати місцевого консультанта до того, як прийде лист."],
+    biz:["Перед справою — подушка на 6 місяців життя, яка не йде в бізнес.","Для ветеранів бувають гранти й навчальні програми для підприємців. Шукай їх на офіційних сайтах, а не в рекламі з «гарантованим успіхом»."],
+    irr:["При нерегулярному доході живи за «середнім поганим місяцем», а все понад нього відкладай.","Окремий рахунок «на податки й платежі»: щойно прийшли гроші, одразу відсилай туди відсоток."]};
+  D.sit=D.sit||[];
+  function tips(){$("tips").innerHTML=D.sit.map(function(k){return TIPS[k].map(function(t){return "<p>"+t+"</p>";}).join("");}).join("");}
+  [].forEach.call(document.querySelectorAll("#sit button"),function(b){b.setAttribute("aria-pressed",D.sit.indexOf(b.dataset.k)>=0?"true":"false");
+    b.addEventListener("click",function(){var i=D.sit.indexOf(b.dataset.k);if(i>=0)D.sit.splice(i,1);else D.sit.push(b.dataset.k);b.setAttribute("aria-pressed",i>=0?"false":"true");save();tips();});});
+  tips();
+  $("wipe").addEventListener("click",function(){if(!confirm("Стерти всі цифри з цього розділу на цьому пристрої?"))return;try{localStorage.removeItem(K);}catch(e){}location.reload();});
+  $("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
+})();
+</script>
+</body>
+</html>

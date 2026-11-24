@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Тиха кімната · Вайбвет FM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#12161a;--panel:#1b2228;--edge:#2c3843;--ivory:#e8ecef;--dim:#9aa8b4;--amber:#f0c06a;--mint:#6fd3c2;--coral:#ff7a66;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse 90% 40% at 50% 0,#1f2a33 0,transparent 70%),var(--bg);color:var(--ivory);font:17px/1.6 "PT Serif",Georgia,serif}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg) 70%,#12161a00)}
+.top a,.top button{border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 15px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace;cursor:pointer}
+main{max-width:680px;margin:0 auto;padding:6px 18px calc(80px + env(safe-area-inset-bottom))}
+.kicker{font:12px "PT Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--mint)}
+h1{font:400 clamp(32px,7vw,46px)/1.1 "Yeseva One",Georgia,serif;margin:8px 0 10px}
+.lead{font-size:18px;color:var(--dim);margin:0 0 18px}
+.box{background:var(--panel);border:1px solid var(--edge);border-radius:20px;padding:18px;margin:0 0 14px}
+.box h2{margin:0 0 8px;font:400 22px "Yeseva One",serif}
+.box p{margin:0 0 .7em}
+.priv{font:12.5px/1.5 "PT Mono",monospace;color:var(--dim);border:1px dashed var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 16px}
+label{display:block;font:12px "PT Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:8px 0 4px}
+input,textarea{width:100%;background:#0006;border:1.5px solid var(--edge);border-radius:12px;color:var(--ivory);font:16px "PT Serif",serif;padding:9px 12px}
+textarea{min-height:76px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1 1 140px}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:6px;border:0;border-radius:999px;padding:11px 18px;font:14px "PT Mono",monospace;cursor:pointer;background:var(--mint);color:#0c1a18;text-decoration:none}
+.btn.g{background:none;color:var(--ivory);border:1.5px solid var(--edge)}
+.btn.w{background:var(--amber);color:#1a1405}
+.days{text-align:center;padding:10px 0 4px}
+.days b{display:block;font:400 clamp(64px,18vw,110px)/1 "Yeseva One",serif;color:var(--mint)}
+.days span{font:13px "PT Mono",monospace;color:var(--dim)}
+.ms{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.ms i{font:12px "PT Mono",monospace;font-style:normal;border:1px solid var(--edge);border-radius:999px;padding:3px 9px;color:var(--dim)}
+.ms i.on{border-color:var(--mint);color:var(--mint)}
+.saved{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.saved div{background:#0004;border-radius:14px;padding:10px;text-align:center}
+.saved b{display:block;font:700 22px "PT Mono",monospace;color:var(--amber)}
+.saved small{font:12px "PT Mono",monospace;color:var(--dim)}
+.wave{position:relative;height:120px;border-radius:16px;overflow:hidden;background:#0d1418;margin:10px 0}
+.wave svg{position:absolute;left:0;bottom:0;width:200%;height:100%;animation:wv 6s linear infinite}
+@keyframes wv{to{transform:translateX(-50%)}}
+.wave .t{position:absolute;inset:0;display:grid;place-items:center;font:700 34px "PT Mono",monospace;text-shadow:0 2px 8px #000}
+.wmsg{min-height:3em;font-style:italic;color:var(--ivory);text-align:center}
+.halt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.halt button{border:1.5px solid var(--edge);background:#0004;color:var(--ivory);border-radius:14px;padding:10px;font:15px "PT Serif",serif;cursor:pointer;text-align:left}
+.halt button b{display:block;font:700 20px "PT Mono",monospace;color:var(--amber)}
+.halt button.on{border-color:var(--amber)}
+.haltout{margin-top:10px;font-size:16px}
+ul.list{list-style:none;padding:0;margin:8px 0}
+ul.list li{display:flex;gap:8px;align-items:center;background:#0004;border-radius:12px;padding:8px 10px;margin:0 0 6px}
+ul.list li span{flex:1}ul.list li button{background:none;border:0;color:var(--dim);font-size:18px;cursor:pointer}
+ul.list li a{color:var(--mint);font:14px "PT Mono",monospace;text-decoration:none}
+.warn{border-color:var(--coral);background:linear-gradient(135deg,#1b2228,#2a1c1a)}
+.warn h2{color:var(--coral)}
+.call{display:flex;gap:10px;align-items:center;background:#0005;border-radius:14px;padding:10px 12px;margin:0 0 8px;color:var(--ivory);text-decoration:none}
+.call b{font:700 18px "PT Mono",monospace;color:var(--mint);min-width:150px}
+.call small{color:var(--dim);font-size:14px}
+.foot{margin-top:26px;font:12px/1.6 "PT Mono",monospace;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){.wave svg{animation:none}}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more" id="back">← назад</a><button type="button" id="wipe" title="Стерти все з цього пристрою">стерти все</button></div>
+<main>
+  <div class="kicker">приватний розділ · Тиха кімната</div>
+  <h1>Відновлення від залежності</h1>
+  <p class="lead">Без осуду, без лекцій, без «я ж казав». Інструменти на день, коли тягне, і на день, коли вже легше.</p>
+  <p class="priv">🔒 Усе, що ти тут пишеш, зберігається лише на цьому пристрої. Ми нічого не бачимо й нікуди не надсилаємо. Кнопка «стерти все» вгорі прибирає слід повністю.</p>
+
+  <section class="box">
+    <h2>Мій лічильник</h2>
+    <div class="row">
+      <div><label for="what">від чого відновлююсь (як хочеш назвати)</label><input id="what" placeholder="наприклад: алкоголь, азартні ігри, «солі»…" maxlength="40"></div>
+      <div><label for="since">з якого дня</label><input id="since" type="date"></div>
+    </div>
+    <div class="days" id="days"></div>
+    <div class="ms" id="ms"></div>
+    <div class="row"><div><label for="perday">скільки витрачав на день, грн</label><input id="perday" type="number" min="0" inputmode="decimal" placeholder="0"></div><div><label for="hrs">годин на день це забирало</label><input id="hrs" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0"></div></div>
+    <div class="saved"><div><b id="sMoney">0</b><small>грн залишилось у тебе</small></div><div><b id="sHours">0</b><small>годин повернулось у життя</small></div></div>
+    <p style="margin:14px 0 6px;font-size:15px;color:var(--dim)">Зрив не обнуляє досвід. Дні, які ти вже вмієш прожити, лишаються твоїми. Якщо треба почати заново, це просто наступний день номер один.</p>
+    <button class="btn g" type="button" id="restart">Почати з сьогодні знову</button>
+  </section>
+
+  <section class="box">
+    <h2>Тягне зараз</h2>
+    <p>Тяга як хвиля: росте, досягає піку й спадає, найчастіше за 15–30 хвилин. Не треба з нею битися. Треба на ній протриматися.</p>
+    <div class="wave"><svg viewBox="0 0 800 120" preserveAspectRatio="none"><path id="wpath" fill="#2a6f78" d="M0 70 Q50 40 100 70 T200 70 T300 70 T400 70 T500 70 T600 70 T700 70 T800 70 V120 H0Z"/></svg><div class="t" id="wt">15:00</div></div>
+    <div class="wmsg" id="wmsg">Натисни «Серфінг», дихай повільно й дивись на хвилю.</div>
+    <div class="row"><button class="btn" type="button" id="surf">🌊 Серфінг · 15 хв</button><button class="btn g" type="button" id="surfStop">Зупинити</button></div>
+  </section>
+
+  <section class="box">
+    <h2>Перевір себе: ГЗСВ</h2>
+    <p style="font-size:15px;color:var(--dim)">Тяга часто маскується під чотири прості стани. Що з цього зараз про тебе?</p>
+    <div class="halt" id="halt">
+      <button type="button" data-k="h"><b>Г</b>Голодний</button>
+      <button type="button" data-k="a"><b>З</b>Злий</button>
+      <button type="button" data-k="l"><b>С</b>Самотній</button>
+      <button type="button" data-k="t"><b>В</b>Втомлений</button>
+    </div>
+    <div class="haltout" id="haltout"></div>
+  </section>
+
+  <section class="box">
+    <h2>Мій план на тягу</h2>
+    <p style="font-size:15px;color:var(--dim)">Що робити замість. Пиши заздалегідь, коли спокійно: у момент тяги думати важко.</p>
+    <ul class="list" id="planL"></ul>
+    <div class="row"><input id="planI" placeholder="напр.: вийти на 20 хв пройтися з навушниками"><button class="btn g" type="button" id="planA" style="flex:0 0 auto">+</button></div>
+  </section>
+
+  <section class="box">
+    <h2>Мої причини</h2>
+    <ul class="list" id="whyL"></ul>
+    <div class="row"><input id="whyI" placeholder="напр.: хочу пам'ятати вечори з донькою"><button class="btn g" type="button" id="whyA" style="flex:0 0 auto">+</button></div>
+  </section>
+
+  <section class="box">
+    <h2>Кому подзвонити</h2>
+    <p style="font-size:15px;color:var(--dim)">Двоє-троє людей, яким можна набрати о третій ночі. Побратим, друг, спонсор групи.</p>
+    <ul class="list" id="pplL"></ul>
+    <div class="row"><input id="pplN" placeholder="ім'я"><input id="pplT" placeholder="телефон" inputmode="tel"><button class="btn g" type="button" id="pplA" style="flex:0 0 auto">+</button></div>
+  </section>
+
+  <section class="box warn">
+    <h2>Важливо про тіло</h2>
+    <p>Якщо ти довго і щодня вживав алкоголь, снодійні чи заспокійливі (наприклад, бензодіазепіни), різко кидати самому може бути небезпечно: можливі судоми й гострий психоз. Перед тим, як зупинитися, поговори з лікарем — сімейним або наркологом. Це не слабкість, це техніка безпеки.</p>
+  </section>
+
+  <section class="box">
+    <h2>Куди звернутися</h2>
+    <a class="call" href="tel:7333"><b>7333</b><small>Lifeline Ukraine · цілодобово, анонімно, створена для ветеранів</small></a>
+    <a class="call" href="tel:0800332029"><b>0 800 33 20 29</b><small>Український ветеранський фонд · кризова підтримка, безкоштовно</small></a>
+    <a class="call" href="tel:112"><b>112</b><small>якщо є загроза життю</small></a>
+    <p style="font-size:15px;margin:10px 0 0">Ще варто: <b>сімейний лікар</b> — направить до спеціаліста; <b>групи взаємодопомоги</b> «Анонімні Алкоголіки» та «Анонімні Наркомани» — в Україні є групи в багатьох містах і онлайн; <b>ветеранський простір</b> у твоїй громаді.</p>
+  </section>
+
+  <div class="foot">Цей розділ не замінює лікаря чи терапевта. Він — щоб ти не був сам між зустрічами.<br>Приватний розділ Вайбвет FM. Вмикається й вимикається в Конструкторі ефіру.</div>
+</main>
+<script>
+(function(){
+  var K="vv-recovery",D={};try{D=JSON.parse(localStorage.getItem(K)||"{}")||{};}catch(e){}
+  function save(){try{localStorage.setItem(K,JSON.stringify(D));}catch(e){}}
+  var $=function(id){return document.getElementById(id);};
+  var today=new Date().toISOString().slice(0,10);
+  ["what","since","perday","hrs"].forEach(function(id){var el=$(id);if(D[id]!=null)el.value=D[id];el.addEventListener("input",function(){D[id]=el.value;save();paint();});});
+  if(!D.since){D.since=today;$("since").value=today;save();}
+  var MS=[1,3,7,14,30,60,90,180,365,730];
+  function paint(){
+    var s=new Date((D.since||today)+"T00:00:00"),n=Math.max(0,Math.floor((Date.now()-s.getTime())/864e5));
+    $("days").innerHTML="<b>"+n+"</b><span>"+(n===1?"день":n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?"дні":"днів")+(D.what?" без: "+D.what.replace(/</g,"&lt;"):"")+"</span>";
+    $("ms").innerHTML=MS.map(function(m){return '<i class="'+(n>=m?"on":"")+'">'+(m<30?m+" д":m<365?Math.round(m/30)+" міс":m/365+" р")+"</i>";}).join("");
+    var pd=parseFloat(D.perday)||0,h=parseFloat(D.hrs)||0;
+    $("sMoney").textContent=Math.round(pd*n).toLocaleString("uk-UA");$("sHours").textContent=Math.round(h*n).toLocaleString("uk-UA");
+  }
+  $("restart").addEventListener("click",function(){D.since=today;$("since").value=today;D.restarts=(D.restarts||0)+1;save();paint();
+    $("wmsg").textContent="Новий день номер один. Те, що ти повернувся сюди, вже щось означає.";});
+  paint();
+
+  /* urge surfing */
+  var T=null,left=0,MSG=["Тяга росте. Це нормально. Ти просто спостерігаєш.","Повільний вдих… і довгий видих.","Де в тілі ти її відчуваєш? Просто помітити.","Пік близько. Після піку завжди спад.","Хвиля вже менша, ніж була хвилину тому.","Ще трохи. Ти тримаєшся.","Спадає. Подивись свій план на тягу нижче.","Ти пережив хвилю. Це навичка, і вона росте."];
+  function fmt(s){return Math.floor(s/60)+":"+("0"+s%60).slice(-2);}
+  $("surf").addEventListener("click",function(){clearInterval(T);left=15*60;$("wt").textContent=fmt(left);
+    T=setInterval(function(){left--;$("wt").textContent=fmt(left);var part=1-left/900,amp=part<.45?20+part*80:56-(part-.45)*90;
+      var p="M0 70";for(var x=50;x<=800;x+=50)p+=" Q"+(x-25)+" "+(70-Math.max(6,amp)*(x%100?1:-1))+" "+x+" 70";$("wpath").setAttribute("d",p+" V120 H0Z");
+      if(left%110===0)$("wmsg").textContent=MSG[Math.min(MSG.length-1,Math.floor(part*MSG.length))];
+      if(left<=0){clearInterval(T);$("wt").textContent="✓";$("wmsg").textContent="Хвиля пройшла. Ти теж.";}},1000);
+    $("wmsg").textContent=MSG[0];});
+  $("surfStop").addEventListener("click",function(){clearInterval(T);$("wt").textContent="15:00";$("wmsg").textContent="Зупинено. Можна повернутися будь-коли.";});
+
+  /* HALT */
+  var HT={h:"Голод легко сплутати з тягою. З'їж щось просте й тепле, і подивись, що лишиться від тяги за 20 хвилин.",a:"Злість — сигнал межі. Хтось її перейшов? Вийди, пройдися, напиши, що сталося. Говорити про це можна потім.",l:"Самотність — найчастіший тригер. Набери когось зі списку «Кому подзвонити». Можна навіть просто помовчати разом.",t:"Втомлений мозок шукає найкоротший шлях до полегшення. Найкоротший безпечний шлях — сон. Хоча б 20 хвилин."};
+  [].forEach.call(document.querySelectorAll("#halt button"),function(b){b.addEventListener("click",function(){b.classList.toggle("on");
+    var on=[].filter.call(document.querySelectorAll("#halt button"),function(x){return x.classList.contains("on");});
+    $("haltout").innerHTML=on.length?on.map(function(x){return "<p>• "+HT[x.dataset.k]+"</p>";}).join(""):"";});});
+
+  /* lists */
+  function list(key,ul,input,btn,render){
+    D[key]=D[key]||[];
+    function draw(){ul.innerHTML="";D[key].forEach(function(it,i){var li=document.createElement("li");li.innerHTML=render(it);var x=document.createElement("button");x.type="button";x.textContent="×";x.setAttribute("aria-label","прибрати");
+      x.addEventListener("click",function(){D[key].splice(i,1);save();draw();});li.appendChild(x);ul.appendChild(li);});}
+    btn.addEventListener("click",function(){var v=input();if(!v)return;D[key].push(v);save();draw();});draw();
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+  list("plan",$("planL"),function(){var v=$("planI").value.trim();$("planI").value="";return v;},$("planA"),function(t){return "<span>"+esc(t)+"</span>";});
+  list("why",$("whyL"),function(){var v=$("whyI").value.trim();$("whyI").value="";return v;},$("whyA"),function(t){return "<span>"+esc(t)+"</span>";});
+  list("ppl",$("pplL"),function(){var n=$("pplN").value.trim(),t=$("pplT").value.trim();if(!n)return null;$("pplN").value="";$("pplT").value="";return {n:n,t:t};},$("pplA"),
+    function(p){return "<span>"+esc(p.n)+"</span>"+(p.t?'<a href="tel:'+esc(p.t.replace(/[^\d+]/g,""))+'">📞 '+esc(p.t)+"</a>":"");});
+  if(!D.plan.length){D.plan=["вийти пройтися 20 хвилин","випити води й з'їсти щось тепле","набрати когось зі списку нижче","душ, потім 10 хв дихання 4–6"];save();list("plan",$("planL"),function(){return null;},{addEventListener:function(){}},function(t){return "<span>"+esc(t)+"</span>";});}
+
+  $("wipe").addEventListener("click",function(){if(!confirm("Стерти все з цього розділу на цьому пристрої?"))return;try{localStorage.removeItem(K);}catch(e){}location.reload();});
+  $("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
+})();
+</script>
+</body>
+</html>

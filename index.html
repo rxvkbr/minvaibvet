@@ -2995,25 +2995,35 @@ html.app .backbar{margin-top:4px}
 
 <script id="ota">
 /* Content updates without the stores: the native shell stays, the web part (news, tales, words, design) comes from GitHub.
-   Checks the "app-bundle" release, downloads a newer www-n<API>-<stamp>.zip and switches to it on the next launch. */
+   Checks the "app-bundle" release, downloads a newer www-n<API>-<stamp>-<sha256>.zip and switches to it when the app is next reopened.
+   The updater requires the zip's SHA-256: it is in the file name, or in GitHub's own asset digest. */
 (function(){
-  var V=window.VV,U=V&&V.plugin&&V.plugin("CapacitorUpdater");if(!U)return;
-  U.notifyAppReady().catch(function(){});
-  var mine=window.VV_BUNDLE||0,api=window.VV_NATIVE_API||1;
+  var C=window.Capacitor,U=null;
+  try{if(C&&C.isNativePlatform&&C.isNativePlatform())U=(C.Plugins&&C.Plugins.CapacitorUpdater)||(C.registerPlugin&&C.registerPlugin("CapacitorUpdater"));}catch(e){}
+  if(!U)return;
+  U.notifyAppReady().catch(function(){}); /* tell the updater this bundle works, or it rolls back */
+  var mine=window.VV_BUNDLE||0,api=window.VV_NATIVE_API||1,busy=false;
+  function status(t){try{localStorage.setItem("ota-status",t+" · "+new Date().toLocaleTimeString().slice(0,5));}catch(e){}paint();}
+  function paint(){var el=document.getElementById("otastat");if(!el){var m=document.getElementById("s-more");if(!m)return;el=document.createElement("p");el.id="otastat";el.className="mono";el.style.cssText="opacity:.55;font-size:11px;margin:18px 0 0;letter-spacing:.06em";m.appendChild(el);}
+    var st="";try{st=localStorage.getItem("ota-status")||"";}catch(e){}el.textContent="випуск "+mine+(st?" · "+st:"");}
   function check(){
+    if(busy)return;busy=true;status("перевіряю");
     fetch("https://api.github.com/repos/rxvkbr/minvaibvet/releases/tags/app-bundle",{cache:"no-store"})
-      .then(function(r){return r.ok?r.json():null;})
+      .then(function(r){if(!r.ok)throw new Error("GitHub "+r.status);return r.json();})
       .then(function(rel){
-        if(!rel)return;var best=null;
-        (rel.assets||[]).forEach(function(a){var m=/^www-n(\d+)-(\d+)\.zip$/.exec(a.name||"");
-          if(m&&+m[1]===api&&+m[2]>mine&&(!best||+m[2]>best.v))best={v:+m[2],url:a.browser_download_url};});
-        if(!best)return;
-        try{if(localStorage.getItem("ota-next")===String(best.v))return;}catch(e){}
-        return U.download({url:best.url,version:String(best.v)}).then(function(b){return U.next({id:b.id});})
-          .then(function(){try{localStorage.setItem("ota-next",String(best.v));}catch(e){}});
-      }).catch(function(){});
+        var best=null;
+        (rel.assets||[]).forEach(function(a){var m=/^www-n(\d+)-(\d+)(?:-([0-9a-f]{64}))?\.zip$/.exec(a.name||"");if(!m||+m[1]!==api||+m[2]<=mine)return;
+          var sum=m[3]||String(a.digest||"").replace(/^sha256:/,"");if(!/^[0-9a-f]{64}$/.test(sum))return;
+          if(!best||+m[2]>best.v)best={v:+m[2],url:a.browser_download_url,sum:sum};});
+        if(!best){status("свіжий");return;}
+        var done="";try{done=localStorage.getItem("ota-next")||"";}catch(e){}
+        if(done===String(best.v)){status("випуск "+best.v+" чекає перезапуску");return;}
+        status("завантажую "+best.v);
+        return U.download({url:best.url,version:String(best.v),checksum:best.sum}).then(function(b){return U.next({id:b.id});})
+          .then(function(){try{localStorage.setItem("ota-next",String(best.v));}catch(e){}status("випуск "+best.v+" буде після перезапуску");});
+      }).catch(function(e){status("помилка: "+((e&&e.message)||e));}).then(function(){busy=false;});
   }
-  setTimeout(check,4000);
+  setTimeout(check,3000);setTimeout(paint,1500);
   document.addEventListener("visibilitychange",function(){if(!document.hidden)check();});
 })();
 </script>

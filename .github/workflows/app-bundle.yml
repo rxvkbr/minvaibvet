@@ -30,12 +30,14 @@ jobs:
           export BUNDLE_STAMP=$(date -u +%y%m%d%H%M)
           npm run web
           API=$(node -p "require('./www/bundle.json').nativeApi")
-          cd www && zip -qr "$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}.zip" . && cd ..
-          echo "ZIP=$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}.zip" >> "$GITHUB_ENV"
+          cd www && zip -qr "$RUNNER_TEMP/bundle.zip" . && cd ..
+          SUM=$(sha256sum "$RUNNER_TEMP/bundle.zip" | cut -d' ' -f1)
+          mv "$RUNNER_TEMP/bundle.zip" "$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}-${SUM}.zip"
+          echo "ZIP=$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}-${SUM}.zip" >> "$GITHUB_ENV"
       - name: Publish, keeping the last three bundles
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view app-bundle >/dev/null 2>&1 || gh release create app-bundle --title "App content bundle" --notes "Web part of the Вайбвет FM app, delivered over the air. Not for manual download." --latest=false
           gh release upload app-bundle "$ZIP" --clobber
-          gh release view app-bundle --json assets --jq '.assets[].name' | grep '^www-' | sort -t- -k3 -n | head -n -3 | while read -r a; do gh release delete-asset app-bundle "$a" -y; done
+          gh release view app-bundle --json assets --jq '.assets[].name' | grep '^www-' | sort -t- -k3,3n | head -n -3 | while read -r a; do gh release delete-asset app-bundle "$a" -y; done

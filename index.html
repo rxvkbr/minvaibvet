@@ -322,6 +322,13 @@ body[data-st="music"] .call{color:#16040e}
 .band .listen{align-self:flex-start;color:var(--mint);text-decoration:none;border:1px solid var(--mint);border-radius:999px;padding:6px 12px}
 #muzyka .bands .band:not(.feat){display:none}
 #muzyka .feat-work{display:flex}#muzyka .bands.all .band{display:flex}
+.legend-mi{background:linear-gradient(135deg,#f2e3bd14,#f2e3bd05);border:1px dashed var(--panel-edge);border-radius:14px;padding:14px 16px;margin:0 0 16px}
+.legend-mi summary{cursor:pointer;font:400 19px/1.3 var(--f-display);list-style:none}
+.legend-mi summary::-webkit-details-marker{display:none}
+.legend-mi summary .mono{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#ffd27a;margin-right:8px;vertical-align:2px}
+.legend-mi summary::after{content:" ⌄";color:var(--ivory-dim)}
+.legend-mi[open] summary::after{content:" ⌃"}
+.legend-mi p{margin:10px 0 0}
 .dish{background:var(--panel);border:1px solid var(--panel-edge);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
 .dish h3{font-family:var(--f-display);font-weight:400;font-size:21px;line-height:1.2}
 .dish p{margin:0;color:var(--ivory-dim);font-size:15.5px}
@@ -938,6 +945,13 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   <div class="kicker mono">Гастротур</div>
   <h2>Меню сільського магазину. Оцінює сомельє</h2>
   <p class="sub">Висока кухня там, де до найближчого ресторану дві області. Сезонне меню: завжди.</p>
+  <details class="legend-mi">
+    <summary><span class="mono">Легенда</span> Про мішленівського надувного непонятношо, або Звідки взялися зірки</summary>
+    <p>Жили-були у Франції брати Мішлени, Андре й Едуар. Вони робили шини. Біда була в тому, що машин у країні було кілька тисяч, і їздили вони мало, тож шини не стиралися. А шина, яка не стирається, — це шина, яку ніхто не купить удруге.</p>
+    <p>Тоді брати в 1900 році видали безкоштовну червону книжечку: де заправитися, де полагодити колесо, де переночувати й де поїсти. Логіка проста: що далі ти поїдеш по смачне, то швидше зітреш шину. Пізніше з'явилися зірки, і ця логіка в них зашита прямо: одна зірка — варто зупинитися, якщо будеш поруч, дві — варто зробити гак, три — варто вирушити в окрему подорож. Тобто щоб побачити зірки, треба мати машину, гроші на машину, бензин до машини і шини, які потім доведеться купити. Бажано мішленівські.</p>
+    <p>А надувний непонятношо — це Бібендум, з 1898 року. Він складається зі стосу шин, тому такий пухкий. Білий він тому, що перші шини справді були білі: чорними їх зробили згодом, коли в гуму почали додавати сажу для міцності. На першому плакаті він підіймав келих, повний цвяхів і битого скла, з латинським «Nunc est bibendum», тобто «тепер саме час випити»: мовляв, наша шина ковтає все. Відтоді він трохи схуд і кинув пити цвяхи, але досі ходить по світу в білому.</p>
+    <p><b>Мораль від сомельє Мінвайбвету.</b> Наш гастротур працює за тією самою моделлю, тільки навпаки: щоб скуштувати мівіну з гострим соусом, не треба ні машини, ні шин. Треба лише рапорт, рапорт на рапорт і рапорт до рапорту. Мішленівський інспектор до нас так і не доїхав: кажуть, у нього на ґрунтовці луснула шина. Ми запропонували йому новий комплект, але виявилося, що в нього немає довідки.</p>
+  </details>
   <div class="menu">
     <div class="dish"><h3>Мівіна з гострим соусом</h3><p>Нотки паприки, тривоги й дому. Подавати в казанку, їсти стоячи. Соусу багато не буває, буває мало мівіни.</p><span class="score">Вайб 10 з 10</span></div>
     <div class="dish"><h3>Енергетик із кавою три в одному</h3><p>Купаж «Чергування». Серце просить пощади, наряд просить ще. Не поєднується зі сном, але його й так не подають.</p><span class="score">Вайб 7 з 10, пульс 140</span></div>

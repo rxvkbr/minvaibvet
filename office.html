@@ -124,6 +124,44 @@ table.cells{border-collapse:collapse;table-layout:fixed;font-variant-numeric:tab
   .page{padding:28px 22px}.boss .lb{display:none}
 }
 @media (prefers-reduced-motion:reduce){#cur{transition:none}}
+
+/* ---------- themes ---------- */
+html[data-theme="night"]{--bg:#070b12;--chrome:#0c1320;--chrome2:#111b2c;--edge:#1c2a40;--edge2:#2a3e5c;--text:#cfe0f2;--dim:#7d90a8;--amber:#6fc3ff;--green:#7af0d0;--olive:#3c5a7a}
+html[data-theme="amber"]{--bg:#0e0900;--chrome:#160e02;--chrome2:#1e1405;--edge:#3a2708;--edge2:#5a3c0c;--text:#ffcf73;--dim:#b4893a;--amber:#ffb000;--green:#ffcf73;--red:#ff7a2f;--cyan:#ffd590}
+html[data-theme="pink"]{--bg:#120812;--chrome:#1c0c1c;--chrome2:#261326;--edge:#41213f;--edge2:#62305e;--text:#ffd9f0;--dim:#b483a5;--amber:#ff6fb5;--green:#c7a2ff;--red:#ff5d73;--cyan:#8ff0ff}
+html[data-theme="sand"]{--bg:#1a160d;--chrome:#2a2417;--chrome2:#342c1c;--edge:#4d4229;--edge2:#6b5b37;--text:#f1e6c8;--dim:#b3a37c;--amber:#e8b04a;--green:#c3d77a;--cyan:#9fd0c0}
+html[data-theme="amber"] #v-delta canvas{filter:sepia(1) saturate(2.2) hue-rotate(-12deg) brightness(1.05)}
+html[data-theme="night"] #v-delta canvas{filter:hue-rotate(150deg) saturate(1.3)}
+html[data-theme="pink"] #v-delta canvas{filter:hue-rotate(230deg) saturate(1.4)}
+html[data-theme="sand"] #v-delta canvas{filter:sepia(.5) brightness(1.15)}
+html[data-theme="amber"] .page,html[data-theme="amber"] #v-sheet{filter:sepia(.55) saturate(1.3)}
+html[data-theme="pink"] .page{filter:hue-rotate(300deg) saturate(.8)}
+.ctl{display:flex;gap:4px}
+.ctl button{height:30px;min-width:34px;padding:0 9px;border-radius:999px;border:1px solid var(--edge2);font:12px var(--mono);color:var(--text);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:transform .12s,background .2s}
+.ctl button:active{transform:scale(.9)}
+.ctl button[aria-pressed="true"]{background:var(--amber);color:#140f04;border-color:var(--amber)}
+.ctl .sw{width:12px;height:12px;border-radius:50%;background:conic-gradient(var(--amber),var(--green),var(--cyan),var(--red),var(--amber))}
+button:active,.tab:active{transform:scale(.96)}
+.pop{position:fixed;pointer-events:none;z-index:65;font:700 13px var(--mono);color:var(--amber);text-shadow:0 0 8px var(--amber);animation:popup .7s ease-out forwards}
+@keyframes popup{to{transform:translateY(-34px) scale(1.3);opacity:0}}
+/* ---------- slow time ---------- */
+html.slow .views{filter:saturate(.55) contrast(1.08)}
+html.slow body::before{content:"";position:fixed;inset:0;z-index:49;pointer-events:none;box-shadow:inset 0 0 160px #6fc3ff55;animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{50%{box-shadow:inset 0 0 220px #6fc3ff77}}
+/* ---------- lag ---------- */
+html.lag .views{animation:jit .18s steps(2) infinite;filter:grayscale(.6) contrast(1.4)}
+html.lag *{cursor:wait!important}
+@keyframes jit{0%{transform:translate(0,0)}25%{transform:translate(-6px,3px) skewX(2deg)}50%{transform:translate(4px,-2px)}75%{transform:translate(-2px,5px) skewX(-3deg)}}
+html.lag .tab .tt{filter:blur(1.5px)}
+.hang{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%);z-index:80;width:min(420px,90vw);background:var(--chrome2);border:1px solid var(--edge2);border-radius:14px;padding:20px 22px;box-shadow:0 30px 80px #000c;font:14px var(--sans);color:var(--text);animation:in .2s}
+.hang h3{margin:0 0 6px;font-size:16px}
+.hang p{margin:0 0 14px;color:var(--dim)}
+.hang .bb{display:flex;gap:8px;justify-content:flex-end}
+.hang .bb button{padding:7px 14px;border-radius:8px;border:1px solid var(--edge2)}
+.hang .bb button.pri{background:var(--amber);color:#140f04;border-color:var(--amber)}
+.beach{display:inline-block;width:18px;height:18px;border-radius:50%;background:conic-gradient(#ff5d73,#ffb000,#9fd66a,#6fc3ff,#c7a2ff,#ff5d73);animation:spin .8s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:640px){.ctl .lb{display:none}}
 </style>
 </head>
 <body>
@@ -138,6 +176,12 @@ table.cells{border-collapse:collapse;table-layout:fixed;font-variant-numeric:tab
     <button class="nav" aria-label="Назад" id="back">←</button>
     <button class="nav" aria-label="Оновити" id="reload">↻</button>
     <div class="url" id="url"><span class="lock">●</span><span id="urltext"></span></div>
+    <div class="ctl">
+      <button id="bslow" aria-pressed="false" title="Уповільнити час (T)">⏳<span class="lb">час</span></button>
+      <button id="bmix" aria-pressed="false" title="Музика й реміксі (M)">🎛<span class="lb" id="mixlb">ремікс</span></button>
+      <button id="btheme" title="Колір (C)"><span class="sw"></span><span class="lb" id="themelb">Зона</span></button>
+      <button id="bfast" title="Не натискати">⚡<span class="lb">прискорити</span></button>
+    </div>
     <button class="boss" id="boss" aria-pressed="true" title="Пробіл або Esc"><span class="ic">🕴</span> <span class="lb">автопілот продуктивності</span></button>
   </div>
   <div class="views">
@@ -193,7 +237,24 @@ function beep(f,d,v,type){
     o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+(d||.08)+.02);}catch(e){}
 }
 function key(){beep(rnd(1400,2200),.03,.012,"square");}
-function click(){beep(880,.06,.03);beep(1320,.05,.02);}
+var PENTA=[1,9/8,5/4,3/2,5/3,2,9/4,5/2,3,10/3,4],combo=0,comboT=null,clicks=[];
+function pluck(f,v){
+  if(!snd||!ac||ac.state!=="running")return;
+  try{var t=ac.currentTime,o=ac.createOscillator(),o2=ac.createOscillator(),g=ac.createGain(),lp=ac.createBiquadFilter();
+    f*=TSP();o.type="triangle";o.frequency.value=f;o2.type="sine";o2.frequency.value=f*2.01;lp.type="lowpass";lp.frequency.setValueAtTime(6000,t);lp.frequency.exponentialRampToValueAtTime(900,t+.25);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v||.05,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+.35/TSP());
+    o.connect(lp);o2.connect(lp);lp.connect(g);g.connect(ac.destination);o.start(t);o2.start(t);o.stop(t+.4/TSP());o2.stop(t+.4/TSP());}catch(e){}
+}
+function click(){pluck(523.25*PENTA[Math.floor(Math.random()*4)],.035);}
+function dopamine(e){
+  combo++;clearTimeout(comboT);comboT=setTimeout(function(){combo=0;},900);
+  var st=Math.min(combo-1,PENTA.length-1),oct=combo>PENTA.length?2:1;
+  pluck(392*PENTA[st]*oct,.05);if(combo%4===0)setTimeout(function(){pluck(392*PENTA[st]*2*oct,.03);},60);
+  if(combo>=3&&e){var d=document.createElement("div");d.className="pop";d.textContent=combo>=8?"×"+combo+"!!":"+"+combo;d.style.left=e.clientX+"px";d.style.top=(e.clientY-10)+"px";document.body.appendChild(d);setTimeout(function(){d.remove();},700);}
+  var n=Date.now();clicks=clicks.filter(function(c){return n-c<4000;});clicks.push(n);
+  if(clicks.length>=16&&!lagging){clicks=[];lag("Забагато продуктивності за 4 секунди.");}
+}
+addEventListener("pointerdown",function(e){if(e.isTrusted&&!lagging&&e.target.closest("button,.tab,td,#map,#doctext,.mtile"))dopamine(e);},true);
 ["pointerdown","keydown"].forEach(function(ev){addEventListener(ev,audio,true);});
 
 /* ================= tabs ================= */
@@ -406,7 +467,7 @@ function moveTo(el,cb){
   if(!el){cb&&cb();return;}
   var r=el.getBoundingClientRect(),x=r.left+r.width*rnd(.3,.7),y=r.top+r.height*rnd(.35,.7);
   curEl.classList.add("on");curEl.style.transform="translate("+x+"px,"+y+"px)";
-  setTimeout(function(){curEl.classList.remove("click");void curEl.getBBox();curEl.classList.add("click");cb&&cb();},reduce?0:720);
+  setTimeout(function(){curEl.classList.remove("click");void curEl.getBBox();curEl.classList.add("click");cb&&cb();},reduce?0:720/Math.max(.2,TS));
 }
 var plan=0;
 function autopilot(){
@@ -434,15 +495,106 @@ $("doctext").addEventListener("click",function(){human();tip(pick(TIPS));});
 
 /* ================= status bar and clocks ================= */
 function status(){
+  try{document.getAnimations().forEach(function(a){a.playbackRate=Math.max(.15,TS);});}catch(e){}
+  curEl.style.transitionDuration=(.7/Math.max(.2,TS)).toFixed(2)+"s";
   var d=new Date();$("clock").textContent=d.toLocaleTimeString("uk-UA")+" · "+d.toLocaleDateString("uk-UA");
-  $("st2").textContent="ЦП: "+Math.round(rnd(3,97))+"% · продуктивність: "+Math.round(rnd(180,260))+"%";
+  $("st2").textContent=lagging?"ЦП: 100% · продуктивність: ой":"ЦП: "+Math.round(rnd(3,97))+"% · продуктивність: "+Math.round(rnd(180,260)*TS)+"%"+(TS<.9?" · час ×"+TS.toFixed(2):"");
   $("st3").textContent=pick(["синхронізація з ЦНАП…","автозбереження…","обчислення вайбу…","очікування підпису…","перевірка правопису…","завантаження відпустки: 2%"]);
 }
+
+/* ================= time ================= */
+var TS=1,TSgoal=1;
+function TSP(){return Math.pow(TS,.45);} /* pitch follows time, a little */
+function setSlow(v){
+  TSgoal=v?.22:1;de.classList.toggle("slow",v);$("bslow").setAttribute("aria-pressed",v?"true":"false");
+  if(ac&&ac.state==="running"){try{var t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();o.type="sawtooth";
+    o.frequency.setValueAtTime(v?900:120,t);o.frequency.exponentialRampToValueAtTime(v?90:900,t+.7);g.gain.setValueAtTime(.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+.8);
+    var f=ac.createBiquadFilter();f.type="lowpass";f.frequency.value=1200;o.connect(f);f.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.85);}catch(e){}}
+  toast(v?"Час уповільнено. Нарада триватиме вічно, зате красиво.":"Час повернувся. Дедлайн теж.");
+}
+$("bslow").addEventListener("click",function(){setSlow(TSgoal===1);});
+
+/* ================= music: remixes ================= */
+var MIX=[
+  {n:"офіс lo-fi",bpm:78,kick:[1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0],hat:[0,0,1,0,0,0,1,0,0,0,1,0,0,1,1,0],bass:[0,-1,-1,-1,3,-1,-1,-1,5,-1,-1,-1,3,-1,2,-1],root:110,pad:true,lp:1400},
+  {n:"зона ambient",bpm:60,kick:[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],hat:[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],bass:[0,-1,-1,-1,-1,-1,-1,-1,-2,-1,-1,-1,-1,-1,-1,-1],root:73.4,pad:true,lp:700,geiger:true},
+  {n:"перегаворка club edit",bpm:128,kick:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],hat:[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,1],bass:[-1,0,-1,0,-1,0,-1,7,-1,0,-1,0,-1,5,-1,3],root:55,pad:false,lp:3200},
+  {n:"ЦНАП черга drill",bpm:142,kick:[1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0],hat:[1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1],bass:[0,-1,-1,-1,-1,-1,1,-1,-1,-1,0,-1,-1,-1,-2,-1],root:49,pad:false,lp:2400},
+  {n:"рапорт bossa",bpm:96,kick:[1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0],hat:[1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1],bass:[0,-1,-1,4,-1,-1,7,-1,5,-1,-1,4,-1,-1,2,-1],root:98,pad:true,lp:2000}];
+var mixOn=false,mixI=0,step=0,nextT=0,mbus=null,noiseB=null;
+function mbusInit(){if(mbus)return;mbus=ac.createGain();mbus.gain.value=.5;mbus.connect(ac.destination);
+  noiseB=ac.createBuffer(1,ac.sampleRate,ac.sampleRate);var d=noiseB.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;}
+function semi(n){return Math.pow(2,n/12);}
+function sched(){
+  if(!mixOn||!ac||ac.state!=="running")return;
+  var M=MIX[mixI],sd=60/M.bpm/4/TS,p=TSP();
+  if(nextT<ac.currentTime)nextT=ac.currentTime+.03;
+  while(nextT<ac.currentTime+.12){
+    var t=nextT,i=step%16;
+    if(lagging&&Math.random()<.5){nextT+=sd;step++;continue;} /* the music stutters with everything else */
+    if(M.kick[i]){var o=ac.createOscillator(),g=ac.createGain();o.frequency.setValueAtTime(150*p,t);o.frequency.exponentialRampToValueAtTime(42*p,t+.12);g.gain.setValueAtTime(.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g);g.connect(mbus);o.start(t);o.stop(t+.32);}
+    if(M.hat[i]){var n=ac.createBufferSource(),f=ac.createBiquadFilter(),gh=ac.createGain();n.buffer=noiseB;f.type="highpass";f.frequency.value=7000;gh.gain.setValueAtTime(.07,t);gh.gain.exponentialRampToValueAtTime(.001,t+.05);n.connect(f);f.connect(gh);gh.connect(mbus);n.start(t,Math.random()*.5);n.stop(t+.06);}
+    if(M.bass[i]>-1||M.bass[i]===-2){var b=ac.createOscillator(),bf=ac.createBiquadFilter(),bg=ac.createGain(),len=M.bass[i]===-2?sd*8:sd*1.6;b.type="sawtooth";b.frequency.value=M.root*semi(M.bass[i]===-2?-5:M.bass[i])*p;bf.type="lowpass";bf.frequency.setValueAtTime(M.lp,t);bf.frequency.exponentialRampToValueAtTime(M.lp/4,t+len);bg.gain.setValueAtTime(.0001,t);bg.gain.exponentialRampToValueAtTime(.16,t+.01);bg.gain.exponentialRampToValueAtTime(.0001,t+len);b.connect(bf);bf.connect(bg);bg.connect(mbus);b.start(t);b.stop(t+len+.02);}
+    if(M.pad&&i===0&&step%32===0){[0,3,7,10].forEach(function(s2,k){var po=ac.createOscillator(),pg=ac.createGain();po.type="triangle";po.frequency.value=M.root*4*semi(s2+(step%64===0?0:-2))*p;pg.gain.setValueAtTime(.0001,t);pg.gain.linearRampToValueAtTime(.025,t+sd*6);pg.gain.linearRampToValueAtTime(.0001,t+sd*31);po.connect(pg);pg.connect(mbus);po.start(t);po.stop(t+sd*32);});}
+    if(M.geiger&&Math.random()<.3){var c=ac.createBufferSource(),cg=ac.createGain();c.buffer=noiseB;cg.gain.setValueAtTime(.12,t+Math.random()*sd);cg.gain.exponentialRampToValueAtTime(.001,t+sd);c.connect(cg);cg.connect(mbus);c.start(t,Math.random()*.9);c.stop(t+.01+sd);}
+    nextT+=sd;step++;
+  }
+}
+function setMix(on,next){
+  audio();if(!ac)return;mbusInit();
+  if(next){mixI=(mixI+1)%MIX.length;step=0;}
+  mixOn=on;$("bmix").setAttribute("aria-pressed",on?"true":"false");$("mixlb").textContent=on?MIX[mixI].n:"ремікс";
+  if(on)toast("🎛 Ремікс: «"+MIX[mixI].n+"»");
+}
+/* first press turns music on, each next press remixes; long press or M+Shift turns it off */
+var mixHold=null;
+$("bmix").addEventListener("pointerdown",function(){mixHold=setTimeout(function(){mixHold=null;setMix(false);toast("Тиша. Чути, як гуде принтер.");},600);});
+$("bmix").addEventListener("click",function(){if(!mixHold&&!mixOn)return;clearTimeout(mixHold);mixHold=null;if(!mixOn)setMix(true);else setMix(true,true);});
+
+/* ================= colours ================= */
+var THEMES=[["zone","Зона"],["night","Нічна зміна"],["amber","Бурштин"],["pink","Рожевий окоп"],["sand","Пісочниця"]],ti=0;
+try{var sv=localStorage.getItem("office-theme");THEMES.forEach(function(x,i){if(x[0]===sv)ti=i;});}catch(e){}
+function paintTheme(){de.dataset.theme=THEMES[ti][0];$("themelb").textContent=THEMES[ti][1];try{localStorage.setItem("office-theme",THEMES[ti][0]);}catch(e){}}
+$("btheme").addEventListener("click",function(){ti=(ti+1)%THEMES.length;paintTheme();toast("🎨 "+THEMES[ti][1]);});
+paintTheme();
+
+/* ================= breakable: oh noooooo ================= */
+var lagging=false;
+function ohno(){ /* a tape-stop "noooo" */
+  if(!ac||ac.state!=="running")return;
+  try{var t=ac.currentTime;[0,4,7].forEach(function(s2){var o=ac.createOscillator(),g=ac.createGain();o.type="square";o.frequency.setValueAtTime(330*semi(s2),t);o.frequency.exponentialRampToValueAtTime(40*semi(s2),t+1.6);g.gain.setValueAtTime(.03,t);g.gain.linearRampToValueAtTime(.0001,t+1.7);var f=ac.createBiquadFilter();f.type="lowpass";f.frequency.setValueAtTime(3000,t);f.frequency.exponentialRampToValueAtTime(200,t+1.6);o.connect(f);f.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+1.75);});}catch(e){}
+}
+var BROKEN=["#ЗНАЧ!","#ДІЛ/0!","####","#ПОСИЛАННЯ!","#ВІДПУСТКА?","#ІМ'Я?"];
+function lag(why){
+  if(lagging)return;lagging=true;de.classList.add("lag");ohno();busy(cur,true);
+  var keep=[];[].forEach.call(document.querySelectorAll("#cells td.n"),function(td){if(Math.random()<.5){keep.push([td,td.textContent]);td.textContent=pick(BROKEN);}});
+  var docKeep=docEl.innerHTML;if(cur==="doc")docEl.innerHTML=docKeep.replace(/[а-яіїєґ]/gi,function(c){return Math.random()<.25?pick(["▯","�","░","Ꙭ"]):c;});
+  var h=document.createElement("div");h.className="hang";h.setAttribute("role","alertdialog");
+  h.innerHTML='<h3><span class="beach"></span>Вайбвет Офіс не відповідає</h3><p>'+(why||"Щось пішло не так.")+' Ой ні-і-і-і-і, усе просто залагало.</p><div class="bb"><button id="hk">Примусово завершити</button><button class="pri" id="hw">Чекати</button></div>';
+  setTimeout(function(){document.body.appendChild(h);},700);
+  function fix(msg){if(!lagging)return;lagging=false;de.classList.remove("lag");h.remove();busy(cur,false);
+    keep.forEach(function(k){k[0].textContent=k[1];});if(cur==="doc")renderDoc();
+    pluck(523.25,.05);setTimeout(function(){pluck(659.25,.05);},90);setTimeout(function(){pluck(783.99,.06);},180);
+    toast(msg||"Усе повернулось. Ніхто нічого не помітив.");}
+  h.addEventListener("click",function(e){if(e.target.id==="hk")fix("Завершено примусово. Відкрито заново. Версія "+Math.round(rnd(48,99))+".");else if(e.target.id==="hw")fix("Дочекались. Як завжди.");});
+  setTimeout(function(){fix();},rnd(4200,6500));
+}
+$("bfast").addEventListener("click",function(){lag("Ви натиснули «прискорити».");});
+setInterval(function(){if(auto&&!lagging&&Math.random()<.012)lag("Фонове оновлення ЦНАП.");},5000);
+addEventListener("keydown",function(e){
+  if(e.target.closest&&e.target.closest("input,textarea"))return;
+  var k=(e.key||"").toLowerCase();
+  if(k==="t"||k==="е"){setSlow(TSgoal===1);}else if(k==="c"||k==="с"){$("btheme").click();}
+  else if(k==="m"||k==="ь"){if(e.shiftKey)setMix(false);else setMix(true,mixOn);}
+});
 
 /* ================= loops ================= */
 var last=performance.now(),acc={sheet:0,chart:0,feed:0,doc:0,auto:0,hud:0,st:0};
 function frame(now){
-  var dt=Math.min(.1,(now-last)/1000);last=now;T+=dt;
+  var rdt=Math.min(.1,(now-last)/1000);last=now;
+  TS+=(TSgoal-TS)*Math.min(1,rdt*3);
+  if(lagging){if(Math.random()<.8){requestAnimationFrame(frame);return;}rdt*=4;} /* frames drop, then jump */
+  var dt=rdt*TS;T+=dt;sched();
   for(var k in acc)acc[k]+=dt;
   if(acc.sheet>rnd(1.1,2.2)){acc.sheet=0;sheetTick();}
   if(acc.chart>rnd(7,11)){acc.chart=0;chart();}

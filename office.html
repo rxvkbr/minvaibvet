@@ -113,6 +113,7 @@ table.cells{border-collapse:collapse;table-layout:fixed;font-variant-numeric:tab
 #v-radio iframe{border:0;width:100%;height:100%;background:#1a100b}
 #v-desk iframe{border:0;width:100%;height:100%;background:var(--bg)}
 html.ondesk body::after{display:none}
+html.ondesk #bslow,html.ondesk #bfast,html.ondesk .boss{display:none}
 
 /* ---------- fake cursor ---------- */
 #cur{position:fixed;left:0;top:0;width:18px;height:18px;z-index:60;pointer-events:none;transition:transform .7s cubic-bezier(.4,.1,.2,1),opacity .3s;opacity:0}
@@ -492,6 +493,7 @@ function autopilot(){
   else{moveTo(document.querySelector(".page .caret")||$("doctext"));}
 }
 function setAuto(v,quiet){
+  if(v&&cur==="desk")return; /* the desk is real work: no autopilot, no toasts */
   auto=v;boss.setAttribute("aria-pressed",v?"true":"false");if(!v)curEl.classList.remove("on");
   if(!quiet)toast(v?"Автопілот увімкнено. Ви дуже зайняті.":"Автопілот вимкнено. Комбат пішов, можна видихнути.");
 }

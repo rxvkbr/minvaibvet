@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><title>Петч «Ластівка» · Мінвайбвет</title>
+<defs><filter id="st"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+<path id="arcT" d="M74 200a126 126 0 0 1 252 0"/><path id="arcB" d="M30 200a170 170 0 0 0 340 0"/></defs>
+<g filter="url(#st)">
+<circle cx="200" cy="200" r="190" fill="#2b1a11"/>
+<circle cx="200" cy="200" r="178" fill="none" stroke="#f0a93a" stroke-width="10" stroke-dasharray="3 5"/>
+<circle cx="200" cy="200" r="150" fill="#3a2114"/>
+<path d="M200 112Q216 146 316 128Q262 178 224 186L240 262L200 222L160 262L176 186Q138 178 84 128Q184 146 200 112Z" fill="#ff5d47"/>
+<path d="M200 112Q216 146 316 128M200 112Q184 146 84 128" fill="none" stroke="#ffb49f" stroke-width="4" stroke-dasharray="2 4"/>
+<g stroke="#f2e3bd" stroke-width="5" stroke-linecap="round"><path d="M130 296h140"/><path d="M140 296v-12M160 296v-7M180 296v-12M200 296v-7M220 296v-12M240 296v-7M260 296v-12"/></g>
+<path d="M232 280v28" stroke="#ff5d47" stroke-width="6" stroke-linecap="round"/>
+<text font-family="PT Mono,monospace" font-size="24" font-weight="700" fill="#f2e3bd" letter-spacing="6" dy="-2" text-anchor="middle"><textPath href="#arcT" startOffset="50%">ЛАСТІВКА</textPath></text>
+<text font-family="PT Mono,monospace" font-size="15" fill="#f0a93a" letter-spacing="2" text-anchor="middle" dy="-4"><textPath href="#arcB" startOffset="50%">ВАЙБВЕТ FM · ПОВЕРТАЄТЬСЯ ДОДОМУ</textPath></text>
+</g></svg>

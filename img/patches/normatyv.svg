@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260"><title>Петч «Норматив не встановлено» · Мінвайбвет</title>
+<defs><filter id="st"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter></defs>
+<g filter="url(#st)">
+<rect x="10" y="10" width="380" height="240" rx="14" fill="#f0a93a"/>
+<rect x="22" y="22" width="356" height="216" rx="8" fill="none" stroke="#1a100b" stroke-width="7" stroke-dasharray="3 5"/>
+<rect x="34" y="34" width="332" height="192" rx="4" fill="#2b1a11"/>
+<g transform="translate(78 92)">
+<ellipse cx="0" cy="44" rx="40" ry="22" fill="#f0a93a"/><circle cx="0" cy="10" r="24" fill="#f0a93a"/>
+<polygon points="-20,0 -16,-26 -4,-10" fill="#f0a93a"/><polygon points="20,0 16,-26 4,-10" fill="#f0a93a"/>
+<path d="M-12 10q5 5 10 0M2 10q5 5 10 0" stroke="#1a100b" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M-50 -8q10-12 20-4" stroke="#ff5d47" stroke-width="4" fill="none" stroke-linecap="round"/><text x="-58" y="-16" font-size="18" fill="#ff5d47">♥</text>
+</g>
+<text x="250" y="100" font-family="PT Mono,monospace" font-size="27" font-weight="700" fill="#f2e3bd" text-anchor="middle">НОРМАТИВ</text>
+<text x="250" y="140" font-family="PT Mono,monospace" font-size="27" font-weight="700" fill="#f0a93a" text-anchor="middle">НЕ</text>
+<text x="250" y="180" font-family="PT Mono,monospace" font-size="27" font-weight="700" fill="#f2e3bd" text-anchor="middle">ВСТАНОВЛЕНО</text>
+<text x="250" y="210" font-family="PT Mono,monospace" font-size="12" fill="#b9a47f" text-anchor="middle" letter-spacing="2">ПОГЛАДЖЕНО: ∞</text>
+</g></svg>

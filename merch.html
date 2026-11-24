@@ -41,6 +41,11 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
 .soon div{background:var(--panel);border:1px dashed var(--edge);border-radius:18px;padding:16px;text-align:center}
 .soon b{display:block;font-size:40px}
 .soon small{font:12px "PT Mono",monospace;color:var(--dim)}
+.patches{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.patches figure{margin:0;background:var(--panel);border:1px solid var(--edge);border-radius:18px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.patches img{width:100%;max-width:240px;height:auto;filter:drop-shadow(0 8px 14px #000a)}
+.patches figcaption{font:13px "PT Mono",monospace;text-align:center}.patches a{color:var(--amber)}
+@media (max-width:760px){.patches{grid-template-columns:1fr 1fr}}
 .foot{margin-top:30px;font:12.5px/1.6 "PT Mono",monospace;color:var(--dim)}
 .foot a{color:var(--amber)}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2b1a11;border:1px solid var(--amber);border-radius:999px;padding:10px 18px;font:14px "PT Mono",monospace;z-index:9;max-width:92vw;text-align:center}
@@ -69,9 +74,16 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
     </div>
   </div>
 
+  <h2 style="font:400 30px 'Yeseva One',serif;margin:40px 0 6px">Петчі</h2>
+  <p style="margin:0 0 14px;color:var(--dim)">Вишивка буде скоро. Поки що можна завантажити дизайн для свого майстра або на стікери.</p>
+  <div class="patches">
+    <figure><img src="img/patches/lastivka.svg" alt="Петч «Ластівка»"><figcaption>«Ластівка» <a href="img/patches/lastivka.svg" download>SVG ⬇</a></figcaption></figure>
+    <figure><img src="img/patches/kava.svg" alt="Петч «Кава 3в1»"><figcaption>«Кава 3в1» <a href="img/patches/kava.svg" download>SVG ⬇</a></figcaption></figure>
+    <figure><img src="img/patches/normatyv.svg" alt="Петч «Норматив не встановлено»"><figcaption>«Норматив не встановлено» <a href="img/patches/normatyv.svg" download>SVG ⬇</a></figcaption></figure>
+  </div>
   <div class="soon">
     <div><b>🖼</b>Грамота в рамці<br><small>друкуємо, оформлюємо, надсилаємо · скоро</small></div>
-    <div><b>🪡</b>Петчі<br><small>«Ластівка», «Кава 3в1», «Норматив не встановлено» · скоро</small></div>
+    <div><b>🪡</b>Вишиті петчі<br><small>на липучці · скоро</small></div>
     <div><b>☕</b>Чашка «Кава 3в1»<br><small>для перегаворки · колись</small></div>
   </div>
 

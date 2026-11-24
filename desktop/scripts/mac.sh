@@ -14,7 +14,8 @@ APP=$(ls -d dist/mac*/*.app | head -1)
 xattr -cr "$APP"
 codesign --force --deep --sign - "$APP"
 codesign --verify --deep --strict "$APP" && echo "Підпис ок"
-rm -rf "/Applications/Вайбвет Офіс.app" "/Applications/Vaibvet Office.app"
+NAME=$(basename "$APP")
+rm -rf "/Applications/Вайбвет Офіс.app" "/Applications/Vaibvet Office.app" "/Applications/$NAME"
 cp -R "$APP" /Applications/
-echo "Готово: /Applications/Vaibvet Office.app"
-open "/Applications/Vaibvet Office.app" || "/Applications/Vaibvet Office.app/Contents/MacOS/VaibvetOffice"
+echo "Готово: /Applications/$NAME"
+open "/Applications/$NAME" || true

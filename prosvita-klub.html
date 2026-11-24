@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/hvylyna.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Клуб справжніх мужиків · Гендерне просвітництво · Вайбвет FM</title>
+<meta name="description" content="Гендерне просвітництво №2 від Вайбвет FM: чому «справжній мужик» шукає схвалення саме в чоловіків, як це пов’язано з гомофобією і що про це знають Кіммел, Седжвік і Коннелл.">
+<meta property="og:title" content="Клуб справжніх мужиків: журі тільки з чоловіків, закохуватися в журі заборонено">
+<meta property="og:description" content="Колонка Вайбвет FM. Гендерне просвітництво №2. Протокол лабораторного спостереження, 8 хвилин.">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:url" content="https://minvaibvet.pp.ua/prosvita-klub">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a100b;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ivory);font:19px/1.75 "PT Serif",Georgia,serif}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:3px 3px}
+.progress{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--amber),var(--coral));z-index:10}
+.back{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg) 70%,#1a100b00)}
+.back a,.back span{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 15px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",ui-monospace,Menlo,monospace}
+.back span{color:var(--dim)}
+article{max-width:680px;margin:0 auto;padding:24px 20px calc(80px + env(safe-area-inset-bottom))}
+.kicker{font:12px "PT Mono",ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+h1{font:400 clamp(32px,7vw,50px)/1.08 "Yeseva One",Georgia,serif;margin:14px 0 18px;text-wrap:balance}
+.lead{font-size:22px;line-height:1.55;color:#fff3d6;font-style:italic;margin:0 0 22px}
+.byline{display:flex;flex-wrap:wrap;gap:6px 16px;font:12.5px "PT Mono",monospace;color:var(--dim);letter-spacing:.04em;padding:14px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);margin-bottom:34px}
+h2{font:400 26px/1.2 "Yeseva One",Georgia,serif;color:var(--amber);margin:52px 0 14px}
+h2 small{display:block;font:12px "PT Mono",monospace;letter-spacing:.16em;color:var(--dim);margin-bottom:6px}
+p{margin:0 0 1.1em}
+.drop::first-letter{float:left;font:400 4.1em/.85 "Yeseva One",Georgia,serif;color:var(--coral);padding:.06em .1em 0 0}
+blockquote{margin:30px 0;padding:6px 0 6px 22px;border-left:3px solid var(--coral);font-size:22px;line-height:1.5;color:#fff3d6;font-style:italic}
+.aside{background:var(--panel);border:1px solid var(--edge);border-radius:16px;padding:20px 22px;margin:30px 0;font-size:17px;line-height:1.6}
+.aside b{color:var(--amber)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:20px 0 26px}
+ol.rules li{counter-increment:r;position:relative;padding:0 0 14px 52px}
+ol.rules li::before{content:counter(r);position:absolute;left:0;top:-2px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--amber);color:#1a100b;font:700 17px "PT Mono",monospace}
+.sep{text-align:center;color:var(--dim);letter-spacing:.8em;margin:40px 0}
+.end{margin-top:46px;padding-top:20px;border-top:1px solid var(--edge);font:13px/1.6 "PT Mono",monospace;color:var(--dim)}
+.end a{color:var(--amber)}
+a{color:var(--amber)}
+::selection{background:var(--coral);color:#1a100b}
+.map{margin:26px 0 30px;display:grid;gap:12px}
+.rg{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:14px 16px;font-size:15.5px;line-height:1.5}
+.rg h3{margin:0 0 6px;font:400 19px "Yeseva One",Georgia,serif;color:var(--ivory)}
+.rg .km{font:11.5px "PT Mono",monospace;color:var(--dim);letter-spacing:.06em}
+.bar{display:grid;grid-template-columns:118px 1fr 52px;align-items:center;gap:8px;font:12px "PT Mono",monospace;color:var(--dim);margin:5px 0}
+.bar i{display:block;height:9px;border-radius:5px;background:linear-gradient(90deg,var(--amber),var(--coral))}
+.bar b{color:var(--ivory);font-weight:400;text-align:right}
+.rg p{margin:.5em 0 0}
+@media (max-width:560px){body{font-size:18px}.lead{font-size:20px}blockquote{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="progress" id="pr"></div>
+<div class="back"><a href="index.html#gazeta" id="back">← до газети</a><span id="left">8 хв</span></div>
+<article>
+  <div class="kicker">Гендерне просвітництво · №2 · протокол спостереження</div>
+  <h1>Клуб справжніх мужиків: журі тільки з чоловіків, закохуватися в журі заборонено</h1>
+  <p class="lead">Чому чоловік, якого найбільше хвилює звання «справжнього мужика», шукає схвалення не в жінок, а в інших чоловіків. І чому саме тому він так боїться геїв. Оформлено як лабораторний протокол, бо, як слушно помітили в твіттері, спостерігати за цим цікаво приблизно як за бактеріями в пробірці.</p>
+  <div class="byline"><span>Мінвайбвет · кафедра соціальної мікробіології</span><span>листопад 2026</span><span>≈8 хвилин · рукавички обов'язкові</span></div>
+
+  <p class="drop">Учора в стрічці з'явилося спостереження, яке зібрало пів тисячі лайків. Токсична маскулінність майже завжди ходить у парі з гомофобією. Але чоловіки, яких найбільше турбує статус «справжнього мужика», шукають підтвердження цього статусу серед інших чоловіків. Жінок, яким це звання нібито має подобатися, їхня думка в цьому питанні не цікавить узагалі.</p>
+  <p>У відповідях дописали другу половину: жіноче в цій системі координат вважається нижчим. Тож чоловік, якого «поставили як жінку», втрачає не стать, а ранг. Авторка спостереження підсумувала: цікаво, як в одній соціальній концепції хімерно поєднуються суперечливі ідеї, і воно ж працює. Редакція погоджується й відкриває лабораторний журнал.</p>
+
+  <h2><small>1 · Мета дослідження</small>Хто насправді видає звання</h2>
+  <p>З'ясувати, перед ким складається іспит на «справжнього мужика», чому заборонено симпатизувати екзаменаторам і як ця система примудряється не розвалитися.</p>
+
+  <h2><small>2 · Матеріал і методи</small>Що вже лежить на полиці</h2>
+  <p>Лабораторія працює не з нуля. Ця пробірка вже давно описана в літературі, і три роботи варто тримати під рукою.</p>
+  <ol class="rules">
+    <li><b>Ів Кософскі Седжвік, «Між чоловіками» (1985).</b> Вона назвала це гомосоціальністю: зв'язки між чоловіками, на яких тримаються культура, влада й бізнес. Жінки в класичному любовному трикутнику часто виконують роль посередника. Двоє чоловіків змагаються «за неї», а насправді вибудовують стосунки один з одним.</li>
+    <li><b>Майкл Кіммел, «Маскулінність як гомофобія» (1994).</b> Його головна теза: маскулінність — це вистава для інших чоловіків. Вони її глядачі, оцінювачі й журі. А гомофобія в цій виставі не стільки ненависть до геїв, скільки страх, що інші чоловіки побачать тебе недостатньо «справжнім» і викриють.</li>
+    <li><b>Рейвін Коннелл, «гегемонна маскулінність» (1987–1995).</b> Чоловічість не одна, їх багато, і вони вибудовані в ієрархію. Нагорі ідеал, якому майже ніхто не відповідає повністю. Нижче всі інші, і найнижче ті, кого записують у «жіночне».</li>
+  </ol>
+
+  <h2><small>3 · Результати</small>Що видно в пробірці</h2>
+  <p><b>Спостереження 1. Журі тільки з чоловіків.</b> Звання «справжнього мужика» неможливо отримати від жінки. Вона може захоплюватися, кохати й поважати, але все це в зарахування не йде. Реальний іспит складається в роздягальні, в курилці, у чаті «пацанів», у казармі. Оцінка жінки враховується лише як трофей, який потім демонструють тим самим екзаменаторам.</p>
+  <p><b>Спостереження 2. Жіноче як найнижчий ранг.</b> Найгірша образа в цій системі — порівняння з жінкою: «як баба», «плачеш, як дівчинка», «кидаєш, як дівчинка». Звідси й особлива паніка щодо «пасивної ролі», про яку писали в треді. Річ не в сексі, а в ієрархії: чоловік, якого бачать «знизу», падає на найнижчу сходинку, бо нижчий за чоловіка в цій моделі тільки жінка.</p>
+  <p><b>Спостереження 3. Головна заборона.</b> Тут хімера стає очевидною. Система вимагає жити заради погляду інших чоловіків, але забороняє цей погляд любити. Треба шукати їхнього схвалення, близькості, визнання, але не можна, щоб це виглядало як бажання. Гомофобія працює як огорожа навколо дуже чоловічого світу, яка не дає йому побачити, наскільки він зосереджений на чоловіках.</p>
+  <blockquote>Найбільш гомосоціальна культура на світі — та, що найбільше боїться бути гомосексуальною. Бо інакше доведеться визнати, на кого вона все життя дивиться.</blockquote>
+
+  <h2><small>4 · Обговорення</small>Чому воно ж працює</h2>
+  <p>Хімера стабільна, бо кожна її частина тримає іншу. Схвалення від чоловіків дефіцитне, тож за нього борються. Боротьба вимагає показувати силу. Сила вимірюється дистанцією від «жіночного». А дистанцію постійно треба доводити, бо її можуть відібрати одним жартом. Тож іспит ніколи не закінчується: «справжнім мужиком» не стають, ним доводиться бути щодня. Тому ця маскулінність така тривожна.</p>
+  <p>Тепер антитеза, бо лабораторія чесна. Потреба у визнанні від своїх — не патологія, а нормальна людська річ. Чоловіча дружба, наставництво, побратимство, коли старший каже молодшому «ти впорався», — це не токсичність. Токсичною система стає тоді, коли визнання можна заробити лише приниженням когось нижче: жінки, «слабкого», гея. Проблема не в тому, що чоловіки шукають схвалення одне в одного. Проблема в ціні, яку за нього призначили.</p>
+  <div class="aside"><b>Польова примітка.</b> Будь-хто, хто служив, бачив обидві версії цієї культури поруч. В одній «справжній мужик» — той, хто голосніше пожартував про «підарів» у курилці. В іншій — той, хто приніс тобі каву після нічної, перев'язав і не розповів нікому, що ти плакав. Друга версія теж глибоко чоловіча й теж побудована на схваленні між чоловіками. Тільки там ціна за вхід — турбота, а не приниження.</div>
+
+  <h2><small>5 · Висновки</small>Що з цього нам</h2>
+  <p>Перше. Коли хтось дуже голосно доводить, що він не гей, він здебільшого звертається не до геїв і не до жінок. Він складає іспит перед іншими чоловіками. Розуміння цього звільняє: його гнів часто не про тебе.</p>
+  <p>Друге. Чоловікам потрібне схвалення одне одного, і в цьому немає нічого соромного. Сором починається тоді, коли за схвалення доводиться платити приниженням. Змінити валюту реально, і фронт показав, що турбота між чоловіками не робить їх менш чоловічими.</p>
+  <p>Третє. Жінкам, які стільки разів чули, що «справжні мужики» для них, можна видихнути: цей клуб ніколи не був для вас. Ви там у кращому разі трофей. І це не ваша проблема, хоча, звісно, теж ваша.</p>
+  <p class="sep">✦ ✦ ✦</p>
+  <p>Вікно №4 з цього приводу видає «Посвідчення справжнього мужика». Строк дії: до першого жарту в курилці. Продовжується щодня, тільки за особистої присутності й тільки за підписом трьох інших мужиків, які теж продовжують посвідчення щодня. Черга не закінчується ніколи. Альтернативний документ, «Довідка про те, що ти людина», видається без черги й без свідків.</p>
+
+  <div class="end">Гендерне просвітництво Вайбвет FM · №2 · Мінвайбвет вигаданий, а дослідження справжні.<br>Читати далі: Eve Kosofsky Sedgwick, «Between Men: English Literature and Male Homosocial Desire» (1985) · Michael Kimmel, «Masculinity as Homophobia: Fear, Shame, and Silence in the Construction of Gender Identity» (1994) · R. W. Connell, «Masculinities» (1995).<br>Попередній випуск: <a href="prosvita-tron.html">«Перехід за сніданком, коронація опівдні»</a><br><a href="index.html">← на головну Вайбвет FM</a></div>
+</article>
+<script>
+(function(){
+  var pr=document.getElementById("pr"),left=document.getElementById("left"),art=document.querySelector("article"),total=8;
+  function upd(){var h=art.offsetHeight-innerHeight,y=Math.max(0,Math.min(1,scrollY/Math.max(1,h)));pr.style.width=(y*100)+"%";
+    var m=Math.ceil(total*(1-y));left.textContent=y>.98?"дочитано ✓":m+" хв";}
+  addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
+  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
+})();
+</script>
+</body>
+</html>

@@ -7,9 +7,13 @@ command -v node >/dev/null || { echo "Немає node: brew install node"; exit 
 npm install --no-audit --no-fund
 ARCH=$(uname -m); [ "$ARCH" = "arm64" ] || ARCH=x64
 npm run prep
-# not signed with a Developer ID yet: fine for this Mac, other Macs would show a Gatekeeper warning
-CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --mac dir --$ARCH -c.mac.identity=null
+rm -rf dist
+CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --mac dir --$ARCH
 APP=$(ls -d dist/mac*/*.app | head -1)
+# Apple Silicon kills apps whose signature broke during packaging: re-sign ad hoc, inside out
+xattr -cr "$APP"
+codesign --force --deep --sign - "$APP"
+codesign --verify --deep --strict "$APP" && echo "Підпис ок"
 rm -rf "/Applications/Вайбвет Офіс.app"
 cp -R "$APP" /Applications/
 echo "Готово: /Applications/Вайбвет Офіс.app"

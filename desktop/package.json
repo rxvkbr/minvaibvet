@@ -21,19 +21,57 @@
     "appId": "ua.pp.minvaibvet.office",
     "productName": "Вайбвет Офіс",
     "artifactName": "VaibvetOffice-${version}-${os}-${arch}.${ext}",
-    "files": ["main.js", "preload.js", "www/**/*"],
-    "directories": { "output": "dist", "buildResources": "build" },
+    "files": [
+      "main.js",
+      "preload.js",
+      "www/**/*"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
     "mac": {
       "category": "public.app-category.entertainment",
-      "target": [{ "target": "dmg", "arch": ["arm64", "x64"] }],
-      "icon": "build/icon.png"
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "identity": "-"
     },
-    "dmg": { "title": "Вайбвет Офіс" },
+    "dmg": {
+      "title": "Вайбвет Офіс"
+    },
     "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }, { "target": "portable", "arch": ["x64"] }],
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
       "icon": "build/icon.png"
     },
-    "nsis": { "oneClick": true, "perMachine": false, "shortcutName": "Вайбвет Офіс" },
-    "portable": { "artifactName": "VaibvetOffice-${version}-portable.${ext}" }
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "shortcutName": "Вайбвет Офіс"
+    },
+    "portable": {
+      "artifactName": "VaibvetOffice-${version}-portable.${ext}"
+    },
+    "executableName": "VaibvetOffice"
   }
 }

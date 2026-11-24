@@ -3071,5 +3071,34 @@ html.app .backbar{margin-top:4px}
     if(V&&V.arp)V.arp(196,[0,2,4,7],1,0.06);});
 })();
 </script>
+<script id="lightbox">
+/* tap a picture in the paper to see it big; wide cartoons scroll sideways */
+(function(){
+  var css=document.createElement("style");
+  css.textContent=".lb{position:fixed;inset:0;z-index:90;background:#000e;display:flex;flex-direction:column;animation:lbin .2s ease}"+
+    ".lb .sc{flex:1;overflow:auto;display:flex;align-items:center;-webkit-overflow-scrolling:touch;padding:calc(56px + env(safe-area-inset-top)) 12px calc(20px + env(safe-area-inset-bottom))}"+
+    ".lb img{display:block;margin:auto;max-width:none;height:auto;border-radius:10px;box-shadow:0 20px 60px #000}"+
+    ".lb .x{position:absolute;top:calc(10px + env(safe-area-inset-top));right:14px;width:44px;height:44px;border-radius:50%;border:1px solid #fff4;background:#0009;color:#fff;font-size:20px;z-index:2}"+
+    ".lb .h{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom));text-align:center;font:12px var(--f-mono,monospace);color:#fffa;pointer-events:none}"+
+    "@keyframes lbin{from{opacity:0}}.cartoon img,article img{cursor:zoom-in}";
+  document.head.appendChild(css);
+  function open(src,alt){
+    var o=document.createElement("div");o.className="lb";o.setAttribute("role","dialog");o.setAttribute("aria-label",alt||"Зображення");
+    o.innerHTML='<button class="x" type="button" aria-label="Закрити">✕</button><div class="sc"><img alt=""></div><div class="h"></div>';
+    var im=o.querySelector("img");im.src=src;im.alt=alt||"";
+    function fit(){var vw=innerWidth-24,vh=innerHeight-110,r=(im.naturalWidth||1200)/(im.naturalHeight||460);
+      /* wide pictures: fill the height on phones and let the user pan; otherwise fit the screen */
+      var h=Math.min(vh,vw/r<vh*.55?vh*.8:vw/r);im.style.height=h+"px";im.style.width=(h*r)+"px";
+      o.querySelector(".h").textContent=h*r>vw+4?"← гортай вбік →":"";}
+    im.onload=fit;if(im.complete)fit();
+    function close(){o.remove();removeEventListener("keydown",esc);removeEventListener("resize",fit);}
+    function esc(e){if(e.key==="Escape")close();}
+    o.querySelector(".x").addEventListener("click",close);
+    o.addEventListener("click",function(e){if(e.target===o||e.target.classList.contains("sc"))close();});
+    addEventListener("keydown",esc);addEventListener("resize",fit);document.body.appendChild(o);
+  }
+  document.addEventListener("click",function(e){var im=e.target.closest&&e.target.closest(".cartoon img, article img");if(!im||im.closest(".lb"))return;e.preventDefault();open(im.currentSrc||im.src,im.alt);});
+})();
+</script>
 </body>
 </html>

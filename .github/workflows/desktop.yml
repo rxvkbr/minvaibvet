@@ -1,0 +1,38 @@
+name: Desktop (Вайбвет Офіс)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["office.html", "desktop/**", ".github/workflows/desktop.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run dist:win -- --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VaibvetOffice-windows
+          path: desktop/dist/*.exe
+      - name: Publish to the "office" release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: office-latest
+          name: Вайбвет Офіс (Windows)
+          body: "Вайбвет Офіс для Windows. Setup — інсталятор, portable — запускається без встановлення. Windows може попередити про невідомого видавця: «Докладніше» → «Усе одно запустити»."
+          make_latest: false
+          files: desktop/dist/*.exe

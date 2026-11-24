@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вайбвет Офіс · продуктивність</title>
+<meta name="description" content="Вайбвет Офіс: ситуаційна мапа, звіт_final_v7.xlsx і рапорт.docx, які працюють самі. Сатира Мінвайбвету.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314170f'/%3E%3Cpath d='M32 12 54 50H10z' fill='none' stroke='%23d9a441' stroke-width='6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0d0f0a;--chrome:#171a12;--chrome2:#1f2318;--edge:#2f3524;--edge2:#454d33;
+  --text:#d8d2b4;--dim:#8e8b70;--amber:#d9a441;--rust:#b4552e;--olive:#7d8a4a;--green:#9fd66a;--red:#e0603f;--cyan:#6fc3b2;
+  --mono:"PT Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.4 var(--sans);overflow:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:repeating-linear-gradient(0deg,#0000 0 2px,#00000014 2px 3px),radial-gradient(ellipse at center,#0000 65%,#0006 100%);mix-blend-mode:multiply}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.win{position:fixed;inset:0;display:flex;flex-direction:column}
+
+/* ---------- browser chrome ---------- */
+.tabs{display:flex;align-items:flex-end;gap:2px;height:42px;padding:8px 10px 0 10px;background:var(--chrome);-webkit-app-region:drag;user-select:none}
+html.darwin .tabs{padding-left:82px}
+html.win32 .tabs,html.linux .tabs{padding-right:150px}
+.tab{-webkit-app-region:no-drag;display:flex;align-items:center;gap:8px;max-width:230px;min-width:0;flex:1 1 200px;height:34px;padding:0 12px;
+  border-radius:10px 10px 0 0;color:var(--dim);font-size:12.5px;position:relative;transition:background .2s,color .2s}
+.tab:hover{background:#ffffff08}
+.tab[aria-selected="true"]{background:var(--chrome2);color:var(--text)}
+.tab .fi{flex:none;width:16px;height:16px;border-radius:4px;display:grid;place-items:center;font:700 10px var(--mono)}
+.tab .tt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab .dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--amber);margin-left:auto;opacity:0;transition:opacity .3s}
+.tab.busy .dot{opacity:1;animation:pulse 1s infinite}
+.fi.d{background:#2a2f1c;color:var(--amber)}.fi.x{background:#1d6b3a;color:#e9ffe9}.fi.w{background:#2b5797;color:#eaf1ff}.fi.r{background:#3a1f14;color:#f0a93a}
+@keyframes pulse{50%{opacity:.25}}
+.bar{display:flex;align-items:center;gap:8px;height:44px;padding:0 10px;background:var(--chrome2);border-bottom:1px solid var(--edge)}
+.nav{width:30px;height:30px;border-radius:8px;color:var(--dim);display:grid;place-items:center;font-size:16px}
+.nav:hover{background:#ffffff0d;color:var(--text)}
+.url{flex:1;display:flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:999px;background:#0e100b;border:1px solid var(--edge);font:12.5px var(--mono);color:var(--dim);overflow:hidden;white-space:nowrap}
+.url b{color:var(--text);font-weight:400}
+.url .lock{color:var(--green)}
+.boss{height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--edge2);font:12px var(--mono);color:var(--amber);letter-spacing:.05em;white-space:nowrap}
+.boss[aria-pressed="true"]{background:var(--amber);color:#1a1405;border-color:var(--amber)}
+.views{flex:1;position:relative;overflow:hidden}
+.view{position:absolute;inset:0;display:none}
+.view.on{display:flex}
+.status{display:flex;gap:18px;align-items:center;height:24px;padding:0 12px;background:var(--chrome);border-top:1px solid var(--edge);font:11px var(--mono);color:var(--dim);white-space:nowrap;overflow:hidden}
+.status .g{color:var(--green)}
+.status .sp{margin-left:auto}
+
+/* ---------- Δ map ---------- */
+#v-delta{background:#0b0d08}
+#v-delta canvas{position:absolute;inset:0;width:100%;height:100%}
+.side{position:absolute;top:12px;right:12px;bottom:12px;width:min(330px,42vw);display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.panel{pointer-events:auto;background:#12150ecc;border:1px solid var(--edge2);border-radius:10px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);overflow:hidden}
+.panel h4{margin:0;padding:8px 12px;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid var(--edge)}
+.feed{flex:1;display:flex;flex-direction:column;min-height:0}
+.feed ol{list-style:none;margin:0;padding:6px 0;overflow:hidden;flex:1}
+.feed li{padding:7px 12px;border-bottom:1px dashed #ffffff0f;font-size:12.5px;animation:in .5s ease}
+.feed li time{display:block;font:10.5px var(--mono);color:var(--dim)}
+.feed li .k{font:10px var(--mono);padding:1px 6px;border-radius:4px;margin-right:6px;background:#2a2f1c;color:var(--green)}
+.feed li .k.y{color:var(--amber)}.feed li .k.r{color:var(--red)}
+@keyframes in{from{opacity:0;transform:translateY(-6px)}}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;padding:10px 12px;font-size:12px}
+.legend span{white-space:nowrap}
+.hud{position:absolute;left:12px;top:12px;font:11px var(--mono);color:var(--green);text-shadow:0 0 6px #9fd66a66;pointer-events:none;line-height:1.6}
+.hud b{color:var(--amber);font-weight:400}
+
+/* ---------- sheet ---------- */
+#v-sheet{flex-direction:column;background:#f3f2ec;color:#1d1d1b;font:13px var(--sans)}
+.ribbon{background:#1d6b3a;color:#e9ffe9;display:flex;gap:2px;padding:6px 10px 0;font-size:12.5px}
+.ribbon span{padding:5px 12px;border-radius:6px 6px 0 0}
+.ribbon span.on{background:#f3f2ec;color:#1d6b3a;font-weight:600}
+.tools{display:flex;gap:6px;align-items:center;padding:6px 10px;border-bottom:1px solid #d6d4c8;background:#f9f8f3;flex-wrap:wrap}
+.tools i{font-style:normal;display:inline-grid;place-items:center;min-width:26px;height:24px;padding:0 6px;border-radius:5px;border:1px solid #d6d4c8;background:#fff;font-size:12px;color:#444}
+.fx{display:flex;align-items:center;border-bottom:1px solid #d6d4c8;background:#fff;font:12.5px var(--mono)}
+.fx .ref{width:70px;padding:5px 8px;border-right:1px solid #d6d4c8;color:#555}
+.fx .f{padding:5px 10px;color:#1d1d1b;white-space:nowrap;overflow:hidden}
+.grid{flex:1;overflow:hidden;position:relative}
+table.cells{border-collapse:collapse;table-layout:fixed;font-variant-numeric:tabular-nums}
+.cells th,.cells td{border:1px solid #dcdad0;height:24px;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .6s}
+.cells th{background:#ecebe3;color:#666;font-weight:400;font-size:11.5px;text-align:center}
+.cells td.n{text-align:right}
+.cells td.h{font-weight:700;background:#e6efe0}
+.cells td.sel{outline:2px solid #1d6b3a;outline-offset:-2px}
+.cells td.flash{background:#fff4b8}
+.cells td.bad{color:#b4231b}.cells td.good{color:#1d6b3a}
+.chart{position:absolute;background:#fff;border:1px solid #cfcdc2;border-radius:6px;box-shadow:0 8px 24px #0003;padding:8px;transition:opacity .5s,transform .5s}
+.chart.gone{opacity:0;transform:scale(.92)}
+.chart b{display:block;font-size:12px;margin:0 0 4px;color:#333}
+.sheets{display:flex;gap:2px;padding:0 10px;background:#ecebe3;border-top:1px solid #d6d4c8;font-size:12px}
+.sheets span{padding:5px 12px;color:#555}.sheets span.on{background:#fff;color:#1d6b3a;font-weight:600;border-bottom:2px solid #1d6b3a}
+
+/* ---------- doc ---------- */
+#v-doc{flex-direction:column;background:#e8e6df;color:#1b1b1b}
+#v-doc .ribbon{background:#2b5797;color:#eaf1ff}
+#v-doc .ribbon span.on{background:#e8e6df;color:#2b5797}
+.page-wrap{flex:1;overflow:hidden;display:flex;justify-content:center;padding:24px 12px}
+.page{width:min(640px,100%);background:#fff;box-shadow:0 2px 14px #0002;padding:56px 64px;font:15px/1.7 "Times New Roman",Georgia,serif;overflow:hidden;position:relative}
+.page .hdr{text-align:right;margin-bottom:26px;white-space:pre-line}
+.page h2{text-align:center;font-size:17px;letter-spacing:.12em;margin:0 0 18px}
+#doctext{white-space:pre-wrap;min-height:200px}
+#doctext u{text-decoration:underline wavy #e0303a;text-underline-offset:3px}
+.caret{display:inline-block;width:1.5px;height:1.1em;background:#1b1b1b;vertical-align:-.15em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.tip{position:absolute;right:16px;bottom:16px;max-width:240px;background:#fffbe6;border:1px solid #e3d79a;border-radius:8px;padding:10px 12px;font:12.5px var(--sans);box-shadow:0 6px 18px #0002;transition:opacity .4s}
+.tip.gone{opacity:0}
+
+/* ---------- radio tab ---------- */
+#v-radio iframe{border:0;width:100%;height:100%;background:#1a100b}
+
+/* ---------- fake cursor ---------- */
+#cur{position:fixed;left:0;top:0;width:18px;height:18px;z-index:60;pointer-events:none;transition:transform .7s cubic-bezier(.4,.1,.2,1),opacity .3s;opacity:0}
+#cur.on{opacity:1}
+#cur.click::after{content:"";position:absolute;left:-10px;top:-10px;width:20px;height:20px;border-radius:50%;border:2px solid var(--amber);animation:ripple .4s ease-out forwards}
+@keyframes ripple{to{transform:scale(2);opacity:0}}
+
+.toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:#1f2318;border:1px solid var(--edge2);color:var(--text);padding:10px 16px;border-radius:999px;font:12.5px var(--mono);z-index:70;box-shadow:0 8px 30px #000a;animation:in .3s ease}
+@media (max-width:640px){
+  .tabs{padding-left:6px}.tab{padding:0 8px}.tab .tt{display:none}.tab{flex:0 0 44px}
+  .side{width:auto;left:12px;top:auto;height:42%}.side .panel:last-child{display:none}
+  .page{padding:28px 22px}.boss .lb{display:none}
+}
+@media (prefers-reduced-motion:reduce){#cur{transition:none}}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="tabs" role="tablist" id="tabs">
+    <button class="tab" role="tab" data-v="delta"><span class="fi d">Δ</span><span class="tt">Δ · ситуаційна обізнаність</span><span class="dot"></span></button>
+    <button class="tab" role="tab" data-v="sheet"><span class="fi x">X</span><span class="tt">звіт_final_v7(2).xlsx</span><span class="dot"></span></button>
+    <button class="tab" role="tab" data-v="doc"><span class="fi w">W</span><span class="tt">рапорт_відпустка_НОВИЙ.docx</span><span class="dot"></span></button>
+    <button class="tab" role="tab" data-v="radio"><span class="fi r">FM</span><span class="tt">Вайбвет FM · 102.4</span><span class="dot"></span></button>
+  </div>
+  <div class="bar">
+    <button class="nav" aria-label="Назад" id="back">←</button>
+    <button class="nav" aria-label="Оновити" id="reload">↻</button>
+    <div class="url" id="url"><span class="lock">●</span><span id="urltext"></span></div>
+    <button class="boss" id="boss" aria-pressed="true" title="Пробіл або Esc"><span class="ic">🕴</span> <span class="lb">автопілот продуктивності</span></button>
+  </div>
+  <div class="views">
+    <section class="view" id="v-delta" role="tabpanel">
+      <canvas id="map"></canvas>
+      <div class="hud" id="hud"></div>
+      <div class="side">
+        <div class="panel feed"><h4>Події · онлайн</h4><ol id="feed"></ol></div>
+        <div class="panel"><h4>Умовні позначки</h4>
+          <div class="legend"><span>🐄 корова, нейтральна</span><span>🐈 кіт, дружній</span><span>☕ кава 3в1</span><span>🏛 ЦНАП, ворожий</span><span>🚜 трактор, логістика</span><span>🐑 вівці, за кордоном</span><span>📄 довідка, втрачена</span><span>🌫 туман війни й побуту</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="view" id="v-sheet" role="tabpanel">
+      <div class="ribbon"><span>Файл</span><span class="on">Основне</span><span>Вставлення</span><span>Формули</span><span>Дані</span><span>Рецензування</span></div>
+      <div class="tools"><i>Σ</i><i><b>Ж</b></i><i><em>К</em></i><i>%</i><i>₴</i><i>↕ Сортувати</i><i>📊 Діаграма</i><i>🧊 Закріпити шапку</i><i>⚠ Умовне форматування</i></div>
+      <div class="fx"><span class="ref" id="ref">A1</span><span class="f" id="fx"></span></div>
+      <div class="grid" id="grid"><table class="cells" id="cells"></table></div>
+      <div class="sheets"><span class="on">Звіт</span><span>Звіт (2)</span><span>НЕ ЧІПАТИ</span><span>Аркуш1</span><span>+</span></div>
+    </section>
+    <section class="view" id="v-doc" role="tabpanel">
+      <div class="ribbon"><span>Файл</span><span class="on">Основне</span><span>Вставлення</span><span>Макет</span><span>Посилання</span><span>Рецензування</span></div>
+      <div class="tools"><i>Times New Roman</i><i>14</i><i><b>Ж</b></i><i><em>К</em></i><i><u>П</u></i><i>≡</i><i>¶</i><i>✓ Правопис</i></div>
+      <div class="page-wrap"><div class="page">
+        <div class="hdr">Командиру військової частини А0000
+полковнику Комбатенку К. К.
+солдата Вайбветенка В. В.</div>
+        <h2>РАПОРТ</h2>
+        <div id="doctext"></div>
+        <div class="tip gone" id="tip"></div>
+      </div></div>
+    </section>
+    <section class="view" id="v-radio" role="tabpanel"><iframe id="radio" title="Вайбвет FM" loading="lazy"></iframe></section>
+  </div>
+  <div class="status"><span class="g" id="st1">● з'єднання стабільне</span><span id="st2"></span><span id="st3"></span><span class="sp" id="clock"></span></div>
+</div>
+<svg id="cur" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 1 L1 15 L5 11 L8 17 L10.5 16 L7.6 10 L13 10 Z" fill="#fff" stroke="#000" stroke-width="1.2" stroke-linejoin="round"/></svg>
+<script>
+(function(){
+"use strict";
+var de=document.documentElement;de.classList.add(window.VV_DESKTOP?String(window.VV_DESKTOP):"web");
+var $=function(id){return document.getElementById(id);};
+var rnd=function(a,b){return a+Math.random()*(b-a);},pick=function(a){return a[Math.floor(Math.random()*a.length)];};
+var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* ================= sound: soft keys and clicks ================= */
+var ac=null,snd=true;
+function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state!=="running")ac.resume();}catch(e){}}
+function beep(f,d,v,type){
+  if(!snd||!ac||ac.state!=="running")return;
+  try{var t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();o.type=type||"triangle";o.frequency.value=f;
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v||.03,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+(d||.08));
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+(d||.08)+.02);}catch(e){}
+}
+function key(){beep(rnd(1400,2200),.03,.012,"square");}
+function click(){beep(880,.06,.03);beep(1320,.05,.02);}
+["pointerdown","keydown"].forEach(function(ev){addEventListener(ev,audio,true);});
+
+/* ================= tabs ================= */
+var TABS=[].slice.call(document.querySelectorAll(".tab")),cur=null;
+var URLS={delta:'vaib://<b>дельта.мінвайбвет</b>/ситуація?сектор=ПЕРЕГАВОРКА&шар=корови',
+  sheet:'vaib://<b>диск.мінвайбвет</b>/Звіти/2026/НЕ_ВИДАЛЯТИ/звіт_final_v7(2).xlsx',
+  doc:'vaib://<b>диск.мінвайбвет</b>/Рапорти/рапорт_відпустка_НОВИЙ_остаточний.docx',
+  radio:'vaib://<b>minvaibvet.pp.ua</b>/ · 102.4 FM'};
+var hist=[];
+function show(v,fromHist){
+  if(v===cur)return;if(cur&&!fromHist)hist.push(cur);cur=v;
+  TABS.forEach(function(t){t.setAttribute("aria-selected",t.dataset.v===v?"true":"false");});
+  [].forEach.call(document.querySelectorAll(".view"),function(s){s.classList.toggle("on",s.id==="v-"+v);});
+  $("urltext").innerHTML=URLS[v];
+  if(v==="radio"&&!$("radio").src)$("radio").src="index.html";
+  if(v==="delta")sizeMap();
+  click();
+}
+TABS.forEach(function(t){t.addEventListener("click",function(e){if(e.isTrusted)human();show(t.dataset.v);});});
+$("back").addEventListener("click",function(){human();var v=hist.pop();if(v)show(v,true);else if(!window.VV_DESKTOP)location.href="index.html#more";});
+$("reload").addEventListener("click",function(){human();toast("Оновлено. Нічого не змінилось. Це нормально.");});
+function busy(v,on){TABS.forEach(function(t){if(t.dataset.v===v)t.classList.toggle("busy",on);});}
+var toastT=null;
+function toast(msg){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=msg;document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(function(){d.remove();},2600);}
+
+/* ================= Δ map ================= */
+var cv=$("map"),g=cv.getContext("2d"),W=0,H=0,dpr=1,T=0;
+var marks=[],trails=[],fog=[],roads=[],river=[],sweep=0,seed=7;
+function srand(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+function sizeMap(){dpr=Math.min(devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;}
+(function build(){
+  for(var i=0;i<5;i++){var p=[],x=srand(),y=srand();for(var j=0;j<9;j++){p.push([x,y]);x+=srand()*.22-.08;y+=srand()*.22-.11;}roads.push(p);}
+  var y=.15;for(var k=0;k<=12;k++){river.push([k/12,y]);y+=srand()*.12-.04;}
+  for(var f=0;f<7;f++)fog.push({x:srand(),y:srand(),r:.08+srand()*.12,p:srand()*6});
+})();
+var KINDS=[
+  {ic:"🐄",n:"Корова",k:"нейтральна",c:"#d8d2b4",mv:.004},{ic:"🐈",n:"Кіт",k:"дружній",c:"#9fd66a",mv:.012},
+  {ic:"☕",n:"Кава 3в1",k:"ресурс",c:"#d9a441",mv:0},{ic:"🏛",n:"ЦНАП",k:"ворожий",c:"#e0603f",mv:0},
+  {ic:"🚜",n:"Трактор",k:"логістика",c:"#6fc3b2",mv:.02},{ic:"🐑",n:"Вівці",k:"за кордоном",c:"#d8d2b4",mv:.003},
+  {ic:"📄",n:"Довідка",k:"втрачена",c:"#e0603f",mv:.008}];
+var EVENTS=[
+  ["g","🐈 Виявлено кота. Намірів не має. Статус: дружній."],["y","🏛 ЦНАП відкрився о 9:00. Черга вже о 8:15."],
+  ["g","🚜 Трактор доставив генератор, кота й піцу. Комбата не доставив, комбат сам."],["r","📄 Довідку втрачено. Шукаємо третю добу."],
+  ["g","☕ Поповнено запас кави 3в1. Боєздатність +12%."],["y","🐄 Корова перетнула лінію розмежування між двома городами."],
+  ["g","🐑 За кордоном туман, сонце й вівці. Без змін."],["y","🌫 Туман війни переходить у туман побуту."],
+  ["r","🏛 ЦНАП запросив ще одну довідку, яка підтверджує першу."],["g","🐈 Кіт зайняв теплу зупинку. Утримує позицію."],
+  ["y","📡 Сигнал слабкий. Дрон думає про вічне."],["g","✅ Рапорт подано. Статус: на розгляді з 2025 року."],
+  ["g","🕊 Ластівки повертаються додому. Ти теж."],["y","🍜 Мівіна на позиції. Соусу мало."],["r","⚠ Нарада. Тривалість невідома."]];
+function narrow(){return innerWidth<=640;}
+function addMark(){var k=pick(KINDS),n=narrow();marks.push({k:k,x:n?rnd(.08,.92):rnd(.06,.66),y:n?rnd(.16,.52):rnd(.1,.9),a:rnd(0,6.28),born:T,life:rnd(14,40),id:Math.floor(rnd(100,999))});}
+for(var m=0;m<16;m++)addMark();
+function feed(){
+  var e=pick(EVENTS),li=document.createElement("li"),d=new Date();
+  li.innerHTML='<time>'+d.toTimeString().slice(0,8)+' · сектор '+pick(["ПГ-1","ВС-7","ЦН-0","КТ-3","ЛС-1"])+'</time><span class="k '+(e[0]==="g"?"":e[0])+'">'+({g:"ОК",y:"УВАГА",r:"!!"})[e[0]]+'</span>';
+  li.appendChild(document.createTextNode(e[1]));var ol=$("feed");ol.insertBefore(li,ol.firstChild);while(ol.children.length>14)ol.lastChild.remove();
+  if(cur==="delta")beep(e[0]==="r"?520:990,.07,.02,"sine");
+}
+for(var fe=0;fe<6;fe++)feed();
+function P(p){return [p[0]*W,p[1]*H];}
+function drawMap(dt){
+  if(cur!=="delta"||!W)return;
+  g.setTransform(dpr,0,0,dpr,0,0);g.fillStyle="#0b0d08";g.fillRect(0,0,W,H);
+  /* topo lines */
+  g.strokeStyle="#1b2112";g.lineWidth=1;
+  for(var i=0;i<14;i++){g.beginPath();for(var x=0;x<=W;x+=24){var y=H*(i/14)+Math.sin(x*.012+i*1.7)*18+Math.sin(x*.003+i)*30;x?g.lineTo(x,y):g.moveTo(x,y);}g.stroke();}
+  /* grid */
+  g.strokeStyle="#20271633";g.beginPath();for(var gx=0;gx<W;gx+=80){g.moveTo(gx,0);g.lineTo(gx,H);}for(var gy=0;gy<H;gy+=80){g.moveTo(0,gy);g.lineTo(W,gy);}g.stroke();
+  g.fillStyle="#3a4428";g.font="10px PT Mono, monospace";for(gx=0;gx<W;gx+=80)for(gy=0;gy<H;gy+=80)g.fillText(String.fromCharCode(65+gx/80%26)+(gy/80+1),gx+4,gy+12);
+  /* river and roads */
+  g.strokeStyle="#2c5a5a";g.lineWidth=6;g.beginPath();river.forEach(function(p,i){var q=P(p);i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]);});g.stroke();
+  g.strokeStyle="#4a4630";g.lineWidth=2;g.setLineDash([6,5]);roads.forEach(function(r){g.beginPath();r.forEach(function(p,i){var q=P(p);i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]);});g.stroke();});g.setLineDash([]);
+  /* fog */
+  fog.forEach(function(f){var q=P([f.x+Math.sin(T*.05+f.p)*.03,f.y]),r=f.r*Math.max(W,H),gr=g.createRadialGradient(q[0],q[1],0,q[0],q[1],r);gr.addColorStop(0,"#9fa38a18");gr.addColorStop(1,"#9fa38a00");g.fillStyle=gr;g.beginPath();g.arc(q[0],q[1],r,0,7);g.fill();});
+  /* radar sweep */
+  sweep+=dt*.6;var cx=W*.36,cy=H*.52,R=Math.hypot(W,H)*.6;
+  var sg=g.createConicGradient?g.createConicGradient(sweep,cx,cy):null;
+  if(sg){sg.addColorStop(0,"#9fd66a44");sg.addColorStop(.08,"#9fd66a00");sg.addColorStop(1,"#9fd66a00");g.fillStyle=sg;g.beginPath();g.arc(cx,cy,R,0,7);g.fill();g.strokeStyle="#9fd66a88";g.lineWidth=1.5;g.beginPath();g.moveTo(cx,cy);g.lineTo(cx+Math.cos(sweep)*R,cy+Math.sin(sweep)*R);g.stroke();}
+  /* marks */
+  g.textAlign="center";g.textBaseline="middle";
+  marks.forEach(function(mk){
+    var age=T-mk.born,a=Math.min(1,age/1.5,(mk.life-age)/1.5);if(a<=0)return;
+    mk.a+=rnd(-.3,.3)*dt;var nn=narrow();mk.x=Math.min(nn?.94:.7,Math.max(.04,mk.x+Math.cos(mk.a)*mk.k.mv*dt));mk.y=Math.min(nn?.54:.95,Math.max(nn?.14:.05,mk.y+Math.sin(mk.a)*mk.k.mv*dt));
+    var q=P([mk.x,mk.y]);g.globalAlpha=a;
+    g.strokeStyle=mk.k.c;g.lineWidth=1.5;g.strokeRect(q[0]-14,q[1]-14,28,28);
+    var pul=(T*1.3+mk.id)%2;if(pul<1){g.globalAlpha=a*(1-pul);g.beginPath();g.arc(q[0],q[1],14+pul*16,0,7);g.stroke();g.globalAlpha=a;}
+    g.font="16px system-ui, sans-serif";g.fillText(mk.k.ic,q[0],q[1]+1);
+    g.font="9.5px PT Mono, monospace";g.fillStyle=mk.k.c;g.fillText(mk.k.n.toUpperCase()+"-"+mk.id,q[0],q[1]+24);
+    g.globalAlpha=1;
+  });
+  marks=marks.filter(function(mk){return T-mk.born<mk.life;});
+  while(marks.length<16)addMark();
+  g.textAlign="left";g.textBaseline="alphabetic";
+}
+function hud(){
+  $("hud").innerHTML="ШАР: <b>КОРОВИ, КОТИ, ЦНАП</b><br>ОБ'ЄКТІВ: "+marks.length+" · ДРУЖНІХ: "+marks.filter(function(m){return m.k.k==="дружній";}).length+
+    "<br>ЙМОВІРНІСТЬ ВІДПУСТКИ: <b>"+(Math.random()<.1?"0":rnd(1,4).toFixed(1))+"%</b><br>ВАЙБ: "+(70+Math.round(Math.sin(T*.3)*8+rnd(0,6)))+"/100";
+}
+addEventListener("resize",sizeMap);
+
+/* ================= sheet ================= */
+var COLS=["","A","B","C","D","E","F","G"],HEAD=["Показник","План","Факт","Відхилення","%","Відповідальний","Коментар"];
+var ROWS=[["Кава 3в1, пачок",120,null,"Вайбветенко","закінчилась"],["Рапортів подано",14,null,"всі","на розгляді"],["Рапортів погоджено",14,null,"комбат","не встиг"],
+  ["Довідок отримано",9,null,"ЦНАП","потрібна ще одна"],["Нарад проведено",3,null,"перегаворка","перенесено в коридор"],["Котів погладжено",40,null,"особовий склад","перевиконано"],
+  ["Годин сну",56,null,"організм","не погоджено"],["Днів відпустки",10,null,"закон","обіцяно"],["Мівіна, порцій",60,null,"кухня","соусу мало"],
+  ["Обіймів",30,null,"мама","без ліміту"],["Тракторів залучено",1,null,"логістика","той самий"],["Хороших новин",7,null,"редакція","шукаємо"]];
+var tbl=$("cells"),cellEls=[];
+(function(){
+  var cg="<colgroup><col style='width:38px'><col style='width:190px'><col style='width:70px'><col style='width:70px'><col style='width:96px'><col style='width:64px'><col style='width:130px'><col style='width:190px'></colgroup>";
+  var h="<tr>"+COLS.map(function(c){return "<th>"+c+"</th>";}).join("")+"</tr><tr><th>1</th>"+HEAD.map(function(c){return "<td class='h'>"+c+"</td>";}).join("")+"</tr>";
+  ROWS.forEach(function(r,i){h+="<tr><th>"+(i+2)+"</th><td>"+r[0]+"</td><td class='n'></td><td class='n'></td><td class='n'></td><td class='n'></td><td>"+r[3]+"</td><td>"+r[4]+"</td></tr>";});
+  var n=ROWS.length+2;h+="<tr><th>"+n+"</th><td class='h'>РАЗОМ</td><td class='n h'></td><td class='n h'></td><td class='n h'></td><td class='n h'></td><td class='h'></td><td class='h'>=ВАЙБ()</td></tr>";
+  for(var e=n+1;e<n+12;e++)h+="<tr><th>"+e+"</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+  tbl.innerHTML=cg+h;
+  ROWS.forEach(function(r,i){var tds=tbl.rows[i+2].cells;r.td=tds;r[2]=Math.round(r[1]*rnd(.1,1.6));});
+})();
+function fmt(n){return n.toLocaleString("uk-UA");}
+function paintRow(r,i,flash){
+  var plan=r[1],fact=r[2],dv=fact-plan,pc=plan?Math.round(fact/plan*100):0,tds=r.td;
+  tds[2].textContent=fmt(plan);tds[3].textContent=fmt(fact);tds[4].textContent=(dv>0?"+":"")+fmt(dv);tds[5].textContent=pc+"%";
+  tds[4].className="n "+(dv<0?"bad":"good");tds[5].className="n "+(pc<80?"bad":pc>110?"good":"");
+  if(i===5||i===9){tds[5].className="n good";}
+  if(flash){[3,4,5].forEach(function(k){tds[k].classList.add("flash");});setTimeout(function(){[3,4,5].forEach(function(k){tds[k].classList.remove("flash");});},700);}
+}
+function totals(){
+  var tr=tbl.rows[ROWS.length+2].cells,p=0,f=0;ROWS.forEach(function(r){p+=r[1];f+=r[2];});
+  tr[2].textContent=fmt(p);tr[3].textContent=fmt(f);tr[4].textContent=(f-p>0?"+":"")+fmt(f-p);tr[5].textContent=Math.round(f/p*100)+"%";
+}
+ROWS.forEach(function(r,i){paintRow(r,i);});totals();
+var selEl=null;
+function select(row,col,formula){
+  if(selEl)selEl.classList.remove("sel");selEl=tbl.rows[row].cells[col];selEl.classList.add("sel");
+  $("ref").textContent=COLS[col]+row;$("fx").textContent=formula||selEl.textContent;
+}
+function sheetTick(){
+  var i=Math.floor(Math.random()*ROWS.length),r=ROWS[i];
+  if(i===2)r[2]=Math.max(0,Math.round(rnd(0,1.4)));else if(i===7)r[2]=Math.random()<.8?0:1;
+  else if(i===5||i===9)r[2]=Math.round(r[2]*rnd(1.02,1.2))+1;else r[2]=Math.max(0,Math.round(r[2]*rnd(.8,1.25)+rnd(-2,3)));
+  paintRow(r,i,true);totals();
+  var col=pick([3,4,5]),rw=i+2,L=COLS[col];
+  select(rw,col,col===3?"="+r[2]:col===4?"=C"+rw+"-B"+rw:"=ЯКЩО(B"+rw+"=0;\"нема плану\";C"+rw+"/B"+rw+")");
+  if(cur==="sheet")for(var k=0;k<4;k++)setTimeout(key,k*45);
+  busy("sheet",true);setTimeout(function(){busy("sheet",false);},900);
+}
+var charts=[];
+function chart(){
+  if(charts.length>=2){var old=charts.shift();old.classList.add("gone");setTimeout(function(){old.remove();},500);}
+  var grid=$("grid"),w=Math.min(340,grid.clientWidth*.6),h=200,c=document.createElement("div");
+  c.className="chart gone";c.style.left=rnd(grid.clientWidth*.25,Math.max(grid.clientWidth*.25,grid.clientWidth-w-20))+"px";c.style.top=rnd(30,Math.max(31,grid.clientHeight-h-30))+"px";
+  var type=pick(["bar","line","pie"]),titles={bar:"Факт vs план (вайб-зважено)",line:"Динаміка відпусток, 2019–2026",pie:"Структура витрат часу"};
+  c.innerHTML="<b>"+titles[type]+"</b>";var cn=document.createElement("canvas");cn.width=w*2;cn.height=(h-30)*2;cn.style.width=w+"px";cn.style.height=(h-30)+"px";c.appendChild(cn);
+  grid.appendChild(c);charts.push(c);requestAnimationFrame(function(){c.classList.remove("gone");});
+  var x=cn.getContext("2d");x.scale(2,2);var cw=w,chh=h-30,cols=["#1d6b3a","#d9a441","#2b5797","#b4552e","#7d8a4a","#6fc3b2"];
+  var t0=performance.now();
+  (function anim(now){
+    var p=Math.min(1,(now-t0)/900);p=1-Math.pow(1-p,3);x.clearRect(0,0,cw,chh);x.font="10px sans-serif";
+    if(type==="bar"){var d=ROWS.slice(0,6),mx=Math.max.apply(null,d.map(function(r){return Math.max(r[1],r[2]);}))||1,bw=(cw-20)/d.length;
+      d.forEach(function(r,i){var hp=(chh-30)*r[1]/mx*p,hf=(chh-30)*r[2]/mx*p;x.fillStyle="#c9c7bb";x.fillRect(10+i*bw+4,chh-20-hp,bw/2-5,hp);x.fillStyle=cols[i%6];x.fillRect(10+i*bw+bw/2,chh-20-hf,bw/2-5,hf);x.fillStyle="#555";x.fillText(r[0].split(/[ ,]/)[0].slice(0,7),10+i*bw+2,chh-6);});}
+    else if(type==="line"){var pts=[38,31,24,19,12,9,4,2];x.strokeStyle="#ddd";for(var gy=0;gy<5;gy++){x.beginPath();x.moveTo(20,10+gy*(chh-30)/4);x.lineTo(cw-6,10+gy*(chh-30)/4);x.stroke();}
+      x.strokeStyle="#b4231b";x.lineWidth=2.5;x.beginPath();var n=Math.max(2,Math.ceil(pts.length*p));for(var i=0;i<n;i++){var px=20+i*(cw-30)/(pts.length-1),py=10+(chh-30)*(1-pts[i]/40);i?x.lineTo(px,py):x.moveTo(px,py);}x.stroke();
+      x.fillStyle="#555";[2019,2021,2023,2026].forEach(function(y,i){x.fillText(y,14+i*(cw-40)/3,chh-6);});}
+    else{var sl=[["наради",.34],["черги",.26],["рапорти",.18],["кава",.12],["сон",.07],["відпустка",.03]],a0=-Math.PI/2,cx=chh/2+6,cy=chh/2,R=chh/2-8;
+      sl.forEach(function(s,i){var a1=a0+s[1]*Math.PI*2*p;x.fillStyle=cols[i];x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,R,a0,a1);x.fill();a0=a1;x.fillRect(cx+R+16,14+i*16,9,9);x.fillStyle="#444";x.fillText(s[0]+" "+Math.round(s[1]*100)+"%",cx+R+30,22+i*16);});}
+    if(p<1)requestAnimationFrame(anim);
+  })(t0);
+  if(cur==="sheet")beep(660,.1,.025,"sine");
+}
+
+/* ================= doc ================= */
+var DOC=["Прошу Вашого клопотання про надання мені щорічної основної відпустки тривалістю 10 (десять) діб",
+  " з виїздом за межі гарнізону, а саме до рандомного села, де туман, сонце й вівці.",
+  "\n\nПідстава: закон, совість і прогноз відпусток Мінвайбвету (ймовірність 12%).",
+  "\n\nПід час відпустки зобов'язуюсь: спати, гладити кота, не відповідати на «ну що там у вас».",
+  "\n\nДодатки: довідка про те, що я живий (1 арк.); довідка, що підтверджує першу довідку (1 арк.).",
+  "\n\nДата ______        Підпис ______"];
+var TIPS=["Схоже, ви пишете рапорт. Бажаєте, щоб його ніхто не прочитав?","Порада: слово «відпустка» в цьому документі вжито частіше, ніж її надавали.","Автозбереження: збережено 47 версій. Остаточна: жодна.","Рецензент «Комбат» додав примітку: «пізніше»."];
+var WORD="відпустки",TYPO="відпусткі",TI=DOC[0].indexOf(WORD);
+DOC[0]=DOC[0].slice(0,TI)+DOC[0].slice(TI+WORD.length); /* the word is typed separately, first with a typo */
+var docEl=$("doctext"),docStr="",dPart=0,dPos=0,dState="type",dWait=0,phase=0;
+function esc(x){return x.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+function renderDoc(){
+  var h=esc(docStr);
+  if(phase===1)h=esc(docStr.slice(0,-TYPO.length))+"<u>"+TYPO+"</u>";
+  docEl.innerHTML=h+'<span class="caret"></span>';
+}
+function docTick(){
+  if(dWait>0){dWait--;return;}
+  if(dState==="type"){
+    var part=DOC[dPart];
+    if(dPart===0&&dPos===TI&&phase<2){
+      if(phase===0){docStr+=TYPO;phase=1;dWait=16;if(cur==="doc")for(var k=0;k<5;k++)setTimeout(key,k*40);}
+      else{docStr=docStr.slice(0,-TYPO.length)+WORD;phase=2;dWait=8;tip("Автовиправлення: «відпусткі» → «відпустки». Відпустку не надано.");}
+      renderDoc();return;
+    }
+    if(dPos<part.length){var n=Math.random()<.15?2:1;if(dPart===0&&dPos<TI&&dPos+n>TI)n=TI-dPos;docStr+=part.substr(dPos,n);dPos+=n;if(cur==="doc")key();renderDoc();if(".,:".indexOf(part[dPos-1])>=0)dWait=rnd(3,8)|0;}
+    else{dPart++;dPos=0;dWait=rnd(6,14)|0;if(dPart>=DOC.length){dState="read";dWait=40;tip(pick(TIPS));}}
+  }else if(dState==="read"){dState="erase";}
+  else{
+    var cut=docStr.lastIndexOf("\n\n");
+    if(cut>0&&Math.random()<.6){docStr=docStr.slice(0,cut);renderDoc();dWait=6;if(cur==="doc")beep(300,.05,.02);}
+    else{docStr="";dPart=0;dPos=0;phase=0;dState="type";dWait=10;renderDoc();tip("Документ відкрито заново. Версія "+Math.round(rnd(48,99))+".");}
+  }
+  busy("doc",dState==="type");
+}
+var tipT=null;function tip(s){var t=$("tip");t.textContent="📎 "+s;t.classList.remove("gone");clearTimeout(tipT);tipT=setTimeout(function(){t.classList.add("gone");},4200);}
+renderDoc();
+
+/* ================= autopilot and fake cursor ================= */
+var auto=true,curEl=$("cur"),cx0=innerWidth/2,cy0=innerHeight/2,idleT=null,boss=$("boss");
+function moveTo(el,cb){
+  if(!el){cb&&cb();return;}
+  var r=el.getBoundingClientRect(),x=r.left+r.width*rnd(.3,.7),y=r.top+r.height*rnd(.35,.7);
+  curEl.classList.add("on");curEl.style.transform="translate("+x+"px,"+y+"px)";
+  setTimeout(function(){curEl.classList.remove("click");void curEl.getBBox();curEl.classList.add("click");cb&&cb();},reduce?0:720);
+}
+var plan=0;
+function autopilot(){
+  if(!auto)return;
+  plan++;
+  var r=Math.random();
+  if(r<.35||plan%5===0){var t=pick(TABS.filter(function(t){return t.dataset.v!==cur&&t.dataset.v!=="radio";}));moveTo(t,function(){show(t.dataset.v);});}
+  else if(cur==="sheet"){var c=tbl.rows[2+Math.floor(rnd(0,ROWS.length))].cells[pick([3,4,5])];moveTo(c,function(){if(Math.random()<.35)chart();});}
+  else if(cur==="delta"){var hit=pick(document.querySelectorAll("#feed li"));moveTo(hit||$("map"));}
+  else{moveTo(document.querySelector(".page .caret")||$("doctext"));}
+}
+function setAuto(v,quiet){
+  auto=v;boss.setAttribute("aria-pressed",v?"true":"false");if(!v)curEl.classList.remove("on");
+  if(!quiet)toast(v?"Автопілот увімкнено. Ви дуже зайняті.":"Автопілот вимкнено. Комбат пішов, можна видихнути.");
+}
+boss.addEventListener("click",function(e){if(e.isTrusted){clearTimeout(idleT);setAuto(!auto);}});
+function human(){if(auto){setAuto(false,true);toast("Перехоплено керування. Автопілот повернеться, коли ви знову завмрете.");}clearTimeout(idleT);idleT=setTimeout(function(){setAuto(true);},45000);}
+addEventListener("keydown",function(e){
+  if(e.key==="Escape"||(e.key===" "&&e.target===document.body)){e.preventDefault();clearTimeout(idleT);setAuto(!auto);return;}
+  if(e.key>="1"&&e.key<="4"){human();show(TABS[+e.key-1].dataset.v);}
+});
+$("map").addEventListener("pointerdown",function(){human();feed();});
+$("cells").addEventListener("click",function(e){var td=e.target.closest("td");if(!td)return;human();var tr=td.parentNode;select(tr.rowIndex,td.cellIndex,td.textContent);if(Math.random()<.4)chart();});
+$("doctext").addEventListener("click",function(){human();tip(pick(TIPS));});
+
+/* ================= status bar and clocks ================= */
+function status(){
+  var d=new Date();$("clock").textContent=d.toLocaleTimeString("uk-UA")+" · "+d.toLocaleDateString("uk-UA");
+  $("st2").textContent="ЦП: "+Math.round(rnd(3,97))+"% · продуктивність: "+Math.round(rnd(180,260))+"%";
+  $("st3").textContent=pick(["синхронізація з ЦНАП…","автозбереження…","обчислення вайбу…","очікування підпису…","перевірка правопису…","завантаження відпустки: 2%"]);
+}
+
+/* ================= loops ================= */
+var last=performance.now(),acc={sheet:0,chart:0,feed:0,doc:0,auto:0,hud:0,st:0};
+function frame(now){
+  var dt=Math.min(.1,(now-last)/1000);last=now;T+=dt;
+  for(var k in acc)acc[k]+=dt;
+  if(acc.sheet>rnd(1.1,2.2)){acc.sheet=0;sheetTick();}
+  if(acc.chart>rnd(7,11)){acc.chart=0;chart();}
+  if(acc.feed>rnd(2.5,5)){acc.feed=0;feed();}
+  if(acc.doc>.055){acc.doc=0;docTick();}
+  if(acc.auto>rnd(3.2,5.5)){acc.auto=0;autopilot();}
+  if(acc.hud>.5){acc.hud=0;hud();}
+  if(acc.st>1){acc.st=0;status();}
+  drawMap(dt);
+  requestAnimationFrame(frame);
+}
+show(location.hash==="#sheet"?"sheet":location.hash==="#doc"?"doc":"delta");
+sizeMap();status();hud();chart();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

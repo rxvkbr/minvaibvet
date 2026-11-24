@@ -13,6 +13,7 @@ fs.mkdirSync(fontsOut, { recursive: true });
 
 fs.copyFileSync(path.join(root, "node_modules/@capacitor/core/dist/capacitor.js"), path.join(www, "capacitor.js"));
 fs.copyFileSync(path.join(site, "privacy.html"), path.join(www, "privacy.html"));
+fs.copyFileSync(path.join(site, "office.html"), path.join(www, "office.html"));
 
 // family package -> stylesheets for the weights the page uses
 const FONTS = {

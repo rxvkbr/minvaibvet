@@ -2847,7 +2847,7 @@ html.app .backbar{margin-top:4px}
   var mgrid=el("div","mgrid");
   var reports=0;
   TILES.forEach(function(x,i){
-    var b=el("button","mtile "+x.c,'<span class="ic">'+x.ic+'</span><b></b><small></small>');b.type="button";b.style.setProperty("--i",i);
+    var b=el("button","mtile "+x.c,'<span class="ic">'+x.ic+'</span><b></b><small></small>');b.type="button";b.style.setProperty("--i",i);b.dataset.go=x.go;
     b.addEventListener("click",function(){
       if(x.go==="secret"){
         reports++;tick(reports>=3?"heavy":"click");
@@ -3291,6 +3291,57 @@ html.app .backbar{margin-top:4px}
   }
   window.VV_WELCOME=function(){try{localStorage.removeItem(K);}catch(e){}show(true);};
   if(!seen)setTimeout(function(){if(!document.documentElement.classList.contains("vv-silence"))show();},700);
+})();
+</script>
+<script id="newness">
+/* «Нове»: what the listener has not seen yet glows and carries a badge until it has been on screen for a moment */
+(function(){
+  var K="vv-known",UNITS="#breaking article, .news article, .lead, .dish, details.legend-mi, .hl-ep, #nederland .nl";
+  function key(u){var h=u.querySelector("h3,summary")||u;return (h.textContent||"").replace(/\s+/g," ").trim().slice(0,90);}
+  var css=document.createElement("style");css.textContent=
+    ".is-new{box-shadow:inset 4px 0 0 #ff5d47 !important}"+
+    ".nb{display:inline-block;vertical-align:middle;margin:0 8px 0 0;padding:2px 9px;border-radius:999px;background:#ff5d47;color:#1a100b;font:700 10.5px/1.6 'PT Mono',monospace;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 0 12px #ff5d4799;animation:nbp 1.8s ease-in-out infinite;transition:opacity .8s}"+
+    "@keyframes nbp{50%{box-shadow:0 0 22px #ff5d47cc}}.nb.gone{opacity:0}"+
+    ".mtile{position:relative}.ndot{position:absolute;top:10px;right:10px;width:11px;height:11px;border-radius:50%;background:#ff5d47;box-shadow:0 0 10px #ff5d47;animation:nbp 1.8s infinite}"+
+    ".ndot.txt{width:auto;height:auto;padding:1px 7px;font:700 9.5px/1.6 'PT Mono',monospace;color:#1a100b;letter-spacing:.1em}"+
+    ".newbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 14px;padding:10px 14px;border-radius:14px;border:1px solid #ff5d4766;background:#ff5d4714;font:13px 'PT Mono',monospace;letter-spacing:.04em}"+
+    ".newbar b{color:#ff8f7d}.newbar button{margin-left:auto;background:none;border:1px solid #ff5d4788;color:inherit;border-radius:999px;padding:5px 12px;font:inherit;cursor:pointer}"+
+    "[data-tab] .tdot{position:absolute;top:6px;right:calc(50% - 20px);width:9px;height:9px;border-radius:50%;background:#ff5d47;box-shadow:0 0 8px #ff5d47}";
+  document.head.appendChild(css);
+  var known=null;try{known=JSON.parse(localStorage.getItem(K)||"null");}catch(e){}
+  var units=[].slice.call(document.querySelectorAll(UNITS)),tiles=[].slice.call(document.querySelectorAll(".mtile"));
+  if(!known){ /* first time: today's additions count as new, the rest as already known */
+    var fresh={};[].slice.call(document.querySelectorAll("#breaking article, .news article")).slice(0,12).forEach(function(u){fresh[key(u)]=1;});
+    [].forEach.call(document.querySelectorAll(".hl-ep, details.legend-mi"),function(u){fresh[key(u)]=1;});
+    ["kalendar","holostiak","welcome","stil"].forEach(function(g){fresh["tile:"+g]=1;});
+    known=units.map(key).filter(function(k){return !fresh[k];}).concat(tiles.map(function(t){return "tile:"+t.dataset.go;}).filter(function(k){return !fresh[k];}));
+  }
+  var set={};known.forEach(function(k){set[k]=1;});
+  function save(){try{localStorage.setItem(K,JSON.stringify(Object.keys(set)));}catch(e){}}
+  save();
+  function sectionOf(u){var s=u.closest("section[id]");return s?s.id:"";}
+  function paintTiles(){
+    var bySec={};document.querySelectorAll(".is-new").forEach(function(u){var id=sectionOf(u);bySec[id]=(bySec[id]||0)+1;});
+    var any=false;
+    tiles.forEach(function(t){var d=t.querySelector(".ndot");var g=t.dataset.go,n=bySec[g]||0,isNew=!set["tile:"+g];
+      if(isNew||n){any=true;if(!d){d=document.createElement("i");d.className="ndot";t.appendChild(d);}d.className="ndot"+(isNew?" txt":"");d.textContent=isNew?"НОВЕ":"";}
+      else if(d)d.remove();});
+    var mt=document.querySelector('[data-tab="more"]');if(mt){var td=mt.querySelector(".tdot");if(any&&!td){td=document.createElement("i");td.className="tdot";mt.appendChild(td);}else if(!any&&td)td.remove();}
+    var nb=document.getElementById("newbar"),cnt=document.querySelectorAll("#novyny .is-new").length;
+    if(cnt){if(!nb){nb=document.createElement("div");nb.id="newbar";nb.className="newbar";var nv=document.getElementById("novyny"),sub=nv&&nv.querySelector(".sub");if(sub)sub.after(nb);}
+      nb.innerHTML='<span>✦ Нового для тебе: <b>'+cnt+'</b></span><button type="button">позначити все прочитаним</button>';
+      nb.querySelector("button").onclick=function(){document.querySelectorAll("#novyny .is-new").forEach(seen);};}
+    else if(nb)nb.remove();
+  }
+  function seen(u){set[key(u)]=1;save();u.classList.remove("is-new");var b=u.querySelector(".nb");if(b){b.classList.add("gone");setTimeout(function(){b.remove();},800);}paintTiles();}
+  var io="IntersectionObserver" in window?new IntersectionObserver(function(es){es.forEach(function(e){var u=e.target;
+      if(e.isIntersecting){u._t=setTimeout(function(){if(u.offsetParent!==null){seen(u);io.unobserve(u);}},1600);}else clearTimeout(u._t);});},{threshold:.6}):null;
+  units.forEach(function(u){if(set[key(u)])return;u.classList.add("is-new");
+    var b=document.createElement("span");b.className="nb";b.textContent="нове";var tag=u.querySelector(".tag,.mono,summary");
+    if(tag&&tag.tagName!=="SUMMARY")tag.before(b);else (u.querySelector("summary")||u).prepend(b);
+    if(io)io.observe(u);});
+  tiles.forEach(function(t){t.addEventListener("click",function(){if(!set["tile:"+t.dataset.go]){set["tile:"+t.dataset.go]=1;save();paintTiles();}});});
+  paintTiles();
 })();
 </script>
 <script id="lightbox">

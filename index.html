@@ -2561,6 +2561,8 @@ html.mono{filter:grayscale(1) contrast(1.05)}
 html.mono *,html.mono *::before,html.mono *::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 html.mono .burst,html.mono .spark,html.mono .pop{display:none!important}
 html{touch-action:manipulation}
+/* never let the page pan sideways (Instagram and other in-app browsers make it obvious) */
+html,body{overflow-x:clip;max-width:100%}
 html.app,html.app body{-webkit-tap-highlight-color:transparent}
 /* ================= app shell: tabs, screens, menu. Active only in the app (html.app). ================= */
 html.app{--abar:54px;--tbar:66px;--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);-webkit-tap-highlight-color:transparent}
@@ -2622,7 +2624,7 @@ html.app footer{margin-top:34px}
 @keyframes badgeIn{from{transform:scale(0)}}
 
 /* stories row */
-.stories{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;margin:16px -18px 0;padding:4px 18px 6px;scroll-snap-type:x proximity;scroll-padding-inline:18px}
+.stories{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;margin:16px -14px 0;padding:4px 14px 6px;scroll-snap-type:x proximity;scroll-padding-inline:14px}
 .stories::-webkit-scrollbar{display:none}
 .story{flex:none;scroll-snap-align:start;border:0;background:none;color:var(--ivory);display:flex;flex-direction:column;align-items:center;gap:6px;width:70px;padding:0;
   font-family:var(--f-mono);font-size:11px;text-transform:lowercase}

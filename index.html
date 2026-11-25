@@ -117,6 +117,10 @@ header{padding:34px 0 10px;text-align:left}
   font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase
 }
 .sound[aria-pressed="true"]{background:radial-gradient(circle at 35% 30%,#d6fff8,var(--mint))}
+.rvol{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px}
+.rvol input{flex:1;min-width:0;accent-color:var(--amber);height:28px}
+.rvq{flex:none;border-radius:999px;border:1px solid #1a0f09;padding:7px 11px;background:#2b1a11;color:var(--ivory);font:11px var(--f-mono);letter-spacing:.04em;white-space:nowrap}
+.rvq[aria-pressed="true"]{background:var(--mint);color:var(--ink)}
 
 /* ---------- sections ---------- */
 section{margin-top:64px}
@@ -537,6 +541,12 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
     <div class="lower">
       <div class="grille" aria-hidden="true"></div>
       <button class="sound" id="sound" aria-pressed="false">Увімкнути звук</button>
+    </div>
+    <div class="rvol" role="group" aria-label="Гучність радіо">
+      <span aria-hidden="true">🔈</span>
+      <input type="range" id="rvol" min="0" max="100" step="1" aria-label="Гучність радіо">
+      <span aria-hidden="true">🔊</span>
+      <button type="button" class="rvq" id="rvq" aria-pressed="false" title="Тихенько, щоб не заважало на зустрічі">🤫 для зустрічей</button>
     </div>
   </div>
 <div class="marq" aria-label="Рядок, що біжить"><div><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg></div></div>
@@ -1246,7 +1256,10 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   cycle();
 
   /* ================= audio ================= */
-  var ctx=null,master=null,fx=null,noiseBuf=null,bed=null,on=false,btn=$("sound");
+  var ctx=null,master=null,fx=null,noiseBuf=null,bed=null,on=false,btn=$("sound"),radioG=null;
+  /* the station's own volume, apart from interface sounds: low enough to keep on during a meeting */
+  var rvol=.8;try{var rv=localStorage.getItem("radio-vol");if(rv!==null)rvol=Math.max(0,Math.min(1,+rv));}catch(e){}
+  function curve(v){return v*v;}
   /* interface sounds live apart from the radio: on by default in the app, the radio button only drives the station beds */
   var ui=!!(window.VV_APP||document.documentElement.classList.contains("app"));
   try{var us=localStorage.getItem("ui-sound");if(us!==null)ui=us==="1";}catch(e){}
@@ -1255,11 +1268,24 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   }
   ["touchend","click","keydown"].forEach(function(ev){document.addEventListener(ev,function(){if(on||ui)wake();},true);});
   var PENTA=[1,9/8,5/4,3/2,5/3,2,9/4,5/2,3,10/3,4];
+  var rIn=$("rvol"),rQ=$("rvq"),QUIET=.25,prevVol=null;
+  function setVol(v,keep){
+    rvol=Math.max(0,Math.min(1,v));if(rIn)rIn.value=Math.round(rvol*100);
+    if(rQ)rQ.setAttribute("aria-pressed",Math.abs(rvol-QUIET)<.005?"true":"false");
+    if(radioG&&ctx)radioG.gain.setTargetAtTime(curve(rvol),ctx.currentTime,.08);
+    if(!keep)try{localStorage.setItem("radio-vol",rvol);}catch(e){}
+  }
+  if(rIn){setVol(rvol,true);rIn.addEventListener("input",function(){setVol(rIn.value/100);});}
+  if(rQ)rQ.addEventListener("click",function(){
+    if(rQ.getAttribute("aria-pressed")==="true")setVol(prevVol!=null?prevVol:.8);else{prevVol=rvol;setVol(QUIET);}
+    if(!on&&btn)btn.click(); /* meeting mode means you want it playing, just quietly */
+  });
 
   function init(){
     var AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw new Error("no audio");
     ctx=new AC();
     master=ctx.createGain();master.gain.value=0.9;master.connect(ctx.destination);
+    radioG=ctx.createGain();radioG.gain.value=curve(rvol);radioG.connect(master);
     var len=ctx.sampleRate*2;noiseBuf=ctx.createBuffer(1,len,ctx.sampleRate);
     var d=noiseBuf.getChannelData(0);for(var i=0;i<len;i++)d[i]=Math.random()*2-1;
     /* shared echo for the interface sounds */
@@ -1299,7 +1325,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   function makeBed(name){
     var out=ctx.createGain(),t=ctx.currentTime,srcs=[];
     out.gain.setValueAtTime(0,t);out.gain.linearRampToValueAtTime(1,t+0.45);
-    var lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=20000;lp.Q.value=0.7;out.connect(lp);lp.connect(master);
+    var lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=20000;lp.Q.value=0.7;out.connect(lp);lp.connect(radioG||master);
     function noise(type,freq,q,vol){
       var s=ctx.createBufferSource();s.buffer=noiseBuf;s.loop=true;
       var f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;

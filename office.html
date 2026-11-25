@@ -2,6 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
+<script src="vendor/huchnist.js"></script>
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -185,6 +186,7 @@ html.ondesk body::after{display:none}
 html.ondesk #bslow,html.ondesk #bfast,html.ondesk .boss{display:none}
 html.calm #bslow,html.calm #bmix,html.calm #bfast,html.calm .boss,html.calm .pop{display:none!important}
 html.noanim .pop,html.noanim #cur{display:none!important}
+#bvol{display:flex;align-items:center;flex:none;--vv-knob-accent:var(--accent,#f2b544)}
 #bset{height:30px;width:30px;border-radius:50%;border:1px solid var(--edge2);font-size:14px;color:var(--text);flex:none}
 #bset:hover{background:#ffffff0d}
 .oset .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 14px}
@@ -267,6 +269,7 @@ html.lag .tab .tt{filter:blur(1.5px)}
       <button id="btheme" title="Колір (C)"><span class="sw"></span><span class="lb" id="themelb">Зона</span></button>
       <button id="bfast" title="Не натискати">⚡<span class="lb">прискорити</span></button>
     </div>
+    <span id="bvol" title="Гучність усіх звуків Офісу й вкладок"></span>
     <button id="bset" title="Налаштування Офісу: рівень дофаміну, звуки, автопілот" aria-label="Налаштування">⚙</button>
     <button class="boss" id="boss" aria-pressed="true" title="Пробіл або Esc"><span class="ic">🕴</span> <span class="lb">автопілот продуктивності</span></button>
   </div>
@@ -1142,5 +1145,6 @@ var hv=(location.hash||"").slice(1);if(/^(sheet|doc|delta|desk|radio|rec|fin)$/.
 sizeMap();status();hud();chart();requestAnimationFrame(frame);
 })();
 </script>
+<script>try{VV_VOLUME.knob(document.getElementById("bvol"),{size:30});}catch(e){}</script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
+<script src="vendor/huchnist.js"></script>
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -122,6 +123,7 @@ header{padding:34px 0 10px;text-align:left}
 .rvol input{flex:1;min-width:0;accent-color:var(--amber);height:28px}
 .rvq{flex:none;border-radius:999px;border:1px solid #1a0f09;padding:7px 11px;background:#2b1a11;color:var(--ivory);font:11px var(--f-mono);letter-spacing:.04em;white-space:nowrap}
 .rvq[aria-pressed="true"]{background:var(--mint);color:var(--ink)}
+.rvall{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;--vv-knob-accent:var(--amber)}.rvall small{order:2;font:9px var(--f-mono);letter-spacing:.06em;opacity:.75}
 
 /* ---------- sections ---------- */
 section{margin-top:64px;scroll-margin-top:72px}
@@ -561,6 +563,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
       <input type="range" id="rvol" min="0" max="100" step="1" aria-label="Гучність радіо">
       <span aria-hidden="true">🔊</span>
       <button type="button" class="rvq" id="rvq" aria-pressed="false" title="Тихенько, щоб не заважало на зустрічі">🤫 для зустрічей</button>
+      <span class="rvall" id="rvall" title="Гучність усього застосунку: радіо, ігри, Маестро, Рація, голос"><small>усе</small></span>
     </div>
   </div>
 <div class="marq" aria-label="Рядок, що біжить"><div><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>вайбвет літо, осінь, зима і ще раз зима</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>365</em> днів у строю · <em>0</em> днів відпустки</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>клуб «перегаворка» · вхід за рапортом</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>ластівки повертаються додому. ти теж повернувся</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>тебе люблять просто так, довідка не потрібна</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span>таємна мережа існує · це просто хороші люди</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg><span><em>мінвайбвет</em> радить: танцюй, поки чекаєш</span><svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 2c5 0 8 2 12 5 4-3 7-5 12-5-4 1-7 4-9 8l-3-3-3 3C7 6 4 3 0 2z"/></svg></div></div>
@@ -3598,5 +3601,6 @@ html:not(.app) .desknav .dn-h:first-child{margin-top:0}
   document.addEventListener("click",function(e){var im=e.target.closest&&e.target.closest(".cartoon img, article img");if(!im||im.closest(".vvlb"))return;e.preventDefault();open(im.currentSrc||im.src,im.alt);});
 })();
 </script>
+<script>try{var k=VV_VOLUME.knob(document.getElementById("rvall"),{size:34});document.getElementById("rvall").insertBefore(k,document.getElementById("rvall").firstChild);}catch(e){}</script>
 </body>
 </html>

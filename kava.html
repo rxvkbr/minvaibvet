@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/huchnist.js"></script>
+<script src="vendor/hvylyna.js"></script>
+<script src="vendor/vkladky.js" defer></script>
+<script src="vendor/jsbarcode-code128-3.12.3.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Талон на безкоштовну каву для українця · Вайбвет FM</title>
+<meta name="description" content="Генератор талонів Мінвайбвету на безкоштовну каву для українця. Справжній штрихкод Code 128: його прочитає будь-який сканер світу. Дійсний там, де є добрі люди.">
+<meta property="og:title" content="Талон на безкоштовну каву для українця · Вайбвет FM">
+<meta property="og:description" content="Штрихкод читається в усьому світі. Кава — на розсуд баристи.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/kava">
+<style>
+:root{--bg:#1a120c;--panel:#2a1d14;--edge:#4c3424;--ivory:#f6ead2;--dim:#bba68a;--crema:#d9a066;--coral:#ff6b4a;--paper:#fffaf0;--ink:#20150e;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#4a2e1b 0,var(--bg) 60%) fixed;color:var(--ivory);font:16px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,select,input{font:inherit;color:inherit}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 14px 6px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:7px 13px;color:var(--ivory);text-decoration:none;font:13px ui-monospace,"SF Mono",Menlo,monospace;white-space:nowrap}
+main{max-width:520px;margin:0 auto;padding:6px 16px calc(40px + env(safe-area-inset-bottom))}
+h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px 0 6px;text-align:center}
+.lede{text-align:center;color:var(--dim);margin:0 0 18px}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:16px}
+.ctl label{display:flex;flex-direction:column;gap:4px;font:12px ui-monospace,monospace;letter-spacing:.06em;color:var(--dim);text-transform:uppercase}
+.ctl input,.ctl select{width:100%;min-width:0;background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:10px 12px;text-transform:none;letter-spacing:0;font:15px system-ui,sans-serif;color:var(--ivory)}
+/* the coupon */
+.tal{position:relative;background:var(--paper);color:var(--ink);border-radius:18px;padding:20px 20px 16px;box-shadow:0 14px 40px rgba(0,0,0,.45);overflow:hidden}
+.tal:before,.tal:after{content:"";position:absolute;top:118px;width:26px;height:26px;border-radius:50%;background:var(--bg)}
+.tal:before{left:-13px}.tal:after{right:-13px}
+.tal .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.tal .org{font:700 11px ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:#8a5a2b}
+.tal .no{font:12px ui-monospace,monospace;color:#7a6550;text-align:right}
+.tal h2{font:800 25px/1.1 Georgia,serif;margin:8px 0 2px}
+.tal .for{font-size:15px;color:#5c4636}
+.tal .cup{font-size:40px;line-height:1}
+.perf{border-top:2px dashed #d8c7ac;margin:22px -20px 14px}
+.bc{display:flex;justify-content:center;background:#fff;border-radius:10px;padding:6px 0}
+.bc svg{max-width:100%;height:auto;shape-rendering:crispEdges}
+.terms{font-size:12.5px;color:#5c4636;margin:12px 0 0;line-height:1.45}
+.terms b{color:var(--ink)}
+.barista{margin-top:10px;font:11.5px/1.45 ui-monospace,monospace;color:#7a6550;border-top:1px solid #eadcc4;padding-top:8px}
+.stamp{position:absolute;right:14px;top:74px;transform:rotate(-12deg);border:3px solid #b8432f;color:#b8432f;border-radius:10px;padding:3px 8px;font:800 12px ui-monospace,monospace;letter-spacing:.1em;opacity:.8}
+.act{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.btn{border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:10px 16px;cursor:pointer}
+.btn.main{background:var(--crema);border-color:var(--crema);color:#1d120a;font-weight:700}
+.note{color:var(--dim);font-size:13px;text-align:center;margin-top:18px}
+.cnt{text-align:center;font:12px ui-monospace,monospace;color:var(--dim);margin-top:8px}
+/* show-to-barista mode */
+#show{position:fixed;inset:0;z-index:20;background:#fff;color:#111;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px}
+#show.on{display:flex}
+#show svg{max-width:100%;height:auto;shape-rendering:crispEdges}
+#show .t{font:700 22px Georgia,serif;text-align:center}
+#show .s{font:13px ui-monospace,monospace;color:#555;text-align:center;max-width:560px}
+#show button{border:1px solid #ccc;background:#f4f4f4;border-radius:999px;padding:9px 16px;color:#111;cursor:pointer}
+@media print{body{background:#fff}.top,.ctl,.act,.note,.cnt,.lede,h1{display:none}.tal{box-shadow:none;border:1px solid #ccc}.tal:before,.tal:after{display:none}}
+</style>
+</head>
+<body>
+<div class="top"><a class="pill" href="index.html" id="back">← Вайбвет FM</a><span class="pill">☕ Відділ кавової дипломатії</span></div>
+<main>
+  <h1>Талон на безкоштовну каву</h1>
+  <p class="lede">для українця · штрихкод читається в будь-якій країні світу</p>
+
+  <div class="ctl">
+    <label>Кому<input id="who" maxlength="28" placeholder="Українцю" autocomplete="off"></label>
+    <label>Що
+      <select id="what">
+        <option value="ESP">Еспресо</option>
+        <option value="AMR">Американо</option>
+        <option value="CAP" selected>Капучино</option>
+        <option value="LAT">Лате</option>
+        <option value="FLW">Флет-вайт</option>
+        <option value="3V1">Кава 3в1, як удома</option>
+        <option value="TEA">Чай (для тих, хто вже не може)</option>
+      </select>
+    </label>
+  </div>
+
+  <section class="tal" id="tal" aria-label="Талон">
+    <div class="stamp">ДІЙСНИЙ</div>
+    <div class="hd">
+      <div><div class="org">Мінвайбвет · Вайбвет FM</div><h2 id="tdrink">Одне капучино</h2><div class="for" id="tfor">українцю, просто так</div><div class="no" style="text-align:left;margin-top:4px" id="tno">№ —</div></div>
+      <div class="no"><div class="cup" aria-hidden="true">☕</div></div>
+    </div>
+    <div class="perf" aria-hidden="true"></div>
+    <div class="bc"><svg id="bc" role="img" aria-label="Штрихкод талона"></svg></div>
+    <p class="terms"><b>Умови:</b> дійсний у всьому світі, де є добрі люди. Бариста не зобов'язаний, але може. Термін дії: поки не захолоне. Обміну на гроші не підлягає, на обійми — так.</p>
+    <p class="barista" id="tbarista">EN · Free coffee for a Ukrainian? A joke coupon from MinVibeVet radio: no shop will refund it. It's valid only if you smile. ☺</p>
+  </section>
+
+  <div class="act">
+    <button class="btn main" id="new">☕ Новий талон</button>
+    <button class="btn" id="showb">📱 Показати баристі</button>
+    <button class="btn" id="save">⬇︎ Зберегти картинку</button>
+    <button class="btn" id="share">↗︎ Поділитися</button>
+  </div>
+  <div class="cnt" id="cnt"></div>
+  <p class="note">Штрихкод — справжній Code 128: його зчитає сканер у Києві, Амстердамі чи Токіо. Усередині не код товару й не купон мережі, а чесний напис «Мінвайбвет: кава українцю». Тож платить за каву той, хто її пригощає. Талони генеруються на твоєму пристрої й нікуди не надсилаються.</p>
+</main>
+
+<div id="show" role="dialog" aria-modal="true" aria-label="Талон для баристи">
+  <div class="t" id="st">Одне капучино українцю</div>
+  <svg id="bc2"></svg>
+  <div class="s" id="ss"></div>
+  <button id="close">Закрити</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(i){return document.getElementById(i);};
+  var DR={ESP:["Одне еспресо","one espresso"],AMR:["Один американо","one americano"],CAP:["Одне капучино","one cappuccino"],LAT:["Одне лате","one latte"],
+    FLW:["Один флет-вайт","one flat white"],"3V1":["Одна кава 3в1","one 3-in-1 coffee (yes, really)"],TEA:["Один чай","one tea"]};
+  var LANG=[
+    "EN · Free coffee for a Ukrainian? A joke coupon from MinVibeVet radio: no shop will refund it. It's valid only if you smile. ☺",
+    "NL · Gratis koffie voor een Oekraïner? Een grapbon van radio MinVibeVet: geen winkel vergoedt hem. Alleen geldig als je glimlacht. ☺",
+    "DE · Gratis-Kaffee für eine:n Ukrainer:in? Ein Spaßgutschein von Radio MinVibeVet: Kein Laden erstattet ihn. Gültig nur mit einem Lächeln. ☺",
+    "PL · Darmowa kawa dla Ukraińca? Żartobliwy kupon radia MinVibeVet: żaden sklep go nie zrefunduje. Ważny tylko z uśmiechem. ☺",
+    "FR · Un café offert à un Ukrainien ? Un bon pour rire de la radio MinVibeVet : aucune boutique ne le rembourse. Valable seulement avec un sourire. ☺"
+  ];
+  var A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  function serial(){var s="",r=new Uint32Array(6);(crypto||msCrypto).getRandomValues(r);for(var i=0;i<6;i++)s+=A[r[i]%A.length];return s;}
+  var KEY="vv-kava";var st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
+  st.n=st.n||0;
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+  if(st.who)$("who").value=st.who;if(st.what&&DR[st.what])$("what").value=st.what;
+  var cur=st.cur||serial(),li=st.li||0;
+  function payload(){return "VV-KAVA-UA-"+cur+"-"+$("what").value;}
+  function who(){return ($("who").value||"").trim();}
+  /* whole-pixel bars: measure the code once at 1px per module, then pick the widest module that fits */
+  function draw(svg,big){
+    var room=big?Math.min(innerWidth-24,900):(svg.parentNode.clientWidth||300)-8;
+    var o={format:"CODE128",height:big?160:84,displayValue:true,text:"KAVA · UA · "+cur,font:"ui-monospace, Menlo, monospace",fontSize:big?20:14,margin:big?16:10,background:"#ffffff",lineColor:"#111111"};
+    o.width=1;JsBarcode(svg,payload(),o);
+    var w1=parseFloat(svg.getAttribute("width"))||room,mods=w1-2*o.margin;
+    o.width=Math.max(1,Math.floor((room-2*o.margin)/mods));JsBarcode(svg,payload(),o);
+  }
+  function paint(){
+    var d=DR[$("what").value],w=who();
+    $("tdrink").textContent=d[0];
+    $("tfor").textContent=w?("для: "+w+", українцю, просто так"):"українцю, просто так";
+    $("tno").textContent="№ "+cur;
+    $("tbarista").textContent=LANG[li%LANG.length];
+    draw($("bc"),false);
+    $("cnt").textContent=st.n?("Видано талонів на цьому пристрої: "+st.n):"";
+    st.who=w;st.what=$("what").value;st.cur=cur;st.li=li;save();
+  }
+  $("who").addEventListener("input",paint);$("what").addEventListener("change",paint);
+  $("new").onclick=function(){cur=serial();li++;st.n++;paint();
+    var t=$("tal");t.animate&&t.animate([{transform:"translateY(8px) rotate(-1deg)",opacity:.4},{transform:"none",opacity:1}],{duration:260,easing:"ease-out"});};
+  if(!st.cur){st.n++;}
+  paint();
+
+  /* show to barista: big, white, screen kept awake */
+  var lock=null;
+  function awake(on){
+    try{if(window.Purr&&Purr.awake){Purr.awake({on:on});return;}}catch(e){}
+    try{if(on&&navigator.wakeLock)navigator.wakeLock.request("screen").then(function(l){lock=l;}).catch(function(){});else if(lock){lock.release();lock=null;}}catch(e){}
+  }
+  $("showb").onclick=function(){
+    var d=DR[$("what").value];
+    $("st").textContent=d[0]+" українцю"+(who()?" · "+who():"");
+    $("ss").textContent="For the barista: "+d[1]+" for a Ukrainian — a joke coupon from MinVibeVet radio, paid by whoever treats. Valid only with a smile ☺";
+    draw($("bc2"),true);$("show").classList.add("on");awake(true);
+  };
+  $("close").onclick=function(){$("show").classList.remove("on");awake(false);};
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&$("show").classList.contains("on"))$("close").onclick();});
+
+  /* coupon → PNG, drawn locally */
+  function png(cb){
+    var W=900,H=1040,c=document.createElement("canvas");c.width=W;c.height=H;var x=c.getContext("2d");
+    x.fillStyle="#1a120c";x.fillRect(0,0,W,H);
+    x.fillStyle="#fffaf0";rr(x,40,40,W-80,H-80,36);x.fill();
+    x.fillStyle="#8a5a2b";x.font="700 22px ui-monospace,Menlo,monospace";x.fillText("МІНВАЙБВЕТ · ВАЙБВЕТ FM",90,120);
+    x.fillStyle="#20150e";x.font="800 54px Georgia,serif";x.fillText(DR[$("what").value][0],90,195);
+    x.fillStyle="#5c4636";x.font="28px system-ui,sans-serif";x.fillText($("tfor").textContent,90,245);
+    x.font="72px serif";x.fillText("☕",W-180,150);
+    x.fillStyle="#7a6550";x.font="24px ui-monospace,Menlo,monospace";x.textAlign="right";x.fillText("№ "+cur,W-90,215);x.textAlign="left";
+    x.strokeStyle="#d8c7ac";x.setLineDash([14,10]);x.lineWidth=3;x.beginPath();x.moveTo(40,300);x.lineTo(W-40,300);x.stroke();x.setLineDash([]);
+    var bc=document.createElement("canvas");
+    JsBarcode(bc,payload(),{format:"CODE128",width:4,height:220,displayValue:true,text:"KAVA · UA · "+cur,fontSize:30,margin:20,background:"#ffffff",lineColor:"#111111"});
+    var s=Math.min((W-180)/bc.width,1);x.drawImage(bc,(W-bc.width*s)/2,340,bc.width*s,bc.height*s);
+    x.fillStyle="#5c4636";x.font="24px system-ui,sans-serif";
+    wrap(x,"Дійсний у всьому світі, де є добрі люди. Бариста не зобов'язаний, але може. Термін дії: поки не захолоне. Обміну на гроші не підлягає, на обійми — так.",90,700,W-180,34);
+    x.fillStyle="#7a6550";x.font="20px ui-monospace,Menlo,monospace";wrap(x,LANG[li%LANG.length],90,870,W-180,28);
+    x.fillStyle="#b8432f";x.font="18px ui-monospace,Menlo,monospace";x.fillText("minvaibvet.pp.ua/kava",90,H-70);
+    c.toBlob(cb,"image/png");
+  }
+  function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
+  function wrap(x,t,a,y,mw,lh){var ws=t.split(" "),l="";for(var i=0;i<ws.length;i++){var tt=l+ws[i]+" ";if(x.measureText(tt).width>mw&&l){x.fillText(l,a,y);l=ws[i]+" ";y+=lh;}else l=tt;}x.fillText(l,a,y);}
+  function fname(){return "kava-ua-"+cur+".png";}
+  $("save").onclick=function(){png(function(b){var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=fname();document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);});};
+  $("share").onclick=function(){
+    png(function(b){
+      var f;try{f=new File([b],fname(),{type:"image/png"});}catch(e){}
+      var data={title:"Талон на безкоштовну каву",text:"Талон Мінвайбвету: "+DR[$("what").value][0].toLowerCase()+" українцю ☕ Пригостиш?",url:"https://minvaibvet.pp.ua/kava"};
+      if(f&&navigator.canShare&&navigator.canShare({files:[f]}))navigator.share(Object.assign({files:[f]},data)).catch(function(){});
+      else if(navigator.share)navigator.share(data).catch(function(){});
+      else{try{navigator.clipboard.writeText(data.text+" "+data.url);$("share").textContent="✓ скопійовано";setTimeout(function(){$("share").textContent="↗︎ Поділитися";},1600);}catch(e){}}
+    });
+  };
+})();
+</script>
+</body>
+</html>

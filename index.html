@@ -198,6 +198,9 @@ html[lang="zh"] .breaking h3,html[lang="ar"] .breaking h3{font-family:inherit;fo
 .iban .ir span{color:var(--ivory-dim);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 .iban .ir b{font-weight:400;color:var(--ivory);word-break:break-all;user-select:all;-webkit-user-select:all}
 .iban .ir button{border:1px solid var(--panel-edge);background:none;color:var(--amber);border-radius:6px;padding:4px 8px;font:11px var(--f-mono);cursor:pointer}
+.itabs{display:flex;gap:4px;padding:6px;border-bottom:1px solid var(--panel-edge);overflow-x:auto;scrollbar-width:none}
+.itabs button{flex:none;border:1px solid transparent;background:none;color:var(--ivory-dim);border-radius:6px;padding:5px 9px;font:11.5px var(--f-mono);cursor:pointer}
+.itabs button[aria-selected="true"]{border-color:var(--amber);color:var(--amber)}
 .iban .note{padding:9px 12px;color:var(--ivory-dim);font-size:11.5px;font-family:var(--f-body,inherit)}
 @media (max-width:480px){.iban .ir{grid-template-columns:1fr auto}.iban .ir span{grid-column:1/-1}}
 .call:active{transform:translateY(3px);box-shadow:0 1px 0 #8f2416}
@@ -745,7 +748,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
       <h3>Підтримати станцію</h3>
       <p style="margin:0 0 16px;color:var(--ivory-dim)">Гроші підуть на домен, застосунок і каву три в одному для редакції. На відпустку не витратимо: її все одно не дадуть. Це не збір на потреби військових.</p>
       <a class="call" href="https://send.monobank.ua/jar/AC4G66LERn" target="_blank" rel="noopener">Кинути в банку</a>
-      <button class="call alt" id="ibanBtn" type="button" hidden aria-expanded="false" aria-controls="ibanBox">З-за кордону · USD · IBAN &amp; SWIFT</button>
+      <button class="call alt" id="ibanBtn" type="button" hidden aria-expanded="false" aria-controls="ibanBox">З-за кордону · EUR / USD · IBAN</button>
       <div class="iban" id="ibanBox" hidden></div>
     </div>
     <div class="card" id="invite">
@@ -1169,30 +1172,37 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
 </div>
 
 <script id="iban-js">
-/* Bank transfer details for supporting the station. Fill these in and the button appears by itself. */
+/* Bank transfer details for supporting the station from abroad. One tab per account. */
 (function(){
-  var BANK={
-    name:"AMAND ANDRII",
-    iban:"UA473220010000026209301671064",
-    swift:"UNJSUAUKXXX",
-    bank:"JSC UNIVERSAL BANK (monobank), Kyiv, Ukraine",
-    currency:"USD",
-    purpose:"Donation to Vaibvet FM / Підтримка Вайбвет FM"
-  };
+  var ACC=[
+    {tab:"EUR · Європа (SEPA)",rows:[["Валюта","EUR"],["Отримувач","AMAND ANDRII"],["IBAN","GB69CLJU00997180066458"],["BIC","CLJUGB21"],["Банк","Clear Junction Limited (для monobank)"],["Призначення","Donation to Vaibvet FM"]],
+     note:"Для переказів з Європи по SEPA, лише в євро. Зазвичай доходять за 1–5 робочих днів."},
+    {tab:"EUR · SWIFT",rows:[["Валюта","EUR"],["Отримувач","AMAND ANDRII"],["IBAN","UA753220010000026206301669013"],["SWIFT / BIC","UNJSUAUKXXX"],["Банк","JSC UNIVERSAL BANK (monobank), Kyiv, Ukraine"],["Призначення","Donation to Vaibvet FM"]],
+     note:"Для переказів у євро з будь-якої країни через SWIFT. Банки-посередники можуть узяти додаткову комісію; зазвичай 3–5 робочих днів."},
+    {tab:"USD · SWIFT",rows:[["Валюта","USD"],["Отримувач","AMAND ANDRII"],["IBAN","UA473220010000026209301671064"],["SWIFT / BIC","UNJSUAUKXXX"],["Банк","JSC UNIVERSAL BANK (monobank), Kyiv, Ukraine"],["Призначення","Donation to Vaibvet FM"]],
+     note:"Лише долари США, переказ SWIFT з будь-якої країни. Банки-посередники можуть узяти додаткову комісію; зазвичай 3–5 робочих днів."}];
   var btn=document.getElementById("ibanBtn"),box=document.getElementById("ibanBox");
-  if(!btn||!BANK.iban)return;
+  if(!btn||!ACC.length)return;
   btn.hidden=false;
-  var rows=[["Валюта",BANK.currency],["Отримувач",BANK.name],["IBAN",BANK.iban.replace(/\s+/g,"").replace(/(.{4})/g,"$1 ").trim()],["SWIFT / BIC",BANK.swift],["Банк",BANK.bank],["Призначення",BANK.purpose]].filter(function(r){return r[1];});
+  function spaced(v){return v.replace(/\s+/g,"").replace(/(.{4})/g,"$1 ").trim();}
   function copy(t,b){var done=function(){var o=b.textContent;b.textContent="✓";setTimeout(function(){b.textContent=o;},1200);};
     try{navigator.clipboard.writeText(t).then(done,fallback);}catch(e){fallback();}
     function fallback(){var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done();}catch(e){}ta.remove();}}
-  rows.forEach(function(r){var d=document.createElement("div");d.className="ir";var sp=document.createElement("span"),v=document.createElement("b"),c=document.createElement("button");
-    sp.textContent=r[0];v.textContent=r[1];c.type="button";c.textContent="копіювати";c.onclick=function(){copy(r[0]==="IBAN"?BANK.iban.replace(/\s+/g,""):r[1],c);};
-    d.appendChild(sp);d.appendChild(v);d.appendChild(c);box.appendChild(d);});
-  var all=document.createElement("div");all.className="ir";var sa=document.createElement("span");sa.textContent="Усе разом";var va=document.createElement("b");va.textContent="для листа чи банківського застосунку";
-  var ca=document.createElement("button");ca.type="button";ca.textContent="копіювати все";ca.onclick=function(){copy(rows.map(function(r){return r[0]+": "+r[1];}).join("\n"),ca);};
-  all.appendChild(sa);all.appendChild(va);all.appendChild(ca);box.appendChild(all);
-  var n=document.createElement("div");n.className="note";n.textContent="Лише долари США (USD), переказ SWIFT з будь-якої країни. Банки-посередники можуть узяти додаткову комісію; гроші зазвичай доходять за 3–5 робочих днів. Дякуємо: навіть одна кава три в одному тримає ефір.";box.appendChild(n);
+  var tabs=document.createElement("div");tabs.className="itabs";tabs.setAttribute("role","tablist");box.appendChild(tabs);
+  var body=document.createElement("div");box.appendChild(body);
+  function show(i){
+    [].forEach.call(tabs.children,function(t,k){t.setAttribute("aria-selected",k===i?"true":"false");});
+    body.innerHTML="";var a=ACC[i];
+    a.rows.forEach(function(r){var d=document.createElement("div");d.className="ir";var sp=document.createElement("span"),v=document.createElement("b"),c=document.createElement("button");
+      sp.textContent=r[0];v.textContent=r[0]==="IBAN"?spaced(r[1]):r[1];c.type="button";c.textContent="копіювати";c.onclick=function(){copy(r[0]==="IBAN"?r[1].replace(/\s+/g,""):r[1],c);};
+      d.appendChild(sp);d.appendChild(v);d.appendChild(c);body.appendChild(d);});
+    var all=document.createElement("div");all.className="ir";var sa=document.createElement("span");sa.textContent="Усе разом";var va=document.createElement("b");va.textContent="для листа чи банківського застосунку";
+    var ca=document.createElement("button");ca.type="button";ca.textContent="копіювати все";ca.onclick=function(){copy(a.rows.map(function(r){return r[0]+": "+r[1];}).join("\n"),ca);};
+    all.appendChild(sa);all.appendChild(va);all.appendChild(ca);body.appendChild(all);
+    var n=document.createElement("div");n.className="note";n.textContent=a.note+" Дякуємо: навіть одна кава три в одному тримає ефір.";body.appendChild(n);
+  }
+  ACC.forEach(function(a,i){var t=document.createElement("button");t.type="button";t.setAttribute("role","tab");t.textContent=a.tab;t.onclick=function(){show(i);};tabs.appendChild(t);});
+  show(0);
   btn.addEventListener("click",function(){var o=box.hidden;box.hidden=!o;btn.setAttribute("aria-expanded",o?"true":"false");});
 })();
 </script>

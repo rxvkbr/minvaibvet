@@ -2,6 +2,8 @@
 const { app, BrowserWindow, shell, Menu, session, ipcMain } = require("electron");
 // The tabs are real now: web pages open inside <webview> tags, each in a locked-down sandbox.
 const path = require("path");
+const fs = require("fs");
+const os = require("os");
 
 const isMac = process.platform === "darwin";
 
@@ -81,6 +83,24 @@ app.whenReady().then(() => {
   const web = session.fromPartition("persist:vvweb");
   web.setUserAgent(web.getUserAgent().replace(/\(KHTML, like Gecko\)\s+.*?(?=Chrome\/)/, "(KHTML, like Gecko) ").replace(/\s*Electron\/\S+/, ""));
   // "Open in your browser" for things a tab can't do (passkeys, some sign-ins)
+  // Стіл sync: an encrypted file in the listener's iCloud Drive (Mac, or iCloud for Windows). Ciphertext only.
+  const syncFile = () => {
+    const roots = [path.join(os.homedir(), "Library", "Mobile Documents", "com~apple~CloudDocs"), path.join(os.homedir(), "iCloudDrive")];
+    const root = roots.find((r) => { try { return fs.statSync(r).isDirectory(); } catch (e) { return false; } });
+    return root ? path.join(root, "Вайбвет", "stil.vvsync") : null;
+  };
+  ipcMain.handle("vv-sync", async (_e, op, data) => {
+    const f = syncFile();
+    if (op === "where") return f;
+    if (!f) throw new Error("iCloud Drive не знайдено на цьому комп'ютері");
+    if (op === "read") { try { return fs.readFileSync(f, "utf8"); } catch (e) { return null; } }
+    if (op === "write") {
+      if (typeof data !== "string" || data.length > 50 * 1024 * 1024 || !data.startsWith('{"app":"vaibvet-stil-sync"')) throw new Error("not a sync file");
+      fs.mkdirSync(path.dirname(f), { recursive: true });
+      const tmp = f + ".tmp"; fs.writeFileSync(tmp, data, "utf8"); fs.renameSync(tmp, f); return true;
+    }
+    throw new Error("unknown op");
+  });
   ipcMain.on("vv-external", (_e, url) => { if (/^https?:\/\//.test(String(url))) shell.openExternal(String(url)); });
   createWindow();
   app.on("activate", () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });

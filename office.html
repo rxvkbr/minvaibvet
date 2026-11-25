@@ -560,6 +560,13 @@ addEventListener("message",function(e){
   openLink(d.href,d.text,!!d.bg);
 });
 ["desk","radio","rec","fin"].forEach(function(id){var f=$(id);if(f)f.addEventListener("load",function(){hookFrame(f);});});
+/* Стіл (in its tab) asks the desktop app to read/write its encrypted sync file in iCloud Drive */
+addEventListener("message",function(e){
+  var d=e.data;if(!d||d.type!=="vv-sync"||!frameOf(e.source))return;
+  var reply=function(ok,res){try{e.source.postMessage({type:"vv-sync-r",id:d.id,ok:ok,res:res},"*");}catch(x){}};
+  if(!(window.VV_IPC&&window.VV_IPC.sync)){reply(false,"none");return;}
+  window.VV_IPC.sync(d.op,d.data).then(function(r){reply(true,r);},function(err){reply(false,String(err&&err.message||err));});
+});
 
 /* ---- closing, with undo ---- */
 function closeTabs(ids,quiet){

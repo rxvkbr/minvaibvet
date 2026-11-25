@@ -1,6 +1,7 @@
 import Capacitor
 import CoreHaptics
 import UIKit
+import UniformTypeIdentifiers
 
 /// The same API as the Android Purr plugin: play({pattern, intensity}), stop(), tick({kind}).
 /// A cat purrs at about 25 Hz with a breathing rhythm, a dog thumps its tail, a rat chatters its teeth.
@@ -144,5 +145,120 @@ public class AppIconPlugin: CAPPlugin, CAPBridgedPlugin {
                 if let error = error { call.reject(error.localizedDescription) } else { call.resolve(["name": name]) }
             }
         }
+    }
+}
+
+
+/// Стіл sync through the listener's own iCloud Drive. The app never sees the passphrase or plain data here:
+/// Стіл encrypts on the device and only hands over ciphertext. The file is picked once (Files app), then
+/// remembered as a security-scoped bookmark and read/written with file coordination, so iCloud keeps it in step.
+@objc(SyncFilePlugin)
+public class SyncFilePlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerDelegate {
+    public let identifier = "SyncFilePlugin"
+    public let jsName = "SyncFile"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "status", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "pick", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "read", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "write", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "unlink", returnType: CAPPluginReturnPromise)
+    ]
+    static let key = "vv-sync-bookmark"
+    private var pending: CAPPluginCall?
+
+    private func linkedURL() -> URL? {
+        guard let data = UserDefaults.standard.data(forKey: SyncFilePlugin.key) else { return nil }
+        var stale = false
+        guard let url = try? URL(resolvingBookmarkData: data, options: [], relativeTo: nil, bookmarkDataIsStale: &stale) else { return nil }
+        if stale {
+            let ok = url.startAccessingSecurityScopedResource()
+            if let fresh = try? url.bookmarkData() { UserDefaults.standard.set(fresh, forKey: SyncFilePlugin.key) }
+            if ok { url.stopAccessingSecurityScopedResource() }
+        }
+        return url
+    }
+
+    @objc func status(_ call: CAPPluginCall) {
+        if let u = linkedURL() {
+            call.resolve(["linked": true, "name": u.lastPathComponent, "folder": u.deletingLastPathComponent().lastPathComponent])
+        } else {
+            call.resolve(["linked": false])
+        }
+    }
+
+    /// create: true saves a new file (with `data`) where the listener chooses, e.g. iCloud Drive → Вайбвет.
+    /// create: false opens an existing one made on another device.
+    @objc func pick(_ call: CAPPluginCall) {
+        let create = call.getBool("create") ?? false
+        let content = call.getString("data") ?? ""
+        DispatchQueue.main.async {
+            let picker: UIDocumentPickerViewController
+            if create {
+                let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("stil.vvsync")
+                do { try Data(content.utf8).write(to: tmp, options: .atomic) } catch { call.reject("Could not prepare the file"); return }
+                picker = UIDocumentPickerViewController(forExporting: [tmp], asCopy: false)
+            } else {
+                picker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.item], asCopy: false)
+            }
+            picker.delegate = self
+            self.pending = call
+            self.bridge?.viewController?.present(picker, animated: true)
+        }
+    }
+
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let call = pending, let url = urls.first else { return }
+        pending = nil
+        let ok = url.startAccessingSecurityScopedResource()
+        defer { if ok { url.stopAccessingSecurityScopedResource() } }
+        do {
+            let bm = try url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil)
+            UserDefaults.standard.set(bm, forKey: SyncFilePlugin.key)
+            call.resolve(["linked": true, "name": url.lastPathComponent, "folder": url.deletingLastPathComponent().lastPathComponent])
+        } catch {
+            call.reject("Could not remember the file: \(error.localizedDescription)")
+        }
+    }
+
+    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        pending?.reject("cancelled")
+        pending = nil
+    }
+
+    @objc func read(_ call: CAPPluginCall) {
+        guard let url = linkedURL() else { call.reject("not linked"); return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            let ok = url.startAccessingSecurityScopedResource()
+            defer { if ok { url.stopAccessingSecurityScopedResource() } }
+            try? FileManager.default.startDownloadingUbiquitousItem(at: url)
+            var err: NSError?
+            var text: String?
+            NSFileCoordinator(filePresenter: nil).coordinate(readingItemAt: url, options: [], error: &err) { u in
+                text = try? String(contentsOf: u, encoding: .utf8)
+            }
+            if let t = text { call.resolve(["data": t]) } else { call.reject(err?.localizedDescription ?? "The file could not be read") }
+        }
+    }
+
+    @objc func write(_ call: CAPPluginCall) {
+        guard let url = linkedURL() else { call.reject("not linked"); return }
+        let data = Data((call.getString("data") ?? "").utf8)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let ok = url.startAccessingSecurityScopedResource()
+            defer { if ok { url.stopAccessingSecurityScopedResource() } }
+            var err: NSError?
+            var wErr: Error?
+            NSFileCoordinator(filePresenter: nil).coordinate(writingItemAt: url, options: .forReplacing, error: &err) { u in
+                do { try data.write(to: u, options: .atomic) } catch { wErr = error }
+            }
+            if let e = err { call.reject(e.localizedDescription) }
+            else if let e = wErr { call.reject(e.localizedDescription) }
+            else { call.resolve() }
+        }
+    }
+
+    @objc func unlink(_ call: CAPPluginCall) {
+        UserDefaults.standard.removeObject(forKey: SyncFilePlugin.key)
+        call.resolve()
     }
 }

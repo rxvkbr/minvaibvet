@@ -287,7 +287,8 @@ function h(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k 
   (kids||[]).forEach(function(c){if(c==null||c===false)return;e.appendChild(typeof c==="string"?document.createTextNode(c):c);});return e;}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function load(k,d){try{var v=localStorage.getItem("vvs-"+k);return v?JSON.parse(v):d;}catch(e){return d;}}
-function save(k,v){try{localStorage.setItem("vvs-"+k,JSON.stringify(v));}catch(e){toast("Не вдалося зберегти: пам'ять браузера заповнена.");}if(k==="shop"||k==="tasks")syncWidget();}
+var NOSYNC={"rubryky-cache":1,"sync":1,"_ts":1};
+function save(k,v){try{localStorage.setItem("vvs-"+k,JSON.stringify(v));if(!NOSYNC[k]){var ts=load("_ts",{});ts[k]=Date.now();localStorage.setItem("vvs-_ts",JSON.stringify(ts));if(window.VV_SYNC_DIRTY)window.VV_SYNC_DIRTY();}}catch(e){toast("Не вдалося зберегти: пам'ять браузера заповнена.");}if(k==="shop"||k==="tasks")syncWidget();}
 /* the phone's home-screen widget shows the shopping list and today's tasks (Android app) */
 function syncWidget(){try{var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform()||!(C.PluginHeaders||[]).some(function(x){return x.name==="StilWidget";}))return;
   var P=(C.Plugins&&C.Plugins.StilWidget)||(C.registerPlugin&&C.registerPlugin("StilWidget"));if(!P)return;
@@ -311,7 +312,7 @@ function wire(m,lock){var box=m.querySelector(".box");function close(){m.remove(
   if(!lock){box.insertBefore(h("button",{class:"mx","aria-label":"Закрити",text:"✕",onclick:close}),box.firstChild);m.addEventListener("click",function(e){if(e.target===m)close();});modals.push(close);}
   document.body.appendChild(m);var f=box.querySelector("input,textarea");if(f)setTimeout(function(){f.focus();if(f.select)f.select();},30);return close;}
 addEventListener("keydown",function(e){if(e.key!=="Escape")return;if(modals.length){e.preventDefault();modals[modals.length-1]();}else if(editing&&cur==="desk")setEditing(false);});
-function ask(title,val,cb,o){o=o||{};var inp=h(o.multi?"textarea":"input",{rows:o.multi?8:null,placeholder:o.ph||"",style:"width:100%;margin-top:8px"});inp.value=val||"";
+function ask(title,val,cb,o){o=o||{};var inp=h(o.multi?"textarea":"input",{rows:o.multi?8:null,type:o.type||null,placeholder:o.ph||"",style:"width:100%;margin-top:8px"});inp.value=val||"";
   var close,ok=function(){var v=inp.value;if(!o.allowEmpty&&!v.trim())return;close();cb(v);};
   inp.addEventListener("keydown",function(e){if(e.key==="Enter"&&(!o.multi||e.metaKey||e.ctrlKey)){e.preventDefault();ok();}});
   var m=h("div",{class:"modal"},[h("div",{class:"box"},[h("h3",{text:title}),o.hint?h("p",{class:"muted",style:"margin:0;font-size:13px",text:o.hint}):null,inp,
@@ -900,13 +901,141 @@ $("cPrev").addEventListener("click",function(){cm.setMonth(cm.getMonth()-1);R.ca
 $("cNext").addEventListener("click",function(){cm.setMonth(cm.getMonth()+1);R.cal();});
 $("cToday").addEventListener("click",function(){cm=new Date();cm.setDate(1);cdSel=today();R.cal();});
 
+
+/* ================= sync: end-to-end encrypted, through the listener's own iCloud Drive =================
+   Everything is encrypted here with a key from the passphrase (PBKDF2-SHA256, 600 000 rounds → AES-256-GCM).
+   Only ciphertext ever leaves the device. The key lives in IndexedDB as a non-extractable CryptoKey;
+   the passphrase itself is never stored. Transports: the desktop app (iCloud Drive folder, automatic),
+   the iPhone/iPad app (a file picked once in Files, automatic), anywhere else (save/open the file by hand).
+   Merge: per stored item, the newer change wins. */
+var SY={meta:load("sync",null),key:null,busy:false,timer:null,status:""};
+var ITER=600000,te=new TextEncoder(),td=new TextDecoder();
+function b64(u){var s="";u=new Uint8Array(u);for(var i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s);}
+function unb64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+function idb(){return new Promise(function(ok,no){var r=indexedDB.open("vv-stil-sync",1);r.onupgradeneeded=function(){r.result.createObjectStore("k");};r.onsuccess=function(){ok(r.result);};r.onerror=function(){no(r.error);};});}
+function keyPut(k){return idb().then(function(db){return new Promise(function(ok,no){var t=db.transaction("k","readwrite");t.objectStore("k").put(k,"key");t.oncomplete=function(){ok();};t.onerror=function(){no(t.error);};});});}
+function keyGet(){return idb().then(function(db){return new Promise(function(ok){var t=db.transaction("k","readonly"),r=t.objectStore("k").get("key");r.onsuccess=function(){ok(r.result||null);};r.onerror=function(){ok(null);};});}).catch(function(){return null;});}
+function keyDel(){return idb().then(function(db){var t=db.transaction("k","readwrite");t.objectStore("k").delete("key");}).catch(function(){});}
+function derive(pass,salt,iter){return crypto.subtle.importKey("raw",te.encode(pass.normalize("NFC")),"PBKDF2",false,["deriveKey"]).then(function(base){
+  return crypto.subtle.deriveKey({name:"PBKDF2",hash:"SHA-256",salt:salt,iterations:iter},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);});}
+function snapshot(){var o={data:{},ts:load("_ts",{})};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf("vvs-")!==0)continue;var n=k.slice(4);if(NOSYNC[n])continue;o.data[n]=localStorage.getItem(k);}return o;}
+function seal(obj){var iv=crypto.getRandomValues(new Uint8Array(12));
+  return crypto.subtle.encrypt({name:"AES-GCM",iv:iv,additionalData:te.encode("vaibvet-stil-sync/1")},SY.key,te.encode(JSON.stringify(obj))).then(function(ct){
+    return JSON.stringify({app:"vaibvet-stil-sync",v:1,kdf:{alg:"PBKDF2-SHA256",iter:SY.meta.iter,salt:SY.meta.salt},iv:b64(iv),ct:b64(ct),at:new Date().toISOString()});});}
+function openBox(txt,key){var f=JSON.parse(txt);if(!f||f.app!=="vaibvet-stil-sync")throw new Error("Це не файл синхронізації Столу");
+  return crypto.subtle.decrypt({name:"AES-GCM",iv:unb64(f.iv),additionalData:te.encode("vaibvet-stil-sync/1")},key||SY.key,unb64(f.ct)).then(function(pt){return JSON.parse(td.decode(pt));});}
+/* transports */
+var relay={n:0,cb:{}};
+addEventListener("message",function(e){var d=e.data;if(!d||d.type!=="vv-sync-r"||e.source!==parent)return;var c=relay.cb[d.id];if(c){delete relay.cb[d.id];d.ok?c[0](d.res):c[1](new Error(d.res));}});
+function viaOffice(op,data){if(parent===window)return Promise.reject(new Error("none"));return new Promise(function(ok,no){var id=++relay.n;relay.cb[id]=[ok,no];parent.postMessage({type:"vv-sync",id:id,op:op,data:data},"*");setTimeout(function(){if(relay.cb[id]){delete relay.cb[id];no(new Error("none"));}},4000);});}
+function nativeSync(){var C=window.Capacitor;return C&&C.Plugins&&C.Plugins.SyncFile||null;}
+function transport(){
+  if(SY.meta&&SY.meta.via==="office")return {name:"iCloud Drive · Вайбвет/stil.vvsync",read:function(){return viaOffice("read");},write:function(t){return viaOffice("write",t);}};
+  if(SY.meta&&SY.meta.via==="ios"&&nativeSync()){var N=nativeSync();return {name:"iCloud Drive · "+(SY.meta.file||"stil.vvsync"),read:function(){return N.read().then(function(r){return r.data;});},write:function(t){return N.write({data:t});}};}
+  return null; /* manual */
+}
+function sayS(t){SY.status=t;var e=$("syncStat");if(e)e.textContent=t;}
+function syncNow(quiet){
+  var T=transport();if(!SY.key||!T||SY.busy)return Promise.resolve();
+  SY.busy=true;sayS("Синхронізую…");
+  return T.read().then(function(txt){
+    var local=snapshot();
+    if(!txt)return seal(local).then(T.write).then(function(){return 0;});
+    return openBox(txt).then(function(rem){
+      var changed=0,push=false,lts=local.ts,rts=rem.ts||{};
+      Object.keys(Object.assign({},rem.data,local.data)).forEach(function(k){
+        var a=lts[k]||0,b=rts[k]||0;
+        if(rem.data[k]!=null&&(local.data[k]==null||b>a)){if(local.data[k]!==rem.data[k]){localStorage.setItem("vvs-"+k,rem.data[k]);changed++;}lts[k]=b;}
+        else if(local.data[k]!=null&&(rem.data[k]==null||a>b))push=true;
+      });
+      localStorage.setItem("vvs-_ts",JSON.stringify(lts));
+      if(changed){cfg=load("cfg",cfg);try{R[cur]&&R[cur]();}catch(e){}}
+      return (push?seal(snapshot()).then(T.write):Promise.resolve()).then(function(){return changed;});
+    });
+  }).then(function(n){SY.meta.last=Date.now();save("sync",SY.meta);sayS("Синхронізовано "+new Date().toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})+(n?" · отримано змін: "+n:""));if(n&&!quiet)toast("Стіл оновлено з іншого пристрою.");})
+  .catch(function(e){sayS("Не вдалося: "+(e&&e.name==="OperationError"?"фраза не підходить до файлу":(e&&e.message||e)));})
+  .then(function(){SY.busy=false;});
+}
+window.VV_SYNC_DIRTY=function(){if(!SY.key||!transport())return;clearTimeout(SY.timer);SY.timer=setTimeout(function(){syncNow(true);},4000);};
+document.addEventListener("visibilitychange",function(){if(!document.hidden)syncNow(false);});
+setInterval(function(){if(!document.hidden)syncNow(false);},90000);
+keyGet().then(function(k){if(k&&SY.meta&&SY.meta.on){SY.key=k;syncNow(false);}});
+
+function strength(p){var sc=0;if(p.length>=12)sc++;if(p.length>=16)sc++;if(/\s/.test(p)||p.split(/[\s-]+/).length>=3)sc++;if(/[0-9]/.test(p)&&/[^\w\s]/.test(p))sc++;return sc;}
+function syncUI(){
+  var box,m=h("div",{class:"modal"},[box=h("div",{class:"box",style:"max-width:520px"})]);wire(m);
+  function draw(){
+    box.innerHTML="";box.appendChild(h("h3",{text:"🔒 Синхронізація Столу"}));
+    if(SY.key&&SY.meta&&SY.meta.on){
+      var T=transport();
+      box.appendChild(h("p",{class:"muted",text:"Увімкнено. Дані шифруються на цьому пристрої (AES-256), у хмару йде лише шифротекст. Фраза-пароль ніде не зберігається."}));
+      box.appendChild(h("p",null,[h("b",{text:"Де: "}),T?T.name:"вручну, файлом"]));
+      box.appendChild(h("p",{id:"syncStat",class:"muted",text:SY.status||"…"}));
+      var row=h("div",{class:"row"});
+      if(T)row.appendChild(h("button",{class:"btn pri",text:"↻ Синхронізувати зараз",onclick:function(){syncNow(false);}}));
+      else{row.appendChild(h("button",{class:"btn pri",text:"⇩ Зберегти зашифровану копію",onclick:manualSave}));row.appendChild(manualOpenBtn());}
+      row.appendChild(h("button",{class:"btn danger",text:"Вимкнути на цьому пристрої",onclick:function(){confirmBox("Вимкнути синхронізацію тут? Дані на цьому пристрої й файл у хмарі залишаться.",function(){keyDel();SY.key=null;SY.meta=null;save("sync",null);var N=nativeSync();if(N)N.unlink().catch(function(){});draw();});}}));
+      box.appendChild(row);
+    }else{
+      box.appendChild(h("p",{class:"muted",text:"Нотатки, таблиці, задачі, картки й календар з'являться на всіх твоїх пристроях. Усе шифрується тут, твоєю фразою-паролем: ні Apple, ні Мінвайбвет, ні будь-хто інший її не бачить і прочитати дані не може. Загубиш фразу — дані з хмари не відновити, тож запиши її на папері."}));
+      var p1=h("input",{type:"password",placeholder:"Фраза-пароль: кілька слів, від 12 символів",autocomplete:"new-password",style:"width:100%;margin-top:6px"}),
+          p2=h("input",{type:"password",placeholder:"Ще раз",autocomplete:"new-password",style:"width:100%;margin-top:6px"}),
+          meter=h("div",{class:"muted",style:"font-size:12px;margin-top:4px"});
+      p1.addEventListener("input",function(){var sc=strength(p1.value);meter.textContent=["Закоротко","Слабенько","Нормально","Добре","Чудово"][sc]+(p1.value.length<12?" · потрібно щонайменше 12 символів":"");});
+      box.appendChild(p1);box.appendChild(p2);box.appendChild(meter);
+      var where=h("p",{class:"muted",style:"margin-top:10px"});box.appendChild(where);
+      var row2=h("div",{class:"row",style:"margin-top:8px;flex-wrap:wrap"});box.appendChild(row2);
+      function check(){if(p1.value.length<12){toast("Фраза має бути щонайменше 12 символів.");return false;}if(p1.value!==p2.value){toast("Фрази не збігаються.");return false;}return true;}
+      viaOffice("where").then(function(path){
+        if(!path){where.textContent="iCloud Drive на цьому комп'ютері не знайдено. Увімкни його в системних налаштуваннях або синхронізуй файлом вручну.";manualRow();return;}
+        where.textContent="Файл: "+path+". Якщо він уже є (створений на іншому пристрої), введи ту саму фразу.";
+        row2.appendChild(h("button",{class:"btn pri",text:"Увімкнути",onclick:function(){if(!check())return;startWith("office",p1.value);}}));
+      },function(){
+        if(nativeSync()){where.textContent="Файл лежатиме в iCloud Drive. Уперше на якомусь пристрої — створи його; на інших — відкрий той самий файл (iCloud Drive → Вайбвет → stil.vvsync).";
+          row2.appendChild(h("button",{class:"btn pri",text:"Створити файл в iCloud",onclick:function(){if(!check())return;startWith("ios-new",p1.value);}}));
+          row2.appendChild(h("button",{class:"btn",text:"Відкрити наявний файл",onclick:function(){if(p1.value.length<12){toast("Введи фразу-пароль, з якою створено файл.");return;}startWith("ios-open",p1.value);}}));}
+        else{where.textContent="Тут автоматичної синхронізації немає: збережи зашифрований файл і відкрий його на іншому пристрої (у застосунку Вайбвет Офіс чи на iPhone/iPad усе відбувається саме).";manualRow();}
+      });
+      function manualRow(){row2.appendChild(h("button",{class:"btn pri",text:"Увімкнути (вручну)",onclick:function(){if(!check())return;startWith("manual",p1.value);}}));}
+      box.appendChild(h("div",{class:"row",style:"margin-top:14px;justify-content:flex-end"},[h("button",{class:"btn",text:"Закрити",onclick:function(){m._close();}})]));
+    }
+  }
+  function startWith(via,pass){
+    sayS("Готую ключ… (кілька секунд)");toast("Готую ключ шифрування…");
+    var salt=crypto.getRandomValues(new Uint8Array(16));
+    function finish(meta,key){SY.meta=meta;SY.key=key;if(meta.via==="manual")sayS("Готово. Зберігай копію тут і відкривай на іншому пристрої.");return keyPut(key).then(function(){save("sync",meta);draw();return syncNow(false);});}
+    function fromFile(txt){var f=JSON.parse(txt);if(!f||f.app!=="vaibvet-stil-sync")throw new Error("Це не файл синхронізації Столу");
+      return derive(pass,unb64(f.kdf.salt),f.kdf.iter).then(function(k){return openBox(txt,k).then(function(){return {salt:f.kdf.salt,iter:f.kdf.iter,key:k};});});}
+    var p;
+    if(via==="office")p=viaOffice("read").then(function(txt){
+      if(txt)return fromFile(txt).then(function(r){return finish({on:1,via:"office",salt:r.salt,iter:r.iter},r.key);});
+      return derive(pass,salt,ITER).then(function(k){return finish({on:1,via:"office",salt:b64(salt),iter:ITER},k);});});
+    else if(via==="ios-new"){var N=nativeSync();p=derive(pass,salt,ITER).then(function(k){SY.key=k;SY.meta={on:1,via:"ios",salt:b64(salt),iter:ITER};return seal(snapshot());}).then(function(txt){return N.pick({create:true,data:txt});})
+      .then(function(r){SY.meta.file=r.name;return finish(SY.meta,SY.key);});}
+    else if(via==="ios-open"){var N2=nativeSync();p=N2.pick({create:false}).then(function(r){return N2.read().then(function(x){return fromFile(x.data).then(function(o){return finish({on:1,via:"ios",file:r.name,salt:o.salt,iter:o.iter},o.key);});});});}
+    else p=derive(pass,salt,ITER).then(function(k){return finish({on:1,via:"manual",salt:b64(salt),iter:ITER},k);});
+    p.catch(function(e){SY.key=null;SY.meta=null;var msg=e&&e.name==="OperationError"?"Фраза не підходить до цього файлу.":e&&e.message==="cancelled"?"Скасовано.":"Не вийшло: "+(e&&e.message||e);toast(msg);draw();});
+  }
+  function manualSave(){seal(snapshot()).then(function(txt){var a=h("a",{href:URL.createObjectURL(new Blob([txt],{type:"application/octet-stream"})),download:"stil.vvsync"});document.body.appendChild(a);a.click();a.remove();toast("Зашифровану копію збережено.");});}
+  function manualOpenBtn(){var inp=h("input",{type:"file",hidden:true});inp.addEventListener("change",function(){var f=inp.files[0];if(!f)return;f.text().then(function(txt){
+      /* a copy made on another device has its own salt: if our key doesn't open it, ask for the passphrase and adopt that file's key */
+      return openBox(txt).catch(function(){return new Promise(function(ok,no){ask("Фраза-пароль цього файлу","",function(pass){
+        var fo=JSON.parse(txt);derive(pass,unb64(fo.kdf.salt),fo.kdf.iter).then(function(k){return openBox(txt,k).then(function(rem){SY.key=k;SY.meta=Object.assign({},SY.meta,{salt:fo.kdf.salt,iter:fo.kdf.iter});save("sync",SY.meta);return keyPut(k).then(function(){ok(rem);});});}).catch(no);},{type:"password",ph:"та сама, що на іншому пристрої"});});});
+    }).then(function(rem){
+      var lts=load("_ts",{}),rts=rem.ts||{},n=0;Object.keys(rem.data).forEach(function(k){if((rts[k]||0)>(lts[k]||0)){localStorage.setItem("vvs-"+k,rem.data[k]);lts[k]=rts[k];n++;}});
+      localStorage.setItem("vvs-_ts",JSON.stringify(lts));cfg=load("cfg",cfg);try{R[cur]&&R[cur]();}catch(e){}toast(n?"Отримано змін: "+n:"Тут уже все найновіше.");})
+    .catch(function(e){toast(e&&e.name==="OperationError"?"Фраза не підходить до цього файлу.":"Це не файл синхронізації Столу.");});});
+    return h("label",{class:"btn"},["⇧ Відкрити копію",inp]);}
+  draw();
+}
+
 /* ================= backup ================= */
 $("bMenu").addEventListener("click",function(){
   var box,m=h("div",{class:"modal"},[box=h("div",{class:"box"},[h("h3",{text:"Стіл · дані"}),h("p",{class:"muted",style:"margin:0 0 12px",text:"Усе зберігається тільки на цьому пристрої, у пам'яті браузера чи застосунку. Ніхто, крім тебе, цього не бачить. Зроби резервну копію, щоб перенести на інший пристрій."})])]);
   var imp=h("input",{type:"file",accept:".json,application/json",hidden:true});
   imp.addEventListener("change",function(){var f=imp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var o=JSON.parse(rd.result);if(!o||o.app!=="vaibvet-stil")throw 0;confirmBox("Замінити всі дані Столу даними з файлу?",function(){Object.keys(o.data).forEach(function(k){localStorage.setItem("vvs-"+k,JSON.stringify(o.data[k]));});location.reload();});}catch(e){toast("Це не резервна копія Столу.");}};rd.readAsText(f);});
   box.appendChild(h("div",{class:"row"},[h("button",{class:"btn pri",text:"⇩ Зберегти копію",onclick:function(){var o={app:"vaibvet-stil",v:1,at:new Date().toISOString(),data:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf("vvs-")===0)try{o.data[k.slice(4)]=JSON.parse(localStorage.getItem(k));}catch(e){}}download("vaibvet-stil-"+today()+".json",JSON.stringify(o,null,1),"application/json");}}),
-    h("label",{class:"btn"},["⇧ Відновити з копії",imp]),h("button",{class:"btn",text:"Режим…",onclick:function(){m._close();pickMode(false);}}),h("button",{class:"btn",text:"💡 Ідея",onclick:function(){m._close();suggest("any");}})]));
+    h("label",{class:"btn"},["⇧ Відновити з копії",imp]),h("button",{class:"btn",text:"🔒 Синхронізація…",onclick:function(){m._close();syncUI();}}),h("button",{class:"btn",text:"Режим…",onclick:function(){m._close();pickMode(false);}}),h("button",{class:"btn",text:"💡 Ідея",onclick:function(){m._close();suggest("any");}})]));
   box.appendChild(h("div",{class:"row",style:"margin-top:16px;justify-content:space-between"},[h("button",{class:"btn danger",text:"Стерти все",onclick:function(){confirmBox("Стерти всі нотатки, таблиці, задачі, картки й події на цьому пристрої? Це не скасувати.",function(){var ks=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf("vvs-")===0)ks.push(k);}ks.forEach(function(k){localStorage.removeItem(k);});location.reload();});}}),
     h("button",{class:"btn",text:"Закрити",onclick:function(){m._close();}})]));
   wire(m);

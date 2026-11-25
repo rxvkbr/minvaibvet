@@ -2793,8 +2793,53 @@ html.app .sched li{padding:14px 14px;margin-bottom:10px;border:1px solid transpa
   background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--edge) border-box}
 html.app .backbar{margin-top:4px}
 </style>
+<style id="desknav-css">
+/* wide screens: one long page, so a table of contents rides along (sidebar when there's room, a bar when there isn't) */
+.desknav{display:none}
+html:not(.app) .desknav{display:block;position:fixed;z-index:30;font-family:var(--f-mono)}
+html:not(.app) .desknav a{display:flex;align-items:center;gap:9px;overflow:hidden;text-overflow:ellipsis;color:var(--ivory-dim);text-decoration:none;border-radius:10px;padding:7px 10px;font-size:12.5px;letter-spacing:.02em;white-space:nowrap;transition:background .15s,color .15s}
+html:not(.app) .desknav a:hover{color:var(--ivory);background:#ffffff0d}
+html:not(.app) .desknav a[aria-current="true"]{color:var(--ink,#1a100b);background:var(--amber)}
+html:not(.app) .desknav .dn-i{width:20px;text-align:center;flex:none}
+html:not(.app) .desknav .dn-h{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);opacity:.8;margin:14px 10px 6px}
+html:not(.app) .desknav .dn-h:first-child{margin-top:0}
+@media (min-width:1300px){
+  html:not(.app) .desknav{left:max(16px,calc((100vw - 860px)/2 - 250px));top:24px;bottom:24px;width:220px;overflow:auto;scrollbar-width:none;padding:14px 8px;border:1px solid var(--panel-edge);border-radius:18px;background:#0000002e;backdrop-filter:blur(6px)}
+  html:not(.app) .desknav::-webkit-scrollbar{display:none}
+}
+@media (max-width:1299px){
+  html:not(.app) .desknav{left:0;right:0;top:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:8px 14px;background:var(--bakelite);border-bottom:1px solid var(--panel-edge);box-shadow:0 6px 18px #0007}
+  html:not(.app) .desknav::-webkit-scrollbar{display:none}
+  html:not(.app) .desknav .dn-h{display:none}
+  html:not(.app) .desknav a{padding:6px 10px;flex:none}
+  html:not(.app) body{padding-top:48px}
+  html:not(.app) section{scroll-margin-top:72px}
+}
+</style>
 <script id="app-shell">
 (function(){
+  function deskNav(){
+    var SEC=[["efir","📻","Ефір",""],["slovo","🔤","Слово дня","wod"],["gazeta","📰","Газета","novyny"],["prognoz","⛅","Прогноз","prognoz"],["prohramy","🗓","Сітка мовлення","prohramy"],
+      ["liniia","☎️","Гаряча лінія","liniia"],["hladyty","🐾","Погладити","hladyty"],["muzyka","🎸","Музика","muzyka"],["kalendar","📆","Календар","kalendar"],["holostiak","🌹","Холостяк","holostiak"],
+      ["nederland","🌷","Нідерландщина","nederland"],["hastrotur","🌭","Гастротур","hastrotur"],["dodomu","💌","Звіт для мами","dodomu"]];
+    var PG=[["stil.html","🗃","Вайбвет Стіл"],["office.html","🗂","Вайбвет Офіс"],["dyryhent.html","🎼","Безкінечний диригент"],["zahubyvsia.html","🦔","Я загубився"],["dovidka.html","📄","Довідка з першого разу"],["kurs.html","🫁","Курс саморегуляції"],["mriya.html","✨","Мрія для свого"],["merch.html","🎖","Мерч: грамоти"]];
+    var nav=document.createElement("nav");nav.className="desknav";nav.setAttribute("aria-label","Розділи");
+    var h=document.createElement("div");h.className="dn-h";h.textContent="Розділи";nav.appendChild(h);
+    var links={};
+    SEC.forEach(function(x){if(x[3]&&!document.getElementById(x[3]))return;var a=document.createElement("a");a.href="#"+x[0];a.innerHTML='<span class="dn-i">'+x[1]+'</span>';a.appendChild(document.createTextNode(x[2]));nav.appendChild(a);links[x[3]]=a;});
+    var h2=document.createElement("div");h2.className="dn-h";h2.textContent="Сторінки";nav.appendChild(h2);
+    PG.forEach(function(x){var a=document.createElement("a");a.href=x[0];a.innerHTML='<span class="dn-i">'+x[1]+'</span>';a.appendChild(document.createTextNode(x[2]));nav.appendChild(a);});
+    document.body.appendChild(nav);
+    /* the efir link always scrolls up, even when the hash is already #efir */
+    links[""].addEventListener("click",function(e){e.preventDefault();try{history.replaceState(null,"",location.pathname+location.search);}catch(er){}scrollTo({top:0,behavior:"smooth"});});
+    function mark(){
+      var y=innerHeight*.33,cur="";
+      SEC.forEach(function(x){var e=x[3]&&document.getElementById(x[3]);if(e&&e.getBoundingClientRect().top<y)cur=x[3];});
+      Object.keys(links).forEach(function(k){links[k].setAttribute("aria-current",k===cur?"true":"false");});
+      var on=links[cur];if(on&&nav.scrollWidth>nav.clientWidth+4){var r=on.getBoundingClientRect(),nr=nav.getBoundingClientRect();if(r.left<nr.left||r.right>nr.right)nav.scrollLeft+=r.left-nr.left-40;}
+    }
+    var raf=0;addEventListener("scroll",function(){if(!raf)raf=requestAnimationFrame(function(){raf=0;mark();});},{passive:true});mark();
+  }
   var V=window.VV;if(!V)return;
   var C=window.Capacitor,native=!!(C&&C.isNativePlatform&&C.isNativePlatform());
   var forced=/[?&]app\b/.test(location.search);
@@ -2809,6 +2854,7 @@ html.app .backbar{margin-top:4px}
       if(e)e.scrollIntoView({behavior:smooth?"smooth":"auto",block:"start"});else scrollTo({top:0,behavior:smooth?"smooth":"auto"});};
     if(location.hash)setTimeout(function(){deskGo(false);},60);
     window.addEventListener("hashchange",function(){deskGo(true);});
+    deskNav();
     return;
   }
 

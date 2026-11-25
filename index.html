@@ -124,7 +124,7 @@ header{padding:34px 0 10px;text-align:left}
 .rvq[aria-pressed="true"]{background:var(--mint);color:var(--ink)}
 
 /* ---------- sections ---------- */
-section{margin-top:64px}
+section{margin-top:64px;scroll-margin-top:72px}
 .kicker{color:var(--amber);display:flex;align-items:center;gap:12px}
 .kicker::after{content:"";flex:1;height:1px;background:var(--panel-edge)}
 section>h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6.4vw,46px);line-height:1.08;margin:10px 0 6px}
@@ -2800,7 +2800,17 @@ html.app .backbar{margin-top:4px}
   var forced=/[?&]app\b/.test(location.search);
   var standalone=false;try{standalone=matchMedia("(display-mode: standalone)").matches;}catch(e){}
   var phone=false;try{phone=matchMedia("(max-width: 760px)").matches;}catch(e){}
-  if(!native&&!forced&&!standalone&&!phone&&!window.VV_APP){document.documentElement.classList.remove("app");return;}
+  if(!native&&!forced&&!standalone&&!phone&&!window.VV_APP){
+    document.documentElement.classList.remove("app");
+    /* wide screens get one long page: the same deep links (#gazeta, #hladyty…) scroll to their section */
+    var DESK={gazeta:"novyny",novyny:"novyny",kolonka:"novyny",prognoz:"prognoz",prohramy:"prohramy",liniia:"liniia",invite:"liniia",hladyty:"hladyty",muzyka:"muzyka",
+      kalendar:"kalendar",holostiak:"holostiak",nederland:"nederland",hastrotur:"hastrotur",dodomu:"dodomu",slovo:"wod",more:"",efir:""};
+    var deskGo=function(smooth){var h=location.hash.slice(1);if(!(h in DESK))return;var id=DESK[h],e=id&&document.getElementById(id);
+      if(e)e.scrollIntoView({behavior:smooth?"smooth":"auto",block:"start"});else scrollTo({top:0,behavior:smooth?"smooth":"auto"});};
+    if(location.hash)setTimeout(function(){deskGo(false);},60);
+    window.addEventListener("hashchange",function(){deskGo(true);});
+    return;
+  }
 
   var t=V.t,tf=V.tf,de=document.documentElement;de.classList.add("app");
   var $=function(s,r){return (r||document).querySelector(s);};

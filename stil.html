@@ -106,6 +106,13 @@ p.sub{margin:0 0 16px;color:var(--dim);font-size:13.5px}
 .pomo .big{font-size:52px;margin:4px 0 10px}
 .pomo .ring{height:6px;border-radius:9px;background:#ffffff10;overflow:hidden;margin:0 0 12px}
 .pomo .ring i{display:block;height:100%;background:var(--amber);width:0;transition:width .5s linear}
+.rb ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px 14px}
+.rb li a{display:block;padding:7px 8px;border-radius:10px;color:inherit;text-decoration:none}
+.rb li a:hover{background:#ffffff0a}
+.rb .t{display:block;font:10px var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+.rb .t i{font-style:normal;opacity:.6;margin-left:6px}
+.rb .x{display:block;font-size:13.5px;line-height:1.35;margin-top:2px}
+.rb .wait{color:var(--dim,#999);font-size:12.5px}
 .mf p{margin:0}.mf .f{font-size:16px;line-height:1.4}.mf .v{margin-top:8px;font-style:italic;color:var(--amber);font-size:14px}
 .mood .faces{display:flex;gap:6px;justify-content:space-between}
 .mood .faces button{flex:1;height:44px;border-radius:12px;border:1px solid var(--edge);font-size:22px;filter:grayscale(.7);opacity:.7}
@@ -337,10 +344,10 @@ addEventListener("storage",function(e){if(e.key==="office-theme"){THEMES.forEach
 
 /* ================= modes: who is at the desk ================= */
 var MODES={
-  med:{n:"Студент-медик",s:"Конспекти, картки до КРОК, розклад пар",w:["clock","shop","today","cards","pomo","medfact","deadlines"],tags:["Навчання","Анатомія","Фізіологія","КРОК","Побут"]},
-  vet:{n:"Ветеран у цивільному",s:"Документи, дедлайни ЦНАПу, бюджет, самопочуття",w:["clock","shop","today","mood","spend","deadlines","medfact"],tags:["Документи","ЦНАП","Здоров'я","Гроші","Побут"]},
-  office:{n:"Офісна робота",s:"Задачі, нотатки дзвінків, фокус-таймер",w:["clock","shop","today","pomo","quick","deadlines","cal"],tags:["Клієнт","Дзвінок","Внутрішнє","Терміново","Побут"]},
-  art:{n:"Творчість",s:"Чернетки, ідеї, ритм письма",w:["clock","shop","quick","pomo","today","mood","medfact"],tags:["Ідея","Чернетка","Колонка","Відео","Побут"]}};
+  med:{n:"Студент-медик",s:"Конспекти, картки до КРОК, розклад пар",w:["clock","shop","today","cards","pomo","medfact","deadlines","rubryky"],tags:["Навчання","Анатомія","Фізіологія","КРОК","Побут"]},
+  vet:{n:"Ветеран у цивільному",s:"Документи, дедлайни ЦНАПу, бюджет, самопочуття",w:["clock","shop","today","mood","spend","deadlines","medfact","rubryky"],tags:["Документи","ЦНАП","Здоров'я","Гроші","Побут"]},
+  office:{n:"Офісна робота",s:"Задачі, нотатки дзвінків, фокус-таймер",w:["clock","shop","today","pomo","quick","deadlines","cal","rubryky"],tags:["Клієнт","Дзвінок","Внутрішнє","Терміново","Побут"]},
+  art:{n:"Творчість",s:"Чернетки, ідеї, ритм письма",w:["clock","shop","quick","pomo","today","mood","medfact","rubryky"],tags:["Ідея","Чернетка","Колонка","Відео","Побут"]}};
 var cfg=load("cfg",null);
 function modeName(){return cfg&&MODES[cfg.mode]?MODES[cfg.mode].n:"";}
 function tags(){var t=cfg&&MODES[cfg.mode]?MODES[cfg.mode].tags.slice():["Робота","Навчання","Побут"];(load("tags",[])).forEach(function(x){if(t.indexOf(x)<0)t.push(x);});return t;}
@@ -353,7 +360,7 @@ function pickMode(first){
 }
 function setMode(k,first){
   var keepW=cfg&&cfg.widgets&&!first;cfg=cfg||{};cfg.mode=k;
-  if(!keepW||confirmResetW){cfg.widgets=MODES[k].w.map(function(t){return {id:uid(),t:t,wide:false};});}
+  if(!keepW||confirmResetW){cfg.widgets=MODES[k].w.map(function(t){return {id:uid(),t:t,wide:t==="rubryky"};});}
   save("cfg",cfg);
   if(first)seed(k);
   $("modeName").textContent=modeName();renderAll();toast("Режим: "+MODES[k].n);
@@ -405,6 +412,7 @@ var WIDGETS={
   deadlines:{n:"Дедлайни",s:"Що наближається: задачі й події"},
   cards:{n:"Картки",s:"Скільки карток час повторити"},
   medfact:{n:"Медфакт дня",s:"Один факт на день від Вайбвет FM"},
+  rubryky:{n:"Рубрики Вайбвет FM",s:"Кожна рубрика й «…дня» з останньою новиною"},
   mood:{n:"Самопочуття",s:"Настрій, сон і вода. Тільки для тебе"},
   spend:{n:"Витрати",s:"Швидкий облік за місяць"},
   cal:{n:"Міні-календар",s:"Тиждень наперед"}};
@@ -413,6 +421,7 @@ function setEditing(v){editing=v;$("deskEdit").textContent=editing?"✓ Гото
 $("deskEdit").addEventListener("click",function(){setEditing(!editing);});
 $("deskDone").addEventListener("click",function(){setEditing(false);});$("deskX").addEventListener("click",function(){setEditing(false);});
 R.desk=function(){
+  if(cfg&&cfg.widgets&&!cfg.rb1){cfg.rb1=1;if(!cfg.widgets.some(function(w){return w.t==="rubryky";}))cfg.widgets.push({id:uid(),t:"rubryky",wide:true});save("cfg",cfg);}
   var d=new Date(),hr=d.getHours();
   $("hello").textContent=(hr<5?"Доброї ночі":hr<12?"Доброго ранку":hr<18?"Доброго дня":"Доброго вечора");
   $("hellosub").textContent=WD[d.getDay()]+", "+d.getDate()+" "+MON[d.getMonth()]+" · "+modeName();
@@ -539,6 +548,34 @@ W.cards=function(el){
   var n=dueCards();wh(el,"Картки");el.appendChild(h("div",{class:"big",text:String(n)}));
   el.appendChild(h("p",{class:"muted",style:"margin:6px 0 10px",text:n?"карток час повторити":"усе повторено. Мозок дякує"}));
   el.appendChild(h("button",{class:"btn "+(n?"pri":""),text:n?"Повторити →":"До колод →",onclick:function(){go("cards");}}));
+};
+/* the radio's gazette, one line per rubric: its latest piece. Read from index.html, cached for offline. */
+function rubrics(cb){
+  var c=load("rubryky-cache",null);if(c)cb(c.r,true);
+  if(c&&Date.now()-c.at<10*60e3)return;
+  function done(doc){var seen={},r=[];
+    [].forEach.call(doc.querySelectorAll("#breaking article, .news article"),function(a){var tg=a.querySelector(".tag"),hd=a.querySelector("h3");if(!tg||!hd)return;
+      var t=tg.textContent.trim(),k=t.toLowerCase();if(!t||seen[k])return;seen[k]=1;var l=hd.querySelector("a[href]")||a.querySelector("p a[href]");
+      r.push({t:t,x:hd.textContent.trim(),u:l?l.getAttribute("href"):""});});
+    if(r.length){save("rubryky-cache",{at:Date.now(),r:r});cb(r,false);}}
+  try{fetch("index.html",{cache:"no-cache"}).then(function(x){return x.text();}).then(function(txt){done(new DOMParser().parseFromString(txt,"text/html"));}).catch(viaFrame);}catch(e){viaFrame();}
+  function viaFrame(){ /* file:// in the desktop app can't fetch: ask a hidden copy of the radio instead */
+    var fr=document.createElement("iframe");fr.style.cssText="position:absolute;left:-9999px;width:10px;height:10px;border:0";fr.src="index.html";
+    fr.onload=function(){try{done(fr.contentDocument);}catch(e){}setTimeout(function(){fr.remove();},100);};document.body.appendChild(fr);}
+}
+var rbAll=false;
+W.rubryky=function(el){
+  el.className+=" rb";wh(el,"📻 Рубрики Вайбвет FM","остання новина кожної");
+  var ul=h("ul");el.appendChild(ul);ul.appendChild(h("li",{class:"wait",text:"Відкриваю газету…"}));
+  var emb=document.documentElement.classList.contains("embed");
+
+  rubrics(function(r){ul.innerHTML="";var old=el.querySelector(".rbmore");if(old)old.remove();
+    if(r.length>12)el.appendChild(h("button",{class:"btn sm rbmore",style:"margin-top:8px",text:rbAll?"згорнути":"усі рубрики ("+r.length+")",onclick:function(){rbAll=!rbAll;R.desk();}}));
+    r.slice(0,rbAll?r.length:12).forEach(function(x,i){
+    var href=x.u?x.u:"index.html#gazeta";
+    var a=h("a",{href:href},[h("span",{class:"t"},[x.t,i===0?h("i",{text:"найсвіжіше"}):null]),h("span",{class:"x",text:x.x})]);
+    if(emb)a.target="_blank"; /* inside the Office: opens as a new tab */
+    ul.appendChild(h("li",null,[a]));});});
 };
 W.medfact=function(el){
   el.className+=" mf";var day=Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5),i=(day*7+3)%Math.max(1,MEDFACTS.length);

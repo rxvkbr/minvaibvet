@@ -183,6 +183,19 @@ table.cells{border-collapse:collapse;table-layout:fixed;font-variant-numeric:tab
 .fi.p{background:#1d3a4a;color:#bfe8ff}.fi.f{background:#2c3a1a;color:#d8f0a0}
 html.ondesk body::after{display:none}
 html.ondesk #bslow,html.ondesk #bfast,html.ondesk .boss{display:none}
+html.calm #bslow,html.calm #bmix,html.calm #bfast,html.calm .boss,html.calm .pop{display:none!important}
+html.noanim .pop,html.noanim #cur{display:none!important}
+#bset{height:30px;width:30px;border-radius:50%;border:1px solid var(--edge2);font-size:14px;color:var(--text);flex:none}
+#bset:hover{background:#ffffff0d}
+.oset .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 14px}
+.oset .seg button{border:1px solid var(--edge2);border-radius:12px;padding:10px 6px;text-align:center;font-size:13px;line-height:1.3}
+.oset .seg button small{display:block;color:var(--dim);font-size:10.5px;margin-top:3px}
+.oset .seg button[aria-pressed="true"]{border-color:var(--amber);background:#d9a44118}
+.oset label.tg{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 2px;border-top:1px solid var(--edge);font-size:13.5px;cursor:pointer;text-align:left}
+.oset label.tg small{display:block;color:var(--dim);font-size:11.5px}
+.oset label.tg input{width:18px;height:18px;accent-color:var(--amber);flex:none}
+.oset .lnk{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.oset .lnk button{border:1px solid var(--edge2);border-radius:999px;padding:7px 12px;font:12px var(--mono)}
 html.onweb body::after{display:none}
 
 /* ---------- fake cursor ---------- */
@@ -254,6 +267,7 @@ html.lag .tab .tt{filter:blur(1.5px)}
       <button id="btheme" title="Колір (C)"><span class="sw"></span><span class="lb" id="themelb">Зона</span></button>
       <button id="bfast" title="Не натискати">⚡<span class="lb">прискорити</span></button>
     </div>
+    <button id="bset" title="Налаштування Офісу: рівень дофаміну, звуки, автопілот" aria-label="Налаштування">⚙</button>
     <button class="boss" id="boss" aria-pressed="true" title="Пробіл або Esc"><span class="ic">🕴</span> <span class="lb">автопілот продуктивності</span></button>
   </div>
   <div class="views" id="views">
@@ -305,9 +319,14 @@ var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
 
 /* ================= sound: soft keys and clicks ================= */
 var ac=null,snd=true;
+/* ===== Office settings: the same «how much dopamine» control the phone app has in its Конструктор ===== */
+var LV=[{pops:0,snd:0,auto:0,sat:0,anim:0},{pops:0,snd:1,auto:0,sat:1,anim:1},{pops:1,snd:1,auto:1,sat:1,anim:1}];
+var OS=(function(){var o=null;try{o=JSON.parse(localStorage.getItem("office-ui")||"null");}catch(e){}return o||{lvl:2,pops:1,snd:1,auto:1,sat:1,anim:1};})();
+function osApply(){var d=document.documentElement;d.classList.toggle("calm",!OS.sat);d.classList.toggle("noanim",!OS.anim);try{localStorage.setItem("office-ui",JSON.stringify(OS));}catch(e){}}
+osApply();
 function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state!=="running")ac.resume();}catch(e){}}
 function beep(f,d,v,type){
-  if(!snd||!ac||ac.state!=="running")return;
+  if(!snd||!OS.snd||!ac||ac.state!=="running")return;
   try{var t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();o.type=type||"triangle";o.frequency.value=f;
     g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v||.03,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+(d||.08));
     o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+(d||.08)+.02);}catch(e){}
@@ -316,7 +335,7 @@ function key(){beep(rnd(1400,2200),.03,.012,"square");}
 var PENTA=[1,9/8,5/4,3/2,5/3,2,9/4,5/2,3,10/3,4],combo=0,comboT=null,clicks=[];
 function pluck(f,v){
   if(de.dataset.theme==="mono")v=(v||.05)*.25; /* calm: barely a click */
-  if(!snd||!ac||ac.state!=="running")return;
+  if(!snd||!OS.snd||!ac||ac.state!=="running")return;
   try{var t=ac.currentTime,o=ac.createOscillator(),o2=ac.createOscillator(),g=ac.createGain(),lp=ac.createBiquadFilter();
     f*=TSP();o.type="triangle";o.frequency.value=f;o2.type="sine";o2.frequency.value=f*2.01;lp.type="lowpass";lp.frequency.setValueAtTime(6000,t);lp.frequency.exponentialRampToValueAtTime(900,t+.25);
     g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v||.05,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+.35/TSP());
@@ -324,10 +343,11 @@ function pluck(f,v){
 }
 function click(){pluck(523.25*PENTA[Math.floor(Math.random()*4)],.035);}
 function dopamine(e){
+  if(!OS.pops&&!OS.snd)return;
   combo++;clearTimeout(comboT);comboT=setTimeout(function(){combo=0;},900);
   var st=Math.min(combo-1,PENTA.length-1),oct=combo>PENTA.length?2:1;
   pluck(392*PENTA[st]*oct,.05);if(combo%4===0)setTimeout(function(){pluck(392*PENTA[st]*2*oct,.03);},60);
-  if(combo>=3&&e&&de.dataset.theme!=="mono"){var d=document.createElement("div");d.className="pop";d.textContent=combo>=8?"×"+combo+"!!":"+"+combo;d.style.left=e.clientX+"px";d.style.top=(e.clientY-10)+"px";document.body.appendChild(d);setTimeout(function(){d.remove();},700);}
+  if(OS.pops&&combo>=3&&e&&de.dataset.theme!=="mono"){var d=document.createElement("div");d.className="pop";d.textContent=combo>=8?"×"+combo+"!!":"+"+combo;d.style.left=e.clientX+"px";d.style.top=(e.clientY-10)+"px";document.body.appendChild(d);setTimeout(function(){d.remove();},700);}
   var n=Date.now();clicks=clicks.filter(function(c){return n-c<4000;});clicks.push(n);
   if(clicks.length>=16&&!lagging){clicks=[];lag("Забагато продуктивності за 4 секунди.");}
 }
@@ -960,10 +980,39 @@ function autopilot(){
 function setAuto(v,quiet){
   if(v&&real())return; /* the desk and the web are real work: no autopilot, no toasts */
   auto=v;boss.setAttribute("aria-pressed",v?"true":"false");if(!v)curEl.classList.remove("on");
-  if(!quiet)toast(v?"Автопілот увімкнено. Ви дуже зайняті.":"Автопілот вимкнено. Комбат пішов, можна видихнути.");
+  if(!quiet&&OS.sat)toast(v?"Автопілот увімкнено. Ви дуже зайняті.":"Автопілот вимкнено. Комбат пішов, можна видихнути.");
 }
 boss.addEventListener("click",function(e){if(e.isTrusted){clearTimeout(idleT);setAuto(!auto);}});
-function human(){if(real()){clearTimeout(idleT);return;}if(auto){setAuto(false,true);toast("Перехоплено керування. Автопілот повернеться, коли ви знову завмрете.");}clearTimeout(idleT);idleT=setTimeout(function(){setAuto(true);},45000);}
+if(!OS.auto||!OS.sat){auto=false;boss.setAttribute("aria-pressed","false");}
+function settings(){
+  var o=document.querySelector(".oset");if(o){o.remove();return;}
+  var h=document.createElement("div");h.className="hang oset";h.setAttribute("role","dialog");h.setAttribute("aria-label","Налаштування Офісу");
+  h.innerHTML='<h3>⚙ Налаштування Офісу</h3><p>Скільки дофаміну видає інтерфейс. Те саме, що в Конструкторі застосунку на телефоні.</p>'+
+    '<div class="seg"><button data-l="0">🧘 Спокій<small>тиша, без сатири</small></button><button data-l="1">☕ Помірно<small>тихі звуки, без феєрверків</small></button><button data-l="2">🎉 Повний<small>комбо, автопілот, усе</small></button></div>'+
+    '<label class="tg"><span>Звуки інтерфейсу<small>дзеньк на кнопках і клітинках</small></span><input type="checkbox" data-k="snd"></label>'+
+    '<label class="tg"><span>Комбо й феєрверки<small>«+5», «×8!!» біля курсора</small></span><input type="checkbox" data-k="pops"></label>'+
+    '<label class="tg"><span>Автопілот, коли простоюєш<small>через 45 с бездіяльності курсор «працює» сам</small></span><input type="checkbox" data-k="auto"></label>'+
+    '<label class="tg"><span>Сатиричні кнопки<small>час, ремікс, прискорити, автопілот</small></span><input type="checkbox" data-k="sat"></label>'+
+    '<label class="tg"><span>Анімації<small>курсор-привид і спалахи</small></span><input type="checkbox" data-k="anim"></label>'+
+    '<div class="lnk"><button data-a="theme">🎨 Колір</button><button data-a="fm">📻 Конструктор ефіру…</button><button data-a="stil">🗃 Синхронізація Столу…</button></div>'+
+    '<div class="bb"><button class="pri" data-a="ok">Готово</button></div>';
+  function paintS(){[].forEach.call(h.querySelectorAll("[data-l]"),function(b){b.setAttribute("aria-pressed",String(+b.dataset.l===OS.lvl));});
+    [].forEach.call(h.querySelectorAll("[data-k]"),function(c){c.checked=!!OS[c.dataset.k];});}
+  function commit(){osApply();paintS();if((!OS.auto||!OS.sat)&&auto)setAuto(false,true);if(!OS.auto)clearTimeout(idleT);}
+  h.addEventListener("click",function(e){
+    var l=e.target.closest("[data-l]");if(l){OS=Object.assign({lvl:+l.dataset.l},LV[+l.dataset.l]);commit();return;}
+    var a=e.target.closest("[data-a]");if(!a)return;
+    if(a.dataset.a==="ok")h.remove();
+    else if(a.dataset.a==="theme")$("btheme").click();
+    else if(a.dataset.a==="fm"){h.remove();openLink(BASE+"index.html?app#nalashtuvannia","Конструктор ефіру",false);}
+    else if(a.dataset.a==="stil"){h.remove();openApp("desk");setTimeout(function(){try{$("desk").contentWindow.postMessage({type:"vv-open-sync"},"*");}catch(x){}},700);}
+  });
+  h.addEventListener("change",function(e){var c=e.target.closest("[data-k]");if(!c)return;OS[c.dataset.k]=c.checked?1:0;OS.lvl=-1;LV.forEach(function(v,i){if(["pops","snd","auto","sat","anim"].every(function(k){return v[k]===OS[k];}))OS.lvl=i;});commit();});
+  h.addEventListener("keydown",function(e){e.stopPropagation();if(e.key==="Escape")h.remove();});
+  paintS();document.body.appendChild(h);
+}
+$("bset").addEventListener("click",settings);
+function human(){if(real()){clearTimeout(idleT);return;}if(auto){setAuto(false,true);toast("Перехоплено керування. Автопілот повернеться, коли ви знову завмрете.");}clearTimeout(idleT);if(OS.auto&&OS.sat)idleT=setTimeout(function(){setAuto(true);},45000);}
 addEventListener("keydown",function(e){
   if(e.target.closest&&e.target.closest("input,textarea,.menu,.hang"))return;
   if(e.metaKey||e.ctrlKey||e.altKey)return;

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/hvylyna.js"></script>
+<script src="vendor/vkladky.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Маестро · симулятор диригента · Вайбвет FM</title>
+<meta name="description" content="Диригуй оркестром рукою, мишкою чи пальцем: змах униз дає долю, темп іде за тобою, розмах задає гучність. Бетховен, Пахельбель і вальс Мінвайбвету.">
+<meta property="og:title" content="Маестро: симулятор диригента · Вайбвет FM">
+<meta property="og:description" content="Оркестр чекає на твій змах. Темп і гучність — твої.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/maestro">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0a07;--panel:#24160e;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;--gold:#e8c46a;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:radial-gradient(ellipse at 50% 110%,#3a1e12 0,var(--bg) 60%);color:var(--ivory);font:16px/1.5 "PT Serif",Georgia,serif;overflow:hidden;-webkit-user-select:none;user-select:none}
+button,select{font:inherit;color:inherit;cursor:pointer}
+#stage{position:fixed;inset:0;touch-action:none;cursor:crosshair}
+#cam{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);opacity:.16;filter:grayscale(1) sepia(.5)}
+#cv{position:absolute;inset:0;width:100%;height:100%}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 12px 10px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:#24160ecc;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:999px;padding:7px 13px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace;white-space:nowrap}
+.hud{position:fixed;left:0;right:0;top:calc(58px + env(safe-area-inset-top));z-index:4;text-align:center;pointer-events:none}
+.hud .pc{font:400 clamp(26px,5vw,40px)/1.1 "Yeseva One",Georgia,serif}
+.hud .cm{font:13px "PT Mono",monospace;color:var(--dim);letter-spacing:.1em;margin-top:4px}
+.meters{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:4;display:flex;gap:10px;pointer-events:none}
+.m{min-width:92px;text-align:center;border:1px solid var(--edge);background:#24160ecc;border-radius:14px;padding:8px 12px}
+.m b{display:block;font:400 26px/1 "Yeseva One",Georgia,serif;color:var(--gold)}
+.m small{font:10px "PT Mono",monospace;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+@media (max-width:560px){.m{min-width:74px;padding:6px 8px;border-radius:12px}.m b{font-size:20px}.m small{font-size:9px;letter-spacing:.08em}}
+.bar{position:fixed;left:0;right:0;bottom:0;height:4px;z-index:4;background:#ffffff10}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--coral));transition:width .2s}
+#hint{position:fixed;left:50%;top:44%;transform:translate(-50%,-50%);z-index:4;font:15px "PT Mono",monospace;color:var(--ivory);background:#24160ee6;border:1px solid var(--edge);border-radius:14px;padding:10px 16px;text-align:center;max-width:88vw;pointer-events:none;transition:opacity .4s}
+#intro,#bravo{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 30%,#2b1a11f2,#0f0a07f8 70%);overflow:auto}
+#bravo{display:none}
+.card{max-width:600px;text-align:center}
+.k{font:12px "PT Mono",monospace;letter-spacing:.2em;color:var(--amber);text-transform:uppercase}
+h1{font:400 clamp(38px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 12px}
+.card p{color:var(--dim);margin:0 0 12px}
+.card ul{text-align:left;margin:12px auto 16px;padding-left:20px;max-width:470px;font-size:15px}.card li{margin:4px 0}
+.pieces{display:grid;gap:8px;margin:14px 0}
+.pieces button{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;padding:12px 16px;border-radius:14px;border:1px solid var(--edge);background:var(--panel)}
+.pieces button[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.pieces small{font:12px "PT Mono",monospace;color:var(--dim)}
+.go{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.big{border:0;border-radius:999px;padding:13px 22px;background:var(--gold);color:#1a100b;font:700 15px "PT Mono",monospace}
+.big.alt{background:none;border:1px solid var(--edge);color:var(--ivory);font-weight:400}
+.card small.note{display:block;margin-top:14px;color:var(--dim);font:12px/1.6 "PT Mono",monospace}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+</style>
+</head>
+<body>
+<div id="stage"><video id="cam" playsinline muted></video><canvas id="cv"></canvas></div>
+<div class="top"><a class="pill" href="index.html#more">← назад</a><span class="pill" id="mode">🪄 паличка</span></div>
+<div class="hud"><div class="pc" id="pc"></div><div class="cm" id="cm"></div></div>
+<div id="hint" style="opacity:0"></div>
+<div class="meters"><div class="m"><b id="bpm">—</b><small>темп</small></div><div class="m"><b id="dyn">mf</b><small>динаміка</small></div><div class="m"><b id="bt">—</b><small>такт · доля</small></div></div>
+<div class="bar"><i id="prog"></i></div>
+
+<div id="intro"><div class="card">
+  <div class="k">Мінвайбвет · Філармонія Вайбвет FM</div>
+  <h1>Маестро</h1>
+  <p>Оркестр уже сидить, смички підняті. Він грає рівно тоді, коли ти показуєш долю, і рівно так голосно, як широко ти змахуєш.</p>
+  <ul>
+    <li><b>Змах униз</b> — доля. Оркестр грає наступну долю саме в цю мить.</li>
+    <li><b>Темп</b> — як часто змахуєш. Пришвидшуй, сповільнюй, роби ritardando.</li>
+    <li><b>Розмах</b> — гучність: маленький змах — <i>piano</i>, великий — <i>fortissimo</i> з литаврами.</li>
+    <li>Перестанеш диригувати — оркестр <b>чекає</b>, тримаючи звук, як на ферматі.</li>
+    <li>Можна паличкою-мишкою (тягни), пальцем по екрану, пробілом або рукою перед камерою.</li>
+  </ul>
+  <div class="pieces" id="pieces"></div>
+  <div class="go"><button class="big" id="startp">🪄 Диригувати паличкою</button><button class="big alt" id="startc">🎥 Рукою перед камерою</button></div>
+  <small class="note">Партитури: Бетховен і Пахельбель — суспільне надбання, вальс написав Мінвайбвет. Камера: відео не залишає пристрій, модель руки при першому запуску завантажується з серверів Google (MediaPipe).</small>
+</div></div>
+
+<div id="bravo"><div class="card">
+  <div class="k">Оплески не стихають</div>
+  <h1>Браво, маестро!</h1>
+  <p id="bravoTxt"></p>
+  <div class="stats" id="stats"></div>
+  <div class="go"><button class="big" id="again">🔁 Ще раз</button><button class="big alt" id="other">🎼 Інший твір</button></div>
+</div></div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+
+/* ================= scores ================= */
+/* events: [beat, duration in beats, midi, voice]; voices: mel (violins), bass (cellos/basses), pad (strings), arp (harp), stab (waltz chords), timp */
+function build(def){var ev=[];def.mel.forEach(function(m){ev.push([m[0],m[1],m[2],"mel"]);});def.extra(ev);return {name:def.name,by:def.by,meter:def.meter,beats:def.beats,ev:ev.sort(function(a,b){return a[0]-b[0];})};}
+function seq(list,start){var b=start||0,out=[];list.forEach(function(n){if(n[0])out.push([b,n[1],n[0]]);b+=n[1];});return out;}
+var CH={D:[62,66,69],A:[61,64,69],A7:[61,64,67],Bm:[62,66,71],Fsm:[61,66,69],G:[62,67,71],C:[60,64,67],D7:[60,62,66],G3:[59,62,67]};
+var ROOT={D:38,A:45,A7:45,Bm:47,Fsm:42,G:43,C:48,D7:50,G3:43};
+
+var PIECES=[
+ (function(){ /* Beethoven, Symphony No. 9, «Ode to Joy», D major, 4/4 */
+  var a=[[66,1],[66,1],[67,1],[69,1],[69,1],[67,1],[66,1],[64,1],[62,1],[62,1],[64,1],[66,1]];
+  var p1=a.concat([[66,1.5],[64,.5],[64,2]]),p2=a.concat([[64,1.5],[62,.5],[62,2]]);
+  var p3=[[64,1],[64,1],[66,1],[62,1],[64,1],[66,.5],[67,.5],[66,1],[62,1],[64,1],[66,.5],[67,.5],[66,1],[64,1],[62,1],[64,1],[57,2]];
+  var mel=seq(p1.concat(p2,p3,p2)).map(function(n){return [n[0],n[1],n[2]+12];});
+  var bars=[["D"],["A"],["D"],["A"],["D"],["A"],["D"],["A","D"],["A","D"],["A","D"],["A","A7"],["D","A"],["D"],["A"],["D"],["A7","D"]];
+  return build({name:"Ода до радості",by:"Л. ван Бетховен · Симфонія №9",meter:4,beats:64,mel:mel,extra:function(ev){
+    bars.forEach(function(b,i){var s=i*4;if(b.length===1){ev.push([s,4,b[0],"chord"]);ev.push([s,2,ROOT[b[0]],"bass"]);ev.push([s+2,2,ROOT[b[0]]+12,"bass"]);}
+      else{ev.push([s,2,b[0],"chord"]);ev.push([s+2,2,b[1],"chord"]);ev.push([s,2,ROOT[b[0]],"bass"]);ev.push([s+2,2,ROOT[b[1]],"bass"]);}});
+    [0,16,32,48,60].forEach(function(b){ev.push([b,1,38,"timp"]);});ev.push([63,1,45,"timp"]);}});
+ })(),
+ (function(){ /* Pachelbel, Canon in D, 4/4 */
+  var prog=["D","A","Bm","Fsm","G","D","G","A"],line=[78,76,74,73,71,69,71,73],mel=[];
+  for(var pass=0;pass<4;pass++)prog.forEach(function(c,i){var s=pass*16+i*2,t=CH[c];
+    if(pass===0||pass===3)mel.push([s,2,line[i]]);
+    else if(pass===1){mel.push([s,1,t[2]+12]);mel.push([s+1,1,t[1]+12]);}
+    else{[t[0],t[1],t[2],t[0]+12].forEach(function(n,k){mel.push([s+k*.5,.5,n+12]);});}});
+  mel.push([64,4,74]);
+  return build({name:"Канон ре мажор",by:"Й. Пахельбель",meter:4,beats:68,mel:mel,extra:function(ev){
+    for(var pass=0;pass<4;pass++)prog.forEach(function(c,i){var s=pass*16+i*2;ev.push([s,2,c,"chord"]);ev.push([s,2,ROOT[c],"bass"]);if(pass>=1)CH[c].forEach(function(n,k){ev.push([s+k*.66,.6,n,"arp"]);});});
+    ev.push([64,4,"D","chord"]);ev.push([64,4,38,"bass"]);ev.push([64,2,38,"timp"]);ev.push([48,1,38,"timp"]);}});
+ })(),
+ (function(){ /* Вальс Мінвайбвету, original, G major, 3/4 */
+  var m=[[74,2],[71,1],[79,3],[78,2],[76,1],[74,3],[72,2],[74,1],[76,1],[74,1],[72,1],[71,2],[74,1],[79,3],
+         [71,2],[74,1],[79,3],[76,2],[79,1],[76,1],[74,1],[72,1],[71,2],[74,1],[72,2],[78,1],[79,3],[67,3]];
+  var prog=["G3","G3","D7","D7","D7","D7","G3","G3","G3","G3","C","C","G3","D7","G3","G3"];
+  return build({name:"Вальс Мінвайбвету",by:"Мінвайбвет · для оркестру й однієї сльози",meter:3,beats:48,mel:seq(m),extra:function(ev){
+    prog.forEach(function(c,i){var s=i*3;ev.push([s,1,ROOT[c],"bass"]);ev.push([s+1,.5,c,"stab"]);ev.push([s+2,.5,c,"stab"]);});
+    ev.push([0,1,43,"timp"]);ev.push([45,1,43,"timp"]);}});
+ })()];
+var cur=0;
+
+/* ================= sound ================= */
+var ctx,master,rev,dry,comp,noise;
+function mtof(m){return 440*Math.pow(2,(m-69)/12);}
+function audio(){
+  if(ctx)return;ctx=new (window.AudioContext||window.webkitAudioContext)();
+  comp=ctx.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=3;comp.connect(ctx.destination);
+  master=ctx.createGain();master.gain.value=.9;master.connect(comp);
+  var conv=ctx.createConvolver(),len=ctx.sampleRate*3.6,ir=ctx.createBuffer(2,len,ctx.sampleRate);
+  for(var c=0;c<2;c++){var d=ir.getChannelData(c);for(var i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3)*(i<ctx.sampleRate*.02?i/(ctx.sampleRate*.02):1);}
+  conv.buffer=ir;rev=ctx.createGain();rev.gain.value=.5;dry=ctx.createGain();dry.gain.value=.75;
+  conv.connect(rev);rev.connect(master);dry.connect(master);
+  noise=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);var nd=noise.getChannelData(0);for(var j=0;j<nd.length;j++)nd[j]=Math.random()*2-1;
+  out=function(node){node.connect(dry);node.connect(conv);};
+}
+var out;
+function env(g,t,a,peak,dur,rel){g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+a);g.gain.setValueAtTime(peak,t+Math.max(a,dur-.02));g.gain.exponentialRampToValueAtTime(.0005,t+dur+rel);}
+function strings(n,t,dur,vol,bright,att){
+  var g=ctx.createGain(),f=ctx.createBiquadFilter();f.type="lowpass";f.frequency.value=700+bright*2600;f.Q.value=.5;
+  [-8,8].forEach(function(dt){var o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=mtof(n);o.detune.value=dt;o.connect(f);o.start(t);o.stop(t+dur+1.6);});
+  f.connect(g);out(g);env(g,t,att,vol,dur,1.1);
+}
+function violin(n,t,dur,vol,bright){
+  var g=ctx.createGain(),f=ctx.createBiquadFilter(),o=ctx.createOscillator(),o2=ctx.createOscillator(),lfo=ctx.createOscillator(),lg=ctx.createGain();
+  f.type="lowpass";f.frequency.value=1400+bright*3600;f.Q.value=1.2;o.type="sawtooth";o2.type="sawtooth";o.frequency.value=o2.frequency.value=mtof(n);o2.detune.value=6;
+  lfo.frequency.value=5.4;lg.gain.setValueAtTime(0,t);lg.gain.linearRampToValueAtTime(7,t+Math.min(.35,dur*.6));lfo.connect(lg);lg.connect(o.detune);lg.connect(o2.detune);
+  o.connect(f);o2.connect(f);f.connect(g);out(g);env(g,t,.06,vol,dur,.35);
+  [o,o2,lfo].forEach(function(x){x.start(t);x.stop(t+dur+.8);});
+}
+function bass(n,t,dur,vol){
+  var g=ctx.createGain(),f=ctx.createBiquadFilter(),o=ctx.createOscillator();f.type="lowpass";f.frequency.value=650;o.type="sawtooth";o.frequency.value=mtof(n);
+  o.connect(f);f.connect(g);out(g);env(g,t,.05,vol,dur,.4);o.start(t);o.stop(t+dur+.9);
+}
+function harp(n,t,vol){
+  var g=ctx.createGain(),o=ctx.createOscillator();o.type="triangle";o.frequency.value=mtof(n+12);o.connect(g);out(g);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.008);g.gain.exponentialRampToValueAtTime(.0005,t+1.6);o.start(t);o.stop(t+1.7);
+}
+function timp(n,t,vol){
+  var g=ctx.createGain(),o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(mtof(n)*1.5,t);o.frequency.exponentialRampToValueAtTime(mtof(n),t+.08);
+  o.connect(g);out(g);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0005,t+1.8);o.start(t);o.stop(t+1.9);
+  var s=ctx.createBufferSource(),ng=ctx.createGain(),nf=ctx.createBiquadFilter();s.buffer=noise;nf.type="lowpass";nf.frequency.value=300;s.connect(nf);nf.connect(ng);out(ng);
+  ng.gain.setValueAtTime(vol*.6,t);ng.gain.exponentialRampToValueAtTime(.0005,t+.25);s.start(t);s.stop(t+.3);
+}
+function applause(){
+  var t=ctx.currentTime;for(var i=0;i<420;i++){var s=ctx.createBufferSource(),g=ctx.createGain(),f=ctx.createBiquadFilter(),at=t+Math.random()*4.5*Math.pow(Math.random(),.4);
+    s.buffer=noise;f.type="bandpass";f.frequency.value=900+Math.random()*2400;f.Q.value=1.4;s.connect(f);f.connect(g);out(g);
+    var v=.05*(1-Math.max(0,(at-t-3)/2));g.gain.setValueAtTime(0,at);g.gain.linearRampToValueAtTime(v,at+.004);g.gain.exponentialRampToValueAtTime(.0005,at+.07);s.start(at,Math.random()*1.5);s.stop(at+.09);}
+}
+
+/* ================= performance ================= */
+var P={on:false,beat:-1,spb:.75,dyn:.55,prep:0,lastIctus:0,started:0,beats:[],peak:0,done:false,sec:{}};
+function dynName(v){return v<.22?"pp":v<.36?"p":v<.5?"mp":v<.66?"mf":v<.82?"f":"ff";}
+function play(k,t){
+  var pc=PIECES[cur],spb=P.spb,v=P.dyn,br=v;
+  pc.ev.forEach(function(e){if(Math.floor(e[0]+1e-6)!==k)return;
+    var at=t+(e[0]-k)*spb,dur=Math.min(e[1]*spb,6),vo=e[3];
+    if(vo==="mel"){violin(e[2],at,dur*.96,.07+.13*v,br);P.sec.v1=1;if(e[0]%2===0)P.sec.ww=1;}
+    else if(vo==="bass"){bass(e[2],at,dur*.92,.06+.12*v);P.sec.vc=1;}
+    else if(vo==="chord"){CH[e[2]].forEach(function(n){strings(n,at,dur,.025+.05*v,br,Math.min(.25,spb*.3));});P.sec.va=1;P.sec.v2=1;}
+    else if(vo==="stab"){CH[e[2]].forEach(function(n){strings(n,at,Math.min(dur,.3),.03+.06*v,br,.02);});P.sec.v2=1;}
+    else if(vo==="arp"){harp(e[2],at,.03+.05*v);P.sec.hp=1;}
+    else if(vo==="timp"){if(v>.45||k===0||k>=pc.beats-4){timp(e[2],at,.18+.3*v);P.sec.tp=1;}}
+  });
+  if(v>.75&&k%pc.meter===0){timp(pc.meter===3?43:38,t,.1+.2*(v-.75)*4);P.sec.tp=1;} /* fortissimo downbeats get timpani anyway */
+  if(v>.6)P.sec.br=1;
+  P.flash=performance.now();
+}
+function ictus(depth){
+  if(!P.on||P.done)return;
+  var now=performance.now(),t=ctx.currentTime+.02;
+  if(depth!=null){var d=Math.max(0,Math.min(1,(depth-.03)/.42));P.dyn=P.dyn*.45+d*.55;}
+  if(P.lastIctus){var iv=(now-P.lastIctus)/1000;if(iv>.24&&iv<2.4){P.spb=P.beat<1?iv:P.spb*.4+iv*.6;}}
+  P.lastIctus=now;
+  if(P.prep<1){P.prep++;hint("…і ще один змах: оркестр вступить на ньому");return;}
+  P.beat++;var pc=PIECES[cur];
+  if(P.beat===0)P.started=now;hint("");
+  if(P.beat>=pc.beats){P.beat=pc.beats-1;return;}
+  P.peak=Math.max(P.peak,P.dyn);P.beats.push(P.spb);
+  play(P.beat,t);hud();
+  if(P.beat===pc.beats-1)setTimeout(finish,Math.max(1600,pc.meter*P.spb*1000+800));
+}
+function hud(){
+  var pc=PIECES[cur],k=Math.max(0,P.beat);
+  $("bpm").textContent=Math.round(60/P.spb);$("dyn").textContent=dynName(P.dyn);
+  $("bt").textContent=P.beat<0?"—":(Math.floor(k/pc.meter)+1)+" · "+(k%pc.meter+1);
+  $("prog").style.width=(P.beat<0?0:(k+1)/pc.beats*100)+"%";
+}
+var hintT=null;function hint(t,ms){var h=$("hint");if(!t){h.style.opacity=0;return;}h.textContent=t;h.style.opacity=1;clearTimeout(hintT);if(ms)hintT=setTimeout(function(){h.style.opacity=0;},ms);}
+function finish(){
+  if(P.done)return;P.done=true;applause();
+  var avg=P.beats.length?P.beats.reduce(function(a,b){return a+b;},0)/P.beats.length:P.spb,secs=Math.round((performance.now()-P.started)/1000);
+  var bpm=Math.round(60/avg),pc=PIECES[cur];
+  var verdict=bpm<60?"Повільно, урочисто, як у філармонії о дев'ятій ранку. Музиканти встигли подумати про життя.":bpm<96?"Класичний, виважений темп. Концертмейстер кивнув з повагою.":bpm<132?"Жваво! Перші скрипки ледве встигали, але усміхалися.":"Це було престо, якого не планував навіть композитор. Литаврист просить відпустку.";
+  $("bravoTxt").textContent="«"+pc.name+"» звучав рівно так, як ти показав. "+verdict;
+  $("stats").innerHTML="";[["Середній темп",bpm+" уд/хв"],["Найгучніше",dynName(P.peak)],["Тривалість",Math.floor(secs/60)+":"+String(secs%60).padStart(2,"0")]].forEach(function(x){var d=document.createElement("div");d.className="m";d.innerHTML="<b></b><small></small>";d.querySelector("b").textContent=x[1];d.querySelector("small").textContent=x[0];$("stats").appendChild(d);});
+  setTimeout(function(){$("bravo").style.display="grid";},1200);
+  try{var best=JSON.parse(localStorage.getItem("vv-maestro")||"{}");best[pc.name]=(best[pc.name]||0)+1;localStorage.setItem("vv-maestro",JSON.stringify(best));}catch(e){}
+}
+function reset(){P.on=true;P.beat=-1;P.prep=0;P.lastIctus=0;P.done=false;P.beats=[];P.peak=0;P.dyn=.55;
+  var pc=PIECES[cur];$("pc").textContent=pc.name;$("cm").textContent=pc.by+" · "+pc.meter+"/4";hud();hint("Підготовчий змах: угору, потім рішуче вниз");}
+
+/* ================= gesture: find the ictus (the bottom of each down-stroke) ================= */
+var G={pts:[],dir:0,top:1,last:0,trail:[]};
+function feed(x,y,now){ /* x,y in 0..1, y grows downward */
+  G.trail.push({x:x,y:y,t:now});if(G.trail.length>40)G.trail.shift();
+  var p=G.pts;p.push({y:y,t:now});while(p.length&&now-p[0].t>90)p.shift();
+  if(p.length<3)return;var vy=(p[p.length-1].y-p[0].y)/((p[p.length-1].t-p[0].t)/1000||1);
+  if(vy>.35){if(G.dir!==1){G.dir=1;G.top=G.minY;G.maxY=y;}G.maxY=Math.max(G.maxY||0,y);}
+  else if(vy<-.25){
+    if(G.dir===1){var depth=(G.maxY||y)-(G.top==null?y:G.top);if(depth>.035&&now-G.last>170){G.last=now;ictus(depth);G.bounce={x:x,y:G.maxY,t:now};}}
+    if(G.dir!==-1){G.dir=-1;G.minY=y;G.maxY=0;}
+  }
+  G.minY=Math.min(G.minY==null?y:G.minY,y);
+}
+
+/* ================= drawing: the orchestra and the baton ================= */
+var cv=$("cv"),g2=cv.getContext("2d");
+function fit(){var r=devicePixelRatio||1;cv.width=innerWidth*r;cv.height=innerHeight*r;g2.setTransform(r,0,0,r,0,0);}addEventListener("resize",fit);fit();
+var PI=Math.PI;
+var SECS=[["v1","Скрипки I",0,PI,1.25*PI],["v2","Скрипки II",0,1.25*PI,1.5*PI],["va","Альти",0,1.5*PI,1.75*PI],["vc","Віолончелі",0,1.75*PI,2*PI],
+  ["hp","Арфа",1,PI,1.25*PI],["ww","Дерев'яні",1,1.25*PI,1.5*PI],["br","Мідні",1,1.5*PI,1.75*PI],["tp","Литаври",1,1.75*PI,2*PI]];
+var glow={};
+function draw(){
+  var W=innerWidth,H=innerHeight,now=performance.now();g2.clearRect(0,0,W,H);
+  var cx=W/2,cy=H-(W<560?120:92),R=Math.max(120,Math.min(W*.47,H*.5));
+  SECS.forEach(function(s){
+    if(P.sec[s[0]]){glow[s[0]]=1;}P.sec[s[0]]=0;glow[s[0]]=(glow[s[0]]||0)*.94;
+    var r0=s[2]?R*.72:R*.36,r1=s[2]?R:R*.68,a=glow[s[0]];
+    var gap=.012;g2.beginPath();g2.arc(cx,cy,r1,s[3]+gap,s[4]-gap);g2.arc(cx,cy,r0,s[4]-gap,s[3]+gap,true);g2.closePath();
+    g2.fillStyle="rgba(232,196,106,"+(.05+a*.32*(.5+P.dyn))+")";g2.fill();g2.strokeStyle="rgba(232,196,106,"+(.15+a*.4)+")";g2.lineWidth=1;g2.stroke();
+    var m=(s[3]+s[4])/2,rr=(r0+r1)/2;g2.fillStyle="rgba(242,227,189,"+(.35+a*.6)+")";g2.font=(W<560?10:12)+"px 'PT Mono',monospace";g2.textAlign="center";
+    g2.fillText(s[1],cx+Math.cos(m)*rr,cy+Math.sin(m)*rr+4);
+  });
+  /* podium pulse on every beat */
+  var fl=Math.max(0,1-(now-(P.flash||0))/350);
+  g2.beginPath();g2.arc(cx,cy,R*.3,Math.PI,2*Math.PI);g2.fillStyle="rgba(255,93,71,"+(.12+fl*.35)+")";g2.fill();
+  /* conducting pattern guide */
+  var pc=PIECES[cur],gx=W*.5,gy=Math.max(150,(cy-R)*.62),gs=Math.min(W,H)*.07;
+  var pat=pc.meter===3?[[0,1],[1,.6],[0,-1]]:[[0,1],[-1,.6],[1,.6],[0,-1]];
+  g2.strokeStyle="rgba(242,227,189,.08)";g2.lineWidth=2;g2.beginPath();pat.forEach(function(q,i){var X=gx+q[0]*gs,Y=gy+q[1]*gs;if(i)g2.lineTo(X,Y);else g2.moveTo(X,Y);});g2.closePath();g2.stroke();
+  if(P.beat>=0){var q=pat[(P.beat+1)%pc.meter];g2.fillStyle="rgba(240,169,58,.25)";g2.beginPath();g2.arc(gx+q[0]*gs,gy+q[1]*gs,7,0,7);g2.fill();}
+  /* baton trail */
+  var tr=G.trail;for(var i=1;i<tr.length;i++){var a2=i/tr.length;g2.strokeStyle="rgba(255,240,200,"+a2*.8+")";g2.lineWidth=1+a2*3;g2.beginPath();g2.moveTo(tr[i-1].x*W,tr[i-1].y*H);g2.lineTo(tr[i].x*W,tr[i].y*H);g2.stroke();}
+  if(G.bounce&&now-G.bounce.t<400){var b=(now-G.bounce.t)/400;g2.strokeStyle="rgba(240,169,58,"+(1-b)+")";g2.lineWidth=2;g2.beginPath();g2.arc(G.bounce.x*W,G.bounce.y*H,10+b*30,0,7);g2.stroke();}
+  /* fermata: the orchestra holds when you stop */
+  if(P.on&&!P.done&&P.beat>=0&&now-P.lastIctus>Math.max(1400,P.spb*2200))hint("𝄐 Оркестр тримає звук і чекає на твій змах");
+  requestAnimationFrame(draw);
+}
+
+/* ================= inputs ================= */
+var stage=$("stage"),down=false;
+stage.addEventListener("pointerdown",function(e){down=true;stage.setPointerCapture(e.pointerId);G.pts=[];G.dir=0;feed(e.clientX/innerWidth,e.clientY/innerHeight,performance.now());});
+stage.addEventListener("pointermove",function(e){if(down||e.pointerType==="mouse")feed(e.clientX/innerWidth,e.clientY/innerHeight,performance.now());});
+stage.addEventListener("pointerup",function(){down=false;});
+addEventListener("keydown",function(e){if(e.code==="Space"&&P.on){e.preventDefault();ictus(e.shiftKey?.42:.22);}});
+
+var MP="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+async function startCam(){
+  hint("Вмикаю камеру й завантажую модель руки…");$("mode").textContent="🎥 рука";
+  var video=$("cam"),stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:640},height:{ideal:480}},audio:false});}
+  catch(e){hint("Камера недоступна. Диригуй паличкою: тягни мишкою чи пальцем.",4000);$("mode").textContent="🪄 паличка";reset();return;}
+  video.srcObject=stream;await video.play();var lm;
+  try{var v=await import(MP+"/vision_bundle.mjs"),fs=await v.FilesetResolver.forVisionTasks(MP+"/wasm");
+    lm=await v.HandLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",delegate:"GPU"},runningMode:"VIDEO",numHands:1});}
+  catch(e){hint("Модель руки не завантажилась (потрібен інтернет). Поки диригуй паличкою.",4000);$("mode").textContent="🪄 паличка";reset();return;}
+  reset();var last=-1;
+  (function loop(){if(video.readyState>=2&&video.currentTime!==last){last=video.currentTime;var r=lm.detectForVideo(video,performance.now());
+      if(r.landmarks&&r.landmarks[0]){var L=r.landmarks[0],tip=L[8],w=L[0];feed(1-(tip.x*.6+w.x*.4),tip.y*.6+w.y*.4,performance.now());}}
+    requestAnimationFrame(loop);})();
+}
+
+/* ================= menus ================= */
+function pieceList(){var box=$("pieces");box.innerHTML="";PIECES.forEach(function(p,i){var b=document.createElement("button");b.setAttribute("aria-pressed",i===cur?"true":"false");
+  b.innerHTML="<span><b></b><br><small></small></span><small></small>";b.querySelector("b").textContent=p.name;b.querySelectorAll("small")[0].textContent=p.by;b.querySelectorAll("small")[1].textContent=p.meter+"/4 · "+Math.round(p.beats/p.meter)+" тактів";
+  b.onclick=function(){cur=i;pieceList();};box.appendChild(b);});}
+pieceList();
+function begin(cam){audio();if(ctx.state==="suspended")ctx.resume();$("intro").style.display="none";draw();if(cam)startCam();else reset();}
+$("startp").onclick=function(){begin(false);};$("startc").onclick=function(){begin(true);};
+$("again").onclick=function(){$("bravo").style.display="none";reset();};
+$("other").onclick=function(){$("bravo").style.display="none";P.on=false;$("intro").style.display="grid";};
+document.addEventListener("visibilitychange",function(){if(!ctx)return;if(document.hidden)ctx.suspend();else ctx.resume();});
+window.VV_MAESTRO={ictus:ictus,P:P}; /* for testing */
+})();
+</script>
+</body>
+</html>

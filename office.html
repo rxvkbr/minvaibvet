@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script src="vendor/hvylyna.js"></script>
+<script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Вайбвет Офіс · продуктивність</title>
 <meta name="description" content="Вайбвет Офіс: справжній робочий Стіл (нотатки, таблиці, задачі, картки, календар) і сатиричні вкладки, які працюють самі.">
@@ -334,13 +335,13 @@ var tabsEl=$("tabs"),omni=$("omni"),isApp=!!window.VV_DESKTOP;
 function uid(){return "t"+(S.seq++);}
 function TB(id){for(var i=0;i<S.tabs.length;i++)if(S.tabs[i].id===id)return S.tabs[i];return null;}
 function G(id){for(var i=0;i<S.groups.length;i++)if(S.groups[i].id===id)return S.groups[i];return null;}
-function plain(t){return {id:t.id,kind:t.kind,v:t.v,url:t.url,title:t.title,icon:t.icon,group:t.group,pinned:t.pinned,used:t.used};}
+function plain(t){return {id:t.id,kind:t.kind,v:t.v,url:t.url,title:t.title,icon:t.icon,group:t.group,pinned:t.pinned,used:t.used,opener:t.opener};}
 function save(){try{localStorage.setItem("office-tabs",JSON.stringify({tabs:S.tabs.map(plain),groups:S.groups,active:S.active,seq:S.seq}));}catch(e){}}
 function load(){try{var o=JSON.parse(localStorage.getItem("office-tabs")||"null");if(o&&o.tabs&&o.tabs.length){S={tabs:o.tabs,groups:o.groups||[],active:o.active,seq:o.seq||99};return true;}}catch(e){}return false;}
 function defaults(){var n=Date.now();S.tabs=["desk","delta","sheet","doc","radio"].map(function(v){return {id:uid(),kind:"app",v:v,pinned:v==="desk",used:n};});S.active=S.tabs[0].id;}
 function host(u){try{return new URL(u).hostname.replace(/^www\./,"");}catch(e){return "";}}
 function title(t){return t.kind==="app"?APPS[t.v].t:(t.title||(t.url?host(t.url):"Нова вкладка"));}
-function real(){return cur==="desk"||cur==="web"||cur==="rec"||cur==="fin";} /* real work: no autopilot, no satire */
+function real(){return cur==="desk"||cur==="web"||cur==="page"||cur==="rec"||cur==="fin";} /* real work: no autopilot, no satire */
 /* pinned first, members of a group side by side, empty groups gone */
 function norm(){
   var first={};S.tabs.forEach(function(t,i){if(t.pinned)t.group=null;if(t.group&&first[t.group]===undefined)first[t.group]=i;});
@@ -361,6 +362,7 @@ function paint(){
     var fi;
     if(t.kind==="app"){fi=document.createElement("span");fi.className="fi "+APPS[t.v].fi;fi.textContent=APPS[t.v].ic;}
     else if(t.icon&&/^https:/.test(t.icon)){fi=document.createElement("img");fi.className="fi";fi.alt="";fi.src=t.icon;fi.onerror=function(){t.icon=null;};}
+    else if(t.kind==="page"){fi=document.createElement("span");fi.className="fi r";fi.textContent="FM";}
     else{fi=document.createElement("span");fi.className="fi web";fi.textContent=t.url?(host(t.url)[0]||"•").toUpperCase():"+";}
     var tt=document.createElement("span");tt.className="tt";tt.textContent=title(t);
     var dot=document.createElement("span");dot.className="dot";
@@ -380,6 +382,11 @@ function mount(t){
   if(!t.url){if(!sec.querySelector(".start")){sec.innerHTML="";sec.appendChild(startPage(t));}return;}
   var fr=webOf(t);if(fr)return;
   sec.innerHTML="";
+  if(t.kind==="page"){
+    fr=document.createElement("iframe");fr.className="webframe pagefr";fr.title=title(t);
+    fr.addEventListener("load",function(){try{var d=fr.contentDocument;t.title=(d.title||"").replace(/\s*·\s*Вайбвет FM\s*$/,"")||t.title;t.url=fr.contentWindow.location.pathname.split("/").pop()+fr.contentWindow.location.search+fr.contentWindow.location.hash;}catch(e){}hookFrame(fr);paint();save();if(S.active===t.id)urlbar();});
+    fr.src=t.url;sec.appendChild(fr);return;
+  }
   if(isApp){
     fr=document.createElement("webview");fr.setAttribute("partition","persist:vvweb");fr.setAttribute("allowpopups","");
     fr.addEventListener("page-title-updated",function(e){t.title=e.title;paint();save();});
@@ -410,7 +417,7 @@ function activate(id,fromHist){
   var t=TB(id);if(!t)return;
   if(S.active&&S.active!==id&&!fromHist&&TB(S.active))hist.push(S.active);
   S.active=id;t.used=Date.now();
-  var vid;if(t.kind==="app"){vid="v-"+t.v;cur=t.v;}else{mount(t);vid="v-"+t.id;cur="web";}
+  var vid;if(t.kind==="app"){vid="v-"+t.v;cur=t.v;}else{mount(t);vid="v-"+t.id;cur=t.kind==="page"?"page":"web";}
   [].forEach.call(document.querySelectorAll(".view"),function(s){s.classList.toggle("on",s.id===vid);});
   if(cur==="radio"&&!$("radio").getAttribute("src"))$("radio").src="index.html";
   if(cur==="desk"&&!$("desk").getAttribute("src"))$("desk").src="stil.html?embed";
@@ -430,6 +437,7 @@ function newTab(url,after,bg){
 }
 function urlbar(){
   var t=TB(S.active);if(!t)return;
+  if(t.kind==="page"){$("urltext").innerHTML='vaib://<b>minvaibvet.pp.ua</b>/'+String(t.url||"").replace(/[<>&"]/g,"");$("urltext").hidden=false;omni.hidden=true;return;}
   if(t.kind==="app"){$("urltext").innerHTML=URLS[t.v];$("urltext").hidden=false;omni.hidden=true;}
   else{$("urltext").hidden=true;omni.hidden=false;if(document.activeElement!==omni)omni.value=t.url||"";}
 }
@@ -454,6 +462,30 @@ omni.addEventListener("keydown",function(e){
 omni.addEventListener("focus",function(){omni.select();});
 omni.addEventListener("blur",function(){var t=TB(S.active);if(t&&t.kind==="app")urlbar();else if(t&&document.activeElement!==omni)omni.value=t.url||"";});
 $("url").addEventListener("click",function(){var t=TB(S.active);if(t&&t.kind==="app"){$("urltext").hidden=true;omni.hidden=false;omni.value="";omni.focus();}});
+/* ---- links from pages inside tabs (vendor/vkladky.js posts them here) ---- */
+var BASE=location.href.replace(/[#?].*$/,"").replace(/[^\/]*$/,"");
+function hookFrame(fr){try{fr.contentWindow.postMessage({type:"vv-office-hello"},"*");}catch(e){}}
+function openLink(href,text,bg,after){
+  if(!href)return;var t;text=(text||"").replace(/\s*[→›»]+\s*$/,"");
+  if(href.indexOf(BASE)===0){var rel=href.slice(BASE.length)||"index.html";if(/^[#?]/.test(rel))rel="index.html"+rel;
+    t={id:uid(),kind:"page",url:rel,title:text||rel,used:Date.now()};}
+  else if(/^https?:/i.test(href))t={id:uid(),kind:"web",url:href,used:Date.now()};
+  else return;
+  var ref=TB(after||S.active),i=ref?S.tabs.indexOf(ref)+1:S.tabs.length;if(ref&&ref.group)t.group=ref.group;
+  while(i<S.tabs.length&&S.tabs[i].opener===(ref&&ref.id))i++; /* several links from one tab line up after it, like in Chrome */
+  t.opener=ref&&ref.id;S.tabs.splice(i,0,t);
+  if(bg){paint();save();toast("Відкрито у фоновій вкладці: "+title(t));}else activate(t.id);
+}
+function frameOf(win){var fs=document.querySelectorAll("iframe");for(var i=0;i<fs.length;i++)if(fs[i].contentWindow===win)return fs[i];return null;}
+addEventListener("message",function(e){
+  var d=e.data;if(!d||d.type!=="vv-open")return;var fr=frameOf(e.source);if(!fr)return; /* only our own tabs may ask */
+  if(d.menu){var r=fr.getBoundingClientRect(),x=r.left+d.x,y=r.top+d.y;
+    menu(x,y,[{label:"Відкрити в новій вкладці",fn:function(){openLink(d.href,d.text,false);}},{label:"Відкрити у фоновій вкладці",fn:function(){openLink(d.href,d.text,true);}},"-",
+      {label:"Копіювати посилання",fn:function(){var u=d.href.indexOf(BASE)===0?"https://minvaibvet.pp.ua/"+d.href.slice(BASE.length):d.href;try{navigator.clipboard.writeText(u);toast("Посилання скопійовано.");}catch(err){}}}]);return;}
+  openLink(d.href,d.text,!!d.bg);
+});
+["desk","radio","rec","fin"].forEach(function(id){var f=$(id);if(f)f.addEventListener("load",function(){hookFrame(f);});});
+
 /* ---- closing, with undo ---- */
 function closeTabs(ids,quiet){
   ids=ids.filter(function(id){return TB(id);});if(!ids.length)return;
@@ -618,11 +650,12 @@ tabsEl.addEventListener("drop",function(e){e.preventDefault();var tb=e.target.cl
   S.tabs.splice(i,0,t);t.group=to.group||null;if(to.pinned!==t.pinned)t.pinned=!!to.pinned;paint();save();});
 new MutationObserver(function(){[].forEach.call(tabsEl.querySelectorAll(".tab"),function(b){b.draggable=true;});}).observe(tabsEl,{childList:true});
 /* ---- nav buttons ---- */
-$("back").addEventListener("click",function(){human();var t=TB(S.active),fr=t&&t.kind==="web"&&webOf(t);
+$("back").addEventListener("click",function(){human();var t=TB(S.active),fr=t&&(t.kind==="web"||t.kind==="page")&&webOf(t);
   if(fr&&fr.canGoBack&&fr.canGoBack()){fr.goBack();return;}
+  if(fr&&t.kind==="page"){try{fr.contentWindow.history.back();return;}catch(e){}}
   var v=hist.pop();while(v&&!TB(v))v=hist.pop();if(v)activate(v,true);else if(!window.VV_DESKTOP)location.href="index.html#more";});
-$("reload").addEventListener("click",function(){human();var t=TB(S.active),fr=t&&t.kind==="web"&&webOf(t);
-  if(fr){if(fr.reload)fr.reload();else fr.src=fr.src;return;}toast("Оновлено. Нічого не змінилось. Це нормально.");});
+$("reload").addEventListener("click",function(){human();var t=TB(S.active),fr=t&&(t.kind==="web"||t.kind==="page")&&webOf(t);
+  if(fr){if(fr.reload)fr.reload();else{try{fr.contentWindow.location.reload();}catch(e){fr.src=fr.src;}}return;}toast("Оновлено. Нічого не змінилось. Це нормально.");});
 /* ---- shortcuts (the desktop app also forwards them from inside web pages) ---- */
 function shortcut(k,shift){
   if(k==="t"&&shift)reopen();else if(k==="t")newTab();

@@ -1490,6 +1490,19 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
     }catch(e){btn.textContent=t("Звук недоступний");btn.disabled=true;}
   });
 
+  /* iPad/iPhone: coming back from another app (or Split View) leaves the audio "interrupted". Bring it back by itself. */
+  try{if(navigator.audioSession)navigator.audioSession.type="playback";}catch(e){} /* behave like a player: survives the silent switch */
+  var reviveN=0;
+  function revive(){
+    if(!ctx||!(on||ui)||document.hidden)return;
+    if(ctx.state==="running"){reviveN=0;if(on&&!bed)try{setBed(cur);}catch(e){}return;}
+    try{ctx.resume().then(function(){if(on&&!bed)try{setBed(cur);}catch(e){}}).catch(function(){});}catch(e){}
+    if(reviveN++<6)setTimeout(revive,600);
+  }
+  document.addEventListener("visibilitychange",function(){reviveN=0;revive();});
+  addEventListener("pageshow",revive);addEventListener("focus",revive);
+  var watchCtx=setInterval(function(){if(ctx){ctx.addEventListener("statechange",function(){if(ctx.state!=="running"){reviveN=0;setTimeout(revive,300);}});clearInterval(watchCtx);}},500);
+
   /* while the radio plays, the screen stays on: otherwise the tablet locks itself and the station falls silent */
   var wl=null;
   function awake(v){

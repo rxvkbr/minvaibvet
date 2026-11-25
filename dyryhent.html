@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
+<script src="vendor/ruka.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Безкінечний диригент · Вайбвет FM</title>
 <meta name="description" content="Диригуй акордами рукою перед камерою: позиція руки обирає акорд, пальці додають барви, а коли руки немає, музика грає сама. Відео не залишає пристрій.">
@@ -251,25 +252,12 @@ async function startCam(){
   try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:640},height:{ideal:480}},audio:false});}
   catch(e){say("Камера недоступна. Перемикаю на керування пальцем.",3500);startPointer();return;}
   video.srcObject=stream;await video.play();
-  var lm;
   try{
-    var v=await import(MP+"/vision_bundle.mjs");
-    var fs=await v.FilesetResolver.forVisionTasks(MP+"/wasm");
-    lm=await v.HandLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",delegate:"GPU"},runningMode:"VIDEO",numHands:2});
+    await window.VV_HAND(video,2,function(hs){hands=hs;
+      if(hands.length){var ps=hands.map(palm),main=0;if(ps.length>1&&ps[1].x>ps[0].x)main=1;var other=ps.length>1?ps[1-main].y:null;handInput(ps[main].x,ps[main].y,fingers(hands[main]),other);}
+    },function(t){say(t,2500);});
   }catch(e){say("Модель руки не завантажилась (потрібен інтернет). Поки керуй пальцем.",4000);startPointer();return;}
   say("Підніми руку в кадр 🖐",2500);
-  var last=-1;
-  (function loop(){
-    if(video.readyState>=2&&video.currentTime!==last){last=video.currentTime;
-      var r=lm.detectForVideo(video,performance.now());hands=r.landmarks||[];
-      if(hands.length){
-        var ps=hands.map(palm),main=0;if(ps.length>1&&ps[1].x>ps[0].x)main=1;
-        var other=ps.length>1?ps[1-main].y:null;
-        handInput(ps[main].x,ps[main].y,fingers(hands[main]),other);
-      }
-    }
-    requestAnimationFrame(loop);
-  })();
 }
 function startPointer(){
   S.pointer=true;document.body.classList.add("pointer");

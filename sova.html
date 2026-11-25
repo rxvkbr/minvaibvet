@@ -115,6 +115,9 @@ canvas#world{position:fixed;inset:0;width:100%;height:100%;display:block}
 #tboost{right:96px;width:56px;height:56px;bottom:calc(70px + env(safe-area-inset-bottom));border-color:var(--cyan);color:var(--cyan);background:#6fc3b222}
 html.touch .tch{display:grid;place-items:center}
 html.touch .keyhint{display:none}
+/* tablets: the live feed sat right on top of the ФОТО and boost buttons; on touch screens it lifts above them */
+html.touch #feedp{bottom:calc(150px + env(safe-area-inset-bottom))!important;max-height:30vh;overflow:hidden}
+html.touch .radio{right:180px}
 
 @media (max-width:820px){
   .logo small,.stat.hide-s{display:none}
@@ -376,7 +379,7 @@ function startNet(){
     if(started)publishScore();
   });
   cl.on("reconnect",function(){setLive("","перепідключаємось…");});
-  cl.on("offline",function(){NET.ok=false;setLive("off","офлайн · літаєш з ботами");});
+  cl.on("offline",function(){setLive("off","офлайн · літаєш з ботами");});
   cl.on("error",function(){});
   cl.on("message",function(t,buf){
     if(buf.length>600)return;var m;try{m=JSON.parse(buf.toString());}catch(e){return;}

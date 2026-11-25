@@ -1,5 +1,5 @@
 // Вайбвет Офіс: a window that looks like a browser and works by itself.
-const { app, BrowserWindow, shell, Menu } = require("electron");
+const { app, BrowserWindow, shell, Menu, session, ipcMain } = require("electron");
 // The tabs are real now: web pages open inside <webview> tags, each in a locked-down sandbox.
 const path = require("path");
 
@@ -76,6 +76,12 @@ if (isMac) {
 }
 
 app.whenReady().then(() => {
+  // Web tabs present themselves as plain Chrome. With "Electron" in the user agent, Google and others
+  // refuse to sign in ("this browser may not be secure").
+  const web = session.fromPartition("persist:vvweb");
+  web.setUserAgent(web.getUserAgent().replace(/\(KHTML, like Gecko\)\s+.*?(?=Chrome\/)/, "(KHTML, like Gecko) ").replace(/\s*Electron\/\S+/, ""));
+  // "Open in your browser" for things a tab can't do (passkeys, some sign-ins)
+  ipcMain.on("vv-external", (_e, url) => { if (/^https?:\/\//.test(String(url))) shell.openExternal(String(url)); });
   createWindow();
   app.on("activate", () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });

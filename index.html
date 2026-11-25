@@ -745,7 +745,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
       <h3>Підтримати станцію</h3>
       <p style="margin:0 0 16px;color:var(--ivory-dim)">Гроші підуть на домен, застосунок і каву три в одному для редакції. На відпустку не витратимо: її все одно не дадуть. Це не збір на потреби військових.</p>
       <a class="call" href="https://send.monobank.ua/jar/AC4G66LERn" target="_blank" rel="noopener">Кинути в банку</a>
-      <button class="call alt" id="ibanBtn" type="button" hidden aria-expanded="false" aria-controls="ibanBox">Банківський переказ · IBAN &amp; SWIFT</button>
+      <button class="call alt" id="ibanBtn" type="button" hidden aria-expanded="false" aria-controls="ibanBox">З-за кордону · USD · IBAN &amp; SWIFT</button>
       <div class="iban" id="ibanBox" hidden></div>
     </div>
     <div class="card" id="invite">
@@ -1172,16 +1172,17 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
 /* Bank transfer details for supporting the station. Fill these in and the button appears by itself. */
 (function(){
   var BANK={
-    name:"",      /* отримувач, латиницею, як у банку */
-    iban:"",      /* UA.. */
-    swift:"",     /* BIC/SWIFT банку */
-    bank:"",      /* назва банку */
+    name:"AMAND ANDRII",
+    iban:"UA473220010000026209301671064",
+    swift:"UNJSUAUKXXX",
+    bank:"JSC UNIVERSAL BANK (monobank), Kyiv, Ukraine",
+    currency:"USD",
     purpose:"Donation to Vaibvet FM / Підтримка Вайбвет FM"
   };
   var btn=document.getElementById("ibanBtn"),box=document.getElementById("ibanBox");
   if(!btn||!BANK.iban)return;
   btn.hidden=false;
-  var rows=[["Отримувач",BANK.name],["IBAN",BANK.iban.replace(/\s+/g,"").replace(/(.{4})/g,"$1 ").trim()],["SWIFT / BIC",BANK.swift],["Банк",BANK.bank],["Призначення",BANK.purpose]].filter(function(r){return r[1];});
+  var rows=[["Валюта",BANK.currency],["Отримувач",BANK.name],["IBAN",BANK.iban.replace(/\s+/g,"").replace(/(.{4})/g,"$1 ").trim()],["SWIFT / BIC",BANK.swift],["Банк",BANK.bank],["Призначення",BANK.purpose]].filter(function(r){return r[1];});
   function copy(t,b){var done=function(){var o=b.textContent;b.textContent="✓";setTimeout(function(){b.textContent=o;},1200);};
     try{navigator.clipboard.writeText(t).then(done,fallback);}catch(e){fallback();}
     function fallback(){var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done();}catch(e){}ta.remove();}}
@@ -1191,7 +1192,7 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   var all=document.createElement("div");all.className="ir";var sa=document.createElement("span");sa.textContent="Усе разом";var va=document.createElement("b");va.textContent="для листа чи банківського застосунку";
   var ca=document.createElement("button");ca.type="button";ca.textContent="копіювати все";ca.onclick=function(){copy(rows.map(function(r){return r[0]+": "+r[1];}).join("\n"),ca);};
   all.appendChild(sa);all.appendChild(va);all.appendChild(ca);box.appendChild(all);
-  var n=document.createElement("div");n.className="note";n.textContent="Переказ із-за кордону в гривні чи євро. Комісію визначає твій банк. Дякуємо: навіть одна кава три в одному тримає ефір.";box.appendChild(n);
+  var n=document.createElement("div");n.className="note";n.textContent="Лише долари США (USD), переказ SWIFT з будь-якої країни. Банки-посередники можуть узяти додаткову комісію; гроші зазвичай доходять за 3–5 робочих днів. Дякуємо: навіть одна кава три в одному тримає ефір.";box.appendChild(n);
   btn.addEventListener("click",function(){var o=box.hidden;box.hidden=!o;btn.setAttribute("aria-expanded",o?"true":"false");});
 })();
 </script>

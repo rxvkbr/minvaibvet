@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/huchnist.js"></script>
+<script src="vendor/hvylyna.js"></script>
+<script src="vendor/vkladky.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Божествєнна комедія українського народу · Вайбвет FM</title>
+<meta name="description" content="Ксав'є Фьодорович Бриченко. Божествєнна комедія українського народу з deus ex machina нідерландського народу. Читається офлайн, сюжетними гілками.">
+<meta property="og:title" content="Божествєнна комедія українського народу · Вайбвет FM">
+<meta property="og:description" content="Пекло з колами ЦНАПу, Чистилище на горі Ягодин, Рай на сім метрів нижче рівня моря. І лицар, що вирішує, шо і за чим.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/komediia">
+<style>
+:root{--bg:#0f0d14;--panel:#191524;--edge:#332a46;--ivory:#efe6d2;--dim:#a99c87;--gold:#e8c46a;--coral:#ff7a5c;--blue:#7fa8ff;--fs:19px;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px}
+body{margin:0;background:radial-gradient(ellipse at 50% -10%,#272040 0,var(--bg) 55%) fixed;color:var(--ivory);font:var(--fs)/1.65 "Iowan Old Style","PT Serif",Georgia,"Times New Roman",serif;-webkit-text-size-adjust:100%}
+a{color:var(--gold)}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top)) 12px 8px;background:#0f0d14e6;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #ffffff0d}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:6px 12px;color:var(--ivory);text-decoration:none;font:13px/1.2 ui-monospace,"SF Mono",Menlo,monospace;white-space:nowrap}
+.top .now{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;font:13px ui-monospace,"SF Mono",Menlo,monospace;color:var(--dim)}
+.prog{position:fixed;left:0;top:0;height:3px;z-index:6;background:linear-gradient(90deg,var(--gold),var(--coral));width:0;transition:width .15s}
+main{max-width:680px;margin:0 auto;padding:18px 20px calc(60px + env(safe-area-inset-bottom))}
+.cover{text-align:center;padding:26px 0 6px}
+.cover .kick{font:12px ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.cover h1{font-weight:700;font-size:clamp(28px,6vw,42px);line-height:1.12;margin:14px 0 8px}
+.cover .sub{font-style:italic;color:var(--dim);margin:0}
+.cover .au{margin-top:16px;font-size:.92em}
+.cover .bike{font-size:30px;margin-top:10px}
+.off{display:inline-block;margin-top:12px;font:12px ui-monospace,monospace;color:var(--dim);border:1px dashed var(--edge);border-radius:999px;padding:4px 10px}
+h2.sect{font:12px ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:34px 0 10px;font-weight:400}
+.branches{display:grid;gap:12px}
+.br{display:block;width:100%;text-align:left;border:1px solid var(--edge);background:linear-gradient(160deg,#211b30,#16121f);border-radius:18px;padding:16px 18px;color:inherit;text-decoration:none;position:relative}
+.br:hover,.br:focus-visible{border-color:var(--gold);outline:none}
+.br small{font:11px ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.br b{display:block;font-size:1.3em;margin:4px 0 2px}
+.br p{margin:0;color:var(--dim);font-size:.86em;line-height:1.45}
+.br .meta{display:flex;justify-content:space-between;gap:8px;margin-top:12px;font:12px ui-monospace,monospace;color:var(--dim)}
+.br .bar{height:4px;border-radius:4px;background:#ffffff12;margin-top:6px;overflow:hidden}.br .bar i{display:block;height:100%;background:var(--gold)}
+.new{color:var(--coral);font:11px ui-monospace,monospace;letter-spacing:.06em;white-space:nowrap}
+.cont{margin-top:16px;display:flex;justify-content:center}
+.cta{border:0;border-radius:999px;background:var(--gold);color:#1a1408;font:600 15px ui-monospace,monospace;padding:12px 20px;text-decoration:none}
+.extra{display:flex;flex-wrap:wrap;gap:8px}
+.toc{list-style:none;padding:0;margin:8px 0 0}
+.toc li{border-top:1px solid #ffffff0f}
+.toc a{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;text-decoration:none;color:var(--ivory)}
+.toc .st{font:12px ui-monospace,monospace;color:var(--dim);white-space:nowrap}
+.toc .done .st{color:var(--gold)}
+.chap .kick{font:12px ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-top:10px}
+.chap h1{font-size:clamp(24px,5vw,32px);line-height:1.2;margin:6px 0 22px}
+.verse p{white-space:pre-line;margin:0 0 1.1em}
+.verse .solo{text-align:center;font-style:italic;font-size:1.15em;margin:1.4em 0}
+.hush{text-align:center;color:var(--dim);font-style:italic}
+.dir{font-style:italic;color:var(--dim);margin:1em 0}
+.role{font:600 13px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:1.3em 0 .2em}
+.role i{text-transform:none;letter-spacing:0;font:italic 14px Georgia,serif;color:var(--dim)}
+.line{white-space:pre-line;margin:0 0 .6em}
+.cast{padding-left:1.1em;color:var(--dim);font-size:.9em}.cast b{color:var(--ivory);font-weight:600}
+.curtain{text-align:center;font:600 14px ui-monospace,monospace;letter-spacing:.5em;color:var(--coral);margin-top:1.6em}
+.tbc{text-align:center;margin:40px 0 10px;padding:22px;border:1px dashed var(--edge);border-radius:18px;color:var(--dim)}
+.tbc b{display:block;color:var(--ivory);font-size:1.2em;margin-bottom:6px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:34px}
+.nav a,.nav span{flex:1;border:1px solid var(--edge);border-radius:14px;padding:10px 12px;text-decoration:none;color:var(--ivory);font-size:.85em;line-height:1.3}
+.nav a small{display:block;font:11px ui-monospace,monospace;color:var(--dim);letter-spacing:.08em}
+.nav .nx{text-align:right}.nav span{border-style:dashed;color:var(--dim)}
+dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:var(--dim)}
+.note{font:12px ui-monospace,monospace;color:var(--coral)}
+.end{text-align:center;font-size:.8em;color:var(--dim);margin-top:44px}
+.fs{display:flex;gap:4px}.fs button{border:1px solid var(--edge);background:var(--panel);border-radius:10px;width:34px;height:30px;font:13px ui-monospace,monospace}
+@media (prefers-reduced-motion:reduce){.prog{transition:none}}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+<div class="top">
+  <a class="pill" id="back" href="index.html">← Вайбвет FM</a>
+  <span class="now" id="now">Безкінечна читалка</span>
+  <span class="fs"><button id="fsm" aria-label="Менший шрифт">A−</button><button id="fsp" aria-label="Більший шрифт">A+</button></span>
+</div>
+<main id="app" aria-live="polite"></main>
+
+<!--
+  КНИГА — ДАНІ. Читалка повністю офлайн: текст лежить тут, прогрес і закладки лише в localStorage цього пристрою ("vv-komediia").
+  Кожна гілка самостійна: свій зміст, свій прогрес, своє «продовжити». Нову гілку можна додати окремим об'єктом у "branches".
+  Нова дія/пісня: додати об'єкт у "chapters" потрібної гілки, поставити йому "new": true і прибрати "new" з попередньої.
+  Розмітка в "html": verse → <p>…</p>, <p class="solo">, <p class="hush">; драма → <p class="dir">, <div class="role">, <p class="line">, <ul class="cast">, <p class="curtain">.
+-->
+<script type="application/json" id="book">
+{
+ "title":"Божествєнна комедія українського народу",
+ "sub":"з deus ex machina нідерландського народу",
+ "author":"Ксав'є Фьодорович Бриченко",
+ "series":"книга «Андрій Аманд»",
+ "hush":"читати пошепки, поки отець Андрій спить",
+ "branches":[
+  {"id":"komediia","kick":"Книга перша","title":"Комедія","about":"Пекло з колами ЦНАПу й чату ОСББ, Чистилище на горі Ягодин, Рай на сім метрів нижче рівня моря, куди бог спускається на велосипеді.","kind":"verse",
+   "chapters":[
+    {"id":"p1","title":"Пісня перша. Пекло","html":"<p>Земне життя пройшовши до третьої черги,\nя опинивсь у темряві глухій,\nне через гріх: Укренерго вимкнуло нерви.</p><p>Аж бачу, йде назустріч дід старий,\nпан Котляревський, із люлькою й при вусі:\n«Еней був парубок моторний. Ти який?»</p><p>«Ходім, — сказав, — я тут Вергілій по сумісництву.\nХто ж іще травестив Вергілія, як не я?\nТримайся ближче, тут кола за прописками».</p><p>Перше коло — ЦНАП, де вічна сім'я\nдуш, що прийшли «лиш спитати» ще при Кучмі.\nДруге — Дія: «технічні роботи» з початку буття.</p><p>Третє — ВЛК, де придатним визнали навіть Цербера.\nЧетверте — чат ОСББ, найлютіше з усіх.\nА дев'яте не крижане, а телеграмне:\nтам кожен грішник «має інсайд», і там найтемніше.</p>"},
+    {"id":"p2","title":"Пісня друга. Чистилище","html":"<p>Гора Чистилища звалася Ягодин.\nТам душі чистились чотирнадцять годин\nу черзі, з «Резерв+» напоготові, без вин.</p><p>На терасі першій знімали гріх «а що люди скажуть».\nНа другій вчились казати «ні» без вибачень.\nНа третій варили борщ при генераторі й не плакали.</p><p>А на вершині Котляревський зупинився:\n«Далі мені не можна, сину. В Рай\nпускають тільки з перекладом. Я свій лиш заповідав».</p>"},
+    {"id":"p3","title":"Пісня третя. Рай (з машиною)","html":"<p>Аж тут, як у старих греків, з-під небес\nспустилась машина. Тільки не кран, а велосипед:\nбез рук, з парасолькою, проти вітру, двометровий бог.</p><p>Він приземлився на велодоріжку з нічого,\nпоклав мені на долоню строопвафель,\nпоставив біля обрію F-16 і сказав коротко:</p><p class=\"solo\">«Doe normaal».</p><p>Я спитав: «А де ж Рай? Нагорі, за хмарами?»\nВін засміявся, як сміються ті, хто не вміє брехати:\n«Нагорі? Ні. Наш Рай на сім метрів нижче рівня моря».</p><p>«Щоночі ми його відкачуємо. Разом. Без пафосу.\nБог створив світ, а Нідерланди створили ми.\nРай не дають згори. Його тримають дамбою».</p><p>І я подивився на дамбу та впізнав себе:\nми теж щоночі відкачуємо темряву,\nтільки з іронією замість вітряків.</p><p>Тут мій зір зустрівся з голландським світлом Рембрандта,\nі рухало мене вже не кохання, що рухає сонце й інші зорі,\nа світло, що вмикається за графіком. І зорі.</p><p class=\"hush\">Тссс. Отець Андрій ще спить.</p>"}
+   ]},
+  {"id":"lytsar","kick":"Книга друга","title":"Лицар","about":"Драма в діях, що пишуться наживо: лицар вирушає не шукати нову землю, а вирішувати, шо і за чим.","kind":"drama","ongoing":true,
+   "tbc":"Наступна дія виходить, коли лицар вирішить, шо і за чим. Машина чекає надворі.",
+   "chapters":[
+    {"id":"d1","title":"Дія перша. «Не земля, а черговість»","new":true,"html":"<p class=\"dir\">Лицар вирушає не видивлятися нову землю, а вирішувати, шо і за чим робити.</p><ul class=\"cast\"><li><b>ЛИЦАР СУМНОГО КАПЮШОНА</b></li><li><b>СТЕЛЯ</b>, нідерландська, біла, з одним швом посередині, як меридіан</li><li><b>ПОЛИЦЯ</b>, на якій акуратно складене минуле</li><li><b>ГАЧКИ</b>, наполовину порожні</li><li><b>ХОР</b> українського народу, за кадром, у телефоні</li><li><b>ПОЛІЦІЯ ВАЙБІВ</b>, ШІ-асистована</li></ul><p class=\"dir\">Кімната. 22:39. Камера дивиться в стелю, бо стеля тут єдине, що не треба вирішувати. У віконці відеодзвінка ЛИЦАР дивиться вгору. Так дивиться святий на бароковому полотні, коли йому сказали, що чудо буде, але спершу треба заповнити форму.</p><div class=\"role\">Лицар</div><p class=\"line\">Колумб шукав землю. Еней шукав землю.\nЯ свою вже знайшов: вона пласка\nй лежить нижче рівня моря.\nМені лишилось дрібне. Вирішити, шо і за чим.\nСпершу дах чи робота? Робота чи мова?\nМова чи серце?</p><p class=\"dir\">(пауза)</p><p class=\"line\">Серце, як відомо, без BSN не реєструють.</p><div class=\"role\">Хор <i>(з телефона, ритмічно)</i></div><p class=\"line\">Шо і за чим! Шо і за чим!\nМама питає, чи ти поїв!</p><div class=\"role\">Стеля <i>(рівно, без емоцій)</i></div><p class=\"line\">Eerst koffie.</p><div class=\"role\">Полиця</div><p class=\"line\">Я вже склала одяг. Бачиш?\nВирішувати можна по одній речі.</p><p class=\"dir\">Входить ПОЛІЦІЯ ВАЙБІВ і козиряє екраном.</p><div class=\"role\">Поліція вайбів</div><p class=\"line\">Рапорт. Вайб м'який,\nале досить гострий, щоб помітити.\nПрихована нота ангостури.</p><div class=\"role\">Лицар</div><p class=\"line\">Ангостура гірка. Але без кількох крапель\nкоктейль не тримає форми.</p><div class=\"role\">Хор</div><p class=\"line\">То шо ж перше?!</p><div class=\"role\">Лицар <i>(так і не відводить очей від стелі)</i></div><p class=\"line\">Перше вирішено: я не вирішуватиму все сьогодні.</p><p class=\"dir\">Ліворуч синя штора м'яко падає замість завіси. Надворі під ліхтарем стоїть припаркований велосипед. На ньому, без рук і з парасолькою, сидить Deus ex machina і терпляче чекає другої дії.</p><p class=\"curtain\">ЗАВІСА</p>"}
+   ]}
+ ],
+ "people":[
+  ["Лицар сумного капюшона","Головний герой Книги другої. Знайшов нову землю (пласку й нижче рівня моря) і тепер вирішує, шо і за чим. Дивиться в стелю, як святий з барокового полотна. Перше рішення: не вирішувати все сьогодні."],
+  ["Пан Котляревський","Вергілій по сумісництву: хто ж іще травестив Вергілія, як не він. Проводить через Пекло й Чистилище, на вершині зупиняється: у Рай пускають тільки з перекладом."],
+  ["Deus ex machina","Двометровий нідерландський бог. Спускається з небес не на крані, а на велосипеді: без рук, з парасолькою, проти вітру. Дарує строопвафель і F-16, каже «Doe normaal». Знає, що Рай не дають згори, його тримають дамбою. Після першої дії чекає під ліхтарем."],
+  ["Хор українського народу","За кадром, у телефоні. Говорить ритмічно й хором: «Шо і за чим! Шо і за чим! Мама питає, чи ти поїв!» Головне питання першої дії: «То шо ж перше?!»"],
+  ["А також","Стеля (нідерландська, біла, з одним швом, як меридіан), Полиця (на ній складене минуле), Гачки (наполовину порожні) і Поліція вайбів (ШІ-асистована)."]
+ ],
+ "casting":[
+  ["Лицар сумного капюшона","Роберт Паттінсон","Каптур і погляд угору він уже відрепетирував у «Бетмені», а самотність і вітер — у «Маяку». Ґотем тут пласкіший і нижче рівня моря."],
+  ["Пан Котляревський","Остап Ступка","Люльку й вуса видає костюмерна, «Еней був парубок моторний» він каже без суфлера."],
+  ["Deus ex machina","Міхіл Гейсман","До двох метрів трохи бракує, але на велосипеді без рук і з парасолькою цього не видно."],
+  ["Хор українського народу","Хор імені Верьовки","За кадром, у телефоні. Репетирує в маминому чаті."],
+  ["Стеля","Грає сама себе","Нідерландська, біла, без дублерів."],
+  ["Полиця","Грає сама себе","Одяг складала теж сама."],
+  ["Гачки","Масовка","Половина на перерві."],
+  ["Поліція вайбів","Claude, камео","Рапорт пише сам, ангостуру відчуває на відстані."]
+ ]
+}
+</script>
+<script>
+(function(){
+  "use strict";
+  var B=JSON.parse(document.getElementById("book").textContent);
+  var app=document.getElementById("app"),now=document.getElementById("now"),prog=document.getElementById("prog");
+  var KEY="vv-komediia";
+  var st=(function(){var o=null;try{o=JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){}return o||{};})();
+  st.read=st.read||{};st.pos=st.pos||{};st.last=st.last||{};
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function br(id){for(var i=0;i<B.branches.length;i++)if(B.branches[i].id===id)return B.branches[i];return null;}
+  function key(b,c){return b.id+"/"+c.id;}
+  function doneIn(b){return b.chapters.filter(function(c){return st.read[key(b,c)];}).length;}
+  function nextIn(b){var l=st.last[b.id];if(l){for(var i=0;i<b.chapters.length;i++)if(b.chapters[i].id===l&&!st.read[key(b,b.chapters[i])])return b.chapters[i];}
+    for(var j=0;j<b.chapters.length;j++)if(!st.read[key(b,b.chapters[j])])return b.chapters[j];return l?(b.chapters.filter(function(c){return c.id===l;})[0]||b.chapters[0]):b.chapters[0];}
+
+  /* font size, kept on this device */
+  var fs=+(st.fs||19);function applyFs(){document.documentElement.style.setProperty("--fs",fs+"px");}applyFs();
+  document.getElementById("fsm").onclick=function(){fs=Math.max(15,fs-1);st.fs=fs;save();applyFs();};
+  document.getElementById("fsp").onclick=function(){fs=Math.min(26,fs+1);st.fs=fs;save();applyFs();};
+
+  function home(){
+    now.textContent="Безкінечна читалка";document.title=B.title+" · Вайбвет FM";
+    var h='<section class="cover"><div class="kick">Вайбвет FM · Відділ великої літератури</div><h1>'+esc(B.title)+'</h1><p class="sub">'+esc(B.sub)+'</p>'+
+      '<div class="au">'+esc(B.author)+'<br><span style="color:var(--dim)">'+esc(B.series)+'</span></div><div class="bike" aria-hidden="true">🚲☂️</div>'+
+      '<div class="off">📴 читається без інтернету · прогрес лише на цьому пристрої</div></section>';
+    var lb=st.lastBranch&&br(st.lastBranch);
+    if(lb){var c=nextIn(lb);h+='<div class="cont"><a class="cta" href="#'+lb.id+'/'+c.id+'">Продовжити: '+esc(lb.title)+' · '+esc(c.title.split(".")[0])+' →</a></div>';}
+    h+='<h2 class="sect">Сюжетні гілки · читай будь-яку окремо</h2><div class="branches">';
+    B.branches.forEach(function(b){
+      var d=doneIn(b),n=b.chapters.length,fresh=b.chapters.some(function(c){return c.new&&!st.read[key(b,c)];});
+      h+='<a class="br" href="#'+b.id+'"><small>'+esc(b.kick)+(b.ongoing?' · пишеться наживо':'')+'</small>'+(fresh?' <span class="new">● нове</span>':'')+
+        '<b>'+esc(b.title)+'</b><p>'+esc(b.about)+'</p><div class="meta"><span>'+n+' '+(b.kind==="drama"?(n===1?"дія":"дії"):(n<5?"пісні":"пісень"))+'</span><span>'+(d===n?"прочитано ✓":d?"прочитано "+d+" з "+n:"ще не почато")+'</span></div>'+
+        '<div class="bar"><i style="width:'+(n?d/n*100:0)+'%"></i></div></a>';
+    });
+    h+='</div><h2 class="sect">Додатки</h2><div class="extra"><a class="pill" href="#osoby">🎭 Дійові особи</a><a class="pill" href="#kasting">🎬 Кастинг</a>'+
+      (Object.keys(st.read).length?'<button class="pill" id="reset">↺ почати все спочатку</button>':'')+'</div>'+
+      '<div class="end">'+esc(B.hush)+'<br>Данте, Котляревський і голландські дамби справжні, решта на совісті Мінвайбвету.</div>';
+    app.innerHTML=h;
+    var r=document.getElementById("reset");if(r)r.onclick=function(){if(confirmIn(r)){st.read={};st.pos={};st.last={};st.lastBranch=null;save();home();}};
+  }
+  function confirmIn(btn){if(btn.dataset.sure){return true;}btn.dataset.sure=1;btn.textContent="↺ точно? натисни ще раз";setTimeout(function(){if(btn.isConnected){delete btn.dataset.sure;btn.textContent="↺ почати все спочатку";}},3000);return false;}
+
+  function branch(b){
+    now.textContent=b.kick+" · "+b.title;document.title=b.title+" · "+B.title;
+    var h='<div class="chap"><div class="kick">'+esc(b.kick)+'</div><h1>'+esc(b.title)+'</h1><p class="dir" style="font-style:normal">'+esc(b.about)+'</p><ul class="toc">';
+    b.chapters.forEach(function(c){var r=st.read[key(b,c)],p=st.pos[key(b,c)];
+      h+='<li class="'+(r?"done":"")+'"><a href="#'+b.id+'/'+c.id+'"><span>'+esc(c.title)+(c.new&&!r?' <span class="new">● нове</span>':'')+'</span><span class="st">'+(r?"✓":p>.05?Math.round(p*100)+"%":"")+'</span></a></li>';});
+    h+='</ul>'+(b.tbc?'<div class="tbc"><b>Далі буде</b>'+esc(b.tbc)+'<div style="font-size:26px;margin-top:8px">🚲☂️</div></div>':'')+'<div class="nav"><a href="#"><small>←</small>Усі гілки</a>'+
+      '<a class="nx" href="#'+b.id+'/'+nextIn(b).id+'"><small>'+(doneIn(b)?"продовжити":"почати")+' →</small>'+esc(nextIn(b).title)+'</a></div></div>';
+    app.innerHTML=h;
+  }
+
+  var cur=null,restoreY=0,openedAt=0,dwellT=0;
+  function chapter(b,c){
+    var i=b.chapters.indexOf(c),pv=b.chapters[i-1],nx=b.chapters[i+1];
+    now.textContent=b.title+" · "+c.title;document.title=c.title+" · "+B.title;
+    st.last[b.id]=c.id;st.lastBranch=b.id;save();
+    var h='<article class="chap '+(b.kind==="verse"?"verse":"drama")+'"><div class="kick">'+esc(b.kick)+' · '+esc(b.title)+'</div><h1>'+esc(c.title)+'</h1>'+c.html+'</article>';
+    if(!nx&&b.tbc)h+='<div class="tbc"><b>Далі буде</b>'+esc(b.tbc)+'<div style="font-size:26px;margin-top:8px">🚲☂️</div></div>';
+    h+='<div class="nav">'+(pv?'<a href="#'+b.id+'/'+pv.id+'"><small>← назад</small>'+esc(pv.title)+'</a>':'<a href="#'+b.id+'"><small>← зміст</small>'+esc(b.title)+'</a>')+
+      (nx?'<a class="nx" href="#'+b.id+'/'+nx.id+'"><small>далі →</small>'+esc(nx.title)+'</a>':'<a class="nx" href="#"><small>кінець гілки →</small>Інші гілки</a>')+'</div>';
+    app.innerHTML=h;cur={b:b,c:c};openedAt=Date.now();clearTimeout(dwellT);dwellT=setTimeout(tick,3100);
+    restoreY=st.pos[key(b,c)]||0;
+    requestAnimationFrame(function(){var hh=document.documentElement.scrollHeight-innerHeight;window.scrollTo(0,restoreY>0.02&&restoreY<.97?restoreY*hh:0);tick();});
+  }
+  function others(id){
+    if(id==="osoby"){now.textContent="Дійові особи";app.innerHTML='<div class="chap"><div class="kick">Додаток</div><h1>Дійові особи</h1><dl class="people">'+
+      B.people.map(function(p){return '<dt>'+esc(p[0])+'</dt><dd>'+esc(p[1])+'</dd>';}).join("")+'</dl><div class="nav"><a href="#"><small>←</small>Усі гілки</a><a class="nx" href="#kasting"><small>→</small>Кастинг</a></div></div>';}
+    else{now.textContent="Кастинг";app.innerHTML='<div class="chap"><div class="kick">Додаток</div><h1>Кастинг</h1><p class="note">неофіційний · у мріях Мінвайбвету · агентів ще не повідомлено</p><dl class="people">'+
+      B.casting.map(function(p){return '<dt>'+esc(p[0])+'</dt><dd><b style="color:var(--ivory)">'+esc(p[1])+'.</b> '+esc(p[2])+'</dd>';}).join("")+'</dl><div class="nav"><a href="#osoby"><small>←</small>Дійові особи</a><a class="nx" href="#"><small>→</small>Усі гілки</a></div></div>';}
+  }
+
+  function route(){
+    cur=null;var h=decodeURIComponent(location.hash.replace(/^#/,"")).split("/");
+    var b=br(h[0]);
+    if(h[0]==="osoby"||h[0]==="kasting")others(h[0]);
+    else if(b&&h[1]){var c=b.chapters.filter(function(x){return x.id===h[1];})[0];if(c){chapter(b,c);return;}branch(b);}
+    else if(b)branch(b);else home();
+    window.scrollTo(0,0);tick();
+  }
+  var tt=0;
+  function tick(){
+    var hh=document.documentElement.scrollHeight-innerHeight,y=hh>0?Math.max(0,Math.min(1,scrollY/hh)):1;
+    prog.style.width=(cur?y*100:0)+"%";
+    if(!cur)return;
+    var k=key(cur.b,cur.c);
+    if((y>=.97||hh<=8)&&Date.now()-openedAt>3000){if(!st.read[k]){st.read[k]=1;}}
+    st.pos[k]=y;clearTimeout(tt);tt=setTimeout(save,300);
+  }
+  addEventListener("scroll",tick,{passive:true});addEventListener("resize",tick);
+  addEventListener("hashchange",route);
+  addEventListener("pagehide",save);
+  document.getElementById("back").addEventListener("click",function(e){
+    if(location.hash&&location.hash!=="#"){e.preventDefault();var h=location.hash.slice(1).split("/");location.hash=h.length>1?h[0]:"";return;}
+    try{if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}}catch(_){}
+  });
+  document.addEventListener("keydown",function(e){
+    if(!cur||e.metaKey||e.ctrlKey||e.altKey||/input|textarea/i.test((e.target.tagName||"")))return;
+    var i=cur.b.chapters.indexOf(cur.c);
+    if(e.key==="ArrowRight"&&cur.b.chapters[i+1])location.hash=cur.b.id+"/"+cur.b.chapters[i+1].id;
+    if(e.key==="ArrowLeft"&&cur.b.chapters[i-1])location.hash=cur.b.id+"/"+cur.b.chapters[i-1].id;
+  });
+  route();
+})();
+</script>
+</body>
+</html>

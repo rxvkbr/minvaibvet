@@ -91,6 +91,17 @@ public class PurrPlugin extends Plugin {
         call.resolve();
     }
 
+    /** Keep the screen on while the radio plays. */
+    @PluginMethod
+    public void awake(PluginCall call) {
+        final boolean on = Boolean.TRUE.equals(call.getBoolean("on", false));
+        getActivity().runOnUiThread(() -> {
+            if (on) getActivity().getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            else getActivity().getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            call.resolve();
+        });
+    }
+
     @PluginMethod
     public void stop(PluginCall call) {
         Vibrator v = vibrator();

@@ -1490,6 +1490,16 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
     }catch(e){btn.textContent=t("Звук недоступний");btn.disabled=true;}
   });
 
+  /* while the radio plays, the screen stays on: otherwise the tablet locks itself and the station falls silent */
+  var wl=null;
+  function awake(v){
+    try{var P=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Purr;if(P&&P.awake){P.awake({on:!!v}).catch(function(){});return;}}catch(e){}
+    try{if(v&&navigator.wakeLock&&!wl)navigator.wakeLock.request("screen").then(function(l){wl=l;l.addEventListener("release",function(){wl=null;});}).catch(function(){});
+      else if(!v&&wl){wl.release();wl=null;}}catch(e){}
+  }
+  btn.addEventListener("click",function(){awake(on);});
+  document.addEventListener("visibilitychange",function(){if(!document.hidden&&on)awake(true);});
+
   i18nHooks.push(function(){if(!btn.disabled)btn.textContent=on?t("Вимкнути звук"):t("Увімкнути звук");else btn.textContent=t("Звук недоступний");});
 
   /* ================= vibe counter ================= */

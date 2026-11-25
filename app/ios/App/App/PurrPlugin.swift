@@ -11,7 +11,8 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "play", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "stop", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "tick", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "tick", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "awake", returnType: CAPPluginReturnPromise)
     ]
 
     private var engine: CHHapticEngine?
@@ -80,6 +81,15 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         DispatchQueue.main.async {
             try? self.player?.stop(atTime: CHHapticTimeImmediate)
             self.player = nil
+            call.resolve()
+        }
+    }
+
+    /// Keep the screen on while the radio plays, so the iPad doesn't lock itself mid-broadcast.
+    @objc func awake(_ call: CAPPluginCall) {
+        let on = call.getBool("on") ?? false
+        DispatchQueue.main.async {
+            UIApplication.shared.isIdleTimerDisabled = on
             call.resolve()
         }
     }

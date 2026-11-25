@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/hvylyna.js"></script>
+<script src="vendor/vkladky.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рація Мінвайбвету · Вайбвет FM</title>
+<meta name="description" content="Обмінюйся з друзями дурацькими повідомленнями Мінвайбвету: «Комбат пішов, можна видихнути», «Кава 3в1 чекає», котики. Тільки готові фрази, жодного спаму.">
+<meta property="og:title" content="Рація Мінвайбвету">
+<meta property="og:description" content="Готові дурацькі фрази для своїх. Прийом!">
+<meta property="og:url" content="https://minvaibvet.pp.ua/racia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#10130c;--panel:#1a1f14;--edge:#343d27;--ivory:#e9e3c6;--dim:#a8a283;--amber:#d9a441;--mint:#6fc3b2;--coral:#ff6f5b;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ivory);font:16px/1.45 "PT Serif",Georgia,serif}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+.app{display:grid;grid-template-columns:300px 1fr;height:100dvh;max-width:1200px;margin:0 auto}
+@media (max-width:760px){.app{grid-template-columns:1fr}.app.chat .side{display:none}.app:not(.chat) .main{display:none}}
+.side{border-right:1px solid var(--edge);display:flex;flex-direction:column;min-height:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + env(safe-area-inset-top)) 14px 10px;border-bottom:1px solid var(--edge)}
+.top h1{margin:0;font:400 22px "Yeseva One",Georgia,serif}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:6px 12px;color:var(--ivory);text-decoration:none;font:12px "PT Mono",monospace;white-space:nowrap}
+.me{padding:12px 14px;border-bottom:1px solid var(--edge);font-size:14px}
+.me b{display:block;font-size:17px}
+.me .code{font:600 20px "PT Mono",monospace;letter-spacing:.18em;color:var(--amber)}
+.me .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#666;margin-right:6px;vertical-align:middle}.dot.on{background:var(--mint)}
+.list{flex:1;overflow:auto}
+.f{display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:11px 14px;border-bottom:1px solid #ffffff08}
+.f:hover,.f[aria-current="true"]{background:#ffffff08}
+.f .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--panel);border:1px solid var(--edge);font-size:18px;flex:none}
+.f .t{flex:1;min-width:0}.f .t b{display:block;font-size:14.5px}.f .t small{display:block;color:var(--dim);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f .n{background:var(--coral);color:#1a0c08;border-radius:999px;font:700 11px "PT Mono",monospace;padding:2px 7px}
+.req{background:#d9a44112}
+.add{padding:12px 14px;border-top:1px solid var(--edge);display:flex;gap:6px}
+.add input{flex:1;min-width:0;background:#0b0d08;border:1px solid var(--edge);border-radius:10px;padding:9px 10px;font:15px "PT Mono",monospace;letter-spacing:.12em;text-transform:uppercase;outline:0}
+.add input:focus{border-color:var(--amber)}
+.btn{border:1px solid var(--edge);border-radius:10px;padding:8px 12px;font:13px "PT Mono",monospace;background:var(--panel)}
+.btn.pri{background:var(--amber);color:#1a1405;border-color:var(--amber)}
+.main{display:flex;flex-direction:column;min-height:0}
+.main .top .who{display:flex;align-items:center;gap:8px;min-width:0}
+.main .top .who b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{display:none}@media (max-width:760px){.back{display:inline-flex}}
+.msgs{flex:1;overflow:auto;padding:16px 14px;display:flex;flex-direction:column;gap:8px}
+.b{max-width:78%;padding:9px 13px;border-radius:16px;background:var(--panel);border:1px solid var(--edge);font-size:15.5px;align-self:flex-start;animation:in .25s}
+.b.me{align-self:flex-end;background:#2b3420;border-color:#4a5a33}
+.b small{display:block;color:var(--dim);font:10.5px "PT Mono",monospace;margin-top:3px}
+.b.big{font-size:40px;padding:4px 10px;background:none;border:0}
+@keyframes in{from{transform:translateY(6px);opacity:0}}
+.empty{margin:auto;text-align:center;color:var(--dim);max-width:360px;padding:20px}
+.empty .big{font-size:56px}
+.pad{border-top:1px solid var(--edge);padding:8px 10px calc(10px + env(safe-area-inset-bottom));max-height:46vh;overflow:auto}
+.cats{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:8px}
+.cats button{flex:none;border:1px solid var(--edge);border-radius:999px;padding:5px 11px;font:12px "PT Mono",monospace;color:var(--dim)}
+.cats button[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.ph button{text-align:left;border:1px solid var(--edge);border-radius:12px;padding:8px 10px;font-size:14px;line-height:1.3;background:var(--panel)}
+.ph button:hover{border-color:var(--amber)}
+.ph button:active{transform:scale(.97)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--panel);border:1px solid var(--amber);border-radius:12px;padding:9px 14px;font:13px "PT Mono",monospace;z-index:20;max-width:90vw;text-align:center}
+.note{color:var(--dim);font-size:12px;padding:10px 14px;font-family:"PT Mono",monospace}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="side">
+    <div class="top"><a class="pill" href="index.html#more">←</a><h1>📻 Рація</h1><span class="pill"><span class="dot" id="net"></span><span id="netl">…</span></span></div>
+    <div class="me">
+      <span style="color:var(--dim);font-size:12px">ти в ефірі як</span>
+      <b id="myName"></b>
+      <span style="color:var(--dim);font-size:12px">твій позивний-код для друзів</span>
+      <div class="code" id="myCode"></div>
+      <div class="row"><button class="btn pri" id="share">↗ Поділитися</button><button class="btn" id="copy">копіювати посилання</button><button class="btn" id="roll" title="Інше ім'я">🎲</button></div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="add"><input id="addIn" maxlength="6" placeholder="КОД ДРУГА" autocomplete="off" spellcheck="false" aria-label="Код друга"><button class="btn pri" id="addBtn">Додати</button></div>
+    <div class="note">Тільки готові фрази Мінвайбвету: ніхто не напише тобі нічого свого. Невідомі спершу потрапляють у «запити».</div>
+  </aside>
+  <main class="main" id="main">
+    <div class="top"><div class="who"><button class="pill back" id="back">←</button><b id="chatName">Обери друга</b></div><button class="pill" id="del" hidden title="Прибрати зі списку">прибрати</button></div>
+    <div class="msgs" id="msgs"><div class="empty"><div class="big">📻</div><p>Додай друга за кодом або поділись своїм. Далі кидай фрази Мінвайбвету: прийом!</p></div></div>
+    <div class="pad" id="pad" hidden><div class="cats" id="cats"></div><div class="ph" id="ph"></div></div>
+  </main>
+</div>
+<script src="vendor/mqtt-5.16.1.min.js"></script>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+function store(k,v){try{if(v===undefined)return localStorage.getItem("vv-racia-"+k);localStorage.setItem("vv-racia-"+k,v);}catch(e){}}
+function J(k,d){try{var v=JSON.parse(store(k));return v==null?d:v;}catch(e){return d;}}
+function rnd(a,b){return a+Math.random()*(b-a);}
+
+/* ===== phrases: the only things that ever travel. Sent as ids, shown from this list. ===== */
+var CATS=[
+ ["служба","🎖",["Комбат пішов, можна видихнути","Шикування скасовано","Прийом. Як чуєш?","Чую тебе на всі 102.4","Рапорт подано. Чекаємо","Нарада на 5 хвилин (на дві години)","Я на позиції. Позиція: диван","Відбій тривоги, можна жити"]],
+ ["побут","☕",["Кава 3в1 чекає","Мівіна на двох?","Подзвони мамі","Купи хліб, будь ласка","Я вдома, чайник поставлено","Виходжу через 5 хвилин (через 20)","Пиши, як доїдеш","Довідку отримано з першого разу!"]],
+ ["ніжне","💛",["Ти мені довідка з першого разу","Пишаюся тобою","Обіймаю міцно-міцно","Ти молодець, навіть якщо не віриш","Думаю про тебе","Добраніч, без тривог","Доброго ранку, вайб у нормі","Сумую, приїжджай"]],
+ ["абсурд","🐄",["Корова перетнула лінію городів","Трактор знову щось знайшов","ЦНАП оголосив юрисдикцію над моїм серцем","Вікно №4 передає привіт","Дрон бачив кота. Кіт бачив дрон","Мене викликали в переговорку. Там казино","Бачу вівці на обрії","Туман, сонце й тиша"]],
+ ["реакції","😺",["🐈","🫡","🫂","☕","🌹","🐄","🚜","📄","❤️","😂","🙏","🌙"]]];
+var PH=[];CATS.forEach(function(c,ci){c[2].forEach(function(t,ti){PH.push({id:ci*100+ti,c:ci,t:t});});});
+function phrase(id){for(var i=0;i<PH.length;i++)if(PH[i].id===id)return PH[i];return null;}
+
+/* ===== callsigns: same fixed word lists as Δ онлайн, never free text ===== */
+var CS_A=["Сова","Пугач","Корова","Кіт","Трактор","Довідка","Кава","Мівіна","Ластівка","Рапорт","Вайб","Їжак","Гуска","Бобер","Відпустка","Комбат"];
+var CS_F=[1,0,1,0,0,1,1,1,1,0,0,0,1,0,1,0];
+var CS_B=[["Тихий","Тиха"],["Бадьорий","Бадьора"],["Мирний","Мирна"],["Сонний","Сонна"],["Впертий","Вперта"],["Ввічливий","Ввічлива"],["Задумливий","Задумлива"],["Ранковий","Ранкова"],["Нічний","Нічна"],["Польовий","Польова"],["Чемний","Чемна"],["Терплячий","Терпляча"]];
+var EMO=["🦉","🦉","🐄","🐈","🚜","📄","☕","🍜","🐦","📋","✨","🦔","🪿","🦫","🏖","🎖"];
+function validCs(c){return Array.isArray(c)&&c.length===3&&c.every(function(n){return Number.isInteger(n)&&n>=0&&n<1000;})&&c[0]<CS_A.length&&c[1]<CS_B.length;}
+function csName(c){return CS_B[c[1]][CS_F[c[0]]?1:0]+" "+CS_A[c[0]]+"-"+c[2];}
+function csRoll(){return [Math.floor(rnd(0,CS_A.length)),Math.floor(rnd(0,CS_B.length)),Math.floor(rnd(100,1000))];}
+
+var ALPH="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; /* no 0/O, 1/I */
+function newCode(){var s="",r=crypto.getRandomValues(new Uint8Array(6));for(var i=0;i<6;i++)s+=ALPH[r[i]%ALPH.length];return s;}
+function validCode(c){return typeof c==="string"&&new RegExp("^["+ALPH+"]{6}$").test(c);}
+var me={code:store("code"),cs:J("cs",null)};
+if(!validCode(me.code)){me.code=newCode();store("code",me.code);}
+if(!validCs(me.cs)){me.cs=csRoll();store("cs",JSON.stringify(me.cs));}
+var friends=J("friends",{}),requests=J("req",{}),chats=J("chats",{}),unread=J("unread",{}),open=null;
+function saveAll(){store("friends",JSON.stringify(friends));store("req",JSON.stringify(requests));store("chats",JSON.stringify(chats));store("unread",JSON.stringify(unread));}
+
+/* ===== UI ===== */
+var toastT;function toast(t){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(function(){d.remove();},2400);}
+function link(){return "https://minvaibvet.pp.ua/racia.html#add="+me.code;}
+function paintMe(){$("myName").textContent=csName(me.cs);$("myCode").textContent=me.code;}
+function last(code){var c=chats[code];if(!c||!c.length)return "";var m=c[c.length-1],p=phrase(m.p);return (m.me?"ти: ":"")+(p?p.t:"…");}
+function paintList(){
+  var L=$("list");L.innerHTML="";
+  Object.keys(requests).forEach(function(code){var r=requests[code];
+    var b=document.createElement("div");b.className="f req";b.innerHTML='<span class="av">❓</span><span class="t"><b></b><small></small></span>';
+    b.querySelector("b").textContent=csName(r.cs);b.querySelector("small").textContent="хоче на зв'язок · «"+(phrase(r.p)||{t:"…"}).t+"»";
+    var ok=document.createElement("button");ok.className="btn pri";ok.textContent="прийняти";ok.onclick=function(){friends[code]={cs:r.cs};delete requests[code];saveAll();sub();paintList();openChat(code);};
+    var no=document.createElement("button");no.className="btn";no.textContent="✕";no.title="Ігнорувати";no.onclick=function(){delete requests[code];delete chats[code];saveAll();paintList();};
+    b.appendChild(ok);b.appendChild(no);L.appendChild(b);});
+  var ks=Object.keys(friends).sort(function(a,b){var x=(chats[a]||[]).slice(-1)[0],y=(chats[b]||[]).slice(-1)[0];return (y?y.t:0)-(x?x.t:0);});
+  if(!ks.length&&!Object.keys(requests).length){var e=document.createElement("p");e.className="note";e.textContent="Поки нікого. Поділись кодом або встав код друга нижче.";L.appendChild(e);}
+  ks.forEach(function(code){var f=friends[code];
+    var b=document.createElement("button");b.className="f";b.setAttribute("aria-current",String(open===code));b.innerHTML='<span class="av"></span><span class="t"><b></b><small></small></span>';
+    b.querySelector(".av").textContent=EMO[f.cs?f.cs[0]:0]||"📻";b.querySelector("b").textContent=f.cs?csName(f.cs):code;b.querySelector("small").textContent=last(code)||"код "+code;
+    if(unread[code]){var n=document.createElement("span");n.className="n";n.textContent=unread[code];b.appendChild(n);}
+    b.onclick=function(){openChat(code);};L.appendChild(b);});
+}
+function paintChat(){
+  var M=$("msgs");M.innerHTML="";var c=chats[open]||[];
+  if(!c.length){M.innerHTML='<div class="empty"><div class="big">📻</div><p>Ефір чистий. Кинь першу фразу!</p></div>';}
+  c.forEach(function(m){var p=phrase(m.p);if(!p)return;var d=document.createElement("div");d.className="b"+(m.me?" me":"")+(p.c===4?" big":"");d.textContent=p.t;
+    var s=document.createElement("small");s.textContent=new Date(m.t).toLocaleString("uk-UA",{hour:"2-digit",minute:"2-digit",day:"numeric",month:"short"});d.appendChild(s);M.appendChild(d);});
+  M.scrollTop=M.scrollHeight;
+}
+function openChat(code){open=code;unread[code]=0;saveAll();var f=friends[code];$("chatName").textContent=f&&f.cs?csName(f.cs):code;$("pad").hidden=false;$("del").hidden=false;$("app").classList.add("chat");paintChat();paintList();}
+var cat=0;
+function paintPad(){var C=$("cats");C.innerHTML="";CATS.forEach(function(c,i){var b=document.createElement("button");b.textContent=c[1]+" "+c[0];b.setAttribute("aria-pressed",String(i===cat));b.onclick=function(){cat=i;paintPad();};C.appendChild(b);});
+  var P=$("ph");P.innerHTML="";PH.filter(function(p){return p.c===cat;}).forEach(function(p){var b=document.createElement("button");b.textContent=p.t;if(p.c===4){b.style.fontSize="26px";b.style.textAlign="center";}b.onclick=function(){send(p.id);};P.appendChild(b);});
+  $("ph").style.gridTemplateColumns=cat===4?"repeat(auto-fill,minmax(56px,1fr))":"";}
+$("back").onclick=function(){open=null;$("app").classList.remove("chat");paintList();};
+$("del").onclick=function(){if(!open)return;if(!confirm("Прибрати цього друга й переписку з цього пристрою?"))return;delete friends[open];delete chats[open];delete unread[open];saveAll();unsub(open);open=null;$("app").classList.remove("chat");$("pad").hidden=true;$("del").hidden=true;$("chatName").textContent="Обери друга";$("msgs").innerHTML="";paintList();};
+$("roll").onclick=function(){me.cs=csRoll();store("cs",JSON.stringify(me.cs));paintMe();toast("Тепер ти "+csName(me.cs));};
+$("copy").onclick=function(){try{navigator.clipboard.writeText(link());toast("Посилання скопійовано");}catch(e){prompt("Посилання:",link());}};
+$("share").onclick=function(){var d={title:"Рація Мінвайбвету",text:"Додай мене в Рацію Мінвайбвету, код "+me.code+". Прийом!",url:link()};if(navigator.share)navigator.share(d).catch(function(){});else $("copy").click();};
+function addFriend(code){code=(code||"").toUpperCase().trim();if(!validCode(code)){toast("Код — це 6 літер і цифр");return;}if(code===me.code){toast("Це твій власний код 🙂");return;}
+  if(!friends[code])friends[code]={cs:null};delete requests[code];saveAll();sub();paintList();openChat(code);send(PH[2].id,true);toast("Додано. Надіслав «Прийом. Як чуєш?»");}
+$("addBtn").onclick=function(){addFriend($("addIn").value);$("addIn").value="";};
+$("addIn").addEventListener("keydown",function(e){if(e.key==="Enter")$("addBtn").click();});
+
+/* ===== radio link: a public MQTT broker carries {cs, p, t} only. A per-pair retained topic means
+   the last word from each friend is waiting when you come back online. ===== */
+var BROKER="wss://broker.emqx.io:8084/mqtt",TP="vaibvet/racia/v1/",cl=null,subs={};
+function setNet(on,t){$("net").classList.toggle("on",on);$("netl").textContent=t;}
+function connect(){
+  if(!window.mqtt){setNet(false,"офлайн");return;}
+  try{cl=mqtt.connect(BROKER,{clientId:"racia_"+me.code+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000});}catch(e){setNet(false,"офлайн");return;}
+  cl.on("connect",function(){setNet(true,"на зв'язку");subs={};cl.subscribe(TP+me.code+"/+");sub();});
+  cl.on("reconnect",function(){setNet(false,"перепідключаюсь…");});
+  cl.on("offline",function(){setNet(false,"офлайн");});
+  cl.on("error",function(){});
+  cl.on("message",function(topic,buf){
+    if(buf.length>200)return;var parts=topic.split("/"),to=parts[3],from=parts[4],m;
+    if(to!==me.code||!validCode(from)||from===me.code)return;
+    try{m=JSON.parse(buf.toString());}catch(e){return;}
+    if(!m||!validCs(m.cs)||!phrase(m.p)||typeof m.t!=="number"||m.t>Date.now()+6e4)return;
+    var c=chats[from]=chats[from]||[];if(c.some(function(x){return !x.me&&x.t===m.t&&x.p===m.p;}))return; /* the retained copy we've already seen */
+    c.push({p:m.p,t:m.t});if(c.length>200)c.splice(0,c.length-200);
+    if(friends[from])friends[from].cs=m.cs;else requests[from]={cs:m.cs,p:m.p};
+    if(open!==from||document.hidden)unread[from]=(unread[from]||0)+1;
+    saveAll();paintList();if(open===from){paintChat();$("chatName").textContent=csName(m.cs);}
+    if(friends[from]){ping();if(document.hidden&&window.Notification&&Notification.permission==="granted")try{new Notification(csName(m.cs),{body:phrase(m.p).t});}catch(e){}}
+  });
+}
+/* phrases said while offline wait here and go out once the link is back */
+var outbox=J("outbox",[]);
+function flush(){if(!cl||!cl.connected||!outbox.length)return;outbox.forEach(function(o){cl.publish(TP+o.to+"/"+me.code,JSON.stringify(o.m),{qos:1,retain:true});});outbox=[];store("outbox","[]");}
+function sub(){flush();}
+function unsub(code){outbox=outbox.filter(function(o){return o.to!==code;});store("outbox",JSON.stringify(outbox));}
+function send(id,quiet){
+  if(!open)return;var t=Date.now(),msg={cs:me.cs,p:id,t:t};
+  (chats[open]=chats[open]||[]).push({p:id,t:t,me:1});saveAll();paintChat();paintList();
+  outbox.push({to:open,m:msg});store("outbox",JSON.stringify(outbox));
+  if(cl&&cl.connected)flush();else if(!quiet)toast("Немає зв'язку: фраза піде, щойно повернеться ефір");
+  try{navigator.vibrate&&navigator.vibrate(12);}catch(e){}
+}
+var ac=null;function ping(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.frequency.setValueAtTime(880,t);o.frequency.setValueAtTime(1320,t+.08);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.08,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.3);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.32);}catch(e){}
+  try{navigator.vibrate&&navigator.vibrate([20,40,20]);}catch(e){}}
+document.addEventListener("pointerdown",function once(){if(window.Notification&&Notification.permission==="default"&&Object.keys(friends).length)try{Notification.requestPermission();}catch(e){}document.removeEventListener("pointerdown",once);},{once:true});
+
+/* ===== start ===== */
+paintMe();paintPad();paintList();connect();
+var hm=(location.hash||"").match(/add=([A-Za-z0-9]{6})/);if(hm){try{history.replaceState(null,"",location.pathname);}catch(e){}setTimeout(function(){addFriend(hm[1]);},400);}
+window.VV_RACIA={me:me,friends:function(){return friends;},chats:function(){return chats;}};
+})();
+</script>
+</body>
+</html>

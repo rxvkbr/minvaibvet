@@ -421,10 +421,12 @@ function mount(t){
 }
 /* Passkeys (Touch ID, phone) need the system browser: Electron can't show that dialog. Say so instead of hanging. */
 function passkeyHint(t,sec,u){
-  var h=sec.querySelector(".pkhint"),need=/accounts\.google\.com\/.*(challenge\/pk|passkey)|\/webauthn|appleid\.apple\.com\/auth/i.test(u||"");
+  var goog=/accounts\.google\.com\/.*(signin|ServiceLogin|rejected|challenge)/i.test(u||"");
+  var h=sec.querySelector(".pkhint"),need=goog||/\/webauthn|appleid\.apple\.com\/auth/i.test(u||"");
   if(!need){if(h)h.remove();return;}
   if(h)return;h=document.createElement("div");h.className="webhint pkhint";
-  h.innerHTML='🔑 Вхід через passkey (Touch ID або телефон) у вкладках Офісу не працює. Натисни «Try another way» / «Спробувати інший спосіб» і увійди паролем, або <a href="#">відкрий у браузері ↗</a>';
+  h.innerHTML=goog?'🔒 Google не пускає входити в акаунт у вбудованих браузерах: це їхнє правило захисту від фішингу, обійти його не можна. YouTube дивитись можна й без входу, а для акаунта <a href="#">відкрий у своєму браузері ↗</a>'
+    :'🔑 Вхід через passkey (Touch ID або телефон) у вкладках Офісу не працює. Увійди паролем («Спробувати інший спосіб») або <a href="#">відкрий у браузері ↗</a>';
   h.querySelector("a").onclick=function(ev){ev.preventDefault();if(window.VV_IPC&&window.VV_IPC.external)window.VV_IPC.external(t.url);};
   sec.insertBefore(h,sec.firstChild);
 }

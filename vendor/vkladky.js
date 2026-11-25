@@ -4,7 +4,20 @@
 (function(){
   if(window.top===window)return;
   var on=false;
-  addEventListener("message",function(e){if(e.data&&e.data.type==="vv-office-hello")on=true;});
+  addEventListener("message",function(e){
+    if(e.source!==parent||!e.data)return;
+    if(e.data.type==="vv-office-hello")on=true;
+    if(e.data.type==="vv-feed?")parent.postMessage({type:"vv-feed",tiles:tiles(),news:news()},"*");
+  });
+  /* the Office's new tab asks for the «Ще» tiles and the newsfeed of the radio page */
+  function tiles(){return (window.VV_TILES||[]).map(function(x){return {go:x.go,ic:x.ic,b:x.b,s:x.s||"",priv:x.priv||""};});}
+  function news(){
+    var out=[];document.querySelectorAll("#breaking article, .news article").forEach(function(a){
+      var h=a.querySelector("h3");if(!h)return;var l=h.querySelector("a[href]")||a.querySelector("p a[href]");
+      var tag=a.querySelector(".tag"),p=a.querySelector("p");
+      out.push({tag:tag?tag.textContent.trim():"",h:h.textContent.trim(),href:l?l.href:"",p:p?p.textContent.trim().slice(0,170):""});
+    });return out;
+  }
   function link(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return null;var h=a.getAttribute("href")||"";if(/^(javascript:|mailto:|tel:|webcal:)/i.test(h)||a.hasAttribute("download"))return null;return a;}
   function send(a,extra){var m={type:"vv-open",href:a.href,text:(a.textContent||"").trim().slice(0,80)};for(var k in extra)m[k]=extra[k];parent.postMessage(m,"*");}
   document.addEventListener("click",function(e){

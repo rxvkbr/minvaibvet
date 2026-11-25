@@ -60,7 +60,24 @@ html.win32 .tabs,html.linux .tabs{padding-right:150px}
 .webframe{flex:1;width:100%;height:100%;border:0;background:#fff}
 .webhint{flex:none;padding:6px 12px;font:12px var(--mono);background:var(--chrome2);color:var(--dim);border-bottom:1px solid var(--edge)}
 .webhint a{color:var(--amber)}
-.start{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg);color:var(--text);padding:30px;font:14px var(--sans);text-align:center}
+.start{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;background:var(--bg);color:var(--text);padding:56px 30px 40px;font:14px var(--sans);text-align:center;overflow:auto}
+.start .blk{width:min(1040px,100%);margin-top:26px;text-align:left}
+.start .blk h3{margin:0 0 10px;font:11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:10px}
+.start .blk h3::after{content:"";flex:1;height:1px;background:var(--edge)}
+.start .more{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.start .more button{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid var(--edge2);background:var(--chrome2)}
+.start .more button:hover{border-color:var(--amber)}
+.start .more .i{font-size:20px;line-height:1.2;flex:none;width:26px;text-align:center}
+.start .more b{display:block;font-size:13px;font-weight:600}.start .more small{display:block;color:var(--dim);font-size:11.5px;line-height:1.35;margin-top:2px}
+.start .feed{border:1px solid var(--edge2);border-radius:14px;background:var(--chrome2);max-height:460px;overflow:auto}
+.start .feed button{display:block;width:100%;text-align:left;padding:11px 14px;border-bottom:1px solid var(--edge)}
+.start .feed button:hover{background:#ffffff08}
+.start .feed .tg{font:10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+.start .feed .tg i{font-style:normal;color:var(--dim);margin-left:8px}
+.start .feed b{display:block;font-size:14px;margin:2px 0 3px}
+.start .feed span{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+.start .feed .all{text-align:center;color:var(--amber);font:12px var(--mono);border:0}
+.start .feed .wait{padding:16px;color:var(--dim);font:12px var(--mono)}
 .start h2{margin:0;font:400 30px var(--sans)}
 .start p{margin:0;color:var(--dim)}.start .sm{font:11.5px var(--mono);margin-top:14px}
 .start .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;width:min(720px,100%);margin-top:10px}
@@ -419,6 +436,9 @@ function startPage(t){
     b.onclick=function(){var ex=S.tabs.filter(function(x){return x.kind==="app"&&x.v===v;})[0];if(ex){closeTabs([t.id],true);activate(ex.id);}else{t.kind="app";t.v=v;var s=$("v-"+t.id);if(s)s.remove();activate(t.id);}};tl.appendChild(b);});
   [["📰","Газета Вайбвет FM","https://minvaibvet.pp.ua/#gazeta"],["🗓","Календар Мінвайбвету","https://minvaibvet.pp.ua/#kalendar"]].forEach(function(w){
     var b=document.createElement("button");b.innerHTML='<span class="fi web">'+w[0]+'</span>';b.appendChild(document.createTextNode(w[1]));b.onclick=function(){go(w[2]);};tl.appendChild(b);});
+  var bm=document.createElement("div");bm.className="blk";bm.innerHTML='<h3>Ще · усі приколи</h3><div class="more"></div>';d.appendChild(bm);
+  var bf=document.createElement("div");bf.className="blk";bf.innerHTML='<h3>Новинна стрічка · найсвіжіше вгорі</h3><div class="feed"><div class="wait">Завантажую газету…</div></div>';d.appendChild(bf);
+  fillStart(d);feedLoad();
   if(!privOn("rec")||!privOn("fin")){var hp=document.createElement("p");hp.className="sm";hp.textContent="Приватні розділи (🌊 Тиха кімната, 💸 Гроші без паніки) вмикаються у вкладці FM: Ще → Конструктор → Приватні розділи.";d.appendChild(hp);}
   return d;
 }
@@ -471,6 +491,50 @@ omni.addEventListener("keydown",function(e){
 omni.addEventListener("focus",function(){omni.select();});
 omni.addEventListener("blur",function(){var t=TB(S.active);if(t&&t.kind==="app")urlbar();else if(t&&document.activeElement!==omni)omni.value=t.url||"";});
 $("url").addEventListener("click",function(){var t=TB(S.active);if(t&&t.kind==="app"){$("urltext").hidden=true;omni.hidden=false;omni.value="";omni.focus();}});
+/* ---- the radio's «Ще» tiles and newsfeed for the new-tab page ----
+   A hidden copy of the radio (in app mode, so the tiles exist) answers through vendor/vkladky.js.
+   The last answer is kept so a new tab shows it instantly. */
+var FEED=null,feedFr=null,feedAt=0,FEEDN=25;
+try{FEED=JSON.parse(localStorage.getItem("office-feed")||"null");}catch(e){}
+var PAGES={stil:"desk",vidnovlennia:"rec",finansy:"fin",sova:"sova.html",mriya:"mriya.html",merch:"merch.html",dyryhent:"dyryhent.html",zahubyvsia:"zahubyvsia.html",kurs:"kurs.html",dovidka:"dovidka.html"};
+var SKIPT={secret:1,uisound:1,mono:1,office:1,welcome:1};
+function feedLoad(){
+  if(Date.now()-feedAt<60000&&FEED)return;feedAt=Date.now();
+  if(!feedFr){feedFr=document.createElement("iframe");feedFr.setAttribute("aria-hidden","true");feedFr.tabIndex=-1;
+    feedFr.style.cssText="position:absolute;width:390px;height:700px;left:-9999px;top:0;border:0;visibility:hidden";
+    feedFr.addEventListener("load",function(){setTimeout(function(){try{feedFr.contentWindow.postMessage({type:"vv-feed?"},"*");}catch(e){}},400);});
+    feedFr.src="index.html?app&feed";document.body.appendChild(feedFr);}
+  else{try{feedFr.contentWindow.location.reload();}catch(e){feedFr.src=feedFr.src;}}
+}
+function openTile(x){
+  var p=PAGES[x.go];
+  if(p&&APPS[p]){if(APPS[p].priv&&!privOn(p)){openLink(BASE+(p==="rec"?"vidnovlennia.html":"finansy.html"),x.b,false);return;}openApp(p);return;}
+  if(p){openLink(BASE+p,x.b,false);return;}
+  openLink(BASE+"index.html?app#"+x.go.replace(/^#/,""),x.b,false);
+}
+function fillStart(root){
+  var mo=root.querySelector(".more"),fd=root.querySelector(".feed");if(!mo||!fd)return;
+  if(!FEED){mo.innerHTML='<p style="color:var(--dim);font-size:12px">Чекаю на радіо…</p>';return;}
+  mo.innerHTML="";
+  FEED.tiles.forEach(function(x){if(SKIPT[x.go])return;if(x.priv&&!privOn(x.priv))return;
+    var b=document.createElement("button"),i=document.createElement("span"),w=document.createElement("span"),bb=document.createElement("b"),sm=document.createElement("small");
+    i.className="i";i.textContent=x.ic;bb.textContent=x.b;sm.textContent=x.s;w.appendChild(bb);w.appendChild(sm);b.appendChild(i);b.appendChild(w);
+    b.onclick=function(){openTile(x);};mo.appendChild(b);});
+  fd.innerHTML="";var n=+(fd.dataset.n||FEEDN);
+  FEED.news.slice(0,n).forEach(function(a,k){
+    var b=document.createElement("button"),tg=document.createElement("div"),h=document.createElement("b"),p=document.createElement("span");
+    tg.className="tg";tg.textContent=a.tag||"новина";if(k===0){var nw=document.createElement("i");nw.textContent="найсвіжіше";tg.appendChild(nw);}
+    h.textContent=a.h;p.textContent=a.p;b.appendChild(tg);b.appendChild(h);if(a.p)b.appendChild(p);
+    b.onclick=function(){if(a.href)openLink(a.href,a.h,false);else openLink(BASE+"index.html#gazeta","Газета Вайбвет FM",false);};fd.appendChild(b);});
+  if(FEED.news.length>n){var all=document.createElement("button");all.className="all";all.textContent="Показати ще ("+(FEED.news.length-n)+")";all.onclick=function(){fd.dataset.n=n+25;fillStart(root);};fd.appendChild(all);}
+}
+addEventListener("message",function(e){
+  if(!feedFr||e.source!==feedFr.contentWindow||!e.data||e.data.type!=="vv-feed")return;
+  if(!e.data.tiles||!e.data.tiles.length)return;
+  FEED={tiles:e.data.tiles,news:e.data.news||[]};try{localStorage.setItem("office-feed",JSON.stringify(FEED));}catch(err){}
+  [].forEach.call(document.querySelectorAll(".start"),fillStart);
+});
+
 /* ---- links from pages inside tabs (vendor/vkladky.js posts them here) ---- */
 var BASE=location.href.replace(/[#?].*$/,"").replace(/[^\/]*$/,"");
 function hookFrame(fr){try{fr.contentWindow.postMessage({type:"vv-office-hello"},"*");}catch(e){}}

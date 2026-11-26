@@ -2,6 +2,7 @@
 # «Промінь»: local render agents on the Mac. One worker per core; scenes go into inbox/, pictures come out in out/.
 #   bash tools/promin/agents.sh            watch inbox/ and render every new or changed scene
 #   bash tools/promin/agents.sh scene.txt  render one scene now
+#   (no Java or a warm Air? the cloud renders it: push the scene into inbox/, then bash tools/promin/cloud.sh)
 cd "$(dirname "$0")"
 if ! command -v java >/dev/null || ! java -version >/dev/null 2>&1; then
   echo "Потрібна Java 11+. Встанови: brew install openjdk && sudo ln -sfn \$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk"

@@ -41,6 +41,8 @@ public class HiLoWidget extends AppWidgetProvider {
              .putInt("hl_st", streak >= GOAL ? 3 : right ? 1 : 2)
              .putInt("hl_best", Math.max(p.getInt("hl_best", 0), streak)).apply();
         }
+        int st2 = p.getInt("hl_st", 0);
+        WidgetUtil.buzz(c, st2 == 3 ? "hammer" : st2 == 1 ? "success" : st2 == 2 ? "error" : "tick");
         AppWidgetManager.getInstance(c).updateAppWidget(WidgetUtil.ids(c, HiLoWidget.class), build(c));
     }
 

@@ -53,6 +53,7 @@
     [[523.25,0],[659.25,0.11],[783.99,0.22],[1046.5,0.33]].forEach(function(n){tone(t+n[1],n[0],0.32,0.09,"sawtooth");tone(t+n[1],n[0]*2,0.25,0.03,"sine");});
     tone(t+0.45,1046.5,0.9,0.08,"triangle");tone(t+0.45,1318.5,0.9,0.06,"triangle");tone(t+0.45,1567.98,0.9,0.05,"triangle");}
   function haptic(kind){
+    if(window.VV_TAPTIC){VV_TAPTIC(kind==="level"?"success":kind==="click"?"soft":kind);return;}
     try{var C=window.Capacitor,P=C&&C.Plugins&&C.Plugins.Purr;if(P&&P.tick){P.tick({kind:kind||"click"}).catch(function(){});return;}}catch(e){}
     try{navigator.vibrate&&navigator.vibrate(kind==="level"?[12,40,18]:8);}catch(e){}
   }

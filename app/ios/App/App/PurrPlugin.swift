@@ -95,13 +95,25 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    /// A short tap for buttons and tabs: "tick", "click" or "heavy".
+    /// A short tap: "tick" (selection), "light", "click", "soft", "rigid", "heavy",
+    /// "success", "warning", "error" (the system notification feel) and "hammer" (three blows, the last one the hardest).
     @objc func tick(_ call: CAPPluginCall) {
         let kind = call.getString("kind") ?? "tick"
         DispatchQueue.main.async {
             switch kind {
             case "heavy": UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
             case "click": UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            case "light": UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            case "soft": UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            case "rigid": UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+            case "success": UINotificationFeedbackGenerator().notificationOccurred(.success)
+            case "warning": UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            case "error": UINotificationFeedbackGenerator().notificationOccurred(.error)
+            case "hammer":
+                let g = UIImpactFeedbackGenerator(style: .heavy)
+                g.impactOccurred(intensity: 0.5)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { g.impactOccurred(intensity: 0.75) }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.30) { g.impactOccurred(intensity: 1.0) }
             default: UISelectionFeedbackGenerator().selectionChanged()
             }
             call.resolve()

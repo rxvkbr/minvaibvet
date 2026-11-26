@@ -108,8 +108,8 @@
       timer=setTimeout(loop,40);
     }
     this.click=function(){if(!ctx())return;var t=ac.currentTime;hat(t,.7,.03);tone(t,2400,.05,.15,"square");};
-    this.ding=function(n){if(!ctx())return;var t=ac.currentTime;tone(t,[880,1108.7,1318.5][n%3],.6,.25);};
-    this.thud=function(){if(!ctx())return;var t=ac.currentTime;tone(t,70,.3,.6);hat(t,.2,.08);};
+    this.ding=function(n){window.VV_TAPTIC&&VV_TAPTIC(n===2?"success":"click");if(!ctx())return;var t=ac.currentTime;tone(t,[880,1108.7,1318.5][n%3],.6,.25);};
+    this.thud=function(){window.VV_TAPTIC&&VV_TAPTIC("heavy");if(!ctx())return;var t=ac.currentTime;tone(t,70,.3,.6);hat(t,.2,.08);};
   }
 
   window.VV_BAL=function(box){

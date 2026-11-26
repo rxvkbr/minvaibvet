@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import java.util.Calendar;
 import java.util.Random;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 /** Shared helpers for the Vibevet FM home-screen widgets. */
 final class WidgetUtil {
@@ -69,5 +72,23 @@ final class WidgetUtil {
         }
         int i = r.nextInt(size - 1);
         return i >= previous ? i + 1 : i;
+    }
+
+    /** Widget games are felt too: "tick", "click", "heavy", "success", "error", "hammer". Respects the app's haptics switch. */
+    static void buzz(Context c, String kind) {
+        if (!prefs(c).getBoolean("haptics", true) || Build.VERSION.SDK_INT < 26) return;
+        Vibrator v = (Vibrator) c.getSystemService(Context.VIBRATOR_SERVICE);
+        if (v == null || !v.hasVibrator()) return;
+        long[] t; int[] a;
+        switch (kind) {
+            case "success": t = new long[]{0, 18, 70, 28}; a = new int[]{0, 120, 0, 220}; break;
+            case "error": t = new long[]{0, 30, 60, 30, 60, 40}; a = new int[]{0, 220, 0, 220, 0, 255}; break;
+            case "hammer": t = new long[]{0, 25, 95, 30, 150, 45}; a = new int[]{0, 130, 0, 190, 0, 255}; break;
+            case "heavy": t = new long[]{0, 28}; a = new int[]{0, 255}; break;
+            case "click": t = new long[]{0, 14}; a = new int[]{0, 170}; break;
+            default: t = new long[]{0, 8}; a = new int[]{0, 110}; break;
+        }
+        if (v.hasAmplitudeControl()) v.vibrate(VibrationEffect.createWaveform(t, a, -1));
+        else v.vibrate(VibrationEffect.createWaveform(t, -1));
     }
 }

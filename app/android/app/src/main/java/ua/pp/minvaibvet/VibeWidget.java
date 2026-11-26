@@ -26,6 +26,7 @@ public class VibeWidget extends AppWidgetProvider {
         if (NEXT.equals(intent.getAction())) {
             SharedPreferences p = WidgetUtil.prefs(c);
             p.edit().putInt("vibe_off", p.getInt("vibe_off", 0) + 1).apply();
+            WidgetUtil.buzz(c, "tick");
             AppWidgetManager.getInstance(c).updateAppWidget(WidgetUtil.ids(c, VibeWidget.class), build(c));
         }
     }

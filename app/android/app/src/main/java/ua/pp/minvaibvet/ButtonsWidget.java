@@ -50,6 +50,7 @@ public class ButtonsWidget extends AppWidgetProvider {
             return;
         }
         e.apply();
+        WidgetUtil.buzz(c, PLUS.equals(a) ? "success" : REQUEST.equals(a) ? "error" : "click");
         AppWidgetManager.getInstance(c).updateAppWidget(WidgetUtil.ids(c, ButtonsWidget.class), build(c));
     }
 

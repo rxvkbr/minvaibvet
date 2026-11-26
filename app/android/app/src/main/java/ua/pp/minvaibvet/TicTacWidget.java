@@ -35,6 +35,8 @@ public class TicTacWidget extends AppWidgetProvider {
         } else if (a != null && a.startsWith(TAP)) {
             int cell = Integer.parseInt(a.substring(TAP.length()));
             play(c, p, cell);
+            int st = p.getInt("tt_st", 0);
+            WidgetUtil.buzz(c, st == 2 ? "success" : st == 3 ? "error" : st == 4 ? "click" : "tick");
         } else {
             return;
         }

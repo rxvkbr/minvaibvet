@@ -26,7 +26,8 @@ public class ThorWidget extends AppWidgetProvider {
         if (!HIT.equals(intent.getAction())) return;
         SharedPreferences p = WidgetUtil.prefs(c);
         int n = p.getInt("th_n", 0);
-        p.edit().putInt("th_n", n >= LAST ? 0 : n + 1).apply();   // after the look into the camera, Thor starts again
+        p.edit().putInt("th_n", n >= LAST ? 0 : n + 1).apply();
+        WidgetUtil.buzz(c, n + 1 == LAST ? "hammer" : n >= LAST ? "click" : "heavy");   // after the look into the camera, Thor starts again
         AppWidgetManager.getInstance(c).updateAppWidget(WidgetUtil.ids(c, ThorWidget.class), build(c));
     }
 

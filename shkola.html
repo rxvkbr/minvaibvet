@@ -53,6 +53,7 @@ kbd{color:#2a1f3d;display:inline-block;border:2px solid #2a1f3d;border-bottom-wi
 <div id="toast"></div>
 <div id="train"><div class="card"><h2 id="trT" style="margin:4px 0"></h2><div id="trH"></div><canvas id="trC" width="220" height="150"></canvas><div class="bar"><i id="trB"></i></div><div id="trK"></div><div id="trN"></div></div></div>
 <div id="ov"><div class="card" id="card"></div></div>
+<script src="vendor/taptic.js"></script>
 <script src="vendor/shkola-text.js"></script>
 <script>
 (function(){
@@ -82,20 +83,20 @@ addEventListener("resize",fit);
 var AC=null;function ac(){if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C();}if(AC&&AC.state==="suspended")AC.resume();return AC;}
 function tone(f,len,vol,type,delay,bend){var a=ac();if(!a)return;var t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(bend)o.frequency.exponentialRampToValueAtTime(f*bend,t+len);
   g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.08,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+len);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+len+.02);}
-function shchedryk(){var a=ac();if(!a)return;var q=.3,t=0,B=466.16,A=440,G=392,C=523.25,D=587.33;
+function shchedryk(){window.VV_TAPTIC&&VV_TAPTIC("success");var a=ac();if(!a)return;var q=.3,t=0,B=466.16,A=440,G=392,C=523.25,D=587.33;
   function motif(n1,n2,n3,n4,rep){for(var r=0;r<rep;r++){tone(n1,q*.95,.09,"triangle",t);tone(n2,q*.48,.08,"triangle",t+q);tone(n1,q*.48,.08,"triangle",t+q*1.5);tone(n4,q*.95,.09,"triangle",t+q*2);
     tone(n1*2,.9,.02,"sine",t);t+=q*3;}}
   motif(B,A,B,G,4);motif(C,B,C,A,2);motif(D,C,D,B,2);motif(B,A,B,G,2);
   [0,1,2].forEach(function(i){tone(1568,1.2,.03,"sine",t+i*.25);tone(2093,1.2,.02,"sine",t+i*.25+.12);});}
 var SND={
-  bean:function(){tone(660,.12,.08,"triangle");tone(990,.18,.07,"triangle",.07);},
-  card:function(){[523,659,784,1047].forEach(function(f,i){tone(f,.35,.08,"triangle",i*.08);});tone(2093,.6,.04,"sine",.32);},
-  talk:function(){tone(300+Math.random()*200,.07,.05,"square",0,1.3);},
-  friend:function(){[392,494,587,784,988].forEach(function(f,i){tone(f,.4,.08,"triangle",i*.09);});},
-  hop:function(){tone(330,.15,.08,"square",0,2.2);},
-  done:function(){[523,659,784,1047,1319].forEach(function(f,i){tone(f,.5,.07,"sawtooth",i*.1);});},
-  door:function(){tone(110,.9,.15,"sawtooth",0,.6);tone(70,.4,.2,"square",.85);},
-  shrug:function(){tone(400,.15,.08,"sine",0,1.5);tone(600,.2,.08,"sine",.15,.66);},
+  bean:function(){window.VV_TAPTIC&&VV_TAPTIC("light");tone(660,.12,.08,"triangle");tone(990,.18,.07,"triangle",.07);},
+  card:function(){window.VV_TAPTIC&&VV_TAPTIC("success");[523,659,784,1047].forEach(function(f,i){tone(f,.35,.08,"triangle",i*.08);});tone(2093,.6,.04,"sine",.32);},
+  talk:function(){window.VV_TAPTIC&&VV_TAPTIC("tick");tone(300+Math.random()*200,.07,.05,"square",0,1.3);},
+  friend:function(){window.VV_TAPTIC&&VV_TAPTIC("success");[392,494,587,784,988].forEach(function(f,i){tone(f,.4,.08,"triangle",i*.09);});},
+  hop:function(){window.VV_TAPTIC&&VV_TAPTIC("click");tone(330,.15,.08,"square",0,2.2);},
+  done:function(){window.VV_TAPTIC&&VV_TAPTIC("success");[523,659,784,1047,1319].forEach(function(f,i){tone(f,.5,.07,"sawtooth",i*.1);});},
+  door:function(){window.VV_TAPTIC&&VV_TAPTIC("hammer");tone(110,.9,.15,"sawtooth",0,.6);tone(70,.4,.2,"square",.85);},
+  shrug:function(){window.VV_TAPTIC&&VV_TAPTIC("soft");tone(400,.15,.08,"sine",0,1.5);tone(600,.2,.08,"sine",.15,.66);},
   step:function(){tone(180+Math.random()*30,.04,.02,"triangle");}
 };
 
@@ -223,7 +224,7 @@ function startTrain(m){var d=TRAIN[m.tr];TR={m:m,d:d,n:0,k:0,anim:0};
 function trainKey(key){
   if(!TR)return;var want=TR.d.keys[TR.k%TR.d.keys.length],k=key.length===1?key.toLowerCase():key;
   var alias={"ц":"w","і":"s","ы":"s"};k=alias[k]||k;
-  if(k!==want){tone(160,.08,.04,"square");return;}
+  if(k!==want){tone(160,.08,.04,"square");window.VV_TAPTIC&&VV_TAPTIC("warning");return;}
   TR.k++;if(TR.d.keys.length===1||TR.k%TR.d.keys.length===0){TR.n++;SND.hop();}else SND.step();
   TR.anim=1;$("trN").textContent=TR.n+" / "+TR.d.need;$("trB").style.width=(TR.n/TR.d.need*100)+"%";
   if(TR.n>=TR.d.need){var m=TR.m;TR=null;setTimeout(function(){$("train").style.display="none";m.done=true;S.trains++;hud();SND.done();toast(fm(L.trainDone,{n:m.name}));

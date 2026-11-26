@@ -80,6 +80,23 @@ public class PurrPlugin extends Plugin {
             return;
         }
         String kind = call.getString("kind", "tick");
+        /* patterns for the richer kinds, the same feel as on iPhone: off/on timings in ms and amplitudes */
+        long[] wt = null; int[] wa = null;
+        switch (kind) {
+            case "success": wt = new long[]{0, 18, 70, 28}; wa = new int[]{0, 120, 0, 220}; break;
+            case "warning": wt = new long[]{0, 25, 90, 25}; wa = new int[]{0, 200, 0, 140}; break;
+            case "error": wt = new long[]{0, 30, 60, 30, 60, 40}; wa = new int[]{0, 220, 0, 220, 0, 255}; break;
+            case "hammer": wt = new long[]{0, 25, 95, 30, 150, 45}; wa = new int[]{0, 130, 0, 190, 0, 255}; break;
+            default: break;
+        }
+        if (wt != null && Build.VERSION.SDK_INT >= 26) {
+            if (v.hasAmplitudeControl()) v.vibrate(VibrationEffect.createWaveform(wt, wa, -1));
+            else v.vibrate(VibrationEffect.createWaveform(wt, -1));
+            call.resolve();
+            return;
+        }
+        if ("light".equals(kind) || "soft".equals(kind)) kind = "tick";
+        if ("rigid".equals(kind)) kind = "click";
         if (Build.VERSION.SDK_INT >= 29) {
             int effect = "heavy".equals(kind) ? VibrationEffect.EFFECT_HEAVY_CLICK
                 : "click".equals(kind) ? VibrationEffect.EFFECT_CLICK : VibrationEffect.EFFECT_TICK;

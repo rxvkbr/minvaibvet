@@ -1405,6 +1405,9 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
   /* interface sounds live apart from the radio: on by default in the app, the radio button only drives the station beds */
   var ui=!!(window.VV_APP||document.documentElement.classList.contains("app"));
   try{var us=localStorage.getItem("ui-sound");if(us!==null)ui=us==="1";}catch(e){}
+  /* inside Вайбвет Офіс the page follows the Office's own «Звуки інтерфейсу» switch */
+  try{if(window.top!==window&&window.top.VV_DESKTOP){var os=JSON.parse(localStorage.getItem("office-ui")||"null");ui=os?!!os.snd:true;
+    window.addEventListener("storage",function(e){if(e.key==="office-ui"){try{ui=!!(JSON.parse(e.newValue||"{}").snd);}catch(x){}}});}}catch(e){}
   function wake(){
     try{if(!ctx)init();if(ctx.state!=="running")ctx.resume();}catch(e){}
   }

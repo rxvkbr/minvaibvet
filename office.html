@@ -776,6 +776,15 @@ addEventListener("keydown",function(e){
   if(shortcut(k,e.shiftKey))e.preventDefault();
 },true);
 if(window.VV_IPC){window.VV_IPC.onOpen(function(u){if(/^https?:/.test(u))newTab(u,S.active);});window.VV_IPC.onKey(function(k,sh){shortcut(k,sh);});}
+/* fresh content downloaded in the background (news, books, new pages): offer to switch now, otherwise it applies on the next launch */
+if(window.VV_IPC&&window.VV_IPC.onUpdate){window.VV_IPC.onUpdate(function(){
+  if(document.getElementById("vvupd"))return;
+  var b=document.createElement("div");b.id="vvupd";b.setAttribute("role","status");
+  b.style.cssText="position:fixed;right:16px;bottom:16px;z-index:9999;display:flex;gap:10px;align-items:center;padding:10px 12px 10px 16px;border-radius:14px;background:#1c1f16;border:1px solid #3a3f2c;color:#e9e3c4;font:13px ui-monospace,Menlo,monospace;box-shadow:0 10px 30px #0008";
+  b.innerHTML='<span>📻 Свіжі новини й сторінки завантажено</span><button type="button" style="border:0;border-radius:999px;padding:7px 12px;background:#f0a93a;color:#1a100b;font:700 13px ui-monospace,Menlo,monospace;cursor:pointer">оновити</button><button type="button" aria-label="Пізніше" style="border:0;background:none;color:#9a957c;font-size:16px;cursor:pointer">×</button>';
+  var bs=b.querySelectorAll("button");bs[0].onclick=function(){try{save();}catch(e){}window.VV_IPC.reloadContent();};bs[1].onclick=function(){b.remove();};
+  document.body.appendChild(b);
+});}
 function busy(v,on){[].forEach.call(tabsEl.querySelectorAll(".tab"),function(t){if(t.dataset.v===v)t.classList.toggle("busy",on);});}
 var toastT=null;
 function toast(msg){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=msg;document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(function(){d.remove();},2600);}

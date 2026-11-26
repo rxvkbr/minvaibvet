@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["index.html", "office.html", "privacy.html", "kolonka-*.html", "kurs.html", "mriya.html", "merch.html", "vidnovlennia.html", "finansy.html", "sova.html", "vendor/**", "img/**", "app/scripts/web.js"]
+    paths: ["*.html", "kalendar.ics", "vendor/**", "img/**", "app/scripts/web.js", "desktop/scripts/prep.js"]
 
 permissions:
   contents: write
@@ -28,16 +28,25 @@ jobs:
         run: |
           npm ci
           export BUNDLE_STAMP=$(date -u +%y%m%d%H%M)
+          echo "BUNDLE_STAMP=$BUNDLE_STAMP" >> "$GITHUB_ENV"
           npm run web
           API=$(node -p "require('./www/bundle.json').nativeApi")
           cd www && zip -qr "$RUNNER_TEMP/bundle.zip" . && cd ..
           SUM=$(sha256sum "$RUNNER_TEMP/bundle.zip" | cut -d' ' -f1)
           mv "$RUNNER_TEMP/bundle.zip" "$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}-${SUM}.zip"
           echo "ZIP=$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}-${SUM}.zip" >> "$GITHUB_ENV"
+      - name: Build the desktop (Вайбвет Офіс) content
+        run: |
+          node desktop/scripts/prep.js
+          cd desktop/www && zip -qr "$RUNNER_TEMP/desk.zip" . && cd ../..
+          SUM=$(sha256sum "$RUNNER_TEMP/desk.zip" | cut -d' ' -f1)
+          mv "$RUNNER_TEMP/desk.zip" "$RUNNER_TEMP/desk-d1-${BUNDLE_STAMP}-${SUM}.zip"
+          echo "DESK=$RUNNER_TEMP/desk-d1-${BUNDLE_STAMP}-${SUM}.zip" >> "$GITHUB_ENV"
       - name: Publish, keeping the last three bundles
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view app-bundle >/dev/null 2>&1 || gh release create app-bundle --title "App content bundle" --notes "Web part of the Вайбвет FM app, delivered over the air. Not for manual download." --latest=false
-          gh release upload app-bundle "$ZIP" --clobber
+          gh release upload app-bundle "$ZIP" "$DESK" --clobber
           gh release view app-bundle --json assets --jq '.assets[].name' | grep '^www-' | sort -t- -k3,3n | head -n -3 | while read -r a; do gh release delete-asset app-bundle "$a" -y; done
+          gh release view app-bundle --json assets --jq '.assets[].name' | grep '^desk-' | sort -t- -k3,3n | head -n -3 | while read -r a; do gh release delete-asset app-bundle "$a" -y; done

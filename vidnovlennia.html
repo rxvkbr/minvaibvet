@@ -197,5 +197,6 @@ ul.list li a{color:var(--mint);font:14px "PT Mono",monospace;text-decoration:non
   $("wipe").addEventListener("click",function(){if(!confirm("Стерти все з цього розділу на цьому пристрої?"))return;try{localStorage.removeItem(K);}catch(e){}location.reload();});
 })();
 </script>
+<script id="numfix">document.addEventListener("input",function(e){var i=e.target;if(!i||i.tagName!=="INPUT"||i.type!=="number")return;var v=i.value;if(v===""&&i.validity&&i.validity.badInput){i.value="";return;}var c=v.replace(/[^0-9.,]/g,"").replace(",",".");if(c!==v)i.value=c;},true);</script>
 </body>
 </html>

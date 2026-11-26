@@ -139,8 +139,9 @@ function issue(){
   $("decision").textContent="Рішення ухвалено: "+DEC[Math.floor(Math.random()*DEC.length)]+" Ухвалення відбулося одразу, як і обіцяли. Можливо, вперше.";
   $("out").classList.add("on");$("out").scrollIntoView({behavior:"smooth"});busy=false;$("go").disabled=false;$("go").textContent="Отримати ще одну (знову з першого разу)";count();
 }
+function vvSaveBlob(b,name,title){var nat=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()),ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);if(nat||ios){try{var f=new File([b],name,{type:b.type||"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:title||name}).catch(function(){});return;}}catch(e){}var r=new FileReader();r.onload=function(){var w=window.open();if(w)w.document.write('<title>'+name+'</title><img src="'+r.result+'" style="max-width:100%">');else location.href=r.result;};r.readAsDataURL(b);return;}var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},4000);}
 function blob(cb){$("cv").toBlob(cb,"image/png");}
-$("dl").onclick=function(){blob(function(b){var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="dovidka-z-pershoho-razu.png";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);});};
+$("dl").onclick=function(){blob(function(b){vvSaveBlob(b,"dovidka-z-pershoho-razu.png","Довідка з першого разу");});};
 $("share").onclick=function(){blob(function(b){var f=new File([b],"dovidka-z-pershoho-razu.png",{type:"image/png"});
   if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:"Довідка з першого разу",text:"Отримав довідку з першого разу. Уряд, ваш хід. minvaibvet.pp.ua/dovidka"}).catch(function(){});
   else $("dl").onclick();});};

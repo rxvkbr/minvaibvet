@@ -191,7 +191,8 @@ h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px
   function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
   function wrap(x,t,a,y,mw,lh){var ws=t.split(" "),l="";for(var i=0;i<ws.length;i++){var tt=l+ws[i]+" ";if(x.measureText(tt).width>mw&&l){x.fillText(l,a,y);l=ws[i]+" ";y+=lh;}else l=tt;}x.fillText(l,a,y);}
   function fname(){return "kava-ua-"+cur+".png";}
-  $("save").onclick=function(){png(function(b){var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=fname();document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);});};
+  function vvSaveBlob(b,name,title){var nat=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()),ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);if(nat||ios){try{var f=new File([b],name,{type:b.type||"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:title||name}).catch(function(){});return;}}catch(e){}var r=new FileReader();r.onload=function(){var w=window.open();if(w)w.document.write('<title>'+name+'</title><img src="'+r.result+'" style="max-width:100%">');else location.href=r.result;};r.readAsDataURL(b);return;}var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},4000);}
+$("save").onclick=function(){png(function(b){vvSaveBlob(b,fname(),"Кава для українця");});};
   $("share").onclick=function(){
     png(function(b){
       var f;try{f=new File([b],fname(),{type:"image/png"});}catch(e){}

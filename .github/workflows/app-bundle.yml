@@ -38,8 +38,8 @@ jobs:
       - name: Build the desktop (Вайбвет Офіс) content
         run: |
           node desktop/scripts/prep.js
-          rm -f desktop/desk.zip
-          (cd desktop/www && zip -qr ../desk.zip .)
+          pwd; ls -la desktop | head -20
+          python3 -c "import os,zipfile;z=zipfile.ZipFile('desktop/desk.zip','w',zipfile.ZIP_DEFLATED);[z.write(os.path.join(r,f),os.path.relpath(os.path.join(r,f),'desktop/www')) for r,_,fs in os.walk('desktop/www') for f in fs];z.close()"
           ls -la desktop/desk.zip
           SUM=$(sha256sum desktop/desk.zip | cut -d' ' -f1)
           mv desktop/desk.zip "$RUNNER_TEMP/desk-d1-${BUNDLE_STAMP}-${SUM}.zip"

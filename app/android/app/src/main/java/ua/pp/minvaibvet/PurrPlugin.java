@@ -85,8 +85,9 @@ public class PurrPlugin extends Plugin {
         switch (kind) {
             case "success": wt = new long[]{0, 18, 70, 28}; wa = new int[]{0, 120, 0, 220}; break;
             case "warning": wt = new long[]{0, 25, 90, 25}; wa = new int[]{0, 200, 0, 140}; break;
-            case "error": wt = new long[]{0, 30, 60, 30, 60, 40}; wa = new int[]{0, 220, 0, 220, 0, 255}; break;
-            case "hammer": wt = new long[]{0, 25, 95, 30, 150, 45}; wa = new int[]{0, 130, 0, 190, 0, 255}; break;
+            case "error": wt = new long[]{0, 30, 70, 40}; wa = new int[]{0, 230, 0, 255}; break;
+            case "hammer": wt = new long[]{0, 25, 120, 45}; wa = new int[]{0, 150, 0, 255}; break;
+            case "message": wt = new long[]{0, 16, 110, 16, 110, 16}; wa = new int[]{0, 200, 0, 200, 0, 200}; break;   /* Рація only */
             default: break;
         }
         if (wt != null && Build.VERSION.SDK_INT >= 26) {

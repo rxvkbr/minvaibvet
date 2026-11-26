@@ -82,8 +82,8 @@ final class WidgetUtil {
         long[] t; int[] a;
         switch (kind) {
             case "success": t = new long[]{0, 18, 70, 28}; a = new int[]{0, 120, 0, 220}; break;
-            case "error": t = new long[]{0, 30, 60, 30, 60, 40}; a = new int[]{0, 220, 0, 220, 0, 255}; break;
-            case "hammer": t = new long[]{0, 25, 95, 30, 150, 45}; a = new int[]{0, 130, 0, 190, 0, 255}; break;
+            case "error": t = new long[]{0, 30, 70, 40}; a = new int[]{0, 230, 0, 255}; break;
+            case "hammer": t = new long[]{0, 25, 120, 45}; a = new int[]{0, 150, 0, 255}; break;
             case "heavy": t = new long[]{0, 28}; a = new int[]{0, 255}; break;
             case "click": t = new long[]{0, 14}; a = new int[]{0, 170}; break;
             default: t = new long[]{0, 8}; a = new int[]{0, 110}; break;

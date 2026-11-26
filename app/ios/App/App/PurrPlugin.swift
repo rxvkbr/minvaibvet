@@ -96,7 +96,7 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     /// A short tap: "tick" (selection), "light", "click", "soft", "rigid", "heavy",
-    /// "success", "warning", "error" (the system notification feel) and "hammer" (three blows, the last one the hardest).
+    /// "success", "warning" (system feel, two taps), "error" and "hammer" (two blows) and "message" (three taps: Рація only).
     @objc func tick(_ call: CAPPluginCall) {
         let kind = call.getString("kind") ?? "tick"
         DispatchQueue.main.async {
@@ -108,12 +108,19 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
             case "rigid": UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
             case "success": UINotificationFeedbackGenerator().notificationOccurred(.success)
             case "warning": UINotificationFeedbackGenerator().notificationOccurred(.warning)
-            case "error": UINotificationFeedbackGenerator().notificationOccurred(.error)
+            case "error":   // the system error is three taps, and three taps belong to Рація: two firm ones instead
+                let g = UIImpactFeedbackGenerator(style: .rigid)
+                g.impactOccurred(intensity: 1.0)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) { g.impactOccurred(intensity: 1.0) }
             case "hammer":
                 let g = UIImpactFeedbackGenerator(style: .heavy)
-                g.impactOccurred(intensity: 0.5)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { g.impactOccurred(intensity: 0.75) }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.30) { g.impactOccurred(intensity: 1.0) }
+                g.impactOccurred(intensity: 0.6)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.16) { g.impactOccurred(intensity: 1.0) }
+            case "message":  // three equal taps: a new message in a Рація chat, and nothing else
+                let g = UIImpactFeedbackGenerator(style: .rigid)
+                g.impactOccurred(intensity: 0.8)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.13) { g.impactOccurred(intensity: 0.8) }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.26) { g.impactOccurred(intensity: 0.8) }
             default: UISelectionFeedbackGenerator().selectionChanged()
             }
             call.resolve()

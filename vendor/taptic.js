@@ -1,19 +1,25 @@
 /* Тактильний відгук для всього Вайбвет FM.
    Every tap on something tappable is felt: buttons and tabs, links, tiles, switches, sliders, game canvases.
    Pages and games add their own moments with VV_TAPTIC(kind):
-     "tick" selection · "light" · "click" · "soft" · "rigid" · "heavy" · "success" · "warning" · "error" · "hammer"
+     "tick" selection · "light" · "click" · "soft" · "rigid" · "heavy" · "success" · "warning" · "error" · "hammer" · "message"
+   The rule of the house, so a pocket can be read without looking:
+     three taps — only a new message in a Рація chat ("message", nothing else may use it);
+     two taps at most — everything else that matters (success, warning, error, hammer);
+     one tap — anything unimportant (buttons, coins, beans).
    In the apps it goes to the native Purr plugin (Taptic Engine on iPhone, the vibrator on Android);
    in a browser it falls back to navigator.vibrate where there is one. Off with localStorage "haptics" = "0". */
 (function(){
   "use strict";
   if(window.VV_TAPTIC)return;
-  var WEB={tick:6,light:6,soft:6,click:10,rigid:12,heavy:22,success:[14,60,24],warning:[22,80,22],error:[26,50,26,50,34],hammer:[20,90,26,140,40]};
+  var WEB={tick:6,light:6,soft:6,click:10,rigid:12,heavy:22,success:[14,60,24],warning:[22,80,22],error:[30,70,40],hammer:[24,120,44],message:[16,110,16,110,16]};
   var last=0,lastKind="";
   function on(){try{return localStorage.getItem("haptics")!=="0";}catch(e){return true;}}
   function purr(){try{var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;
     if(C.Plugins&&C.Plugins.Purr)return C.Plugins.Purr;if(C.registerPlugin)return C.registerPlugin("Purr");}catch(e){}return null;}
+  var TWO={success:1,warning:1,error:1,hammer:1};
   function feel(kind){
     kind=kind||"tick";if(!on())return;
+    if(kind==="message"&&!/racia\.html$/.test(location.pathname))kind="success";   /* three taps belong to Рація alone */
     var now=Date.now();if(now-last<35&&(kind===lastKind||kind==="tick"))return;   /* never a buzzing mess */
     last=now;lastKind=kind;
     var P=purr();

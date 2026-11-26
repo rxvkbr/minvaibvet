@@ -521,7 +521,7 @@ $("url").addEventListener("click",function(){var t=TB(S.active);if(t&&t.kind==="
    The last answer is kept so a new tab shows it instantly. */
 var FEED=null,feedFr=null,feedAt=0,FEEDN=25;
 try{FEED=JSON.parse(localStorage.getItem("office-feed")||"null");}catch(e){}
-var PAGES={stil:"desk",vidnovlennia:"rec",finansy:"fin",sova:"sova.html",mriya:"mriya.html",merch:"merch.html",dyryhent:"dyryhent.html",maestro:"maestro.html",komediia:"komediia.html",kava:"kava.html",racia:"racia.html",zahubyvsia:"zahubyvsia.html",kurs:"kurs.html",dovidka:"dovidka.html"};
+var PAGES={stil:"desk",vidnovlennia:"rec",finansy:"fin",sova:"sova.html",mriya:"mriya.html",merch:"merch.html",dyryhent:"dyryhent.html",maestro:"maestro.html",komediia:"komediia.html",kava:"kava.html",dudka:"dudka.html",racia:"racia.html",zahubyvsia:"zahubyvsia.html",kurs:"kurs.html",dovidka:"dovidka.html"};
 var SKIPT={secret:1,uisound:1,mono:1,office:1,welcome:1};
 function feedLoad(){
   if(Date.now()-feedAt<60000&&FEED)return;feedAt=Date.now();

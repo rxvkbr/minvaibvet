@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Цифрова дудка слухає, як сильно ти дмухаєш, щоб грати сопілкою. Звук не записується і не залишає телефон.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Безкінечний диригент читає позицію руки, щоб обирати акорди. Відео не залишає телефон і не записується.</string>
 	<key>CFBundleDevelopmentRegion</key>

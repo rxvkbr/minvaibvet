@@ -54,6 +54,8 @@ a{color:var(--amber)}
     <p>Сповіщення «Хороша новина дня» і будильник плануються локально на пристрої, без сервера. Вібрацію застосунок використовує лише тоді, коли ви гладите тваринку.</p>
     <h3>Безкінечний диригент і Маестро</h3>
     <p>Диригент бере зображення з камери тільки після того, як ти натиснеш «Диригувати рукою» і дозволиш доступ. Відео обробляється на самому пристрої, нікуди не надсилається й не записується. Щоб розпізнати руку, сторінка при першому запуску завантажує модель MediaPipe з серверів Google (jsdelivr.net і storage.googleapis.com). Ці сервери бачать лише сам запит на завантаження, як при відкритті будь-якої сторінки.</p>
+    <h3>Цифрова дудка</h3>
+    <p>Дудка вмикає мікрофон тільки після того, як ти натиснеш «Грати з мікрофоном» і дозволиш доступ. Звук не записується і нікуди не надсилається: телефон лише кілька разів на секунду міряє, наскільки гучно ти дмухаєш. Без мікрофона дудка працює від кнопки «дмухнути».</p>
     <h3>Синхронізація Столу</h3>
     <p>Синхронізація вимкнена, доки ви самі її не ввімкнете. Тоді дані Столу шифруються на вашому пристрої ключем із вашої фрази-пароля (PBKDF2-SHA256, 600 000 ітерацій, AES-256-GCM) і лише в зашифрованому вигляді записуються у файл у вашому власному iCloud Drive (або у файл, який ви зберігаєте самі). Фраза-пароль ніде не зберігається й нікуди не надсилається; ключ лишається на пристрої. Ні ми, ні Apple не можемо прочитати вміст файлу. Якщо фразу загублено, дані з файлу відновити неможливо.</p>
     <h3>Рація Мінвайбвету</h3>
@@ -88,6 +90,8 @@ a{color:var(--amber)}
     <p>This stays on your device only and is never sent anywhere. Clearing your browser data or uninstalling the app removes it.</p>
     <h3>Notifications, alarm and vibration</h3>
     <p>The “Good news of the day” notification and the alarm are scheduled locally on your device, with no server involved. The app uses vibration only while you pet an animal.</p>
+    <h3>Digital pipe (Dudka)</h3>
+    <p>The pipe turns on the microphone only after you tap “Play with microphone” and allow access. Sound is never recorded or sent anywhere: the device only measures, a few times a second, how hard you blow. Without a microphone it plays from the “blow” button.</p>
     <h3>Third-party services</h3>
     <ul>
       <li><b>Google Fonts.</b> The website loads fonts from Google's servers, so Google receives your device's IP address with that request. The app has its fonts built in and does not contact Google. See <a href="https://policies.google.com/privacy">Google's privacy policy</a>.</li>

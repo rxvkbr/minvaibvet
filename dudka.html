@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/huchnist.js"></script>
+<script src="vendor/hvylyna.js"></script>
+<script src="vendor/vkladky.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Цифрова дудка · Вайбвет FM</title>
+<meta name="description" content="Дмухни в мікрофон, і телефон заграє сопілкою. Шість отворів на екрані, пальці закривають ноти. Легені чисті, сусіди підспівують.">
+<meta property="og:title" content="Цифрова дудка · Вайбвет FM">
+<meta property="og:description" content="Дмухаєш у мікрофон — грає сопілка. Курити цифрову дудку по-українськи.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/dudka">
+<style>
+:root{--bg:#120b08;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;--wood1:#c98b4b;--wood2:#8a5428;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:radial-gradient(ellipse at 50% 0,#2e1b10,var(--bg) 65%);color:var(--ivory);font:16px/1.5 "PT Serif",Georgia,serif;overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:"PT Mono",ui-monospace,Menlo,monospace}
+.top{position:fixed;left:0;right:0;top:0;z-index:12;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 12px 10px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:#2b1a11cc;border-radius:999px;padding:7px 13px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",ui-monospace,monospace;white-space:nowrap}
+.pill[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+main{position:fixed;inset:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:calc(60px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));gap:10px;touch-action:none}
+.side{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;min-width:0}
+#note{font:700 clamp(40px,10vw,76px)/1 Georgia,serif;color:var(--amber);min-height:1.1em}
+#oct{font:12px "PT Mono",monospace;color:var(--dim);letter-spacing:.1em}
+.meter{width:18px;height:min(46vh,320px);border-radius:10px;background:#ffffff10;border:1px solid var(--edge);position:relative;overflow:hidden}
+.meter i{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(0deg,var(--mint),var(--amber) 70%,var(--coral));transition:height .05s linear}
+.meter b{position:absolute;left:-2px;right:-2px;height:2px;background:#fff8;bottom:0}
+.lbl{font:11px "PT Mono",monospace;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
+/* the pipe */
+.pipe{position:relative;width:min(26vw,118px);height:min(80vh,640px);border-radius:60px 60px 26px 26px;background:linear-gradient(90deg,var(--wood2),var(--wood1) 38%,#e0a865 52%,var(--wood1) 66%,var(--wood2));box-shadow:inset 0 0 0 2px #00000030,0 18px 40px #000a;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:min(7.5vh,84px) 0 min(4.5vh,36px)}
+.pipe:before{content:"";position:absolute;top:2%;left:50%;width:46%;height:4%;transform:translateX(-50%);border-radius:40% 40% 10% 10%;background:#3b220f}
+.pipe .band{position:absolute;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#c0392b 0 6px,#f1c40f 6px 12px,#1b1b1b 12px 18px);opacity:.85}
+.hole{position:relative;flex:none;width:min(12vw,52px,6.2vh);height:min(12vw,52px,6.2vh);margin:min(1.2vh,12px) 0;border-radius:50%;background:radial-gradient(circle at 50% 45%,#1a0d05 0 55%,#3b220f 56% 70%,transparent 71%);touch-action:none;cursor:pointer}
+.hole.on:after{content:"";position:absolute;inset:-6%;border-radius:50%;background:radial-gradient(circle at 45% 40%,#ffd9b3,#e9a77a 60%,#c27a52);box-shadow:0 2px 6px #0008}
+.hole small{position:absolute;left:calc(100% + 22px);top:50%;transform:translateY(-50%);font:11px "PT Mono",monospace;color:var(--dim)}
+.gap{flex:none;height:min(2.6vh,20px)}
+#blow{min-width:150px;min-height:56px;border-radius:999px;border:1px solid var(--amber);background:#f0a93a22;font:600 15px "PT Mono",monospace;touch-action:none}
+#blow.on{background:var(--amber);color:#1a0f07}
+.hint{font-size:13px;color:var(--dim);max-width:220px}
+/* intro */
+#intro{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 30%,#2b1a11f4,#0f0a07fa 70%);overflow:auto}
+.card{max-width:520px;background:#1c120c;border:1px solid var(--edge);border-radius:20px;padding:22px}
+.card h1{font:700 30px/1.1 Georgia,serif;margin:0 0 8px}
+.card p{color:var(--dim);margin:0 0 12px}
+.card ul{margin:0 0 14px;padding-left:18px;color:var(--ivory)}
+.card .row{display:flex;flex-wrap:wrap;gap:10px}
+.cta{border:0;border-radius:999px;background:var(--amber);color:#1a0f07;font:700 15px "PT Mono",monospace;padding:12px 18px}
+.ghost{border:1px solid var(--edge);border-radius:999px;background:transparent;padding:12px 18px;font:14px "PT Mono",monospace}
+#err{color:var(--coral);font-size:14px;min-height:1.2em;margin:8px 0 0}
+@media (max-width:560px){main{grid-template-columns:1fr auto;grid-template-rows:auto 1fr}.side.l{grid-column:1/3;flex-direction:row;justify-content:space-around}.meter{height:16px;width:min(40vw,160px)}.meter i{top:0;bottom:0;left:0;right:auto;width:0;height:auto!important}.side.r{grid-column:1;grid-row:2}.pipe{grid-column:2;grid-row:2;height:min(66vh,560px)}.hole small{display:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="pill" id="back" href="index.html#more">← назад</a>
+  <span class="pill">🪈 Цифрова дудка</span>
+  <button class="pill" id="mic" type="button" aria-pressed="false">🎙 мікрофон</button>
+</div>
+
+<main id="main">
+  <div class="side l">
+    <div id="note">—</div>
+    <div id="oct" class="mono">дмухни</div>
+    <div class="lbl">подих</div>
+    <div class="meter" id="meter"><i id="lvl"></i><b id="thr"></b></div>
+  </div>
+  <div class="pipe" id="pipe" aria-label="Сопілка: шість отворів">
+    <div class="band" style="top:6.5%"></div>
+    <div class="hole" data-h="0"><small>1·A</small></div>
+    <div class="hole" data-h="1"><small>2·S</small></div>
+    <div class="hole" data-h="2"><small>3·D</small></div>
+    <div class="gap"></div>
+    <div class="hole" data-h="3"><small>4·J</small></div>
+    <div class="hole" data-h="4"><small>5·K</small></div>
+    <div class="hole" data-h="5"><small>6·L</small></div>
+    <div class="band" style="bottom:3%"></div>
+  </div>
+  <div class="side r">
+    <button id="blow" type="button" aria-pressed="false">💨 дмухнути</button>
+    <p class="hint">Закривай отвори зверху вниз: усі шість — найнижча нота, жодного — найвища. Дмухни сильніше — октава вище.</p>
+    <p class="hint mono" id="kb">Клавіатура: A S D J K L — отвори, пробіл — подих.</p>
+  </div>
+</main>
+
+<div id="intro" role="dialog" aria-modal="true" aria-labelledby="ih">
+  <div class="card">
+    <h1 id="ih">Курити цифрову дудку</h1>
+    <p>Українська методика: дмухаєш у мікрофон телефона чи ноутбука, а звучить сопілка. Легені чисті, сусіди підспівують.</p>
+    <ul>
+      <li>Дмухай тихо й рівно, ніби на гарячий чай. Сильніше — октава вище.</li>
+      <li>Пальці закривають отвори на дудці, зверху вниз.</li>
+      <li>У навушниках найкраще: тоді мікрофон чує тільки тебе.</li>
+      <li>Звук з мікрофона нікуди не йде і не записується: телефон тільки міряє, як сильно ти дмухаєш.</li>
+    </ul>
+    <div class="row">
+      <button class="cta" id="go" type="button">🎙 Грати з мікрофоном</button>
+      <button class="ghost" id="nomic" type="button">Без мікрофона</button>
+    </div>
+    <p id="err" role="status"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(i){return document.getElementById(i);};
+  /* D major, sopilka-style: 6 covered = D, open one by one from the bottom → E F# G A B C#, all open = D' */
+  var NAMES=["Ре","Мі","Фа♯","Соль","Ля","Сі","До♯","Ре"],BASE=587.33,STEPS=[0,2,4,5,7,9,11,12];
+  var holes=[].slice.call(document.querySelectorAll(".hole")),cover=[0,0,0,0,0,0];
+  var ac=null,osc=[],amp=null,nGain=null,nFilt=null,vib=null,vibG=null,master=null;
+  var breath=0,target=0,useMic=false,micLevel=0,floor=0.004,blowKey=false,blowBtn=false,curF=0;
+
+  function degree(){var n=0;for(var i=0;i<6;i++){if(cover[i])n++;else break;}return 6-n;}  /* 0..6 from all covered */
+  function freq(over){var d=degree(),k=STEPS[d]+(over?12:0);return BASE*Math.pow(2,k/12);}
+
+  function audio(){
+    if(ac)return;var C=window.AudioContext||window.webkitAudioContext;ac=new C();
+    master=ac.createGain();master.gain.value=.9;master.connect(ac.destination);
+    amp=ac.createGain();amp.gain.value=0;
+    var lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.value=4200;amp.connect(lp);lp.connect(master);
+    /* tone: a soft fundamental with a little 2nd and 3rd harmonic, like wood */
+    [[1,.8,"sine"],[2,.16,"sine"],[3,.07,"triangle"]].forEach(function(h){var o=ac.createOscillator(),g=ac.createGain();o.type=h[2];o.frequency.value=BASE*h[0];g.gain.value=h[1];o.connect(g);g.connect(amp);o.start();o.__m=h[0];osc.push(o);});
+    /* vibrato */
+    vib=ac.createOscillator();vib.frequency.value=5.2;vibG=ac.createGain();vibG.gain.value=0;vib.connect(vibG);osc.forEach(function(o){vibG.connect(o.frequency);});vib.start();
+    /* breath noise */
+    var len=ac.sampleRate*2,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);for(var i=0;i<len;i++)d[i]=Math.random()*2-1;
+    var src=ac.createBufferSource();src.buffer=buf;src.loop=true;nFilt=ac.createBiquadFilter();nFilt.type="bandpass";nFilt.Q.value=1.4;nFilt.frequency.value=BASE*2;
+    nGain=ac.createGain();nGain.gain.value=0;src.connect(nFilt);nFilt.connect(nGain);nGain.connect(master);src.start();
+  }
+
+  /* ---- microphone: breath = loud AND noisy (a flat spectrum), so the pipe's own tone from the speaker doesn't blow itself ---- */
+  var an=null,fbuf=null,tbuf=null,stream=null,calib=[],calibUntil=0;
+  function startMic(){
+    audio();if(ac.state==="suspended")ac.resume();
+    return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}).then(function(s){
+      stream=s;var src=ac.createMediaStreamSource(s);an=ac.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=.2;src.connect(an);
+      fbuf=new Float32Array(an.frequencyBinCount);tbuf=new Float32Array(an.fftSize);
+      useMic=true;calib=[];calibUntil=performance.now()+900;$("mic").setAttribute("aria-pressed","true");$("oct").textContent="тиша… слухаю кімнату";
+    });
+  }
+  function micRead(){
+    an.getFloatTimeDomainData(tbuf);var s=0;for(var i=0;i<tbuf.length;i++)s+=tbuf[i]*tbuf[i];var rms=Math.sqrt(s/tbuf.length);
+    an.getFloatFrequencyData(fbuf);
+    var hz=ac.sampleRate/an.fftSize,a=Math.floor(400/hz),b=Math.floor(5000/hz),lg=0,ar=0,n=0;
+    for(var j=a;j<b;j++){var p=Math.pow(10,fbuf[j]/10);lg+=Math.log(p+1e-12);ar+=p;n++;}
+    var flat=Math.exp(lg/n)/((ar/n)+1e-12);                 /* 0 = pure tone, 1 = white noise */
+    if(performance.now()<calibUntil){calib.push(rms);floor=Math.max(.003,calib.reduce(function(x,y){return x+y;},0)/calib.length*1.8);return 0;}
+    var v=(rms-floor)/(floor*9+.02);
+    if(flat<.12)v*=.15;                                     /* tonal sound = probably our own speaker */
+    return Math.max(0,Math.min(1.2,v));
+  }
+
+  /* ---- holes: touch, mouse, keyboard ---- */
+  var KEYS={a:0,s:1,d:2,j:3,k:4,l:5,"ф":0,"і":1,"в":2,"о":3,"л":4,"д":5};
+  function paint(){holes.forEach(function(h,i){h.classList.toggle("on",!!cover[i]);});}
+  var ptr={};
+  holes.forEach(function(h,i){
+    h.addEventListener("pointerdown",function(e){e.preventDefault();ptr[e.pointerId]=i;cover[i]=1;paint();try{h.releasePointerCapture(e.pointerId);}catch(_){}});
+  });
+  /* sliding a finger across holes moves the covering with it */
+  document.addEventListener("pointermove",function(e){if(!(e.pointerId in ptr))return;var el=document.elementFromPoint(e.clientX,e.clientY),h=el&&el.closest&&el.closest(".hole");
+    if(h){var i=+h.dataset.h;if(ptr[e.pointerId]!==i){cover[ptr[e.pointerId]]=0;ptr[e.pointerId]=i;cover[i]=1;paint();}}});
+  function lift(e){if(e.pointerId in ptr){cover[ptr[e.pointerId]]=0;delete ptr[e.pointerId];paint();}}
+  document.addEventListener("pointerup",lift);document.addEventListener("pointercancel",lift);
+  document.addEventListener("keydown",function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey)return;var k=e.key.toLowerCase();
+    if(k in KEYS){cover[KEYS[k]]=1;paint();e.preventDefault();}
+    if(k===" "){blowKey=true;audio();if(ac.state==="suspended")ac.resume();e.preventDefault();}
+  });
+  document.addEventListener("keyup",function(e){var k=e.key.toLowerCase();if(k in KEYS){cover[KEYS[k]]=0;paint();}if(k===" ")blowKey=false;});
+  var bb=$("blow");
+  bb.addEventListener("pointerdown",function(e){e.preventDefault();audio();if(ac.state==="suspended")ac.resume();blowBtn=true;bb.classList.add("on");});
+  ["pointerup","pointerleave","pointercancel"].forEach(function(t){bb.addEventListener(t,function(){blowBtn=false;bb.classList.remove("on");});});
+  addEventListener("blur",function(){blowKey=false;blowBtn=false;cover=[0,0,0,0,0,0];ptr={};paint();});
+
+  /* ---- the loop ---- */
+  var last=0;
+  function loop(t){
+    requestAnimationFrame(loop);
+    if(!ac)return;
+    micLevel=useMic&&an?micRead():0;
+    target=Math.max(micLevel,blowKey||blowBtn?.75:0);
+    breath+=(target-breath)*(target>breath?.35:.18);
+    var over=breath>.95,f=freq(over);
+    if(!curF)curF=f;curF+=(f-curF)*.45;
+    var now=ac.currentTime,on=breath>.08;
+    osc.forEach(function(o){o.frequency.setTargetAtTime(curF*o.__m,now,.012);});
+    amp.gain.setTargetAtTime(on?Math.min(.55,.12+breath*.45):0,now,on?.03:.06);
+    nGain.gain.setTargetAtTime(on?.025+breath*.05:0,now,.04);nFilt.frequency.setTargetAtTime(curF*2,now,.02);
+    vibG.gain.setTargetAtTime(on&&breath>.4?curF*.006:0,now,.3);
+    /* screen */
+    var pct=Math.min(100,breath/1.2*100);
+    var lv=$("lvl");if(innerWidth<=560){lv.style.width=pct+"%";lv.style.height="";}else{lv.style.height=pct+"%";lv.style.width="";}
+    $("thr").style.bottom=(.95/1.2*100)+"%";
+    if(t-last>80){last=t;
+      var d=degree();$("note").textContent=on?NAMES[d]:"—";
+      if(!useMic||performance.now()>calibUntil)$("oct").textContent=on?(over?"верхня октава":"нижня октава"):(useMic?"дмухни в мікрофон":"тримай «дмухнути» або пробіл");}
+  }
+  requestAnimationFrame(loop);
+
+  /* ---- start ---- */
+  function begin(withMic){
+    audio();if(ac.state==="suspended")ac.resume();
+    if(!withMic){$("intro").style.display="none";return;}
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){$("err").textContent="Цей браузер не дає мікрофон. Можна грати кнопкою «дмухнути» або пробілом.";return;}
+    startMic().then(function(){$("intro").style.display="none";}).catch(function(){$("err").textContent="Мікрофон не дозволено. Можна дозволити в налаштуваннях або грати кнопкою «дмухнути».";});
+  }
+  $("go").onclick=function(){begin(true);};
+  $("nomic").onclick=function(){begin(false);};
+  $("mic").onclick=function(){
+    if(useMic){useMic=false;if(stream)stream.getTracks().forEach(function(x){x.stop();});stream=null;$("mic").setAttribute("aria-pressed","false");}
+    else startMic().catch(function(){$("oct").textContent="мікрофон не дозволено";});
+  };
+  document.addEventListener("visibilitychange",function(){if(document.hidden&&ac)amp.gain.value=0;});
+  if(matchMedia("(pointer:coarse)").matches)$("kb").style.display="none";
+  window.VV_DUDKA={degree:degree,freq:freq,cover:cover};
+})();
+</script>
+</body>
+</html>

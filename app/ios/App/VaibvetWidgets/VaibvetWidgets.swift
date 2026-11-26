@@ -264,5 +264,6 @@ struct VaibvetWidgets: WidgetBundle {
         TicTacWidget()
         HiLoWidget()
         ThorWidget()
+        ShipIsland()
     }
 }

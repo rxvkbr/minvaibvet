@@ -1,3 +1,6 @@
+#if canImport(ActivityKit)
+import ActivityKit
+#endif
 import AVFoundation
 import Capacitor
 import CoreHaptics
@@ -15,7 +18,8 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "stop", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "tick", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "awake", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "audioMode", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "audioMode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "island", returnType: CAPPluginReturnPromise)
     ]
 
     private var engine: CHHapticEngine?
@@ -138,6 +142,43 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
             call.resolve()
         }
     }
+    /// «Верф» in the Dynamic Island and on the Lock Screen: a local Live Activity, started and updated from the game.
+    /// island({action: "start"|"update"|"end", ship, stage, pct, icon, until (ms since 1970, 0 = none)}).
+    @objc func island(_ call: CAPPluginCall) {
+        guard #available(iOS 16.2, *) else { call.resolve(["ok": false]); return }
+        let action = call.getString("action") ?? "update"
+        let untilMs = call.getDouble("until") ?? 0
+        let state = ShipAttributes.ContentState(
+            stage: call.getString("stage") ?? "",
+            pct: call.getInt("pct") ?? 0,
+            icon: call.getString("icon") ?? "⚓",
+            until: untilMs > 0 ? Date(timeIntervalSince1970: untilMs / 1000) : nil)
+        let ship = call.getString("ship") ?? "Вайбвет-1"
+        Task {
+            let content = ActivityContent(state: state, staleDate: nil)
+            let running = Activity<ShipAttributes>.activities
+            if action == "end" {
+                for a in running { await a.end(content, dismissalPolicy: .after(Date().addingTimeInterval(90))) }
+            } else if let a = running.first {
+                await a.update(content)
+            } else if ActivityAuthorizationInfo().areActivitiesEnabled {
+                _ = try? Activity.request(attributes: ShipAttributes(ship: ship), content: content, pushType: nil)
+            }
+            call.resolve(["ok": true])
+        }
+    }
+}
+
+/// The same type lives in VaibvetWidgets/ShipIsland.swift: the system matches the two by name.
+@available(iOS 16.1, *)
+struct ShipAttributes: ActivityAttributes {
+    public struct ContentState: Codable, Hashable {
+        var stage: String
+        var pct: Int
+        var icon: String
+        var until: Date?
+    }
+    var ship: String
 }
 
 

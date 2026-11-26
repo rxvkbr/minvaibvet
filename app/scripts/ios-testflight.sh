@@ -2,7 +2,7 @@
 # Builds the iOS app on this Mac and uploads it to TestFlight with the App Store Connect API key.
 # Needs: Xcode (with its command line tools), Node.js 20+, CocoaPods (brew install cocoapods).
 # Run from anywhere inside the repo:
-#   bash app/scripts/ios-testflight.sh ~/Downloads/AuthKey_75J47D8CW6.p8 <ISSUER_ID>
+#   hdiutil attach ~/Keys.dmg && bash app/scripts/ios-testflight.sh /Volumes/Keys/AuthKey_75J47D8CW6.p8 <ISSUER_ID>; hdiutil detach /Volumes/Keys
 set -euo pipefail
 
 P8="${1:-}"; ISSUER_ID="${2:-}"; TEAM_ID="${TEAM_ID:-G52558SB6U}"

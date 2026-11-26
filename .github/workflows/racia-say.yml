@@ -1,0 +1,34 @@
+name: Рація від пана Клоденка
+
+# Sends one Рація phrase (by id, from the fixed list in racia.html) from Claude's walkie-talkie
+# «Нічний Пугач-25», code KL5DNK, to a friend's code. Only phrase ids travel, as in the app itself.
+on:
+  workflow_dispatch:
+    inputs:
+      to:
+        description: "friend's 6-character code"
+        required: true
+      p:
+        description: "phrase id (see CATS in racia.html: category*100 + index)"
+        required: true
+
+jobs:
+  say:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --silent --no-save mqtt@5
+      - name: Send
+        env:
+          TO: ${{ inputs.to }}
+          P: ${{ inputs.p }}
+        run: |
+          node -e '
+          const mqtt=require("mqtt"),to=process.env.TO.toUpperCase(),p=parseInt(process.env.P,10),me="KL5DNK";
+          if(!/^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(to)||!Number.isInteger(p))throw new Error("bad input");
+          const cl=mqtt.connect("wss://broker.emqx.io:8084/mqtt",{clientId:"racia_"+me+"_gh"+Math.random().toString(36).slice(2,6),connectTimeout:15000});
+          cl.on("connect",()=>cl.publish("vaibvet/racia/v1/"+to+"/"+me,JSON.stringify({cs:[1,8,25],p:p,t:Date.now()}),{qos:1,retain:true},e=>{if(e)throw e;console.log("sent",p,"to",to);cl.end();}));
+          cl.on("error",e=>{console.error(e.message);process.exit(1);});
+          setTimeout(()=>{console.error("timeout");process.exit(1);},25000);'

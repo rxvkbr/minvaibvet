@@ -2,7 +2,7 @@ import AppIntents
 import SwiftUI
 import WidgetKit
 
-// Вайбвет FM home-screen widgets for iOS — the same three as on Android:
+// Вайбкет FM home-screen widgets for iOS — the same three as on Android:
 // «Вайб дня» (tap for the next line), «Прогноз відпустки» (today + the week) and «Кнопки-фігня».
 // State lives in the extension's own UserDefaults; nothing is shared with the app or sent anywhere.
 

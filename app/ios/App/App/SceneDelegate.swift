@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         completionHandler(true)
     }
 
-    /// Quick actions open Вайбвет Стіл: "ua.pp.minvaibvet.stil-shop" -> stil.html#shop.
+    /// Quick actions open Вайбкет Стіл: "ua.pp.minvaibvet.stil-shop" -> stil.html#shop.
     private func jump(_ type: String) {
         let allowed = ["shop", "note", "desk"]
         guard let where_ = type.components(separatedBy: "stil-").last, allowed.contains(where_) else { return }

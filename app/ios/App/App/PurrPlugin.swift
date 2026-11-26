@@ -153,7 +153,7 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
             pct: call.getInt("pct") ?? 0,
             icon: call.getString("icon") ?? "⚓",
             until: untilMs > 0 ? Date(timeIntervalSince1970: untilMs / 1000) : nil)
-        let ship = call.getString("ship") ?? "Вайбвет-1"
+        let ship = call.getString("ship") ?? "Вайбкет-1"
         Task {
             let content = ActivityContent(state: state, staleDate: nil)
             let running = Activity<ShipAttributes>.activities
@@ -258,7 +258,7 @@ public class SyncFilePlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerDelega
         }
     }
 
-    /// create: true saves a new file (with `data`) where the listener chooses, e.g. iCloud Drive → Вайбвет.
+    /// create: true saves a new file (with `data`) where the listener chooses, e.g. iCloud Drive → Вайбкет.
     /// create: false opens an existing one made on another device.
     @objc func pick(_ call: CAPPluginCall) {
         let create = call.getBool("create") ?? false

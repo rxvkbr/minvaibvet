@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_forecast_name" formatted="false">Verlofweerbericht</string>
-    <string name="widget_forecast_desc" formatted="false">Dagelijkse kans op verlof van de weerkundigen van MinVibeVet</string>
+    <string name="widget_forecast_desc" formatted="false">Dagelijkse kans op verlof van de weerkundigen van MinVibeCat</string>
     <string name="widget_vibe_name" formatted="false">Vibe van de dag</string>
     <string name="widget_vibe_desc" formatted="false">Eén zin per dag om even uit te ademen</string>
     <string name="widget_buttons_name" formatted="false">Onzinknoppen</string>
@@ -9,9 +9,9 @@
     <string name="w_forecast_title" formatted="false">VERLOFWEERBERICHT</string>
     <string name="w_today" formatted="false">vandaag</string>
     <string name="w_feels" formatted="true">Voelt als %1$d%%</string>
-    <string name="w_vibe_title" formatted="false">VIBE VAN DE DAG · VIBEVET FM</string>
+    <string name="w_vibe_title" formatted="false">VIBE VAN DE DAG · VIBECAT FM</string>
     <string name="w_vibe_hint" formatted="false">tik voor de volgende vibe</string>
-    <string name="w_buttons_title" formatted="false">VIBEVET FM · KNOPPEN</string>
+    <string name="w_buttons_title" formatted="false">VIBECAT FM · KNOPPEN</string>
     <string name="w_stream" formatted="false">STREAM</string>
     <string name="w_plus" formatted="false">+1 VIBE</string>
     <string name="w_hotline" formatted="false">HULPLIJN</string>
@@ -19,7 +19,7 @@
     <string name="w_request" formatted="false">AANVRAAG</string>
     <string name="w_count" formatted="true">Vibes: %1$d</string>
     <string name="w_status_idle" formatted="false">Druk op iets. Er gebeurt niets, maar het voelt fijn.</string>
-    <string name="w_vibe_plus_msg" formatted="false">+1 vibe geteld. MinVibeVet is trots.</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 vibe geteld. MinVibeCat is trots.</string>
     <string-array name="w_days">
         <item>ma</item>
         <item>di</item>
@@ -50,7 +50,7 @@
         <item>De rij kan wachten. Jij niet.</item>
         <item>De vergaderzaal is vrij. Je mag er gewoon even zitten.</item>
         <item>Een goede dag om niets te plannen.</item>
-        <item>MinVibeVet keurt uitslapen tot de middag goed.</item>
+        <item>MinVibeCat keurt uitslapen tot de middag goed.</item>
     </string-array>
     <string-array name="w_rejections">
         <item>Afgewezen: verkeerde tint blauw.</item>

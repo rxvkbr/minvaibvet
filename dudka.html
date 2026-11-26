@@ -6,9 +6,9 @@
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Цифрова дудка · Вайбвет FM</title>
+<title>Цифрова дудка · Вайбкет FM</title>
 <meta name="description" content="Дмухни в мікрофон, і телефон заграє сопілкою. Шість отворів на екрані, пальці закривають ноти. Легені чисті, сусіди підспівують.">
-<meta property="og:title" content="Цифрова дудка · Вайбвет FM">
+<meta property="og:title" content="Цифрова дудка · Вайбкет FM">
 <meta property="og:description" content="Дмухаєш у мікрофон — грає сопілка. Курити цифрову дудку по-українськи.">
 <meta property="og:url" content="https://minvaibvet.pp.ua/dudka">
 <style>
@@ -145,7 +145,7 @@ main{position:fixed;inset:0;display:grid;grid-template-columns:1fr auto 1fr;alig
     });});
   }
   function micError(e){var n=e&&e.name||"";
-    return n==="NotAllowedError"||n==="SecurityError"?"Мікрофон не дозволено. На iPhone: Налаштування → Вайбвет FM → Мікрофон. Або грай кнопкою «дмухнути».":
+    return n==="NotAllowedError"||n==="SecurityError"?"Мікрофон не дозволено. На iPhone: Налаштування → Вайбкет FM → Мікрофон. Або грай кнопкою «дмухнути».":
       "Мікрофон не запустився ("+(n||"помилка")+"). Можна грати кнопкою «дмухнути».";}
   function micRead(){
     an.getFloatTimeDomainData(tbuf);var s=0;for(var i=0;i<tbuf.length;i++)s+=tbuf[i]*tbuf[i];var rms=Math.sqrt(s/tbuf.length);

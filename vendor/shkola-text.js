@@ -1,4 +1,4 @@
-/* «Чарівна школа: двері» — every line of the game in the six languages of Вайбвет FM. */
+/* «Чарівна школа: двері» — every line of the game in the six languages of Вайбкет FM. */
 window.SHKOLA_TEXT={
 uk:{
  tapKeys:"👆 Тапни, куди йти · тапни на персонажа, щоб поговорити<br>💬 говорити й брати · 📋 що ще треба",

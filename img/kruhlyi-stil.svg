@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" font-family="PT Mono, ui-monospace, Menlo, monospace">
-<title>Карикатура Мінвайбвету: за круглим столом трьох держав підсідає рандомний українець зі своїм розкладним стільцем</title>
+<title>Карикатура Мінвайбкету: за круглим столом трьох держав підсідає рандомний українець зі своїм розкладним стільцем</title>
 <defs>
   <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e1cf"/><stop offset="1" stop-color="#d8cdb6"/></linearGradient>
   <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fa0b4"/><stop offset="1" stop-color="#6f8196"/></linearGradient>
@@ -87,7 +87,7 @@
 <!-- his things on the table: laptop, thermos, 3-in-1 coffee, cardboard name card -->
 <g transform="translate(500 470)">
   <path d="M0 0h70l-6 -40h-58z" fill="#2a2f1c" stroke="#9fd66a" stroke-width="2"/>
-  <text x="35" y="-17" font-size="8" fill="#9fd66a" text-anchor="middle">Вайбвет Стіл</text>
+  <text x="35" y="-17" font-size="8" fill="#9fd66a" text-anchor="middle">Вайбкет Стіл</text>
   <rect x="-6" y="0" width="82" height="5" rx="2" fill="#1b1f14"/>
 </g>
 <g transform="translate(680 430)"><rect width="16" height="40" rx="5" fill="#3a5a4a"/><rect x="-2" y="-6" width="20" height="8" rx="3" fill="#222"/></g>
@@ -105,5 +105,5 @@
 </g>
 <!-- caption -->
 <rect x="0" y="606" width="1200" height="34" fill="#0d0f0aee"/>
-<text x="600" y="629" font-size="15" fill="#f2e3bd" text-anchor="middle" letter-spacing=".5">МІНВАЙБВЕТ · КРУГЛИЙ СТІЛ · нічого про Україну без України. Рандомний українець приносить табуретку сам</text>
+<text x="600" y="629" font-size="15" fill="#f2e3bd" text-anchor="middle" letter-spacing=".5">МІНВАЙБКЕТ · КРУГЛИЙ СТІЛ · нічого про Україну без України. Рандомний українець приносить табуретку сам</text>
 </svg>

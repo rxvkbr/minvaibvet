@@ -6,9 +6,9 @@
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Рація Мінвайбвету · Вайбвет FM</title>
-<meta name="description" content="Обмінюйся з друзями дурацькими повідомленнями Мінвайбвету: «Комбат пішов, можна видихнути», «Кава 3в1 чекає», котики. Тільки готові фрази, жодного спаму.">
-<meta property="og:title" content="Рація Мінвайбвету">
+<title>Рація Мінвайбкету · Вайбкет FM</title>
+<meta name="description" content="Обмінюйся з друзями дурацькими повідомленнями Мінвайбкету: «Комбат пішов, можна видихнути», «Кава 3в1 чекає», котики. Тільки готові фрази, жодного спаму.">
+<meta property="og:title" content="Рація Мінвайбкету">
 <meta property="og:description" content="Готові дурацькі фрази для своїх. Прийом!">
 <meta property="og:url" content="https://minvaibvet.pp.ua/racia">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,11 +80,11 @@ button{cursor:pointer;background:none;border:0}
     </div>
     <div class="list" id="list"></div>
     <div class="add"><input id="addIn" maxlength="6" placeholder="КОД ДРУГА" autocomplete="off" spellcheck="false" aria-label="Код друга"><button class="btn pri" id="addBtn">Додати</button></div>
-    <div class="note">Тільки готові фрази Мінвайбвету: ніхто не напише тобі нічого свого. Невідомі спершу потрапляють у «запити».</div>
+    <div class="note">Тільки готові фрази Мінвайбкету: ніхто не напише тобі нічого свого. Невідомі спершу потрапляють у «запити».</div>
   </aside>
   <main class="main" id="main">
     <div class="top"><div class="who"><button class="pill back" id="back">←</button><b id="chatName">Обери друга</b></div><button class="pill" id="del" hidden title="Прибрати зі списку">прибрати</button></div>
-    <div class="msgs" id="msgs"><div class="empty"><div class="big">📻</div><p>Додай друга за кодом або поділись своїм. Далі кидай фрази Мінвайбвету: прийом!</p></div></div>
+    <div class="msgs" id="msgs"><div class="empty"><div class="big">📻</div><p>Додай друга за кодом або поділись своїм. Далі кидай фрази Мінвайбкету: прийом!</p></div></div>
     <div class="pad" id="pad" hidden><div class="cats" id="cats"></div><div class="ph" id="ph"></div></div>
   </main>
 </div>
@@ -162,7 +162,7 @@ $("back").onclick=function(){open=null;$("app").classList.remove("chat");paintLi
 $("del").onclick=function(){if(!open)return;if(!confirm("Прибрати цього друга й переписку з цього пристрою?"))return;delete friends[open];delete chats[open];delete unread[open];saveAll();unsub(open);open=null;$("app").classList.remove("chat");$("pad").hidden=true;$("del").hidden=true;$("chatName").textContent="Обери друга";$("msgs").innerHTML="";paintList();};
 $("roll").onclick=function(){me.cs=csRoll();store("cs",JSON.stringify(me.cs));paintMe();toast("Тепер ти "+csName(me.cs));};
 $("copy").onclick=function(){try{navigator.clipboard.writeText(link());toast("Посилання скопійовано");}catch(e){prompt("Посилання:",link());}};
-$("share").onclick=function(){var d={title:"Рація Мінвайбвету",text:"Додай мене в Рацію Мінвайбвету, код "+me.code+". Прийом!",url:link()};if(navigator.share)navigator.share(d).catch(function(){});else $("copy").click();};
+$("share").onclick=function(){var d={title:"Рація Мінвайбкету",text:"Додай мене в Рацію Мінвайбкету, код "+me.code+". Прийом!",url:link()};if(navigator.share)navigator.share(d).catch(function(){});else $("copy").click();};
 function addFriend(code){code=(code||"").toUpperCase().trim();if(!validCode(code)){toast("Код — це 6 літер і цифр");return;}if(code===me.code){toast("Це твій власний код 🙂");return;}
   if(!friends[code])friends[code]={cs:null};delete requests[code];saveAll();sub();paintList();openChat(code);send(PH[2].id,true);toast("Додано. Надіслав «Прийом. Як чуєш?»");}
 $("addBtn").onclick=function(){addFriend($("addIn").value);$("addIn").value="";};

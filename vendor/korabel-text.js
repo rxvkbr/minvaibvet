@@ -25,7 +25,7 @@ uk:{
   eaten:"Девід: Lekker! Сила вареників: наступні десять тиців рахуються подвійно.",x2:"×2 вареники",
   final:"Корабель «{n}» на воді! 🎉",stats:"Заклепок: {r} · Час: {t}",nameL:"Назва корабля",again:"Збудувати ще один",
   finalLine:"Девід: Ми збудували його з нуля. Тепер він пливе сам, а ми підемо пити чай.",
-  names:["Добрий Девід","Вареник","Вайбвет-1","Чай-масала","Шпангоут"],onWater:"🚢 На воді!",pct:"готово"
+  names:["Добрий Девід","Вареник","Вайбкет-1","Чай-масала","Шпангоут"],onWater:"🚢 На воді!",pct:"готово"
 },
 en:{
   title:"Shipyard: an iron ship",back:"← back",start:"To the shipyard ⚓",
@@ -51,7 +51,7 @@ en:{
   eaten:"David: Lekker! Varenyky power: your next ten taps count double.",x2:"×2 varenyky",
   final:"The «{n}» is afloat! 🎉",stats:"Rivets: {r} · Time: {t}",nameL:"Ship's name",again:"Build another one",
   finalLine:"David: We built her from nothing. Now she sails on her own, and we go have tea.",
-  names:["Good David","Varenyk","Vibevet-1","Chai Masala","The Frame"],onWater:"🚢 Afloat!",pct:"done"
+  names:["Good David","Varenyk","Vibecat-1","Chai Masala","The Frame"],onWater:"🚢 Afloat!",pct:"done"
 },
 nl:{
   title:"Scheepswerf: een ijzeren schip",back:"← terug",start:"Naar de werf ⚓",
@@ -77,7 +77,7 @@ nl:{
   eaten:"David: Lekker! Varenyky-kracht: je volgende tien tikken tellen dubbel.",x2:"×2 varenyky",
   final:"De «{n}» drijft! 🎉",stats:"Klinknagels: {r} · Tijd: {t}",nameL:"Naam van het schip",again:"Nog een bouwen",
   finalLine:"David: We hebben haar vanaf nul gebouwd. Nu vaart ze zelf, en wij gaan thee drinken.",
-  names:["Goede David","Varenyk","Vibevet-1","Chai Masala","Het Spant"],onWater:"🚢 Te water!",pct:"klaar"
+  names:["Goede David","Varenyk","Vibecat-1","Chai Masala","Het Spant"],onWater:"🚢 Te water!",pct:"klaar"
 },
 ru:{
   title:"Верфь: железный корабль",back:"← назад",start:"На верфь ⚓",
@@ -103,7 +103,7 @@ ru:{
   eaten:"Давид: Lekker! Сила вареников: следующие десять тапов считаются вдвойне.",x2:"×2 вареники",
   final:"Корабль «{n}» на воде! 🎉",stats:"Заклёпок: {r} · Время: {t}",nameL:"Название корабля",again:"Построить ещё один",
   finalLine:"Давид: Мы построили его с нуля. Теперь он плывёт сам, а мы пойдём пить чай.",
-  names:["Добрый Давид","Вареник","Вайбвет-1","Чай-масала","Шпангоут"],onWater:"🚢 На воде!",pct:"готово"
+  names:["Добрый Давид","Вареник","Вайбкет-1","Чай-масала","Шпангоут"],onWater:"🚢 На воде!",pct:"готово"
 },
 ar:{
   title:"حوض السفن: سفينة من حديد",back:"→ رجوع",start:"إلى الحوض ⚓",
@@ -129,7 +129,7 @@ ar:{
   eaten:"داود: Lekker! قوة الفارينيكي: نقراتك العشر التالية مضاعفة.",x2:"×2 فارينيكي",
   final:"السفينة «{n}» في الماء! 🎉",stats:"المسامير: {r} · الوقت: {t}",nameL:"اسم السفينة",again:"ابنِ واحدة أخرى",
   finalLine:"داود: بنيناها من لا شيء. الآن تبحر وحدها، ونحن نذهب لشرب الشاي.",
-  names:["داود الطيّب","فارينيك","فايبفيت-1","شاي ماسالا","الضلع"],onWater:"🚢 في الماء!",pct:"جاهز"
+  names:["داود الطيّب","فارينيك","فايبكات-1","شاي ماسالا","الضلع"],onWater:"🚢 في الماء!",pct:"جاهز"
 },
 zh:{
   title:"船坞：一艘铁船",back:"← 返回",start:"去船坞 ⚓",
@@ -155,5 +155,5 @@ zh:{
   eaten:"大卫：Lekker！饺子之力：接下来十次点击算双倍。",x2:"×2 饺子",
   final:"「{n}」号下水了！🎉",stats:"铆钉：{r} · 用时：{t}",nameL:"船名",again:"再造一艘",
   finalLine:"大卫：我们从零把她造了出来。现在她自己航行，我们去喝茶。",
-  names:["好大卫","饺子号","Vibevet-1","玛萨拉茶","肋骨号"],onWater:"🚢 下水了！",pct:"完成"
+  names:["好大卫","饺子号","Vibecat-1","玛萨拉茶","肋骨号"],onWater:"🚢 下水了！",pct:"完成"
 }};

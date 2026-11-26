@@ -12,7 +12,7 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
-/** Shared helpers for the Vibevet FM home-screen widgets. */
+/** Shared helpers for the Vibecat FM home-screen widgets. */
 final class WidgetUtil {
 
     private WidgetUtil() {}

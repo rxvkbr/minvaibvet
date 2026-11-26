@@ -35,7 +35,7 @@ jobs:
           SUM=$(sha256sum "$RUNNER_TEMP/bundle.zip" | cut -d' ' -f1)
           mv "$RUNNER_TEMP/bundle.zip" "$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}-${SUM}.zip"
           echo "ZIP=$RUNNER_TEMP/www-n${API}-${BUNDLE_STAMP}-${SUM}.zip" >> "$GITHUB_ENV"
-      - name: Build the desktop (Вайбвет Офіс) content
+      - name: Build the desktop (Вайбкет Офіс) content
         run: |
           node desktop/scripts/prep.js
           pwd; ls -la desktop | head -20
@@ -48,7 +48,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release view app-bundle >/dev/null 2>&1 || gh release create app-bundle --title "App content bundle" --notes "Web part of the Вайбвет FM app, delivered over the air. Not for manual download." --latest=false
+          gh release view app-bundle >/dev/null 2>&1 || gh release create app-bundle --title "App content bundle" --notes "Web part of the Вайбкет FM app, delivered over the air. Not for manual download." --latest=false
           gh release upload app-bundle "$ZIP" "$DESK" --clobber
           gh release view app-bundle --json assets --jq '.assets[].name' | grep '^www-' | sort -t- -k3,3n | head -n -3 | while read -r a; do gh release delete-asset app-bundle "$a" -y; done
           gh release view app-bundle --json assets --jq '.assets[].name' | grep '^desk-' | sort -t- -k3,3n | head -n -3 | while read -r a; do gh release delete-asset app-bundle "$a" -y; done

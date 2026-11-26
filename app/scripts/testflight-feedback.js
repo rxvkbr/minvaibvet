@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Downloads TestFlight feedback for Вайбвет FM (screenshot reports and crash reports) with the App Store Connect API key.
+ * Downloads TestFlight feedback for Вайбкет FM (screenshot reports and crash reports) with the App Store Connect API key.
  *   node app/scripts/testflight-feedback.js <AuthKey_XXXX.p8> <issuer-id> <out-dir>
  * Writes <out-dir>/feedback.json and the screenshots / crash logs next to it. Prints only counts (CI logs are public).
  */

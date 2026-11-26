@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_forecast_name" formatted="false">Leave forecast</string>
-    <string name="widget_forecast_desc" formatted="false">Daily chance of leave from the MinVibeVet forecasters</string>
+    <string name="widget_forecast_desc" formatted="false">Daily chance of leave from the MinVibeCat forecasters</string>
     <string name="widget_vibe_name" formatted="false">Vibe of the day</string>
     <string name="widget_vibe_desc" formatted="false">One line a day to help you breathe out</string>
     <string name="widget_buttons_name" formatted="false">Bullshit buttons</string>
@@ -9,9 +9,9 @@
     <string name="w_forecast_title" formatted="false">LEAVE FORECAST</string>
     <string name="w_today" formatted="false">today</string>
     <string name="w_feels" formatted="true">Feels like %1$d%%</string>
-    <string name="w_vibe_title" formatted="false">VIBE OF THE DAY · VIBEVET FM</string>
+    <string name="w_vibe_title" formatted="false">VIBE OF THE DAY · VIBECAT FM</string>
     <string name="w_vibe_hint" formatted="false">tap for the next vibe</string>
-    <string name="w_buttons_title" formatted="false">VIBEVET FM · BUTTONS</string>
+    <string name="w_buttons_title" formatted="false">VIBECAT FM · BUTTONS</string>
     <string name="w_stream" formatted="false">STREAM</string>
     <string name="w_plus" formatted="false">+1 VIBE</string>
     <string name="w_hotline" formatted="false">HOTLINE</string>
@@ -19,7 +19,7 @@
     <string name="w_request" formatted="false">REQUEST</string>
     <string name="w_count" formatted="true">Vibes: %1$d</string>
     <string name="w_status_idle" formatted="false">Press anything. Nothing will happen, but it feels nice.</string>
-    <string name="w_vibe_plus_msg" formatted="false">+1 vibe counted. MinVibeVet is proud.</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 vibe counted. MinVibeCat is proud.</string>
     <string-array name="w_days">
         <item>Mon</item>
         <item>Tue</item>
@@ -50,7 +50,7 @@
         <item>The queue can wait. You can\'t.</item>
         <item>The meeting room is free. You can just sit there.</item>
         <item>A good day to plan nothing.</item>
-        <item>MinVibeVet approves of sleeping until noon.</item>
+        <item>MinVibeCat approves of sleeping until noon.</item>
     </string-array>
     <string-array name="w_rejections">
         <item>Rejected: wrong shade of blue.</item>
@@ -74,7 +74,7 @@
         <item>Music is playing for you. It will end before the queue does. Just kidding, it won\'t.</item>
         <item>The hotline\'s working day is over. It lasted from 11:00 to 11:15. Thank you for being with us.</item>
     </string-array>
-    <string name="widget_stil_name" formatted="false">Vibevet Desk</string>
+    <string name="widget_stil_name" formatted="false">Vibecat Desk</string>
     <string name="widget_stil_desc" formatted="false">Shopping list and today\'s tasks, with one-tap add buttons</string>
     <string name="w_stil_title" formatted="false">DESK · SHOPPING &amp; TASKS</string>
     <string name="w_stil_empty" formatted="false">Your shopping list and today\'s tasks will show up here. Add the first one.</string>
@@ -84,5 +84,5 @@
     <string name="w_stil_open" formatted="false">Desk</string>
     <string name="sc_shop" formatted="false">Shopping list</string>
     <string name="sc_note" formatted="false">New note</string>
-    <string name="sc_stil" formatted="false">Vibevet Desk</string>
+    <string name="sc_stil" formatted="false">Vibecat Desk</string>
 </resources>

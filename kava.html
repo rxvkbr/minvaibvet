@@ -7,9 +7,9 @@
 <script src="vendor/vkladky.js" defer></script>
 <script src="vendor/jsbarcode-code128-3.12.3.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Талон на безкоштовну каву для українця · Вайбвет FM</title>
-<meta name="description" content="Генератор талонів Мінвайбвету на безкоштовну каву для українця. Справжній штрихкод Code 128: його прочитає будь-який сканер світу. Дійсний там, де є добрі люди.">
-<meta property="og:title" content="Талон на безкоштовну каву для українця · Вайбвет FM">
+<title>Талон на безкоштовну каву для українця · Вайбкет FM</title>
+<meta name="description" content="Генератор талонів Мінвайбкету на безкоштовну каву для українця. Справжній штрихкод Code 128: його прочитає будь-який сканер світу. Дійсний там, де є добрі люди.">
+<meta property="og:title" content="Талон на безкоштовну каву для українця · Вайбкет FM">
 <meta property="og:description" content="Штрихкод читається в усьому світі. Кава — на розсуд баристи.">
 <meta property="og:url" content="https://minvaibvet.pp.ua/kava">
 <style>
@@ -58,7 +58,7 @@ h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px
 </style>
 </head>
 <body>
-<div class="top"><a class="pill" href="index.html" id="back">← Вайбвет FM</a><span class="pill">☕ Відділ кавової дипломатії</span></div>
+<div class="top"><a class="pill" href="index.html" id="back">← Вайбкет FM</a><span class="pill">☕ Відділ кавової дипломатії</span></div>
 <main>
   <h1>Талон на безкоштовну каву</h1>
   <p class="lede">для українця · штрихкод читається в будь-якій країні світу</p>
@@ -81,13 +81,13 @@ h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px
   <section class="tal" id="tal" aria-label="Талон">
     <div class="stamp">ДІЙСНИЙ</div>
     <div class="hd">
-      <div><div class="org">Мінвайбвет · Вайбвет FM</div><h2 id="tdrink">Одне капучино</h2><div class="for" id="tfor">українцю, просто так</div><div class="no" style="text-align:left;margin-top:4px" id="tno">№ —</div></div>
+      <div><div class="org">Мінвайбкет · Вайбкет FM</div><h2 id="tdrink">Одне капучино</h2><div class="for" id="tfor">українцю, просто так</div><div class="no" style="text-align:left;margin-top:4px" id="tno">№ —</div></div>
       <div class="no"><div class="cup" aria-hidden="true">☕</div></div>
     </div>
     <div class="perf" aria-hidden="true"></div>
     <div class="bc"><svg id="bc" role="img" aria-label="Штрихкод талона"></svg></div>
     <p class="terms"><b>Умови:</b> дійсний у всьому світі, де є добрі люди. Бариста не зобов'язаний, але може. Термін дії: поки не захолоне. Обміну на гроші не підлягає, на обійми — так.</p>
-    <p class="barista" id="tbarista">EN · Free coffee for a Ukrainian? A joke coupon from MinVibeVet radio: no shop will refund it. It's valid only if you smile. ☺</p>
+    <p class="barista" id="tbarista">EN · Free coffee for a Ukrainian? A joke coupon from MinVibeCat radio: no shop will refund it. It's valid only if you smile. ☺</p>
   </section>
 
   <div class="act">
@@ -97,7 +97,7 @@ h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px
     <button class="btn" id="share">↗︎ Поділитися</button>
   </div>
   <div class="cnt" id="cnt"></div>
-  <p class="note">Штрихкод — справжній Code 128: його зчитає сканер у Києві, Амстердамі чи Токіо. Усередині не код товару й не купон мережі, а чесний напис «Мінвайбвет: кава українцю». Тож платить за каву той, хто її пригощає. Талони генеруються на твоєму пристрої й нікуди не надсилаються.</p>
+  <p class="note">Штрихкод — справжній Code 128: його зчитає сканер у Києві, Амстердамі чи Токіо. Усередині не код товару й не купон мережі, а чесний напис «Мінвайбкет: кава українцю». Тож платить за каву той, хто її пригощає. Талони генеруються на твоєму пристрої й нікуди не надсилаються.</p>
 </main>
 
 <div id="show" role="dialog" aria-modal="true" aria-label="Талон для баристи">
@@ -114,11 +114,11 @@ h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px
   var DR={ESP:["Одне еспресо","one espresso"],AMR:["Один американо","one americano"],CAP:["Одне капучино","one cappuccino"],LAT:["Одне лате","one latte"],
     FLW:["Один флет-вайт","one flat white"],"3V1":["Одна кава 3в1","one 3-in-1 coffee (yes, really)"],TEA:["Один чай","one tea"]};
   var LANG=[
-    "EN · Free coffee for a Ukrainian? A joke coupon from MinVibeVet radio: no shop will refund it. It's valid only if you smile. ☺",
-    "NL · Gratis koffie voor een Oekraïner? Een grapbon van radio MinVibeVet: geen winkel vergoedt hem. Alleen geldig als je glimlacht. ☺",
-    "DE · Gratis-Kaffee für eine:n Ukrainer:in? Ein Spaßgutschein von Radio MinVibeVet: Kein Laden erstattet ihn. Gültig nur mit einem Lächeln. ☺",
-    "PL · Darmowa kawa dla Ukraińca? Żartobliwy kupon radia MinVibeVet: żaden sklep go nie zrefunduje. Ważny tylko z uśmiechem. ☺",
-    "FR · Un café offert à un Ukrainien ? Un bon pour rire de la radio MinVibeVet : aucune boutique ne le rembourse. Valable seulement avec un sourire. ☺"
+    "EN · Free coffee for a Ukrainian? A joke coupon from MinVibeCat radio: no shop will refund it. It's valid only if you smile. ☺",
+    "NL · Gratis koffie voor een Oekraïner? Een grapbon van radio MinVibeCat: geen winkel vergoedt hem. Alleen geldig als je glimlacht. ☺",
+    "DE · Gratis-Kaffee für eine:n Ukrainer:in? Ein Spaßgutschein von Radio MinVibeCat: Kein Laden erstattet ihn. Gültig nur mit einem Lächeln. ☺",
+    "PL · Darmowa kawa dla Ukraińca? Żartobliwy kupon radia MinVibeCat: żaden sklep go nie zrefunduje. Ważny tylko z uśmiechem. ☺",
+    "FR · Un café offert à un Ukrainien ? Un bon pour rire de la radio MinVibeCat : aucune boutique ne le rembourse. Valable seulement avec un sourire. ☺"
   ];
   var A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   function serial(){var s="",r=new Uint32Array(6);(crypto||msCrypto).getRandomValues(r);for(var i=0;i<6;i++)s+=A[r[i]%A.length];return s;}
@@ -162,7 +162,7 @@ h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px
   $("showb").onclick=function(){
     var d=DR[$("what").value];
     $("st").textContent=d[0]+" українцю"+(who()?" · "+who():"");
-    $("ss").textContent="For the barista: "+d[1]+" for a Ukrainian — a joke coupon from MinVibeVet radio, paid by whoever treats. Valid only with a smile ☺";
+    $("ss").textContent="For the barista: "+d[1]+" for a Ukrainian — a joke coupon from MinVibeCat radio, paid by whoever treats. Valid only with a smile ☺";
     draw($("bc2"),true);$("show").classList.add("on");awake(true);
   };
   $("close").onclick=function(){$("show").classList.remove("on");awake(false);};
@@ -173,7 +173,7 @@ h1{font:800 clamp(26px,7vw,36px)/1.1 Georgia,"Times New Roman",serif;margin:12px
     var W=900,H=1040,c=document.createElement("canvas");c.width=W;c.height=H;var x=c.getContext("2d");
     x.fillStyle="#1a120c";x.fillRect(0,0,W,H);
     x.fillStyle="#fffaf0";rr(x,40,40,W-80,H-80,36);x.fill();
-    x.fillStyle="#8a5a2b";x.font="700 22px ui-monospace,Menlo,monospace";x.fillText("МІНВАЙБВЕТ · ВАЙБВЕТ FM",90,120);
+    x.fillStyle="#8a5a2b";x.font="700 22px ui-monospace,Menlo,monospace";x.fillText("МІНВАЙБКЕТ · ВАЙБКЕТ FM",90,120);
     x.fillStyle="#20150e";x.font="800 54px Georgia,serif";x.fillText(DR[$("what").value][0],90,195);
     x.fillStyle="#5c4636";x.font="28px system-ui,sans-serif";x.fillText($("tfor").textContent,90,245);
     x.font="72px serif";x.fillText("☕",W-180,150);
@@ -196,7 +196,7 @@ $("save").onclick=function(){png(function(b){vvSaveBlob(b,fname(),"Кава дл
   $("share").onclick=function(){
     png(function(b){
       var f;try{f=new File([b],fname(),{type:"image/png"});}catch(e){}
-      var data={title:"Талон на безкоштовну каву",text:"Талон Мінвайбвету: "+DR[$("what").value][0].toLowerCase()+" українцю ☕ Пригостиш?",url:"https://minvaibvet.pp.ua/kava"};
+      var data={title:"Талон на безкоштовну каву",text:"Талон Мінвайбкету: "+DR[$("what").value][0].toLowerCase()+" українцю ☕ Пригостиш?",url:"https://minvaibvet.pp.ua/kava"};
       if(f&&navigator.canShare&&navigator.canShare({files:[f]}))navigator.share(Object.assign({files:[f]},data)).catch(function(){});
       else if(navigator.share)navigator.share(data).catch(function(){});
       else{try{navigator.clipboard.writeText(data.text+" "+data.url);$("share").textContent="✓ скопійовано";setTimeout(function(){$("share").textContent="↗︎ Поділитися";},1600);}catch(e){}}

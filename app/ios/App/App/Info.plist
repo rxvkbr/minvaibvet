@@ -22,7 +22,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Вайбвет FM</string>
+	<string>Вайбкет FM</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -63,7 +63,7 @@
 			<key>UIApplicationShortcutItemType</key>
 			<string>ua.pp.minvaibvet.stil-desk</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Вайбвет Стіл</string>
+			<string>Вайбкет Стіл</string>
 			<key>UIApplicationShortcutItemIconSymbolName</key>
 			<string>rectangle.grid.2x2</string>
 		</dict>

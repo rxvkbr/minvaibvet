@@ -9,9 +9,9 @@
     <string name="w_forecast_title" formatted="false">توقعات الإجازة</string>
     <string name="w_today" formatted="false">اليوم</string>
     <string name="w_feels" formatted="true">الإحساس الفعلي: %1$d%%</string>
-    <string name="w_vibe_title" formatted="false">فايب اليوم · فايبفيت FM</string>
+    <string name="w_vibe_title" formatted="false">فايب اليوم · فايبكات FM</string>
     <string name="w_vibe_hint" formatted="false">المس للفايب التالي</string>
-    <string name="w_buttons_title" formatted="false">فايبفيت FM · أزرار</string>
+    <string name="w_buttons_title" formatted="false">فايبكات FM · أزرار</string>
     <string name="w_stream" formatted="false">البث</string>
     <string name="w_plus" formatted="false">+1 فايب</string>
     <string name="w_hotline" formatted="false">الخط الساخن</string>

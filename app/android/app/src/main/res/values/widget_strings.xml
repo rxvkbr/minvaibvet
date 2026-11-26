@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_forecast_name" formatted="false">Прогноз відпустки</string>
-    <string name="widget_forecast_desc" formatted="false">Щоденна ймовірність відпустки від синоптиків Мінвайбвету</string>
+    <string name="widget_forecast_desc" formatted="false">Щоденна ймовірність відпустки від синоптиків Мінвайбкету</string>
     <string name="widget_vibe_name" formatted="false">Вайб дня</string>
     <string name="widget_vibe_desc" formatted="false">Одна фраза на день, щоб видихнути</string>
     <string name="widget_buttons_name" formatted="false">Кнопки-фігня</string>
@@ -9,9 +9,9 @@
     <string name="w_forecast_title" formatted="false">ПРОГНОЗ ВІДПУСТКИ</string>
     <string name="w_today" formatted="false">сьогодні</string>
     <string name="w_feels" formatted="true">Відчувається як %1$d%%</string>
-    <string name="w_vibe_title" formatted="false">ВАЙБ ДНЯ · ВАЙБВЕТ FM</string>
+    <string name="w_vibe_title" formatted="false">ВАЙБ ДНЯ · ВАЙБКЕТ FM</string>
     <string name="w_vibe_hint" formatted="false">торкнись: наступний вайб</string>
-    <string name="w_buttons_title" formatted="false">ВАЙБВЕТ FM · КНОПКИ</string>
+    <string name="w_buttons_title" formatted="false">ВАЙБКЕТ FM · КНОПКИ</string>
     <string name="w_stream" formatted="false">СТРІМ</string>
     <string name="w_plus" formatted="false">+1 ВАЙБ</string>
     <string name="w_hotline" formatted="false">ГАРЯЧА ЛІНІЯ</string>
@@ -19,7 +19,7 @@
     <string name="w_request" formatted="false">РАПОРТ</string>
     <string name="w_count" formatted="true">Вайбів: %1$d</string>
     <string name="w_status_idle" formatted="false">Натисни будь-що. Нічого не станеться, але приємно.</string>
-    <string name="w_vibe_plus_msg" formatted="false">+1 вайб зараховано. Мінвайбвет пишається.</string>
+    <string name="w_vibe_plus_msg" formatted="false">+1 вайб зараховано. Мінвайбкет пишається.</string>
     <string-array name="w_days">
         <item>пн</item>
         <item>вт</item>
@@ -50,7 +50,7 @@
         <item>Черга почекає. Ти ні.</item>
         <item>Перегаворка вільна. Можна просто посидіти.</item>
         <item>Гарний день, щоб нічого не планувати.</item>
-        <item>Мінвайбвет схвалює твій сон до обіду.</item>
+        <item>Мінвайбкет схвалює твій сон до обіду.</item>
     </string-array>
     <string-array name="w_rejections">
         <item>Відхилено: не той відтінок синього.</item>
@@ -74,7 +74,7 @@
         <item>Для вас звучить музика. Вона закінчиться раніше, ніж черга. Жартуємо, не закінчиться.</item>
         <item>Робочий день гарячої лінії завершено. Він тривав з 11:00 до 11:15. Дякуємо, що ви з нами.</item>
     </string-array>
-    <string name="widget_stil_name" formatted="false">Вайбвет Стіл</string>
+    <string name="widget_stil_name" formatted="false">Вайбкет Стіл</string>
     <string name="widget_stil_desc" formatted="false">Список покупок і задачі на сьогодні, плюс кнопки «додати»</string>
     <string name="w_stil_title" formatted="false">СТІЛ · ПОКУПКИ Й СПРАВИ</string>
     <string name="w_stil_empty" formatted="false">Тут з\'явиться список покупок і справи на сьогодні. Додай перше.</string>
@@ -84,5 +84,5 @@
     <string name="w_stil_open" formatted="false">Стіл</string>
     <string name="sc_shop" formatted="false">Покупки</string>
     <string name="sc_note" formatted="false">Нова нотатка</string>
-    <string name="sc_stil" formatted="false">Вайбвет Стіл</string>
+    <string name="sc_stil" formatted="false">Вайбкет Стіл</string>
 </resources>

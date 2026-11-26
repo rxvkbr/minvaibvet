@@ -1,5 +1,5 @@
 #!/bin/bash
-# Builds Вайбвет Офіс for this Mac and puts it into /Applications.
+# Builds Вайбкет Офіс for this Mac and puts it into /Applications.
 # Usage: cd ~/minvaibvet && git pull && bash desktop/scripts/mac.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -15,7 +15,7 @@ xattr -cr "$APP"
 codesign --force --deep --sign - "$APP"
 codesign --verify --deep --strict "$APP" && echo "Підпис ок"
 NAME=$(basename "$APP")
-rm -rf "/Applications/Вайбвет Офіс.app" "/Applications/Vaibvet Office.app" "/Applications/$NAME"
+rm -rf "/Applications/Вайбвет Офіс.app" "/Applications/Вайбкет Офіс.app" "/Applications/Vaibvet Office.app" "/Applications/$NAME"
 cp -R "$APP" /Applications/
 echo "Готово: /Applications/$NAME"
 open "/Applications/$NAME" || true

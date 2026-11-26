@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
-/** Вайбвет Стіл on the home screen: the shopping list and today's tasks, plus one-tap "add" buttons. */
+/** Вайбкет Стіл on the home screen: the shopping list and today's tasks, plus one-tap "add" buttons. */
 public class StilWidget extends AppWidgetProvider {
 
     @Override

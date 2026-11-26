@@ -28,7 +28,7 @@ const TRACK = trackArg || process.env.PLAY_TRACK || "alpha"; // "alpha" is Play'
       requestBody: {
         track: TRACK,
         releases: [{
-          name: `Вайбвет FM ${vc}`,
+          name: `Вайбкет FM ${vc}`,
           versionCodes: [vc],
           status: "completed",
           releaseNotes: [

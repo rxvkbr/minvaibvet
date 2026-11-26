@@ -3,8 +3,8 @@ VERSION:2.0
 PRODID:-//Minvaibvet//Kalendar//UK
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Календар Мінвайбвету
-X-WR-CALDESC:Сатира Вайбвет FM, крім хвилини мо
+X-WR-CALNAME:Календар Мінвайбкету
+X-WR-CALDESC:Сатира Вайбкет FM, крім хвилини мо
  вчання. https://minvaibvet.pp.ua
 X-WR-TIMEZONE:Europe/Kyiv
 REFRESH-INTERVAL;VALUE=DURATION:P1D
@@ -74,7 +74,7 @@ DTEND;TZID=Europe/Kyiv:20261130T055000
 RRULE:FREQ=WEEKLY;BYDAY=MO
 SUMMARY:Шикування (скасовано)
 DESCRIPTION:Жартуємо. Шикування скасовано. Мо
- жна спати далі.\nМінвайбвет\, сатира. https:/
+ жна спати далі.\nМінвайбкет\, сатира. https:/
  /minvaibvet.pp.ua
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -109,7 +109,7 @@ DTSTART;TZID=Europe/Kyiv:20261129T200000
 DTEND;TZID=Europe/Kyiv:20261129T201000
 RRULE:FREQ=WEEKLY;BYDAY=SU
 SUMMARY:Прогноз відпусток на тиждень
-DESCRIPTION:Синоптики Мінвайбвету радять три
+DESCRIPTION:Синоптики Мінвайбкету радять три
  мати рапорт сухим і при собі. Прогноз: http
  s://minvaibvet.pp.ua/#prognoz
 TRANSP:TRANSPARENT

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Publishes Вайбвет Офіс for Mac so anyone can download and open it:
+# Publishes Вайбкет Офіс for Mac so anyone can download and open it:
 # signs with your Developer ID, notarizes with Apple (same App Store Connect key as TestFlight),
 # builds DMGs for Apple Silicon and Intel and uploads them to the "office-latest" GitHub release.
 #

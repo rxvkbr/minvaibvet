@@ -59,7 +59,7 @@ public class MainActivity extends BridgeActivity {
         final WebView web = getBridge().getWebView();
         final String js;
         if (section.startsWith("stil-")) {
-            // Вайбвет Стіл is its own page: open it, or just switch inside it if it is already open.
+            // Вайбкет Стіл is its own page: open it, or just switch inside it if it is already open.
             final String where = section.substring(5);
             js = "if(/stil\\.html$/.test(location.pathname)){location.hash='';location.hash='" + where + "';}else{location.href='stil.html#" + where + "';}";
         } else {

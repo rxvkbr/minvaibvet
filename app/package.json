@@ -2,7 +2,7 @@
   "name": "vaibvet-fm-app",
   "version": "1.0.0",
   "private": true,
-  "description": "Native shells (Android, iOS) for the Vaibvet FM satire site",
+  "description": "Native shells (Android, iOS) for the Vibecat FM satire site",
   "scripts": {
     "web": "node scripts/web.js",
     "sync": "npm run web && cap sync"

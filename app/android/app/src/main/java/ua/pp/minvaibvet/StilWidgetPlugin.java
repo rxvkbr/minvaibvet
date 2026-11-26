@@ -5,7 +5,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-/** Receives what Вайбвет Стіл wants to show on the home-screen widget. Data stays on the phone. */
+/** Receives what Вайбкет Стіл wants to show on the home-screen widget. Data stays on the phone. */
 @CapacitorPlugin(name = "StilWidget")
 public class StilWidgetPlugin extends Plugin {
 

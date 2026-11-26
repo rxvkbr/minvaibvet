@@ -6,8 +6,8 @@
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Вайбвет Офіс · продуктивність</title>
-<meta name="description" content="Вайбвет Офіс: справжній робочий Стіл (нотатки, таблиці, задачі, картки, календар) і сатиричні вкладки, які працюють самі.">
+<title>Вайбкет Офіс · продуктивність</title>
+<meta name="description" content="Вайбкет Офіс: справжній робочий Стіл (нотатки, таблиці, задачі, картки, календар) і сатиричні вкладки, які працюють самі.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314170f'/%3E%3Cpath d='M32 12 54 50H10z' fill='none' stroke='%23d9a441' stroke-width='6' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 :root{
@@ -298,16 +298,16 @@ html.lag .tab .tt{filter:blur(1.5px)}
       <div class="page-wrap"><div class="page">
         <div class="hdr">Командиру військової частини А0000
 полковнику Комбатенку К. К.
-солдата Вайбветенка В. В.</div>
+солдата Вайбкетенка В. В.</div>
         <h2>РАПОРТ</h2>
         <div id="doctext"></div>
         <div class="tip gone" id="tip"></div>
       </div></div>
     </section>
-    <section class="view" id="v-desk" role="tabpanel"><iframe id="desk" title="Вайбвет Стіл"></iframe></section>
+    <section class="view" id="v-desk" role="tabpanel"><iframe id="desk" title="Вайбкет Стіл"></iframe></section>
     <section class="view" id="v-rec" role="tabpanel"><iframe id="rec" title="Тиха кімната"></iframe></section>
     <section class="view" id="v-fin" role="tabpanel"><iframe id="fin" title="Гроші без паніки"></iframe></section>
-    <section class="view" id="v-radio" role="tabpanel"><iframe id="radio" title="Вайбвет FM" loading="lazy"></iframe></section>
+    <section class="view" id="v-radio" role="tabpanel"><iframe id="radio" title="Вайбкет FM" loading="lazy"></iframe></section>
   </div>
   <div class="status"><span class="g" id="st1">● з'єднання стабільне</span><span id="st2"></span><span id="st3"></span><span class="sp" id="clock"></span></div>
 </div>
@@ -359,13 +359,13 @@ addEventListener("pointerdown",function(e){if(e.isTrusted&&!lagging&&e.target.cl
 
 /* ================= tabs: a real tab strip ================= */
 var APPS={desk:{fi:"s",ic:"▦",t:"Стіл · робочий набір"},delta:{fi:"d",ic:"Δ",t:"Δ · ситуаційна обізнаність"},sheet:{fi:"x",ic:"X",t:"звіт_final_v7(2).xlsx"},
-  doc:{fi:"w",ic:"W",t:"рапорт_відпустка_НОВИЙ.docx"},radio:{fi:"r",ic:"FM",t:"Вайбвет FM · 102.4"},
+  doc:{fi:"w",ic:"W",t:"рапорт_відпустка_НОВИЙ.docx"},radio:{fi:"r",ic:"FM",t:"Вайбкет FM · 102.4"},
   rec:{fi:"p",ic:"🌊",t:"Тиха кімната",priv:1,src:"vidnovlennia.html"},fin:{fi:"f",ic:"💸",t:"Гроші без паніки",priv:1,src:"finansy.html"}};
 /* private rooms show up only after you switch them on in the radio's Конструктор, same as on the phone */
 function privOn(v){try{return !!((JSON.parse(localStorage.getItem("vv-ui")||"{}").priv||{})[v]);}catch(e){return false;}}
-var URLS={desk:'vaib://<b>стіл.мінвайбвет</b>/ · тут усе справжнє, а дані лишаються на цьому пристрої',delta:'vaib://<b>дельта.мінвайбвет</b>/ситуація?сектор=ПЕРЕГАВОРКА&шар=корови',
-  sheet:'vaib://<b>диск.мінвайбвет</b>/Звіти/2026/НЕ_ВИДАЛЯТИ/звіт_final_v7(2).xlsx',
-  doc:'vaib://<b>диск.мінвайбвет</b>/Рапорти/рапорт_відпустка_НОВИЙ_остаточний.docx',
+var URLS={desk:'vaib://<b>стіл.мінвайбкет</b>/ · тут усе справжнє, а дані лишаються на цьому пристрої',delta:'vaib://<b>дельта.мінвайбкет</b>/ситуація?сектор=ПЕРЕГАВОРКА&шар=корови',
+  sheet:'vaib://<b>диск.мінвайбкет</b>/Звіти/2026/НЕ_ВИДАЛЯТИ/звіт_final_v7(2).xlsx',
+  doc:'vaib://<b>диск.мінвайбкет</b>/Рапорти/рапорт_відпустка_НОВИЙ_остаточний.docx',
   radio:'vaib://<b>minvaibvet.pp.ua</b>/ · 102.4 FM',
   rec:'vaib://<b>тиха-кімната</b>/ · приватно, усе лишається на цьому пристрої',fin:'vaib://<b>гроші-без-паніки</b>/ · приватно, усе лишається на цьому пристрої'};
 var GCOL=["#f0a93a","#58c9b9","#ff5d73","#6fc3ff","#c7a2ff","#9fd66a","#ff9ad5","#b3a37c"];
@@ -424,7 +424,7 @@ function mount(t){
   sec.innerHTML="";
   if(t.kind==="page"){
     fr=document.createElement("iframe");fr.className="webframe pagefr";fr.title=title(t);
-    fr.addEventListener("load",function(){try{var d=fr.contentDocument;t.title=(d.title||"").replace(/\s*·\s*Вайбвет FM\s*$/,"")||t.title;t.url=fr.contentWindow.location.pathname.split("/").pop()+fr.contentWindow.location.search+fr.contentWindow.location.hash;}catch(e){}hookFrame(fr);paint();save();if(S.active===t.id)urlbar();});
+    fr.addEventListener("load",function(){try{var d=fr.contentDocument;t.title=(d.title||"").replace(/\s*·\s*Вайбкет FM\s*$/,"")||t.title;t.url=fr.contentWindow.location.pathname.split("/").pop()+fr.contentWindow.location.search+fr.contentWindow.location.hash;}catch(e){}hookFrame(fr);paint();save();if(S.active===t.id)urlbar();});
     fr.src=t.url;sec.appendChild(fr);return;
   }
   if(isApp){
@@ -436,7 +436,7 @@ function mount(t){
     fr.addEventListener("did-start-loading",function(){t.busy=true;paint();});
     fr.addEventListener("did-stop-loading",function(){t.busy=false;paint();});
   }else{
-    var hint=document.createElement("div");hint.className="webhint";hint.innerHTML='У браузерній версії багато сайтів не дозволяють показ у вкладці. Повний браузер є в застосунку «Вайбвет Офіс» для комп\'ютера. <a target="_blank" rel="noopener">Відкрити окремо ↗</a>';
+    var hint=document.createElement("div");hint.className="webhint";hint.innerHTML='У браузерній версії багато сайтів не дозволяють показ у вкладці. Повний браузер є в застосунку «Вайбкет Офіс» для комп\'ютера. <a target="_blank" rel="noopener">Відкрити окремо ↗</a>';
     hint.querySelector("a").href=t.url;sec.appendChild(hint);
     fr=document.createElement("iframe");fr.setAttribute("referrerpolicy","no-referrer");fr.title=title(t);
   }
@@ -459,7 +459,7 @@ function startPage(t){
   var tl=d.querySelector(".tiles");
   Object.keys(APPS).forEach(function(v){if(APPS[v].priv&&!privOn(v))return;var b=document.createElement("button");b.innerHTML='<span class="fi '+APPS[v].fi+'">'+APPS[v].ic+'</span>';b.appendChild(document.createTextNode(APPS[v].t));
     b.onclick=function(){var ex=S.tabs.filter(function(x){return x.kind==="app"&&x.v===v;})[0];if(ex){closeTabs([t.id],true);activate(ex.id);}else{t.kind="app";t.v=v;var s=$("v-"+t.id);if(s)s.remove();activate(t.id);}};tl.appendChild(b);});
-  [["📰","Газета Вайбвет FM","https://minvaibvet.pp.ua/#gazeta"],["🗓","Календар Мінвайбвету","https://minvaibvet.pp.ua/#kalendar"]].forEach(function(w){
+  [["📰","Газета Вайбкет FM","https://minvaibvet.pp.ua/#gazeta"],["🗓","Календар Мінвайбкету","https://minvaibvet.pp.ua/#kalendar"]].forEach(function(w){
     var b=document.createElement("button");b.innerHTML='<span class="fi web">'+w[0]+'</span>';b.appendChild(document.createTextNode(w[1]));b.onclick=function(){go(w[2]);};tl.appendChild(b);});
   var bm=document.createElement("div");bm.className="blk";bm.innerHTML='<h3>Ще · усі приколи</h3><div class="more"></div>';d.appendChild(bm);
   var bf=document.createElement("div");bf.className="blk";bf.innerHTML='<h3>Новинна стрічка · найсвіжіше вгорі</h3><div class="feed"><div class="wait">Завантажую газету…</div></div>';d.appendChild(bf);
@@ -550,7 +550,7 @@ function fillStart(root){
     var b=document.createElement("button"),tg=document.createElement("div"),h=document.createElement("b"),p=document.createElement("span");
     tg.className="tg";tg.textContent=a.tag||"новина";if(k===0){var nw=document.createElement("i");nw.textContent="найсвіжіше";tg.appendChild(nw);}
     h.textContent=a.h;p.textContent=a.p;b.appendChild(tg);b.appendChild(h);if(a.p)b.appendChild(p);
-    b.onclick=function(){if(a.href)openLink(a.href,a.h,false);else openLink(BASE+"index.html#gazeta","Газета Вайбвет FM",false);};fd.appendChild(b);});
+    b.onclick=function(){if(a.href)openLink(a.href,a.h,false);else openLink(BASE+"index.html#gazeta","Газета Вайбкет FM",false);};fd.appendChild(b);});
   if(FEED.news.length>n){var all=document.createElement("button");all.className="all";all.textContent="Показати ще ("+(FEED.news.length-n)+")";all.onclick=function(){fd.dataset.n=n+25;fillStart(root);};fd.appendChild(all);}
 }
 addEventListener("message",function(e){
@@ -632,7 +632,7 @@ function bySite(){
   var hosts={};S.tabs.forEach(function(t){if(t.kind==="web"&&t.url&&!t.pinned&&!t.group){var h=host(t.url);if(h)(hosts[h]=hosts[h]||[]).push(t.id);}});
   var n=0;Object.keys(hosts).forEach(function(h){if(hosts[h].length>1){var ex=S.groups.filter(function(g){return g.name===h;})[0];if(ex)hosts[h].forEach(function(id){toGroup(id,ex.id);});else newGroup(hosts[h],h);n++;}});
   var apps=S.tabs.filter(function(t){return t.kind==="app"&&!t.pinned&&!t.group;}).map(function(t){return t.id;});
-  if(apps.length>1){newGroup(apps,"Мінвайбвет");n++;}
+  if(apps.length>1){newGroup(apps,"Мінвайбкет");n++;}
   toast(n?"Згруповано: "+n+". Порядок як у ЦНАПі, тільки працює.":"Групувати нічого: по два однакових сайти не знайшлося.");
 }
 /* ---- small menus ---- */
@@ -866,7 +866,7 @@ addEventListener("resize",sizeMap);
 
 /* ================= sheet ================= */
 var COLS=["","A","B","C","D","E","F","G"],HEAD=["Показник","План","Факт","Відхилення","%","Відповідальний","Коментар"];
-var ROWS=[["Кава 3в1, пачок",120,null,"Вайбветенко","закінчилась"],["Рапортів подано",14,null,"всі","на розгляді"],["Рапортів погоджено",14,null,"комбат","не встиг"],
+var ROWS=[["Кава 3в1, пачок",120,null,"Вайбкетенко","закінчилась"],["Рапортів подано",14,null,"всі","на розгляді"],["Рапортів погоджено",14,null,"комбат","не встиг"],
   ["Довідок отримано",9,null,"ЦНАП","потрібна ще одна"],["Нарад проведено",3,null,"перегаворка","перенесено в коридор"],["Котів погладжено",40,null,"особовий склад","перевиконано"],
   ["Годин сну",56,null,"організм","не погоджено"],["Днів відпустки",10,null,"закон","обіцяно"],["Мівіна, порцій",60,null,"кухня","соусу мало"],
   ["Обіймів",30,null,"мама","без ліміту"],["Тракторів залучено",1,null,"логістика","той самий"],["Хороших новин",7,null,"редакція","шукаємо"]];
@@ -935,7 +935,7 @@ function chart(){
 /* ================= doc ================= */
 var DOC=["Прошу Вашого клопотання про надання мені щорічної основної відпустки тривалістю 10 (десять) діб",
   " з виїздом за межі гарнізону, а саме до рандомного села, де туман, сонце й вівці.",
-  "\n\nПідстава: закон, совість і прогноз відпусток Мінвайбвету (ймовірність 12%).",
+  "\n\nПідстава: закон, совість і прогноз відпусток Мінвайбкету (ймовірність 12%).",
   "\n\nПід час відпустки зобов'язуюсь: спати, гладити кота, не відповідати на «ну що там у вас».",
   "\n\nДодатки: довідка про те, що я живий (1 арк.); довідка, що підтверджує першу довідку (1 арк.).",
   "\n\nДата ______        Підпис ______"];
@@ -1112,7 +1112,7 @@ function lag(why){
   var keep=[];[].forEach.call(document.querySelectorAll("#cells td.n"),function(td){if(Math.random()<.5){keep.push([td,td.textContent]);td.textContent=pick(BROKEN);}});
   var docKeep=docEl.innerHTML;if(cur==="doc")docEl.innerHTML=docKeep.replace(/[а-яіїєґ]/gi,function(c){return Math.random()<.25?pick(["▯","�","░","Ꙭ"]):c;});
   var h=document.createElement("div");h.className="hang";h.setAttribute("role","alertdialog");
-  h.innerHTML='<h3><span class="beach"></span>Вайбвет Офіс не відповідає</h3><p>'+(why||"Щось пішло не так.")+' Ой ні-і-і-і-і, усе просто залагало.</p><div class="bb"><button id="hk">Примусово завершити</button><button class="pri" id="hw">Чекати</button></div>';
+  h.innerHTML='<h3><span class="beach"></span>Вайбкет Офіс не відповідає</h3><p>'+(why||"Щось пішло не так.")+' Ой ні-і-і-і-і, усе просто залагало.</p><div class="bb"><button id="hk">Примусово завершити</button><button class="pri" id="hw">Чекати</button></div>';
   setTimeout(function(){document.body.appendChild(h);},700);
   function fix(msg){if(!lagging)return;lagging=false;de.classList.remove("lag");h.remove();busy(cur,false);
     keep.forEach(function(k){k[0].textContent=k[1];});if(cur==="doc")renderDoc();

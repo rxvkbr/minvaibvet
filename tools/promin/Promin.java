@@ -1,5 +1,5 @@
 /*
- * «Промінь» — a small path tracer for Вайбвет FM pictures. One file, plain JDK (11+), no libraries.
+ * «Промінь» — a small path tracer for Вайбкет FM pictures. One file, plain JDK (11+), no libraries.
  *
  *   java Promin.java scene.txt [out.png]      render one scene
  *   java Promin.java --watch inbox out         the local agents: drop a scene into inbox/, get out/<name>.png

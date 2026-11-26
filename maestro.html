@@ -7,9 +7,9 @@
 <script src="vendor/vkladky.js" defer></script>
 <script src="vendor/ruka.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Маестро · симулятор диригента · Вайбвет FM</title>
-<meta name="description" content="Диригуй оркестром рукою, мишкою чи пальцем: змах униз дає долю, темп іде за тобою, розмах задає гучність. Бетховен, Пахельбель і вальс Мінвайбвету.">
-<meta property="og:title" content="Маестро: симулятор диригента · Вайбвет FM">
+<title>Маестро · симулятор диригента · Вайбкет FM</title>
+<meta name="description" content="Диригуй оркестром рукою, мишкою чи пальцем: змах униз дає долю, темп іде за тобою, розмах задає гучність. Бетховен, Пахельбель і вальс Мінвайбкету.">
+<meta property="og:title" content="Маестро: симулятор диригента · Вайбкет FM">
 <meta property="og:description" content="Оркестр чекає на твій змах. Темп і гучність — твої.">
 <meta property="og:url" content="https://minvaibvet.pp.ua/maestro">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,7 +62,7 @@ h1{font:400 clamp(38px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
 <div class="bar"><i id="prog"></i></div>
 
 <div id="intro"><div class="card">
-  <div class="k">Мінвайбвет · Філармонія Вайбвет FM</div>
+  <div class="k">Мінвайбкет · Філармонія Вайбкет FM</div>
   <h1>Маестро</h1>
   <p>Оркестр уже сидить, смички підняті. Він грає рівно тоді, коли ти показуєш долю, і рівно так голосно, як широко ти змахуєш.</p>
   <ul>
@@ -74,7 +74,7 @@ h1{font:400 clamp(38px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
   </ul>
   <div class="pieces" id="pieces"></div>
   <div class="go"><button class="big" id="startp">🪄 Диригувати паличкою</button><button class="big alt" id="startc">🎥 Рукою перед камерою</button></div>
-  <small class="note">Партитури: Бетховен і Пахельбель — суспільне надбання, вальс написав Мінвайбвет. Камера: відео не залишає пристрій, модель руки при першому запуску завантажується з серверів Google (MediaPipe).</small>
+  <small class="note">Партитури: Бетховен і Пахельбель — суспільне надбання, вальс написав Мінвайбкет. Камера: відео не залишає пристрій, модель руки при першому запуску завантажується з серверів Google (MediaPipe).</small>
 </div></div>
 
 <div id="bravo"><div class="card">
@@ -120,11 +120,11 @@ var PIECES=[
     for(var pass=0;pass<4;pass++)prog.forEach(function(c,i){var s=pass*16+i*2;ev.push([s,2,c,"chord"]);ev.push([s,2,ROOT[c],"bass"]);if(pass>=1)CH[c].forEach(function(n,k){ev.push([s+k*.66,.6,n,"arp"]);});});
     ev.push([64,4,"D","chord"]);ev.push([64,4,38,"bass"]);ev.push([64,2,38,"timp"]);ev.push([48,1,38,"timp"]);}});
  })(),
- (function(){ /* Вальс Мінвайбвету, original, G major, 3/4 */
+ (function(){ /* Вальс Мінвайбкету, original, G major, 3/4 */
   var m=[[74,2],[71,1],[79,3],[78,2],[76,1],[74,3],[72,2],[74,1],[76,1],[74,1],[72,1],[71,2],[74,1],[79,3],
          [71,2],[74,1],[79,3],[76,2],[79,1],[76,1],[74,1],[72,1],[71,2],[74,1],[72,2],[78,1],[79,3],[67,3]];
   var prog=["G3","G3","D7","D7","D7","D7","G3","G3","G3","G3","C","C","G3","D7","G3","G3"];
-  return build({name:"Вальс Мінвайбвету",by:"Мінвайбвет · для оркестру й однієї сльози",meter:3,beats:48,mel:seq(m),extra:function(ev){
+  return build({name:"Вальс Мінвайбкету",by:"Мінвайбкет · для оркестру й однієї сльози",meter:3,beats:48,mel:seq(m),extra:function(ev){
     prog.forEach(function(c,i){var s=i*3;ev.push([s,1,ROOT[c],"bass"]);ev.push([s+1,.5,c,"stab"]);ev.push([s+2,.5,c,"stab"]);});
     ev.push([0,1,43,"timp"]);ev.push([45,1,43,"timp"]);}});
  })()];

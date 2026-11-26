@@ -23,7 +23,7 @@ read -r -s -p "Повтори пароль: " PW2; echo
 [ ${#PW} -ge 6 ] || { echo "Закороткий пароль."; exit 1; }
 
 keytool -genkeypair -keystore "$KS" -alias upload -keyalg RSA -keysize 2048 -validity 10000 \
-  -storepass "$PW" -keypass "$PW" -dname "CN=Vibevet FM, O=Vibevet FM, C=UA" >/dev/null
+  -storepass "$PW" -keypass "$PW" -dname "CN=Vibecat FM, O=Vibecat FM, C=UA" >/dev/null
 
 base64 -i "$KS" | gh secret set UPLOAD_KEYSTORE_BASE64 -R "$REPO"
 printf %s "$PW"  | gh secret set UPLOAD_STORE_PASSWORD -R "$REPO"

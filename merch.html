@@ -6,9 +6,9 @@
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Мерч Мінвайбвету · Грамоти · Вайбвет FM</title>
-<meta name="description" content="Грамота Мінвайбвету: за мужнє проходження черги в ЦНАП, за погладжування котика, за те, що повернувся. Зроби свою, завантаж для друку, постав у рамку.">
-<meta property="og:title" content="Грамота Мінвайбвету · мерч Вайбвет FM">
+<title>Мерч Мінвайбкету · Грамоти · Вайбкет FM</title>
+<meta name="description" content="Грамота Мінвайбкету: за мужнє проходження черги в ЦНАП, за погладжування котика, за те, що повернувся. Зроби свою, завантаж для друку, постав у рамку.">
+<meta property="og:title" content="Грамота Мінвайбкету · мерч Вайбкет FM">
 <meta property="og:description" content="Нагородь себе чи побратима. Довідка не потрібна.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="uk_UA">
@@ -67,15 +67,15 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
 <body>
 <div class="top"><a href="index.html#more" id="back">← назад</a></div>
 <main>
-  <div class="kicker">Мерч Мінвайбвету · відділ нагород</div>
+  <div class="kicker">Мерч Мінвайбкету · відділ нагород</div>
   <h1>Грамота в рамці</h1>
   <p class="lead">Нагородь себе, побратима чи маму. За мужнє проходження черги, за погладжування котика або просто за те, що повернувся. Довідка не потрібна.</p>
 
   <div class="stage">
-    <div class="frame"><canvas id="cv" width="3508" height="2480" aria-label="Грамота Мінвайбвету"></canvas></div>
+    <div class="frame"><canvas id="cv" width="3508" height="2480" aria-label="Грамота Мінвайбкету"></canvas></div>
     <div class="form">
       <label>Стиль</label>
-      <div class="sty" id="sty"><button type="button" data-s="classic" aria-pressed="true">Класика Мінвайбвету</button><button type="button" data-s="tn" aria-pressed="false">temet nosce · Andrew Amand</button></div>
+      <div class="sty" id="sty"><button type="button" data-s="classic" aria-pressed="true">Класика Мінвайбкету</button><button type="button" data-s="tn" aria-pressed="false">temet nosce · Andrew Amand</button></div>
       <label for="nm">Нагороджується</label>
       <input id="nm" maxlength="40" value="Андрійко" autocomplete="off">
       <label>За що</label>
@@ -109,7 +109,7 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
     <div><b>☕</b>Чашка «Кава 3в1»<br><small>для перегаворки · колись</small></div>
   </div>
 
-  <div class="foot">Грамота — сатира Мінвайбвету й не є офіційним документом. Справжні тут лише вдячність і рамка.<br>Друк: A4 горизонтально, 300 dpi. Найкраще на щільному кремовому папері.<br><a href="index.html">← на головну Вайбвет FM</a></div>
+  <div class="foot">Грамота — сатира Мінвайбкету й не є офіційним документом. Справжні тут лише вдячність і рамка.<br>Друк: A4 горизонтально, 300 dpi. Найкраще на щільному кремовому папері.<br><a href="index.html">← на головну Вайбкет FM</a></div>
 </main>
 <script>
 (function(){
@@ -128,7 +128,7 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
     g.fillStyle="#c9381f";g.fillRect(30,78,4,26);g.restore();}
   function seal(cx,cy){g.save();g.translate(cx,cy);g.rotate(-.18);g.globalAlpha=.82;g.strokeStyle="#b3261e";g.fillStyle="#b3261e";g.lineWidth=10;
     g.beginPath();g.arc(0,0,190,0,7);g.stroke();g.lineWidth=4;g.beginPath();g.arc(0,0,150,0,7);g.stroke();
-    var t="МІНВАЙБВЕТ · ДЛЯ ГРАМОТ · ДОВІДКА НЕ ПОТРІБНА · ";g.font="700 34px 'PT Mono', monospace";g.textAlign="center";g.textBaseline="middle";
+    var t="МІНВАЙБКЕТ · ДЛЯ ГРАМОТ · ДОВІДКА НЕ ПОТРІБНА · ";g.font="700 34px 'PT Mono', monospace";g.textAlign="center";g.textBaseline="middle";
     for(var i=0;i<t.length;i++){g.save();g.rotate(i/t.length*Math.PI*2);g.translate(0,-170);g.fillText(t[i],0,0);g.restore();}
     g.font="400 64px 'Lobster', cursive";g.fillText("вайб",0,-10);g.font="700 30px 'PT Mono', monospace";g.fillText("ЗАСВІДЧЕНО",0,50);g.restore();}
   var STY="classic";
@@ -150,7 +150,7 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
     g.textAlign="left";g.fillStyle="#444";g.font="400 46px 'PT Mono', monospace";g.fillText(d.getDate()+" "+Mo[d.getMonth()]+" "+d.getFullYear(),330,2060);g.fillText("Київ · Перегаворка",330,2130);
     g.textAlign="right";g.fillText("Andrew Amand",W-330,2200);
     if(SIGM.complete&&SIGM.naturalWidth){var sw=520,sh=sw*SIGM.naturalHeight/SIGM.naturalWidth;g.drawImage(SIGM,W-330-sw,2140-sh,sw,sh);}
-    g.textAlign="center";g.fillStyle="#999";g.font="400 30px 'PT Mono', monospace";g.fillText("лінійка temet nosce · сатира Мінвайбвету · не є офіційним документом",W/2,H-195);
+    g.textAlign="center";g.fillStyle="#999";g.font="400 30px 'PT Mono', monospace";g.fillText("лінійка temet nosce · сатира Мінвайбкету · не є офіційним документом",W/2,H-195);
   }
   function draw(){
     if(STY==="tn")return drawTN();
@@ -168,7 +168,7 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
     /* emblem and header */
     swallow(W/2,430,2.2);
     g.fillStyle="#8a2a1c";g.textAlign="center";g.textBaseline="alphabetic";
-    g.font="700 46px 'PT Mono', monospace";g.fillText("МІНІСТЕРСТВО ВАЙБУ ВЕТЕРАНІВ · ВАЙБВЕТ FM",W/2,720);
+    g.font="700 46px 'PT Mono', monospace";g.fillText("МІНІСТЕРСТВО ВАЙБУ ВЕТЕРАНІВ · ВАЙБКЕТ FM",W/2,720);
     g.fillStyle="#3a1f10";g.font="400 300px 'Yeseva One', Georgia, serif";g.fillText("ГРАМОТА",W/2,1030);
     g.fillStyle="#6b4a2a";g.font="italic 400 62px 'PT Serif', Georgia, serif";g.fillText("нагороджується",W/2,1160);
     var name=(nm.value||"").trim()||"Хтось хороший";
@@ -183,7 +183,7 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
     g.textAlign="right";g.fillText("Міністр вайбу",W-330,2230);g.strokeStyle="#6b4a2a";g.lineWidth=3;g.beginPath();g.moveTo(W-1000,2160);g.lineTo(W-330,2160);g.stroke();
     if(SIG.complete&&SIG.naturalWidth){var sw=560,sh=sw*SIG.naturalHeight/SIG.naturalWidth;g.drawImage(SIG,W-330-sw-40,2170-sh,sw,sh);}
     seal(W/2+40,2030);
-    g.textAlign="center";g.fillStyle="#9a7a52";g.font="400 30px 'PT Mono', monospace";g.fillText("сатира Мінвайбвету · не є офіційним документом · minvaibvet.pp.ua",W/2,H-205);
+    g.textAlign="center";g.fillStyle="#9a7a52";g.font="400 30px 'PT Mono', monospace";g.fillText("сатира Мінвайбкету · не є офіційним документом · minvaibvet.pp.ua",W/2,H-205);
   }
   var SIG=new Image();SIG.onload=draw;SIG.src="img/signature.png";
   var SIGM=new Image();SIGM.onload=draw;SIGM.src="img/signature-mint.png";
@@ -195,7 +195,7 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
   });
   document.getElementById("share").addEventListener("click",function(){
     cv.toBlob(function(b){var f=new File([b],fileName(),{type:"image/png"});
-      if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Грамота Мінвайбвету",text:"Нагороджено Мінвайбветом. Довідка не потрібна. minvaibvet.pp.ua/merch"}).catch(function(){});}
+      if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Грамота Мінвайбкету",text:"Нагороджено Мінвайбкетом. Довідка не потрібна. minvaibvet.pp.ua/merch"}).catch(function(){});}
       else{try{navigator.clipboard.writeText("https://minvaibvet.pp.ua/merch");toast("Посилання скопійовано");}catch(e){toast("minvaibvet.pp.ua/merch");}}},"image/png");
   });
   var tT=null;function toast(m){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);clearTimeout(tT);tT=setTimeout(function(){d.remove();},2800);}

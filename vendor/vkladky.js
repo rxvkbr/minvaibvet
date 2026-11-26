@@ -1,4 +1,4 @@
-/* Inside «Вайбвет Офіс» a page sits in a tab. This lets its links open in new tabs:
+/* Inside «Вайбкет Офіс» a page sits in a tab. This lets its links open in new tabs:
    ⌘/Ctrl+click (background), ⌘/Ctrl+Shift+click or middle click, links with target=_blank,
    and a right-click menu. Does nothing until the Office says hello, so normal browsing is untouched. */
 (function(){

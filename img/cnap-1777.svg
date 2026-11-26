@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" font-family="PT Mono, ui-monospace, Menlo, monospace">
-<title>Карикатура Мінвайбвету: ЦНАП 1777 року, клерк у пудреній перуці штампує довідку «стать: жінка, указом двору», заявник у вбранні напівмундир-напівсукня питає «а мене спитати?»</title>
+<title>Карикатура Мінвайбкету: ЦНАП 1777 року, клерк у пудреній перуці штампує довідку «стать: жінка, указом двору», заявник у вбранні напівмундир-напівсукня питає «а мене спитати?»</title>
 <defs>
   <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe3c6"/><stop offset="1" stop-color="#dccaa2"/></linearGradient>
   <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8c6a48"/><stop offset="1" stop-color="#6b4e33"/></linearGradient>
@@ -92,5 +92,5 @@
 </g>
 <!-- caption -->
 <rect y="644" width="1200" height="36" fill="#1a100bee"/>
-<text x="600" y="668" font-size="15" fill="#f2e3bd" text-anchor="middle">МІНВАЙБВЕТ · ГЕНДЕРНЕ ПРОСВІТНИЦТВО · ЦНАП XVIII століття, тільки з перуками</text>
+<text x="600" y="668" font-size="15" fill="#f2e3bd" text-anchor="middle">МІНВАЙБКЕТ · ГЕНДЕРНЕ ПРОСВІТНИЦТВО · ЦНАП XVIII століття, тільки з перуками</text>
 </svg>

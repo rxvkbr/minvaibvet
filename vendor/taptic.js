@@ -1,4 +1,4 @@
-/* Тактильний відгук для всього Вайбвет FM.
+/* Тактильний відгук для всього Вайбкет FM.
    Every tap on something tappable is felt: buttons and tabs, links, tiles, switches, sliders, game canvases.
    Pages and games add their own moments with VV_TAPTIC(kind):
      "tick" selection · "light" · "click" · "soft" · "rigid" · "heavy" · "success" · "warning" · "error" · "hammer" · "message"

@@ -1,4 +1,4 @@
-name: Desktop (Вайбвет Офіс)
+name: Desktop (Вайбкет Офіс)
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: office-latest
-          name: Вайбвет Офіс (Mac і Windows)
-          body: "Вайбвет Офіс. Mac: DMG для Apple Silicon (arm64) або Intel (x64), підписаний і нотаризований Apple. Windows: Setup — інсталятор, portable — запускається без встановлення; Windows може попередити про невідомого видавця: «Докладніше» → «Усе одно запустити». Усі завантаження: https://minvaibvet.pp.ua/join#desk"
+          name: Вайбкет Офіс (Mac і Windows)
+          body: "Вайбкет Офіс. Mac: DMG для Apple Silicon (arm64) або Intel (x64), підписаний і нотаризований Apple. Windows: Setup — інсталятор, portable — запускається без встановлення; Windows може попередити про невідомого видавця: «Докладніше» → «Усе одно запустити». Усі завантаження: https://minvaibvet.pp.ua/join#desk"
           make_latest: false
           files: desktop/dist/*.exe

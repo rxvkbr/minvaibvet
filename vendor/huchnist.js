@@ -1,4 +1,4 @@
-/* Загальна гучність Вайбвет FM.
+/* Загальна гучність Вайбкет FM.
    One volume for every sound the app makes: Web Audio (radio, Маестро, Диригент, Рація, Стіл, Офіс…),
    <audio>/<video> elements and the speech voice. The level lives in localStorage "vv-volume" (0–100),
    so every page, tab and frame of the same origin follows the same knob at once.

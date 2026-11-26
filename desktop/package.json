@@ -1,9 +1,9 @@
 {
   "name": "vaibvet-office",
-  "productName": "Вайбвет Офіс",
+  "productName": "Вайбкет Офіс",
   "version": "1.0.0",
-  "description": "Вайбвет Офіс: продуктивність, яка працює сама. Сатира Мінвайбвету.",
-  "author": "Мінвайбвет",
+  "description": "Вайбкет Офіс: продуктивність, яка працює сама. Сатира Мінвайбкету.",
+  "author": "Мінвайбкет",
   "homepage": "https://minvaibvet.pp.ua/office",
   "license": "UNLICENSED",
   "main": "main.js",
@@ -43,7 +43,7 @@
       ],
       "icon": "build/icon.png",
       "extendInfo": {
-        "CFBundleDisplayName": "Вайбвет Офіс",
+        "CFBundleDisplayName": "Вайбкет Офіс",
         "LSApplicationCategoryType": "public.app-category.entertainment",
         "NSCameraUsageDescription": "Камера потрібна Диригенту й Маестро, щоб бачити рух руки. Відео нікуди не надсилається."
       },
@@ -53,7 +53,7 @@
       "entitlementsInherit": "build/entitlements.mac.plist"
     },
     "dmg": {
-      "title": "Вайбвет Офіс",
+      "title": "Вайбкет Офіс",
       "artifactName": "VaibvetOffice-${version}-mac-${arch}.${ext}"
     },
     "win": {
@@ -76,7 +76,7 @@
     "nsis": {
       "oneClick": true,
       "perMachine": false,
-      "shortcutName": "Вайбвет Офіс"
+      "shortcutName": "Вайбкет Офіс"
     },
     "portable": {
       "artifactName": "VaibvetOffice-${version}-portable.${ext}"

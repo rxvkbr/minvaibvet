@@ -24,13 +24,13 @@ EVENTS = [
     # uid, start, end, rrule, summary, description, alarm
     ("hvylyna", "DTSTART;TZID=Europe/Kyiv:20261125T090000", "DTEND;TZID=Europe/Kyiv:20261125T090100", "FREQ=DAILY",
      "🕯 Загальнонаціональна хвилина мовчання",
-     "Щодня о 9:00 за Києвом. За всіма, чиє життя забрала війна.\nУ цю хвилину Вайбвет FM замовкає разом з країною.", True),
+     "Щодня о 9:00 за Києвом. За всіма, чиє життя забрала війна.\nУ цю хвилину Вайбкет FM замовкає разом з країною.", True),
     ("svichka", "DTSTART;TZID=Europe/Kyiv:20261128T160000", "DTEND;TZID=Europe/Kyiv:20261128T161500", "FREQ=YEARLY;BYMONTH=11;BYDAY=4SA",
      "🕯 Запали свічку · пам'ять жертв Голодоморів",
      "Четверта субота листопада, 16:00. Свічка у вікні — для тих, кому не дали хліба. Хліб на столі — для тих, хто вижив, щоб були ми.", True),
     ("shykuvannia", "DTSTART;TZID=Europe/Kyiv:20261130T054500", "DTEND;TZID=Europe/Kyiv:20261130T055000", "FREQ=WEEKLY;BYDAY=MO",
      "Шикування (скасовано)",
-     "Жартуємо. Шикування скасовано. Можна спати далі.\nМінвайбвет, сатира. https://minvaibvet.pp.ua", False),
+     "Жартуємо. Шикування скасовано. Можна спати далі.\nМінвайбкет, сатира. https://minvaibvet.pp.ua", False),
     ("pyatnytsia", "DTSTART;VALUE=DATE:20261127", "DTEND;VALUE=DATE:20261128", "FREQ=WEEKLY;BYDAY=FR",
      "П'ятниця. Без коментарів",
      "Ймовірність відпустки: 0%. Рапорти, подані сьогодні, читатимуть о 17:55.", False),
@@ -39,7 +39,7 @@ EVENTS = [
      "Людина прокидається, і нічого не відбувається. Вчені називають це вихідним. Перевіряти, чи це не навчання, не обов'язково.", False),
     ("prognoz", "DTSTART;TZID=Europe/Kyiv:20261129T200000", "DTEND;TZID=Europe/Kyiv:20261129T201000", "FREQ=WEEKLY;BYDAY=SU",
      "Прогноз відпусток на тиждень",
-     "Синоптики Мінвайбвету радять тримати рапорт сухим і при собі. Прогноз: https://minvaibvet.pp.ua/#prognoz", False),
+     "Синоптики Мінвайбкету радять тримати рапорт сухим і при собі. Прогноз: https://minvaibvet.pp.ua/#prognoz", False),
     ("rotatsiia", "DTSTART;VALUE=DATE:20261201", "DTEND;VALUE=DATE:20261202", "FREQ=MONTHLY;BYMONTHDAY=1",
      "Ротація (найближчим часом)",
      "Подія, яка завжди відбудеться найближчим часом. Цього місяця перенесено на наступний.", False),
@@ -79,7 +79,7 @@ END:STANDARD
 END:VTIMEZONE"""
 
 L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Minvaibvet//Kalendar//UK", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
-     "X-WR-CALNAME:Календар Мінвайбвету", "X-WR-CALDESC:Сатира Вайбвет FM, крім хвилини мовчання. https://minvaibvet.pp.ua",
+     "X-WR-CALNAME:Календар Мінвайбкету", "X-WR-CALDESC:Сатира Вайбкет FM, крім хвилини мовчання. https://minvaibvet.pp.ua",
      "X-WR-TIMEZONE:Europe/Kyiv", "REFRESH-INTERVAL;VALUE=DURATION:P1D", "X-PUBLISHED-TTL:P1D"]
 L += VTZ.split("\n")
 for uid, st, en, rr, summ, desc, alarm in EVENTS:

@@ -1,4 +1,4 @@
-/* «Легіон» — the Warcraft-3-style interface sound pack of Вайбвет FM.
+/* «Легіон» — the Warcraft-3-style interface sound pack of Вайбкет FM.
    Two units answer your taps: Андрійко-Некромант from the beyond and Девід, the good sailor.
    The first tap after a pause selects the next unit (it introduces itself), taps that follow get «will do» lines,
    and poking too often annoys it, a little more each time — like the old RTS units did.

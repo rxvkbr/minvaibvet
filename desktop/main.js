@@ -1,4 +1,4 @@
-// Вайбвет Офіс: a window that looks like a browser and works by itself.
+// Вайбкет Офіс: a window that looks like a browser and works by itself.
 const { app, BrowserWindow, shell, Menu, session, ipcMain, net } = require("electron");
 // The tabs are real now: web pages open inside <webview> tags, each in a locked-down sandbox.
 const path = require("path");
@@ -89,7 +89,7 @@ function createWindow() {
     minWidth: 720,
     minHeight: 480,
     backgroundColor: "#0d0f0a",
-    title: "Вайбвет Офіс",
+    title: "Вайбкет Офіс",
     titleBarStyle: "hidden",
     ...(isMac
       ? { trafficLightPosition: { x: 14, y: 15 } }

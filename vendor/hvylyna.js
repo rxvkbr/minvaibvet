@@ -1,6 +1,6 @@
 /* Загальнонаціональна хвилина мовчання.
    Every day at 09:00 Kyiv time (and on the fourth Saturday of November at 16:00, «Запали свічку»)
-   every page of Вайбвет FM goes quiet: all functions disappear, every sound stops, a candle is lit.
+   every page of Вайбкет FM goes quiet: all functions disappear, every sound stops, a candle is lit.
    After the minute something quiet stays on screen until the listener chooses to return.
    Inside an embedded frame it only mutes; the top page draws the candle.
    Preview: add ?hvylyna to any page URL (a 12-second version). */

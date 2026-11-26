@@ -6,9 +6,9 @@
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Довідка з першого разу · ЦНАП Мінвайбвету</title>
+<title>Довідка з першого разу · ЦНАП Мінвайбкету</title>
 <meta name="description" content="Перший в історії сервіс, який видає довідку з першого разу. Уряд обіцяв ухвалити рішення одразу після цього. Перевіряємо.">
-<meta property="og:title" content="Довідка з першого разу · Вайбвет FM">
+<meta property="og:title" content="Довідка з першого разу · Вайбкет FM">
 <meta property="og:description" content="Вікно №4 відкрите. Без черги, без копії довідки, яку ви отримуєте.">
 <meta property="og:url" content="https://minvaibvet.pp.ua/dovidka">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,9 +52,9 @@ canvas{width:100%;height:auto;border-radius:10px;box-shadow:0 20px 60px #000a}
 <body>
 <div class="top"><a class="pill" href="index.html#gazeta" id="back">← до газети</a><span class="pill">вікно №4 · відкрито</span></div>
 <main>
-  <div class="k">ЦНАП Мінвайбвету · пілотний проєкт</div>
+  <div class="k">ЦНАП Мінвайбкету · пілотний проєкт</div>
   <h1>Довідка з першого разу</h1>
-  <p class="lead">Уряд пообіцяв ухвалити рішення, щойно хтось отримає довідку з першого разу. Мінвайбвет вирішив цю проблему. Без черги, без копії довідки, яку ви отримуєте, без «прийдіть завтра».</p>
+  <p class="lead">Уряд пообіцяв ухвалити рішення, щойно хтось отримає довідку з першого разу. Мінвайбкет вирішив цю проблему. Без черги, без копії довідки, яку ви отримуєте, без «прийдіть завтра».</p>
 
   <div class="win">
     <h2>ЗАЯВА</h2>
@@ -134,8 +134,8 @@ function issue(){
   /* stamp */
   g.save();g.translate(880,1120);g.rotate(-.22);g.strokeStyle="rgba(40,70,160,.75)";g.fillStyle="rgba(40,70,160,.75)";g.lineWidth=7;
   g.beginPath();g.arc(0,0,150,0,7);g.stroke();g.lineWidth=3;g.beginPath();g.arc(0,0,124,0,7);g.stroke();
-  g.textAlign="center";g.font="bold 30px 'PT Mono',monospace";g.fillText("З ПЕРШОГО",0,-10);g.fillText("РАЗУ",0,32);g.font="18px 'PT Mono',monospace";g.fillText("МІНВАЙБВЕТ · ЦНАП",0,-80);g.fillText("ВІКНО №4",0,92);g.restore();
-  g.textAlign="center";g.fillStyle="#8a6d3b";g.font="22px 'PT Mono',monospace";g.fillText("minvaibvet.pp.ua/dovidka · Мінвайбвет вигаданий, а довідка ваша",W/2,1500);
+  g.textAlign="center";g.font="bold 30px 'PT Mono',monospace";g.fillText("З ПЕРШОГО",0,-10);g.fillText("РАЗУ",0,32);g.font="18px 'PT Mono',monospace";g.fillText("МІНВАЙБКЕТ · ЦНАП",0,-80);g.fillText("ВІКНО №4",0,92);g.restore();
+  g.textAlign="center";g.fillStyle="#8a6d3b";g.font="22px 'PT Mono',monospace";g.fillText("minvaibvet.pp.ua/dovidka · Мінвайбкет вигаданий, а довідка ваша",W/2,1500);
   $("decision").textContent="Рішення ухвалено: "+DEC[Math.floor(Math.random()*DEC.length)]+" Ухвалення відбулося одразу, як і обіцяли. Можливо, вперше.";
   $("out").classList.add("on");$("out").scrollIntoView({behavior:"smooth"});busy=false;$("go").disabled=false;$("go").textContent="Отримати ще одну (знову з першого разу)";count();
 }

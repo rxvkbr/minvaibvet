@@ -7,9 +7,9 @@
 <script src="vendor/vkladky.js" defer></script>
 <script src="vendor/bal.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Божествєнна комедія українського народу · Вайбвет FM</title>
+<title>Божествєнна комедія українського народу · Вайбкет FM</title>
 <meta name="description" content="Ксав'є Фьодорович Бриченко. Божествєнна комедія українського народу з deus ex machina нідерландського народу. Читається офлайн, сюжетними гілками.">
-<meta property="og:title" content="Божествєнна комедія українського народу · Вайбвет FM">
+<meta property="og:title" content="Божествєнна комедія українського народу · Вайбкет FM">
 <meta property="og:description" content="Пекло з колами ЦНАПу, Чистилище на горі Ягодин, Рай на сім метрів нижче рівня моря. І лицар, що вирішує, шо і за чим.">
 <meta property="og:url" content="https://minvaibvet.pp.ua/komediia">
 <style>
@@ -83,7 +83,7 @@ dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:v
 <body>
 <div class="prog" id="prog"></div>
 <div class="top">
-  <a class="pill" id="back" href="index.html">← Вайбвет FM</a>
+  <a class="pill" id="back" href="index.html">← Вайбкет FM</a>
   <a class="pill" id="up" href="#" hidden>↑ зміст</a>
   <span class="now" id="now">Безкінечна читалка</span>
   <span class="fs"><button id="fsm" aria-label="Менший шрифт">A−</button><button id="fsp" aria-label="Більший шрифт">A+</button></span>
@@ -119,8 +119,8 @@ dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:v
   document.getElementById("fsp").onclick=function(){fs=Math.min(26,fs+1);st.fs=fs;save();applyFs();};
 
   function home(){
-    now.textContent="Безкінечна читалка";document.title=B.title+" · Вайбвет FM";
-    var h='<section class="cover"><div class="kick">Вайбвет FM · Відділ великої літератури</div><h1>'+esc(B.title)+'</h1><p class="sub">'+esc(B.sub)+'</p>'+
+    now.textContent="Безкінечна читалка";document.title=B.title+" · Вайбкет FM";
+    var h='<section class="cover"><div class="kick">Вайбкет FM · Відділ великої літератури</div><h1>'+esc(B.title)+'</h1><p class="sub">'+esc(B.sub)+'</p>'+
       '<div class="au">'+esc(B.author)+'<br><span style="color:var(--dim)">'+esc(B.series)+'</span></div><div class="bike" aria-hidden="true">🚲☂️</div>'+
       '<div class="off">📴 читається без інтернету · прогрес лише на цьому пристрої</div></section>';
     var lb=st.lastBranch&&br(st.lastBranch);
@@ -134,7 +134,7 @@ dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:v
     });
     h+='</div><h2 class="sect">Додатки</h2><div class="extra"><a class="pill" href="#osoby">🎭 Дійові особи</a><a class="pill" href="#kasting">🎬 Кастинг</a>'+
       (Object.keys(st.read).length?'<button class="pill" id="reset">↺ почати все спочатку</button>':'')+'</div>'+
-      '<div class="end">'+esc(B.hush)+'<br>Данте, Котляревський і голландські дамби справжні, решта на совісті Мінвайбвету.</div>';
+      '<div class="end">'+esc(B.hush)+'<br>Данте, Котляревський і голландські дамби справжні, решта на совісті Мінвайбкету.</div>';
     app.innerHTML=h;
     var r=document.getElementById("reset");if(r)r.onclick=function(){if(confirmIn(r)){st.read={};st.pos={};st.last={};st.lastBranch=null;save();home();}};
   }
@@ -166,7 +166,7 @@ dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:v
   function others(id){
     if(id==="osoby"){now.textContent="Дійові особи";app.innerHTML='<div class="chap"><div class="kick">Додаток</div><h1>Дійові особи</h1><dl class="people">'+
       B.people.map(function(p){return '<dt>'+esc(p[0])+'</dt><dd>'+esc(p[1])+'</dd>';}).join("")+'</dl><div class="nav"><a href="#"><small>←</small>Усі гілки</a><a class="nx" href="#kasting"><small>→</small>Кастинг</a></div></div>';}
-    else{now.textContent="Кастинг";app.innerHTML='<div class="chap"><div class="kick">Додаток</div><h1>Кастинг</h1><p class="note">неофіційний · у мріях Мінвайбвету · агентів ще не повідомлено</p><dl class="people">'+
+    else{now.textContent="Кастинг";app.innerHTML='<div class="chap"><div class="kick">Додаток</div><h1>Кастинг</h1><p class="note">неофіційний · у мріях Мінвайбкету · агентів ще не повідомлено</p><dl class="people">'+
       B.casting.map(function(p){return '<dt>'+esc(p[0])+'</dt><dd><b style="color:var(--ivory)">'+esc(p[1])+'.</b> '+esc(p[2])+'</dd>';}).join("")+'</dl><div class="nav"><a href="#osoby"><small>←</small>Дійові особи</a><a class="nx" href="#"><small>→</small>Усі гілки</a></div></div>';}
   }
 
@@ -190,7 +190,7 @@ dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:v
   addEventListener("scroll",tick,{passive:true});addEventListener("resize",tick);
   addEventListener("hashchange",route);
   addEventListener("pagehide",save);
-  /* "← Вайбвет FM" always leaves the reader; "↑ зміст" steps up inside it */
+  /* "← Вайбкет FM" always leaves the reader; "↑ зміст" steps up inside it */
   var up=document.getElementById("up");
   function paintUp(){var h=location.hash.replace(/^#/,"").split("/");up.hidden=!h[0];up.href=h.length>1&&h[1]?"#"+h[0]:"#";up.textContent=h.length>1&&h[1]?"↑ зміст":"↑ усі гілки";}
   addEventListener("hashchange",paintUp);paintUp();

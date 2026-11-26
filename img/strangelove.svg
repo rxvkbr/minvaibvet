@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" font-family="PT Mono, ui-monospace, Menlo, monospace">
-<title>Карикатура Мінвайбвету: Військова кімната, машина судного дня і рандомний український хлопець</title>
+<title>Карикатура Мінвайбкету: Військова кімната, машина судного дня і рандомний український хлопець</title>
 <defs>
   <radialGradient id="lamp" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="#f6e7b8" stop-opacity=".35"/><stop offset="1" stop-color="#f6e7b8" stop-opacity="0"/></radialGradient>
   <g id="gen"><circle cx="0" cy="-58" r="17" fill="#e9c9a3"/><path d="M-19 -66h38l-5-12h-28z" fill="#55603a"/><rect x="-21" y="-70" width="42" height="6" rx="2" fill="#3d4628"/><path d="M-24 -40h48l6 44h-60z" fill="#5d6b3c"/><circle cx="-10" cy="-28" r="3" fill="#d9a441"/><circle cx="-2" cy="-28" r="3" fill="#d9a441"/><circle cx="6" cy="-28" r="3" fill="#e0603f"/></g>
@@ -80,5 +80,5 @@
   <g font-size="11.5" fill="#d8d2b4"><text x="996" y="70" text-anchor="middle">Пішов. Ніхто не встиг сказати</text><text x="996" y="86" text-anchor="middle">«дякую за службу».</text>
   <text x="996" y="112" text-anchor="middle" fill="#8e8b70">Велич здулася сама.</text></g>
 </g>
-<text x="1188" y="448" font-size="11" fill="#5d5b48" text-anchor="end">Мінвайбвет · карикатура · minvaibvet.pp.ua</text>
+<text x="1188" y="448" font-size="11" fill="#5d5b48" text-anchor="end">Мінвайбкет · карикатура · minvaibvet.pp.ua</text>
 </svg>

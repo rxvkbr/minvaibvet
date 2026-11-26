@@ -11,7 +11,7 @@
   <circle cx="396" cy="84" r="7" fill="#ffe08a"/>
   <!-- sign -->
   <rect x="260" y="18" width="280" height="34" rx="8" fill="#1a100b" stroke="#f0a93a"/>
-  <text x="400" y="41" text-anchor="middle" font-size="15" fill="#f0a93a">ВАЙБВЕТ ТАКСІ · стоянка</text>
+  <text x="400" y="41" text-anchor="middle" font-size="15" fill="#f0a93a">ВАЙБКЕТ ТАКСІ · стоянка</text>
   <!-- road -->
   <rect y="360" width="800" height="100" fill="#1a100b"/>
   <g fill="#f2e3bd" opacity=".5"><rect x="30" y="405" width="60" height="6"/><rect x="150" y="405" width="60" height="6"/><rect x="270" y="405" width="60" height="6"/><rect x="390" y="405" width="60" height="6"/><rect x="510" y="405" width="60" height="6"/><rect x="630" y="405" width="60" height="6"/><rect x="750" y="405" width="60" height="6"/></g>

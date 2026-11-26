@@ -24,6 +24,13 @@ jobs:
           mkdir -p "$RUNNER_TEMP/k" "$RUNNER_TEMP/fb" out
           KEY="$RUNNER_TEMP/k/AuthKey_$ASC_KEY_ID.p8"
           if [ -n "$ASC_KEY_P8" ]; then printf '%s\n' "$ASC_KEY_P8" > "$KEY"; else echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY"; fi
+          RAW=$(cat "$KEY")
+          if ! grep -q "BEGIN PRIVATE KEY" "$KEY"; then
+            DEC=$(printf '%s' "$RAW" | tr -d ' \r\n\t' | base64 --decode 2>/dev/null || true)
+            if printf '%s' "$DEC" | grep -q "BEGIN PRIVATE KEY"; then RAW="$DEC"; fi
+          fi
+          BODY=$(printf '%s' "$RAW" | sed -e 's/-----BEGIN PRIVATE KEY-----//' -e 's/-----END PRIVATE KEY-----//' | tr -d ' \r\n\t')
+          { echo "-----BEGIN PRIVATE KEY-----"; echo "$BODY" | fold -w 64; echo "-----END PRIVATE KEY-----"; } > "$KEY"
           node app/scripts/testflight-feedback.js "$KEY" "$ASC_ISSUER_ID" "$RUNNER_TEMP/fb"
           tar -czf "$RUNNER_TEMP/fb.tgz" -C "$RUNNER_TEMP/fb" .
           openssl rand -out "$RUNNER_TEMP/k/aes" 32

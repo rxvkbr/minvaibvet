@@ -21,4 +21,13 @@
     <string-array name="g_hl_right"><item>Вгадав! Синоптики нервують.</item><item>Так! Ти бачиш ротацію наперед.</item><item>Точно. Комбат питає, звідки ти знаєш.</item></string-array>
     <string-array name="g_hl_wrong"><item>Ні. Прогноз змінився без попередження, як завжди.</item><item>Мимо. Серію повернуто на доопрацювання.</item></string-array>
     <string name="g_hl_win" formatted="false">Сім поспіль! Відпустку затверджено 🏖 Тисни, щоб грати ще.</string>
+    <string name="g_th_name" formatted="false">Тор грає</string>
+    <string name="g_th_desc" formatted="false">Тор гатить молотом по всьому підряд. А потім…</string>
+    <string name="g_th_title" formatted="false">ТОР · МОЛОТ</string>
+    <string name="g_th_hit" formatted="false">⚡ Вдарити</string>
+    <string name="g_th_count" formatted="true">Ударів %1$d/12</string>
+    <string-array name="g_th_lines"><item>Тор вдарив по хмарі. Пішов дощ.</item><item>Тор вдарив по рапорту. Рапорт підписався сам.</item><item>Тор полагодив генератор. Одним ударом.</item><item>Тор вдарив по черзі в ЦНАП. Черга розступилася.</item><item>Тор забив цвях у перегаворці. Тепер там висить картина.</item><item>Тор вдарив по будильнику о 05:45. Будильник більше не дзвонить.</item><item>Тор відкрив банку з варенням. З другого удару.</item><item>Тор вдарив по барабану. Резиденти перегаворки танцюють.</item><item>Тор розколов горіх. Білка в шоці.</item><item>Тор вдарив по ковадлу. Сусіди не в шоці, вони звикли.</item><item>Тор розбив лід. У розмові з тещею.</item><item>Тор замахнувся ще раз…</item></string-array>
+    <string name="g_th_final" formatted="false">Hammer time.</string>
+    <string name="g_th_look" formatted="false">(Тор зупинився й дивиться просто в камеру)</string>
+    <string name="g_th_again" formatted="false">Тисни, щоб Тор грав далі</string>
 </resources>

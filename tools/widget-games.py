@@ -18,7 +18,8 @@ T = {
   "g_hl_start": "Такий зараз шанс на відпустку. Наступний буде вищим чи нижчим?",
   "g_hl_right": ["Вгадав! Синоптики нервують.", "Так! Ти бачиш ротацію наперед.", "Точно. Комбат питає, звідки ти знаєш."],
   "g_hl_wrong": ["Ні. Прогноз змінився без попередження, як завжди.", "Мимо. Серію повернуто на доопрацювання."],
-  "g_hl_win": "Сім поспіль! Відпустку затверджено 🏖 Тисни, щоб грати ще."},
+  "g_hl_win": "Сім поспіль! Відпустку затверджено 🏖 Тисни, щоб грати ще.",
+  "g_th_name": "Тор грає", "g_th_desc": "Тор гатить молотом по всьому підряд. А потім…", "g_th_title": "ТОР · МОЛОТ", "g_th_hit": "⚡ Вдарити", "g_th_count": "Ударів %1$d/12", "g_th_lines": ["Тор вдарив по хмарі. Пішов дощ.", "Тор вдарив по рапорту. Рапорт підписався сам.", "Тор полагодив генератор. Одним ударом.", "Тор вдарив по черзі в ЦНАП. Черга розступилася.", "Тор забив цвях у перегаворці. Тепер там висить картина.", "Тор вдарив по будильнику о 05:45. Будильник більше не дзвонить.", "Тор відкрив банку з варенням. З другого удару.", "Тор вдарив по барабану. Резиденти перегаворки танцюють.", "Тор розколов горіх. Білка в шоці.", "Тор вдарив по ковадлу. Сусіди не в шоці, вони звикли.", "Тор розбив лід. У розмові з тещею.", "Тор замахнувся ще раз…"], "g_th_final": "Hammer time.", "g_th_look": "(Тор зупинився й дивиться просто в камеру)", "g_th_again": "Тисни, щоб Тор грав далі"},
  "en": {
   "g_tt_name": "Tic-tac-toe with the Commander", "g_tt_desc": "A one-minute game: you're X, the battalion commander is O",
   "g_tt_title": "TIC-TAC-TOE · COMMANDER", "g_tt_score": "You %1$d · Commander %2$d · Draws %3$d", "g_new": "New game",
@@ -32,7 +33,8 @@ T = {
   "g_hl_start": "That's the chance of leave right now. Will the next one be higher or lower?",
   "g_hl_right": ["Right! The forecasters are nervous.", "Yes! You can see the rotation coming.", "Exactly. The commander asks how you knew."],
   "g_hl_wrong": ["No. The forecast changed without warning, as always.", "Missed. The streak was returned for revision."],
-  "g_hl_win": "Seven in a row! Leave approved 🏖 Tap to play again."},
+  "g_hl_win": "Seven in a row! Leave approved 🏖 Tap to play again.",
+  "g_th_name": "Thor plays", "g_th_desc": "Thor hits everything in sight with his hammer. And then…", "g_th_title": "THOR · HAMMER", "g_th_hit": "⚡ Strike", "g_th_count": "Strikes %1$d/12", "g_th_lines": ["Thor hit a cloud. It started raining.", "Thor hit a leave request. It signed itself.", "Thor fixed the generator. One blow.", "Thor hit the queue at the public office. The queue parted.", "Thor hammered a nail into the meeting room wall. Now there's a painting.", "Thor hit the 05:45 alarm. It doesn't ring any more.", "Thor opened the jam jar. On the second blow.", "Thor hit a drum. The meeting room residents are dancing.", "Thor cracked a nut. The squirrel is shocked.", "Thor hit the anvil. The neighbours aren't shocked, they're used to it.", "Thor broke the ice. In a talk with his mother-in-law.", "Thor swings once more…"], "g_th_final": "Hammer time.", "g_th_look": "(Thor stops and looks straight into the camera)", "g_th_again": "Tap to let Thor play on"},
  "nl": {
   "g_tt_name": "Boter-kaas-en-eieren met de commandant", "g_tt_desc": "Een potje van een minuut: jij bent X, de commandant O",
   "g_tt_title": "BOTER-KAAS-EN-EIEREN · COMMANDANT", "g_tt_score": "Jij %1$d · Commandant %2$d · Gelijk %3$d", "g_new": "Nieuw spel",
@@ -46,7 +48,8 @@ T = {
   "g_hl_start": "Zo groot is de kans op verlof nu. Wordt de volgende hoger of lager?",
   "g_hl_right": ["Goed! De weermannen worden zenuwachtig.", "Ja! Jij ziet de rotatie aankomen.", "Precies. De commandant vraagt hoe je het wist."],
   "g_hl_wrong": ["Nee. De voorspelling veranderde zonder waarschuwing, zoals altijd.", "Mis. De reeks is teruggestuurd."],
-  "g_hl_win": "Zeven op rij! Verlof goedgekeurd 🏖 Tik om nog eens te spelen."},
+  "g_hl_win": "Zeven op rij! Verlof goedgekeurd 🏖 Tik om nog eens te spelen.",
+  "g_th_name": "Thor speelt", "g_th_desc": "Thor slaat met zijn hamer op alles wat hij ziet. En dan…", "g_th_title": "THOR · HAMER", "g_th_hit": "⚡ Slaan", "g_th_count": "Slagen %1$d/12", "g_th_lines": ["Thor sloeg op een wolk. Het begon te regenen.", "Thor sloeg op een verlofaanvraag. Die tekende zichzelf.", "Thor repareerde de generator. Met één klap.", "Thor sloeg op de rij bij het loket. De rij week uiteen.", "Thor sloeg een spijker in de vergaderkamer. Nu hangt er een schilderij.", "Thor sloeg op de wekker van 05:45. Die gaat niet meer af.", "Thor opende de jampot. Bij de tweede klap.", "Thor sloeg op een trommel. De vergaderkamer danst.", "Thor kraakte een noot. De eekhoorn is geschokt.", "Thor sloeg op het aambeeld. De buren schrikken niet meer, ze zijn het gewend.", "Thor brak het ijs. In een gesprek met zijn schoonmoeder.", "Thor haalt nog één keer uit…"], "g_th_final": "Hammer time.", "g_th_look": "(Thor stopt en kijkt recht in de camera)", "g_th_again": "Tik zodat Thor verder speelt"},
  "ar": {
   "g_tt_name": "إكس أو مع القائد", "g_tt_desc": "جولة لدقيقة: أنت X والقائد O",
   "g_tt_title": "إكس أو · القائد", "g_tt_score": "أنت %1$d · القائد %2$d · تعادل %3$d", "g_new": "لعبة جديدة",
@@ -60,7 +63,8 @@ T = {
   "g_hl_start": "هذه فرصة الإجازة الآن. هل ستكون التالية أعلى أم أدنى؟",
   "g_hl_right": ["صحيح! خبراء الطقس متوترون.", "نعم! أنت ترى التناوب قبل وصوله.", "بالضبط. القائد يسأل كيف عرفت."],
   "g_hl_wrong": ["لا. تغيّرت التوقعات بلا إنذار كالعادة.", "خطأ. أُعيدت السلسلة للمراجعة."],
-  "g_hl_win": "سبع مرات متتالية! تمت الموافقة على الإجازة 🏖 المس لتلعب مجدداً."},
+  "g_hl_win": "سبع مرات متتالية! تمت الموافقة على الإجازة 🏖 المس لتلعب مجدداً.",
+  "g_th_name": "ثور يلعب", "g_th_desc": "ثور يضرب بمطرقته كل ما يراه. ثم…", "g_th_title": "ثور · المطرقة", "g_th_hit": "⚡ اضرب", "g_th_count": "ضربات %1$d/12", "g_th_lines": ["ضرب ثور غيمة. بدأ المطر.", "ضرب ثور طلب إجازة. فوقّع نفسه.", "أصلح ثور المولّد. بضربة واحدة.", "ضرب ثور الطابور في الدائرة الحكومية. فانشق الطابور.", "دقّ ثور مسماراً في غرفة الاجتماعات. الآن عُلّقت لوحة.", "ضرب ثور منبّه الخامسة وخمس وأربعين. لم يعد يرنّ.", "فتح ثور مرطبان المربى. من الضربة الثانية.", "ضرب ثور الطبل. سكان غرفة الاجتماعات يرقصون.", "كسر ثور جوزة. السنجاب مصدوم.", "ضرب ثور السندان. الجيران لم يعودوا يتفاجأون.", "كسر ثور الجليد. في حديث مع حماته.", "رفع ثور المطرقة مرة أخرى…"], "g_th_final": "Hammer time.", "g_th_look": "(توقف ثور وينظر مباشرة إلى الكاميرا)", "g_th_again": "المس ليواصل ثور اللعب"},
  "zh": {
   "g_tt_name": "和营长下井字棋", "g_tt_desc": "一分钟一局：你是 X，营长是 O",
   "g_tt_title": "井字棋 · 营长", "g_tt_score": "你 %1$d · 营长 %2$d · 平局 %3$d", "g_new": "新游戏",
@@ -74,7 +78,8 @@ T = {
   "g_hl_start": "这是现在的休假概率。下一个会更高还是更低？",
   "g_hl_right": ["猜对了！预报员紧张了。", "对！你能预见轮换。", "没错。营长问你怎么知道的。"],
   "g_hl_wrong": ["不对。预报照例毫无预警地变了。", "没猜中。连胜退回重写。"],
-  "g_hl_win": "连对七次！假期批准了 🏖 点一下再玩。"},
+  "g_hl_win": "连对七次！假期批准了 🏖 点一下再玩。",
+  "g_th_name": "托尔在玩", "g_th_desc": "托尔用锤子敲遍眼前的一切。然后……", "g_th_title": "托尔 · 锤子", "g_th_hit": "⚡ 敲", "g_th_count": "已敲 %1$d/12", "g_th_lines": ["托尔敲了一朵云。下雨了。", "托尔敲了一张假条。假条自己签好了。", "托尔修好了发电机。一锤搞定。", "托尔敲了政务大厅的队伍。队伍让开了。", "托尔在会议室钉了颗钉子。现在挂上了一幅画。", "托尔敲了早上 5:45 的闹钟。闹钟再也不响了。", "托尔打开了果酱罐。第二锤才开。", "托尔敲了一面鼓。会议室的人都在跳舞。", "托尔敲开了一颗坚果。松鼠惊呆了。", "托尔敲了铁砧。邻居一点也不惊讶，早就习惯了。", "托尔打破了僵局。在和岳母聊天的时候。", "托尔又挥起了锤子……"], "g_th_final": "Hammer time.", "g_th_look": "（托尔停下来，直直看向镜头）", "g_th_again": "点一下，让托尔接着玩"},
 }
 FOLDER = {"uk": "values", "en": "values-en", "nl": "values-nl", "ar": "values-ar", "zh": "values-zh"}
 def esc(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace("'", "\\'").replace('"', '\\"')

@@ -21,4 +21,13 @@
     <string-array name="g_hl_right"><item>猜对了！预报员紧张了。</item><item>对！你能预见轮换。</item><item>没错。营长问你怎么知道的。</item></string-array>
     <string-array name="g_hl_wrong"><item>不对。预报照例毫无预警地变了。</item><item>没猜中。连胜退回重写。</item></string-array>
     <string name="g_hl_win" formatted="false">连对七次！假期批准了 🏖 点一下再玩。</string>
+    <string name="g_th_name" formatted="false">托尔在玩</string>
+    <string name="g_th_desc" formatted="false">托尔用锤子敲遍眼前的一切。然后……</string>
+    <string name="g_th_title" formatted="false">托尔 · 锤子</string>
+    <string name="g_th_hit" formatted="false">⚡ 敲</string>
+    <string name="g_th_count" formatted="true">已敲 %1$d/12</string>
+    <string-array name="g_th_lines"><item>托尔敲了一朵云。下雨了。</item><item>托尔敲了一张假条。假条自己签好了。</item><item>托尔修好了发电机。一锤搞定。</item><item>托尔敲了政务大厅的队伍。队伍让开了。</item><item>托尔在会议室钉了颗钉子。现在挂上了一幅画。</item><item>托尔敲了早上 5:45 的闹钟。闹钟再也不响了。</item><item>托尔打开了果酱罐。第二锤才开。</item><item>托尔敲了一面鼓。会议室的人都在跳舞。</item><item>托尔敲开了一颗坚果。松鼠惊呆了。</item><item>托尔敲了铁砧。邻居一点也不惊讶，早就习惯了。</item><item>托尔打破了僵局。在和岳母聊天的时候。</item><item>托尔又挥起了锤子……</item></string-array>
+    <string name="g_th_final" formatted="false">Hammer time.</string>
+    <string name="g_th_look" formatted="false">（托尔停下来，直直看向镜头）</string>
+    <string name="g_th_again" formatted="false">点一下，让托尔接着玩</string>
 </resources>

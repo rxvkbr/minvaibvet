@@ -22,4 +22,13 @@ enum GS {
     static let hlRight: [String] = WS.isUk ? ["Вгадав! Синоптики нервують.", "Так! Ти бачиш ротацію наперед.", "Точно. Комбат питає, звідки ти знаєш."] : ["Right! The forecasters are nervous.", "Yes! You can see the rotation coming.", "Exactly. The commander asks how you knew."]
     static let hlWrong: [String] = WS.isUk ? ["Ні. Прогноз змінився без попередження, як завжди.", "Мимо. Серію повернуто на доопрацювання."] : ["No. The forecast changed without warning, as always.", "Missed. The streak was returned for revision."]
     static let hlWin: String = WS.isUk ? "Сім поспіль! Відпустку затверджено 🏖 Тисни, щоб грати ще." : "Seven in a row! Leave approved 🏖 Tap to play again."
+    static let thName: String = WS.isUk ? "Тор грає" : "Thor plays"
+    static let thDesc: String = WS.isUk ? "Тор гатить молотом по всьому підряд. А потім…" : "Thor hits everything in sight with his hammer. And then…"
+    static let thTitle: String = WS.isUk ? "ТОР · МОЛОТ" : "THOR · HAMMER"
+    static let thHit: String = WS.isUk ? "⚡ Вдарити" : "⚡ Strike"
+    static let thCount: String = WS.isUk ? "Ударів %d/12" : "Strikes %d/12"
+    static let thLines: [String] = WS.isUk ? ["Тор вдарив по хмарі. Пішов дощ.", "Тор вдарив по рапорту. Рапорт підписався сам.", "Тор полагодив генератор. Одним ударом.", "Тор вдарив по черзі в ЦНАП. Черга розступилася.", "Тор забив цвях у перегаворці. Тепер там висить картина.", "Тор вдарив по будильнику о 05:45. Будильник більше не дзвонить.", "Тор відкрив банку з варенням. З другого удару.", "Тор вдарив по барабану. Резиденти перегаворки танцюють.", "Тор розколов горіх. Білка в шоці.", "Тор вдарив по ковадлу. Сусіди не в шоці, вони звикли.", "Тор розбив лід. У розмові з тещею.", "Тор замахнувся ще раз…"] : ["Thor hit a cloud. It started raining.", "Thor hit a leave request. It signed itself.", "Thor fixed the generator. One blow.", "Thor hit the queue at the public office. The queue parted.", "Thor hammered a nail into the meeting room wall. Now there's a painting.", "Thor hit the 05:45 alarm. It doesn't ring any more.", "Thor opened the jam jar. On the second blow.", "Thor hit a drum. The meeting room residents are dancing.", "Thor cracked a nut. The squirrel is shocked.", "Thor hit the anvil. The neighbours aren't shocked, they're used to it.", "Thor broke the ice. In a talk with his mother-in-law.", "Thor swings once more…"]
+    static let thFinal: String = WS.isUk ? "Hammer time." : "Hammer time."
+    static let thLook: String = WS.isUk ? "(Тор зупинився й дивиться просто в камеру)" : "(Thor stops and looks straight into the camera)"
+    static let thAgain: String = WS.isUk ? "Тисни, щоб Тор грав далі" : "Tap to let Thor play on"
 }

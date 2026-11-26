@@ -200,6 +200,18 @@
                 android:resource="@xml/widget_hilo_info" />
         </receiver>
 
+        <receiver
+            android:name=".ThorWidget"
+            android:exported="false"
+            android:label="@string/g_th_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_thor_info" />
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

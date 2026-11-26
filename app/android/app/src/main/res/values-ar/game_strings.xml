@@ -21,4 +21,13 @@
     <string-array name="g_hl_right"><item>صحيح! خبراء الطقس متوترون.</item><item>نعم! أنت ترى التناوب قبل وصوله.</item><item>بالضبط. القائد يسأل كيف عرفت.</item></string-array>
     <string-array name="g_hl_wrong"><item>لا. تغيّرت التوقعات بلا إنذار كالعادة.</item><item>خطأ. أُعيدت السلسلة للمراجعة.</item></string-array>
     <string name="g_hl_win" formatted="false">سبع مرات متتالية! تمت الموافقة على الإجازة 🏖 المس لتلعب مجدداً.</string>
+    <string name="g_th_name" formatted="false">ثور يلعب</string>
+    <string name="g_th_desc" formatted="false">ثور يضرب بمطرقته كل ما يراه. ثم…</string>
+    <string name="g_th_title" formatted="false">ثور · المطرقة</string>
+    <string name="g_th_hit" formatted="false">⚡ اضرب</string>
+    <string name="g_th_count" formatted="true">ضربات %1$d/12</string>
+    <string-array name="g_th_lines"><item>ضرب ثور غيمة. بدأ المطر.</item><item>ضرب ثور طلب إجازة. فوقّع نفسه.</item><item>أصلح ثور المولّد. بضربة واحدة.</item><item>ضرب ثور الطابور في الدائرة الحكومية. فانشق الطابور.</item><item>دقّ ثور مسماراً في غرفة الاجتماعات. الآن عُلّقت لوحة.</item><item>ضرب ثور منبّه الخامسة وخمس وأربعين. لم يعد يرنّ.</item><item>فتح ثور مرطبان المربى. من الضربة الثانية.</item><item>ضرب ثور الطبل. سكان غرفة الاجتماعات يرقصون.</item><item>كسر ثور جوزة. السنجاب مصدوم.</item><item>ضرب ثور السندان. الجيران لم يعودوا يتفاجأون.</item><item>كسر ثور الجليد. في حديث مع حماته.</item><item>رفع ثور المطرقة مرة أخرى…</item></string-array>
+    <string name="g_th_final" formatted="false">Hammer time.</string>
+    <string name="g_th_look" formatted="false">(توقف ثور وينظر مباشرة إلى الكاميرا)</string>
+    <string name="g_th_again" formatted="false">المس ليواصل ثور اللعب</string>
 </resources>

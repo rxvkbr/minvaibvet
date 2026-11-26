@@ -21,4 +21,13 @@
     <string-array name="g_hl_right"><item>Right! The forecasters are nervous.</item><item>Yes! You can see the rotation coming.</item><item>Exactly. The commander asks how you knew.</item></string-array>
     <string-array name="g_hl_wrong"><item>No. The forecast changed without warning, as always.</item><item>Missed. The streak was returned for revision.</item></string-array>
     <string name="g_hl_win" formatted="false">Seven in a row! Leave approved 🏖 Tap to play again.</string>
+    <string name="g_th_name" formatted="false">Thor plays</string>
+    <string name="g_th_desc" formatted="false">Thor hits everything in sight with his hammer. And then…</string>
+    <string name="g_th_title" formatted="false">THOR · HAMMER</string>
+    <string name="g_th_hit" formatted="false">⚡ Strike</string>
+    <string name="g_th_count" formatted="true">Strikes %1$d/12</string>
+    <string-array name="g_th_lines"><item>Thor hit a cloud. It started raining.</item><item>Thor hit a leave request. It signed itself.</item><item>Thor fixed the generator. One blow.</item><item>Thor hit the queue at the public office. The queue parted.</item><item>Thor hammered a nail into the meeting room wall. Now there\'s a painting.</item><item>Thor hit the 05:45 alarm. It doesn\'t ring any more.</item><item>Thor opened the jam jar. On the second blow.</item><item>Thor hit a drum. The meeting room residents are dancing.</item><item>Thor cracked a nut. The squirrel is shocked.</item><item>Thor hit the anvil. The neighbours aren\'t shocked, they\'re used to it.</item><item>Thor broke the ice. In a talk with his mother-in-law.</item><item>Thor swings once more…</item></string-array>
+    <string name="g_th_final" formatted="false">Hammer time.</string>
+    <string name="g_th_look" formatted="false">(Thor stops and looks straight into the camera)</string>
+    <string name="g_th_again" formatted="false">Tap to let Thor play on</string>
 </resources>

@@ -21,4 +21,13 @@
     <string-array name="g_hl_right"><item>Goed! De weermannen worden zenuwachtig.</item><item>Ja! Jij ziet de rotatie aankomen.</item><item>Precies. De commandant vraagt hoe je het wist.</item></string-array>
     <string-array name="g_hl_wrong"><item>Nee. De voorspelling veranderde zonder waarschuwing, zoals altijd.</item><item>Mis. De reeks is teruggestuurd.</item></string-array>
     <string name="g_hl_win" formatted="false">Zeven op rij! Verlof goedgekeurd 🏖 Tik om nog eens te spelen.</string>
+    <string name="g_th_name" formatted="false">Thor speelt</string>
+    <string name="g_th_desc" formatted="false">Thor slaat met zijn hamer op alles wat hij ziet. En dan…</string>
+    <string name="g_th_title" formatted="false">THOR · HAMER</string>
+    <string name="g_th_hit" formatted="false">⚡ Slaan</string>
+    <string name="g_th_count" formatted="true">Slagen %1$d/12</string>
+    <string-array name="g_th_lines"><item>Thor sloeg op een wolk. Het begon te regenen.</item><item>Thor sloeg op een verlofaanvraag. Die tekende zichzelf.</item><item>Thor repareerde de generator. Met één klap.</item><item>Thor sloeg op de rij bij het loket. De rij week uiteen.</item><item>Thor sloeg een spijker in de vergaderkamer. Nu hangt er een schilderij.</item><item>Thor sloeg op de wekker van 05:45. Die gaat niet meer af.</item><item>Thor opende de jampot. Bij de tweede klap.</item><item>Thor sloeg op een trommel. De vergaderkamer danst.</item><item>Thor kraakte een noot. De eekhoorn is geschokt.</item><item>Thor sloeg op het aambeeld. De buren schrikken niet meer, ze zijn het gewend.</item><item>Thor brak het ijs. In een gesprek met zijn schoonmoeder.</item><item>Thor haalt nog één keer uit…</item></string-array>
+    <string name="g_th_final" formatted="false">Hammer time.</string>
+    <string name="g_th_look" formatted="false">(Thor stopt en kijkt recht in de camera)</string>
+    <string name="g_th_again" formatted="false">Tik zodat Thor verder speelt</string>
 </resources>

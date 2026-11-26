@@ -1,4 +1,4 @@
-/* «Суміші» — 88.1 FM: Рахманінов з мозком Баха.
+/* «Суміші» — 88.1 FM: Рахманінов з мозком Баха (і туга Андрійка за данським домом).
    An endless piece written live in the browser: Rachmaninoff's harmony (minor keys, add9 and major-seventh
    colours, the Neapolitan, dominant ninths, low bells) carried by Bach's brain (broken-chord preludes,
    a subject answered in canon a fifth below, circle-of-fifths sequences, voices that move by step).
@@ -26,7 +26,16 @@
     ii7:{n:"iiø⁷",pc:[2,5,8,0],b:2},
     N6:{n:"♭II⁶",pc:[1,5,8],b:5},
     v6:{n:"v⁶",pc:[7,10,2],b:10},
-    vii7:{n:"vii°⁷",pc:[11,2,5,8],b:11,dom:1}
+    vii7:{n:"vii°⁷",pc:[11,2,5,8],b:11,dom:1},
+    /* major, for «Туга за данським домом»: a Danish folk-hymn in the parallel major */
+    I:{n:"I",pc:[0,4,7,11],b:0,maj:1},
+    vi:{n:"vi",pc:[9,0,4],b:9,maj:1},
+    IV:{n:"IV",pc:[5,9,0,2],b:5,maj:1},
+    ivm:{n:"iv",pc:[5,8,0],b:5,maj:1},          /* the borrowed minor iv: the longing before home */
+    Vs:{n:"V⁷sus",pc:[7,0,2,5],b:7,maj:1},
+    V7M:{n:"V⁷",pc:[7,11,2,5],b:7,maj:1},
+    iii:{n:"iii",pc:[4,7,11],b:4,maj:1},
+    ii7:{n:"ii⁷",pc:[2,5,9,0],b:2,maj:1}
   };
   /* eight-bar phrases: Rachmaninoff colours, Bach logic (sequences, lament bass, cadences) */
   var PHRASES=[
@@ -36,7 +45,14 @@
     ["i","III","VI","iv","i6","N6","V7","i"],
     ["VI","iv","i","V7","VI","ii7","V7","i"]
   ];
-  var SECTIONS=["Прелюдія","Фуга","Дзвони"];
+  var HYMNS=[
+    ["I","vi","IV","Vs","I","iii","ivm","I"],
+    ["I","iii","vi","IV","I","ii7","V7M","I"],
+    ["vi","IV","I","Vs","vi","IV","ivm","I"],
+    ["I","IV","vi","V7M","IV","I","ivm","I"]
+  ];
+  var MAJ=[0,2,4,5,7,9,11];
+  var SECTIONS=["Прелюдія","Фуга","Дзвони","Туга за данським домом"],TUGA=3;
   var KEYS=[61,62,59,64,60,65];   /* C#, D, B, E, C, F minor — the tonic in the middle of the keyboard */
   var KEYNAME={59:"сі",60:"до",61:"до-дієз",62:"ре",64:"мі",65:"фа"};
 
@@ -71,9 +87,9 @@
     }
 
     /* ---- harmony helpers ---- */
-    var tonic=rnd(KEYS),phrase=rnd(PHRASES),section=0,phraseN=0;
+    var tonic=rnd(KEYS),section=TUGA,phrase=rnd(HYMNS),phraseN=0;
     function chordAt(bar){return CH[phrase[bar%8]];}
-    function scale(ch){return ch&&ch.dom?HAR:NAT;}
+    function scale(ch){return ch&&ch.maj?MAJ:ch&&ch.dom?HAR:NAT;}
     function inSet(m,set){return set.indexOf(((m-tonic)%12+12)%12)>=0;}
     function snap(m,set){for(var d=0;d<7;d++){if(inSet(m+d,set))return m+d;if(inSet(m-d,set))return m-d;}return m;}
     function nearestPc(target,pc,lo,hi){var best=null;for(var m=lo;m<=hi;m++){if(inSet(m,pc)&&(best===null||Math.abs(m-target)<Math.abs(best-target)))best=m;}return best===null?target:best;}
@@ -89,19 +105,61 @@
     }
     function degreeToMidi(base,deg,sc){var o=Math.floor(deg/7),r=((deg%7)+7)%7;return base+o*12+sc[r];}
 
+    /* ---- the Danish hymn: sixteen half notes you could sing, a half cadence in the middle, home at the end ---- */
+    var hymn=[];
+    function newHymn(){
+      var d=rnd([2,4,4,7]),out=[];
+      for(var i=0;i<16;i++){
+        if(i===7)d=rnd([1,4]);else if(i===14)d=rnd([1,2]);else if(i===15)d=0;
+        else if(i>0){d+=rnd([-1,1,-1,1,-2,2,0,1,-1,3]);if(d<0)d=1;if(d>9)d=8;}
+        out.push(d);
+      }
+      hymn=out;
+    }
+    /* the sea that keeps breathing under the hymn, and a foghorn from the harbour */
+    var sea=null;
+    function seaOn(t){
+      if(sea)return;
+      var n=ctx.createBufferSource(),buf=ctx.createBuffer(1,ctx.sampleRate*4,ctx.sampleRate),dd=buf.getChannelData(0),last=0;
+      for(var i=0;i<dd.length;i++){last=(last+0.02*(Math.random()*2-1))/1.02;dd[i]=last*3.5;}
+      n.buffer=buf;n.loop=true;
+      var lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=700;
+      var g=ctx.createGain(),swell=ctx.createGain(),lfo=ctx.createOscillator();
+      g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(1,t+4);
+      swell.gain.value=0.05;lfo.frequency.value=0.09;var depth=ctx.createGain();depth.gain.value=0.04;
+      lfo.connect(depth);depth.connect(swell.gain);
+      n.connect(lp);lp.connect(swell);swell.connect(g);g.connect(bus);
+      n.start(t);lfo.start(t);sea={n:n,g:g,lfo:lfo};
+    }
+    function seaOff(t){
+      if(!sea)return;var s0=sea;sea=null;
+      s0.g.gain.setValueAtTime(1,t);s0.g.gain.exponentialRampToValueAtTime(0.0001,t+5);
+      try{s0.n.stop(t+5.2);s0.lfo.stop(t+5.2);}catch(e){}
+    }
+    function foghorn(t,m){
+      var lp=ctx.createBiquadFilter(),g=ctx.createGain();lp.type="lowpass";lp.frequency.value=380;
+      g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.07,t+1.2);g.gain.setValueAtTime(0.07,t+2.6);g.gain.exponentialRampToValueAtTime(0.0001,t+4.4);
+      [1,2.002,3.01].forEach(function(h,i){var o=ctx.createOscillator();o.type=i?"sine":"sawtooth";o.frequency.value=mtof(m)*h;
+        var og=ctx.createGain();og.gain.value=[0.5,0.35,0.15][i];o.connect(og);og.connect(lp);o.start(t);o.stop(t+4.5);});
+      lp.connect(g);g.connect(bus);
+    }
+    newHymn();
+
     /* ---- the conductor: a breathing tempo (rubato), bars of 16 sixteenths ---- */
     var BPM=66,next=ctx.currentTime+0.2,step=0,lastSop=tonic+12,lastAlt=tonic+5;
     newSubject();
     function sixteenth(bar,pos){
       var p=(bar%8+pos/16)/8;               /* where we are in the phrase, 0..1 */
       var breathe=1+0.07*Math.sin(p*Math.PI*2-Math.PI/2)+(bar%8===7&&pos>=8?0.18*(pos-8)/8:0);   /* ritardando into the cadence */
-      return 60/BPM/4*breathe;
+      return 60/BPM/4*breathe*(section===TUGA?1.18:1);
     }
     function nextPhrase(){
       phraseN++;
-      section=(section+1+(Math.random()<0.25?1:0))%3;
+      var was=section;
+      section=(section+1+(Math.random()<0.25?1:0))%SECTIONS.length;
       if(phraseN%3===0){var cand=KEYS.filter(function(k){return k!==tonic&&Math.abs(k-tonic)<=5;});tonic=rnd(cand);}
-      phrase=rnd(PHRASES);newSubject();
+      if(section===TUGA){phrase=rnd(HYMNS);newHymn();}else{phrase=rnd(PHRASES);if(was===TUGA)seaOff(next);}
+      newSubject();
     }
 
     function playStep(t,s){
@@ -137,6 +195,34 @@
           }
         }
         if(pos===0||pos===8){var bb=pos===0?bass:snap(bass+(Math.random()<0.5?2:-1),sc);piano(t,bb,0.16,dur16*8);piano(t,bb+12,0.05,dur16*6);}
+      }else if(section===TUGA){
+        /* Andriiko's longing for a Danish home: a hymn in the parallel major, Bach's inner voice, the sea */
+        if(s%128===0)seaOn(t);
+        var hb=tonic+12,b8=bar%8;
+        if(pos===0||pos===8){
+          var hi=b8*2+(pos/8),hd=hymn[hi];
+          var mel2=degreeToMidi(hb,hd,MAJ);
+          if(pos===0&&b8!==7)mel2=nearestPc(mel2,ch.pc,mel2-2,mel2+2);
+          if(!(b8===7&&pos===8)){piano(t,mel2,0.13,dur16*(b8===7?16:8));piano(t+0.012,mel2-12,0.05,dur16*7);lastSop=mel2;}
+          /* bass in half notes, walking by step into the next chord */
+          var nb=bassOf(CH[phrase[(b8+1)%8]]),bb2=pos===0?bass:snap(bass+(nb>bass?2:nb<bass?-1:0),MAJ);
+          piano(t,bb2,0.15,dur16*8);
+          if(pos===0)piano(t,bb2-12,0.07,dur16*12);
+        }
+        if(pos===0){
+          /* the chord, rolled slowly like a hand that does not want to let go */
+          var pad=[];for(var m3=tonic-3;m3<=tonic+9;m3++)if(inSet(m3,ch.pc))pad.push(m3);
+          pad.forEach(function(n,i){piano(t+0.06+i*0.07,n,0.045,dur16*14);});
+          if(b8%4===0)foghorn(t+dur16*2,tonic-24+(b8===4?7:0));
+        }
+        if(pos%4===2){
+          /* Bach's inner voice: quarters a third or a sixth under the hymn, on chord tones where the beat is strong */
+          var iv=snap(lastSop-rnd([3,4,8,9]),MAJ);
+          if(pos===2||pos===10)iv=nearestPc(iv,ch.pc,iv-2,iv+2);
+          iv=Math.max(tonic-2,Math.min(lastSop-3,iv));
+          if(!(b8===7&&pos>8))piano(t,iv,0.06,dur16*4);
+        }
+        if(b8===7&&pos===12)bell(t,tonic+24,0.035);
       }else{
         /* Rachmaninoff's bells: a low octave struck like a bell, chords rolled over three octaves, a melody in octaves */
         if(pos===0){bell(t,bass-12+12,0.12);piano(t,bass,0.22,dur16*16);piano(t,bass-12,0.14,dur16*16);}
@@ -167,8 +253,8 @@
           next+=playStep(next,step);step++;
         }
       },
-      stop:function(){stopped=true;try{bus.disconnect();}catch(e){}},
-      info:function(){var bar=Math.floor(step/16);return {section:SECTIONS[section],key:(KEYNAME[tonic]||"")+"-мінор",chord:chordAt(bar).n,bar:bar%8+1};}
+      stop:function(){stopped=true;seaOff(ctx.currentTime);try{bus.disconnect();}catch(e){}},
+      info:function(){var bar=Math.floor(step/16);return {section:SECTIONS[section],key:(KEYNAME[tonic]||"")+(section===TUGA?"-мажор":"-мінор"),chord:chordAt(bar).n,bar:bar%8+1};}
     };
   }};
 })();

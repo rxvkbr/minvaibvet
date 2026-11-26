@@ -22,6 +22,7 @@ echo "→ Готую сайт для додатка"
 npm ci --silent
 npm run -s web
 npx cap sync ios
+ruby scripts/ios-add-widgets.rb   # the WidgetKit extension (does nothing if it is already there)
 
 BUILD="$(date +%y%m%d%H%M)"
 OUT="$(mktemp -d)"

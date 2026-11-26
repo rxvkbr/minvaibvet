@@ -41,6 +41,9 @@ jobs:
       - name: Copy the site into the app
         run: npm run web && npx cap sync ios
 
+      - name: Home-screen widgets target
+        run: ruby scripts/ios-add-widgets.rb
+
       - name: Compile for the simulator
         if: github.event_name == 'push'
         working-directory: app/ios/App

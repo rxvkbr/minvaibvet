@@ -3265,7 +3265,10 @@ html:not(.app) .desknav .dn-h:first-child{margin-top:0}
     if(pending){var p=pending;pending=null;if(p!==id){try{history.replaceState(st(p,ours()),"");}catch(x){}id=p;show(id,"tab");return;}}
     if(id!==cur)show(id,"back");
   });
-  try{history.replaceState(st("home",0),"");}catch(e){}
+  /* coming back from a sub-page (← назад, browser back): reopen the screen we left from, scrolled where it was */
+  var back0=null;try{var hs=history.state;if(hs&&hs.vv&&hs.vv!=="home"&&S[hs.vv]&&!location.hash)back0=hs.vv;}catch(e){}
+  try{history.replaceState(st(back0||"home",0),"");}catch(e){}
+  addEventListener("pagehide",function(){try{sessionStorage.setItem("vv-ret-"+cur,String(Math.round(scrollY)));}catch(e){}});
 
   /* widget and link deep links: #hladyty, #prognoz, #gazeta... */
   var HASH={hladyty:"pet",prognoz:"prognoz",novyny:"gazeta",gazeta:"gazeta",kolonka:"kolonka",hastrotur:"hastrotur",prohramy:"prohramy",liniia:"liniia",dodomu:"dodomu",muzyka:"muzyka",nederland:"nederland",holostiak:"holostiak",kalendar:"kalendar",invite:"liniia",more:"more",nalashtuvannia:"nalashtuvannia"};
@@ -3476,7 +3479,8 @@ html:not(.app) .desknav .dn-h:first-child{margin-top:0}
   }
 
   /* ---------- start ---------- */
-  paint();show("home","tab");
+  paint();show(back0||"home","tab");
+  if(back0){try{var ry=+sessionStorage.getItem("vv-ret-"+back0);if(ry)setTimeout(function(){scrollTo(0,ry);},80);}catch(e){}}
   if(HASH[location.hash.slice(1)])hashNav();
 })();
 </script>

@@ -199,7 +199,6 @@ h1{font:400 clamp(36px,8vw,60px)/1.05 "Yeseva One",Georgia,serif;margin:10px 0 1
       else{try{navigator.clipboard.writeText("https://minvaibvet.pp.ua/merch");toast("Посилання скопійовано");}catch(e){toast("minvaibvet.pp.ua/merch");}}},"image/png");
   });
   var tT=null;function toast(m){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);clearTimeout(tT);tT=setTimeout(function(){d.remove();},2800);}
-  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
 })();
 </script>
 </body>

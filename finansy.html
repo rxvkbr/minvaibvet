@@ -151,7 +151,6 @@ input{width:100%;background:#0006;border:1.5px solid var(--edge);border-radius:1
     b.addEventListener("click",function(){var i=D.sit.indexOf(b.dataset.k);if(i>=0)D.sit.splice(i,1);else D.sit.push(b.dataset.k);b.setAttribute("aria-pressed",i>=0?"false":"true");save();tips();});});
   tips();
   $("wipe").addEventListener("click",function(){if(!confirm("Стерти всі цифри з цього розділу на цьому пристрої?"))return;try{localStorage.removeItem(K);}catch(e){}location.reload();});
-  $("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
 })();
 </script>
 </body>

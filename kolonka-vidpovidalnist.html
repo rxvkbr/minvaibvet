@@ -98,7 +98,6 @@ a{color:var(--amber)}
   function upd(){var h=art.offsetHeight-innerHeight,y=Math.max(0,Math.min(1,scrollY/Math.max(1,h)));pr.style.width=(y*100)+"%";
     var m=Math.ceil(total*(1-y));left.textContent=y>.98?"дочитано ✓":m+" хв";}
   addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
-  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
 })();
 </script>
 </body>

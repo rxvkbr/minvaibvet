@@ -28,3 +28,24 @@
   document.addEventListener("auxclick",function(e){if(!on||e.button!==1)return;var a=link(e);if(!a)return;e.preventDefault();send(a,{bg:true});},true);
   document.addEventListener("contextmenu",function(e){if(!on)return;var a=link(e);if(!a)return;e.preventDefault();send(a,{menu:true,x:e.clientX,y:e.clientY});},true);
 })();
+
+/* One rule for every "← назад" on every page:
+   came here from a page of this site and haven't moved around inside this page → step back in history
+   (the previous page comes back exactly where it was scrolled); otherwise → go to the button's own link. */
+(function(){
+  "use strict";
+  var startHash=location.hash,moved=false;
+  addEventListener("hashchange",function(){moved=true;});
+  function same(r){try{var u=new URL(r);return u.origin===location.origin&&u.pathname!==location.pathname;}catch(e){return false;}}
+  function isBack(a){
+    if(!a||a.tagName!=="A")return false;
+    if(a.id==="back"||a.hasAttribute("data-back")||a.classList.contains("backbtn"))return true;
+    var t=(a.textContent||"").trim();return t.charAt(0)==="←"&&/index\.html|^\.\/?$|^\/$/.test(a.getAttribute("href")||"");
+  }
+  document.addEventListener("click",function(e){
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    var a=e.target.closest&&e.target.closest("a");if(!isBack(a))return;
+    if(a.hasAttribute("data-back-up"))return;               /* in-page "up" buttons handle themselves */
+    if(!moved&&location.hash===startHash&&history.length>1&&same(document.referrer)){e.preventDefault();history.back();}
+  });
+})();

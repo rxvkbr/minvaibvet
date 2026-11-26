@@ -210,8 +210,6 @@ h1{font:400 clamp(30px,7vw,46px)/1.1 "Yeseva One",Georgia,serif;margin:12px 0 14
   var box=document.getElementById("emo"),out=document.getElementById("emoOut");
   E.forEach(function(e){var b=document.createElement("button");b.type="button";b.textContent=e[0];b.addEventListener("click",function(){
     [].forEach.call(box.children,function(x){x.classList.toggle("on",x===b);});out.textContent="Зараз: "+e[0]+". "+e[1];});box.appendChild(b);});
-
-  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
 })();
 </script>
 </body>

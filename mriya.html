@@ -143,7 +143,6 @@ h2{font:400 26px "Yeseva One",Georgia,serif;margin:38px 0 12px}
     location.href="mailto:"+MAIL+"?subject="+encodeURIComponent(subj)+"&body="+encodeURIComponent(body);
   }
   var tT=null;function toast(m){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);clearTimeout(tT);tT=setTimeout(function(){d.remove();},2800);}
-  document.getElementById("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
 })();
 </script>
 </body>

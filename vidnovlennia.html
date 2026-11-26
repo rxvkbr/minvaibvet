@@ -195,7 +195,6 @@ ul.list li a{color:var(--mint);font:14px "PT Mono",monospace;text-decoration:non
   if(!D.plan.length){D.plan=["вийти пройтися 20 хвилин","випити води й з'їсти щось тепле","набрати когось зі списку нижче","душ, потім 10 хв дихання 4–6"];save();list("plan",$("planL"),function(){return null;},{addEventListener:function(){}},function(t){return "<span>"+esc(t)+"</span>";});}
 
   $("wipe").addEventListener("click",function(){if(!confirm("Стерти все з цього розділу на цьому пристрої?"))return;try{localStorage.removeItem(K);}catch(e){}location.reload();});
-  $("back").addEventListener("click",function(e){if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}});
 })();
 </script>
 </body>

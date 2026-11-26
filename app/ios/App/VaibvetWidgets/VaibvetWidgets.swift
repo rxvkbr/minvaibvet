@@ -261,5 +261,7 @@ struct VaibvetWidgets: WidgetBundle {
         VibeWidget()
         ForecastWidget()
         ButtonsWidget()
+        TicTacWidget()
+        HiLoWidget()
     }
 }

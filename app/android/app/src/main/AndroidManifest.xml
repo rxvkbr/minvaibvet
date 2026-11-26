@@ -176,6 +176,30 @@
                 android:resource="@xml/widget_buttons_info" />
         </receiver>
 
+        <receiver
+            android:name=".TicTacWidget"
+            android:exported="false"
+            android:label="@string/g_tt_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_tictac_info" />
+        </receiver>
+
+        <receiver
+            android:name=".HiLoWidget"
+            android:exported="false"
+            android:label="@string/g_hl_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_hilo_info" />
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

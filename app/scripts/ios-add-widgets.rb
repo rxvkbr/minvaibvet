@@ -10,8 +10,16 @@ proj_path = File.join(root, "App.xcodeproj")
 project = Xcodeproj::Project.open(proj_path)
 NAME = "VaibvetWidgets"
 
-if project.targets.any? { |t| t.name == NAME }
-  puts "#{NAME}: already in the project"
+SOURCES = Dir.children(File.join(root, NAME)).select { |f| f.end_with?(".swift") }.sort
+
+existing = project.targets.find { |t| t.name == NAME }
+if existing
+  # the target is there: make sure every .swift file of the folder is compiled (new games get added here)
+  group = project.main_group.find_subpath(NAME, false)
+  have = existing.source_build_phase.files_references.map { |r| r && File.basename(r.path.to_s) }
+  added = (SOURCES - have).each { |f| existing.add_file_references([group.new_reference(f)]) }
+  project.save if added.any?
+  puts "#{NAME}: already in the project" + (added.any? ? ", added #{added.join(", ")}" : "")
   exit 0
 end
 
@@ -22,7 +30,7 @@ ext = project.new_target(:app_extension, NAME, :ios, "17.0", nil, :swift)
 group = project.main_group.find_subpath(NAME, true)
 group.set_source_tree("<group>")
 group.set_path(NAME)
-%w[VaibvetWidgets.swift Strings.swift].each { |f| ext.add_file_references([group.new_reference(f)]) }
+SOURCES.each { |f| ext.add_file_references([group.new_reference(f)]) }
 group.new_reference("Info.plist")
 
 ext.build_configurations.each do |c|

@@ -31,6 +31,8 @@ jobs:
           fi
           BODY=$(printf '%s' "$RAW" | sed -e 's/-----BEGIN PRIVATE KEY-----//' -e 's/-----END PRIVATE KEY-----//' | tr -d ' \r\n\t')
           { echo "-----BEGIN PRIVATE KEY-----"; echo "$BODY" | fold -w 64; echo "-----END PRIVATE KEY-----"; } > "$KEY"
+          N=$(printf '%s' "$BODY" | base64 --decode 2>/dev/null | wc -c | tr -d ' ')
+          echo "secrets present: key_id=${#ASC_KEY_ID} issuer=${#ASC_ISSUER_ID} p8=${#ASC_KEY_P8} p8b64=${#ASC_KEY_P8_BASE64}; key body $N bytes (valid = 138)"
           node app/scripts/testflight-feedback.js "$KEY" "$ASC_ISSUER_ID" "$RUNNER_TEMP/fb"
           tar -czf "$RUNNER_TEMP/fb.tgz" -C "$RUNNER_TEMP/fb" .
           openssl rand -out "$RUNNER_TEMP/k/aes" 32

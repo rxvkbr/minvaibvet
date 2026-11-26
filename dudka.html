@@ -132,14 +132,21 @@ main{position:fixed;inset:0;display:grid;grid-template-columns:1fr auto 1fr;alig
 
   /* ---- microphone: breath = loud AND noisy (a flat spectrum), so the pipe's own tone from the speaker doesn't blow itself ---- */
   var an=null,fbuf=null,tbuf=null,stream=null,calib=[],calibUntil=0;
+  /* in the iPhone app the audio session must record as well as play, or iOS refuses the microphone */
+  function nativeMode(m){try{var C=window.Capacitor,P=C&&C.isNativePlatform&&C.isNativePlatform()&&(C.Plugins&&C.Plugins.Purr||C.registerPlugin&&C.registerPlugin("Purr"));
+    if(P&&P.audioMode)return P.audioMode({mode:m}).catch(function(){});}catch(e){}return Promise.resolve();}
+  window.addEventListener("pagehide",function(){nativeMode("play");});
   function startMic(){
     audio();if(ac.state==="suspended")ac.resume();
-    return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}).then(function(s){
+    return nativeMode("record").then(function(){return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}).then(function(s){
       stream=s;var src=ac.createMediaStreamSource(s);an=ac.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=.2;src.connect(an);
       fbuf=new Float32Array(an.frequencyBinCount);tbuf=new Float32Array(an.fftSize);
       useMic=true;calib=[];calibUntil=performance.now()+900;$("mic").setAttribute("aria-pressed","true");$("oct").textContent="тиша… слухаю кімнату";
-    });
+    });});
   }
+  function micError(e){var n=e&&e.name||"";
+    return n==="NotAllowedError"||n==="SecurityError"?"Мікрофон не дозволено. На iPhone: Налаштування → Вайбвет FM → Мікрофон. Або грай кнопкою «дмухнути».":
+      "Мікрофон не запустився ("+(n||"помилка")+"). Можна грати кнопкою «дмухнути».";}
   function micRead(){
     an.getFloatTimeDomainData(tbuf);var s=0;for(var i=0;i<tbuf.length;i++)s+=tbuf[i]*tbuf[i];var rms=Math.sqrt(s/tbuf.length);
     an.getFloatFrequencyData(fbuf);
@@ -205,7 +212,7 @@ main{position:fixed;inset:0;display:grid;grid-template-columns:1fr auto 1fr;alig
     audio();if(ac.state==="suspended")ac.resume();
     if(!withMic){$("intro").style.display="none";return;}
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){$("err").textContent="Цей браузер не дає мікрофон. Можна грати кнопкою «дмухнути» або пробілом.";return;}
-    startMic().then(function(){$("intro").style.display="none";}).catch(function(){$("err").textContent="Мікрофон не дозволено. Можна дозволити в налаштуваннях або грати кнопкою «дмухнути».";});
+    startMic().then(function(){$("intro").style.display="none";}).catch(function(e){$("err").textContent=micError(e);nativeMode("play");});
   }
   $("go").onclick=function(){begin(true);};
   $("nomic").onclick=function(){begin(false);};

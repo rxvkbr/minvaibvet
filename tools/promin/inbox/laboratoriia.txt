@@ -1,0 +1,20 @@
+# Лабораторія: скло, метал і дві світні кулі над темною підлогою
+size 1200 720
+samples 96
+bounces 8
+camera  0 1.6 -6   0 0.7 0   40
+sky     0.02 0.02 0.04   0.05 0.04 0.06
+material floor  diffuse 0.55 0.5 0.45
+material gold   metal   0.95 0.75 0.35  0.05
+material chrome metal   0.9 0.9 0.92  0.0
+material glass  glass   1 1 1  1.5
+material teal   diffuse 0.2 0.6 0.55
+material lamp1  light   1.0 0.6 0.3  8
+material lamp2  light   0.4 0.6 1.0  8
+plane   0  floor
+sphere -1.6 0.8 0.5  0.8  gold
+sphere  0   0.7 -0.6 0.7  glass
+sphere  1.6 0.6 0.6  0.6  chrome
+box    -0.4 0 1.4  0.4 0.8 2.2  teal
+sphere -2.5 3 -1  0.5  lamp1
+sphere  2.5 3 -1  0.5  lamp2

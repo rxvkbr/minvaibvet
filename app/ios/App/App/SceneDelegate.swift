@@ -10,9 +10,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     /// The radio must keep sounding: put the audio session back to playback every time the app comes to the front,
     /// and after anything that interrupted it (a call, Siri, an alarm). Otherwise Web Audio stays mute after the first interruption.
+    /// true while a page listens to the microphone (Цифрова дудка): then the session records and plays.
+    static var recording = false
     static func audioOn() {
         let a = AVAudioSession.sharedInstance()
-        try? a.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+        if recording {
+            try? a.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .defaultToSpeaker, .allowBluetoothA2DP])
+        } else {
+            try? a.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+        }
         try? a.setActive(true)
     }
 

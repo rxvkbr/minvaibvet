@@ -1,3 +1,4 @@
+import AVFoundation
 import Capacitor
 import CoreHaptics
 import UIKit
@@ -13,7 +14,8 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "play", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "stop", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "tick", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "awake", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "awake", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "audioMode", returnType: CAPPluginReturnPromise)
     ]
 
     private var engine: CHHapticEngine?
@@ -91,6 +93,16 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         let on = call.getBool("on") ?? false
         DispatchQueue.main.async {
             UIApplication.shared.isIdleTimerDisabled = on
+            call.resolve()
+        }
+    }
+
+    /// The microphone needs the session to record as well as play (Цифрова дудка); "play" goes back to radio mode.
+    @objc func audioMode(_ call: CAPPluginCall) {
+        let record = call.getString("mode") == "record"
+        DispatchQueue.main.async {
+            SceneDelegate.recording = record
+            SceneDelegate.audioOn()
             call.resolve()
         }
     }

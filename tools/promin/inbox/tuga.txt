@@ -1,0 +1,22 @@
+# Туга за данським домом: туманне море, будиночок на березі, теплий вогник у вікні
+size 1200 720
+samples 96
+bounces 6
+camera  0 1.1 -7   0 0.9 4   38
+sky     0.18 0.24 0.38   0.95 0.66 0.45
+fog     0.022 0.62 0.6 0.62
+material sea    metal   0.25 0.33 0.4  0.18
+material sand   diffuse 0.62 0.56 0.46
+material wall   diffuse 0.75 0.18 0.16
+material roof   diffuse 0.12 0.12 0.14
+material window light   1.0 0.68 0.3  14
+material sun    light   1.0 0.62 0.32  5
+material glass  glass   0.95 0.97 1.0  1.5
+plane   0  sea
+box    -9 -1 6    9 0.25 14   sand
+box    -1.6 0.25 8   0.6 1.6 10   wall
+box    -1.8 1.6 7.8   0.8 2.0 10.2  roof
+box    -0.7 0.8 7.95  -0.3 1.2 8.0   window
+sphere -0.5 1.0 7.6  0.12 window
+sphere  6 2.2 34  3.2  sun
+sphere  1.6 0.55 2  0.55  glass

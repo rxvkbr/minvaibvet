@@ -1,6 +1,7 @@
 /* «Чарівна школа: двері» — every line of the game in the six languages of Вайбвет FM. */
 window.SHKOLA_TEXT={
 uk:{
+ tapKeys:"👆 Тапни, куди йти · тапни на персонажа, щоб поговорити<br>💬 говорити й брати · 📋 що ще треба",
  title:"Чарівна школа: двері",back:"← назад",
  intro1:"У чарівній школі Різдво: сніжить, мигтять гірлянди, у Холі ялинка й пам'ятник Берегині духу Щедрика. Тут живуть вісім кумедних мешканців, розкидані боби з дивними смаками й заховані чарівні картки.",
  intro2:"Знайди всі <b>12 карток</b>, збери <b>40 бобів</b>, пройди <b>4 тренування</b> і подружися з <b>кожним</b>. Тоді відчиняться двері в Холі.",
@@ -51,6 +52,7 @@ uk:{
  }
 },
 en:{
+ tapKeys:"👆 Tap where to go · tap a character to talk<br>💬 talk and pick up · 📋 what's left",
  title:"The Magic School: The Door",back:"← back",
  intro1:"It's Christmas at the magic school: snow is falling, garlands twinkle, and in the Hall there's a tree and a monument to the Guardian of the Spirit of Shchedryk. Eight funny residents live here, beans with strange flavours are scattered about, and magic cards are hidden.",
  intro2:"Find all <b>12 cards</b>, collect <b>40 beans</b>, finish <b>4 workouts</b> and make friends with <b>everyone</b>. Then the door in the Hall will open.",
@@ -101,6 +103,7 @@ en:{
  }
 },
 nl:{
+ tapKeys:"👆 Tik waar je heen wilt · tik op iemand om te praten<br>💬 praten en oppakken · 📋 wat er nog moet",
  title:"De toverschool: de deur",back:"← terug",
  intro1:"Het is Kerstmis op de toverschool: het sneeuwt, de slingers twinkelen en in de Hal staan een boom en een monument voor de Hoedster van de Geest van Sjtsjedryk. Hier wonen acht grappige bewoners, er liggen bonen met rare smaken en er zijn magische kaarten verstopt.",
  intro2:"Vind alle <b>12 kaarten</b>, verzamel <b>40 bonen</b>, doe <b>4 trainingen</b> en word vrienden met <b>iedereen</b>. Dan gaat de deur in de Hal open.",
@@ -151,6 +154,7 @@ nl:{
  }
 },
 ar:{
+ tapKeys:"👆 المس المكان الذي تريد الذهاب إليه · المس شخصية للكلام<br>💬 الكلام والالتقاط · 📋 ما الذي بقي",
  title:"المدرسة السحرية: الباب",back:"→ رجوع",
  intro1:"إنه عيد الميلاد في المدرسة السحرية: الثلج يتساقط، والزينة تتلألأ، وفي القاعة شجرة ونصب تذكاري لحارسة روح «شتشيدريك». يعيش هنا ثمانية سكان مضحكين، وتنتشر حبوب بنكهات غريبة، وتختبئ بطاقات سحرية.",
  intro2:"اعثر على كل <b>البطاقات الـ12</b>، واجمع <b>40 حبة</b>، وأنهِ <b>4 تمارين</b>، وكوّن صداقة مع <b>الجميع</b>. عندها سيُفتح الباب في القاعة.",
@@ -201,6 +205,7 @@ ar:{
  }
 },
 zh:{
+ tapKeys:"👆 点哪里就走到哪里 · 点角色就能说话<br>💬 说话和拾取 · 📋 还剩什么",
  title:"魔法学校：那扇门",back:"← 返回",
  intro1:"魔法学校在过圣诞：下着雪，彩灯闪烁，大厅里有一棵圣诞树和一座“谢德里克精神守护者”的纪念像。这里住着八位滑稽的居民，到处散落着奇怪口味的豆子，还藏着魔法卡片。",
  intro2:"找到全部 <b>12 张卡片</b>，收集 <b>40 颗豆子</b>，完成 <b>4 项训练</b>，并和<b>每个人</b>交朋友。然后大厅的门就会打开。",
@@ -251,6 +256,7 @@ zh:{
  }
 },
 ru:{
+ tapKeys:"👆 Тапни, куда идти · тапни на персонажа, чтобы поговорить<br>💬 говорить и брать · 📋 что ещё нужно",
  title:"Волшебная школа: дверь",back:"← назад",
  intro1:"В волшебной школе Рождество: идёт снег, мигают гирлянды, в Холле ёлка и памятник Берегине духа Щедрика. Здесь живут восемь забавных обитателей, разбросаны бобы со странными вкусами и спрятаны волшебные карточки.",
  intro2:"Найди все <b>12 карточек</b>, собери <b>40 бобов</b>, пройди <b>4 тренировки</b> и подружись с <b>каждым</b>. Тогда откроется дверь в Холле.",

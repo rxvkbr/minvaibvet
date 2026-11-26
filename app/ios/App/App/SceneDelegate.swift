@@ -9,7 +9,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let url = connectionOptions.urlContexts.first?.url {
-            _ = ApplicationDelegateProxy.shared.application(UIApplication.shared, open: url, options: [:])
+            if url.scheme == "vaibvet" {
+                // A widget started the app: wait for the page, then jump.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) { self.open(url) }
+            } else {
+                _ = ApplicationDelegateProxy.shared.application(UIApplication.shared, open: url, options: [:])
+            }
         }
         // Long-press on the app icon started the app: wait for the page, then jump.
         if let item = connectionOptions.shortcutItem {
@@ -34,7 +39,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
+            if url.scheme == "vaibvet" { DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { self.open(url) }; return }
             _ = ApplicationDelegateProxy.shared.application(UIApplication.shared, open: url, options: [:])
         }
+    }
+
+    /// Widgets open "vaibvet://section/<name>": the same sections as the Android widgets.
+    private func open(_ url: URL) {
+        let allowed = ["dron", "hladyty", "prognoz", "gazeta", "kolonka"]
+        guard url.host == "section", let section = url.pathComponents.last, allowed.contains(section) else { return }
+        let js = "if(/stil\\.html$/.test(location.pathname)){location.href='index.html#\(section)';}else{location.hash='';location.hash='\(section)';}"
+        let bridge = window?.rootViewController as? CAPBridgeViewController
+        bridge?.webView?.evaluateJavaScript(js, completionHandler: nil)
     }
 }

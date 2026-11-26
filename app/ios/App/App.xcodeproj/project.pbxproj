@@ -20,6 +20,7 @@
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
 		8D5DDA2F546B105A51EF2C58 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B527B0028C4D633BA7EB57 /* Foundation.framework */; };
 		95CF17C7AEC3750345ABB2C0 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8D994F86FEB721265F3E94 /* Strings.swift */; };
+		9FEB23408CD186CCA2643993 /* ShipIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C2DB9BFB5B8114F801AFE /* ShipIsland.swift */; };
 		A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */; };
 		B8E717392DA898A7C6877CC0 /* VaibvetWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F866D99AB5782073BDBAFB /* VaibvetWidgets.swift */; };
 		C1E1BA47A7298C9AC950195A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B52079C715FD8A69D955C17 /* WidgetKit.framework */; };
@@ -61,6 +62,7 @@
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		3DB74C14A49117D2BABB46AC /* PurrPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PurrPlugin.swift; path = App/PurrPlugin.swift; sourceTree = SOURCE_ROOT; };
 		3E0A33631A265CE6EC2EF9FF /* Games.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Games.swift; sourceTree = "<group>"; };
+		450C2DB9BFB5B8114F801AFE /* ShipIsland.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShipIsland.swift; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EC3071FED79650016851F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				F9E389A351848C5A643B86AE /* Thor.swift */,
 				60F866D99AB5782073BDBAFB /* VaibvetWidgets.swift */,
 				DBDF609671579D77BB9403B8 /* Info.plist */,
+				450C2DB9BFB5B8114F801AFE /* ShipIsland.swift */,
 			);
 			name = VaibvetWidgets;
 			path = VaibvetWidgets;
@@ -343,6 +346,7 @@
 				95CF17C7AEC3750345ABB2C0 /* Strings.swift in Sources */,
 				C50F13E696BE1D137BF9FE7C /* Thor.swift in Sources */,
 				B8E717392DA898A7C6877CC0 /* VaibvetWidgets.swift in Sources */,
+				9FEB23408CD186CCA2643993 /* ShipIsland.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

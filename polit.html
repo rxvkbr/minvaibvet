@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тестовий політ · Вайбкет FM</title>
+<meta name="theme-color" content="#9fd8ff">
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#9fd8ff;font-family:ui-rounded,system-ui,sans-serif;color:#14324a;-webkit-user-select:none;user-select:none;touch-action:none}
+#cv{position:fixed;inset:0;width:100%;height:100%;display:block}
+.top{position:fixed;left:0;right:0;top:0;display:flex;gap:8px;align-items:center;padding:calc(8px + env(safe-area-inset-top)) 10px 0;z-index:3;font:800 13px ui-rounded,system-ui}
+.top a,.pill{background:#ffffffc8;border-radius:999px;padding:7px 11px;color:#14324a;text-decoration:none}
+.top .sp{margin-left:auto;display:flex;gap:6px}
+.dock{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:0 12px calc(12px + env(safe-area-inset-bottom));z-index:3}
+.dock button{border:0;border-radius:18px;padding:13px 16px;font:800 15px ui-rounded,system-ui;background:#ffffffd8;color:#14324a;box-shadow:0 4px 0 #9cc7e3;cursor:pointer}
+.dock button.on{background:linear-gradient(#ffd86b,#ffb347);box-shadow:0 4px 0 #d98a1e}
+#drop{display:none}
+#ov{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#bfe6ffd0;z-index:9;padding:18px;backdrop-filter:blur(3px)}
+.card{max-width:440px;background:#fff;border-radius:24px;padding:22px;text-align:center;box-shadow:0 14px 50px #2a6c9a40}
+.card h1{margin:4px 0 8px;font:800 25px ui-rounded,system-ui}.card p{line-height:1.45;margin:8px 0}.card .big{font-size:48px}
+.card button.go{font:800 17px ui-rounded,system-ui;background:linear-gradient(#ffd86b,#ffb347);color:#3a2100;border:0;border-radius:14px;padding:12px 20px;margin:10px 4px 0;box-shadow:0 4px 0 #d98a1e;cursor:pointer}
+.card button.alt{font:700 14px ui-rounded,system-ui;background:#e8f4fc;color:#14324a;border:0;border-radius:12px;padding:10px 14px;margin:8px 4px 0;cursor:pointer}
+.card small{color:#5a7890;display:block;margin-top:8px}
+.lang{display:flex;gap:6px;justify-content:center;margin-top:12px}.lang button{border:0;border-radius:9px;padding:6px 10px;font:700 12px system-ui;background:#e8f4fc;color:#14324a;cursor:pointer}.lang button[aria-pressed=true]{background:#14324a;color:#fff}
+#toast{position:fixed;left:50%;top:calc(56px + env(safe-area-inset-top));transform:translateX(-50%);background:#fff;border-radius:14px;padding:8px 14px;font:800 14px ui-rounded,system-ui;opacity:0;transition:opacity .25s;z-index:4;pointer-events:none;box-shadow:0 6px 20px #2a6c9a30;white-space:nowrap}
+#toast.on{opacity:1}
+#lvl{position:fixed;left:12px;top:calc(56px + env(safe-area-inset-top));width:12px;height:120px;border-radius:9px;background:#ffffff80;overflow:hidden;z-index:3;display:none}#lvl i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#ff5f6d,#ffc371)}
+.vvk{bottom:auto!important;top:calc(52px + env(safe-area-inset-top))!important;left:auto!important;right:10px!important}
+</style>
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/kotobank.js"></script>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div class="top"><a href="index.html#more" id="back">←</a><span class="pill" id="ttl"></span><div class="sp"><span class="pill">♪ <b id="nN">0</b></span><span class="pill">🐾 <b id="nB">0</b></span></div></div>
+<div id="lvl"><i id="lvlI"></i></div>
+<div class="dock"><button id="mic" type="button"></button><button id="drop" type="button"></button></div>
+<div id="toast"></div>
+<div id="ov"><div class="card" id="card"></div></div>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+var TX={
+uk:{ttl:"Тестовий політ",title:"Тестовий політ",intro:"Єдиний дозволений дітям симулятор польоту. Кіт у навушниках летить на маленькому літачку і збирає звуки: ноти, сміх і котобакси. Тримай палець на екрані, щоб піднятися, відпусти, щоб плавно знизитись. А можна підніматися сміхом: що голосніше смієшся, то вище летиш.",
+ fly:"Злітаємо ✈️",mic:"😂 Сміхом",micOn:"😂 Сміх слухаю",hold:"👆 Пальцем",micNote:"Мікрофон тільки міряє гучність: нічого не записується й нікуди не йде.",micErr:"Мікрофон не дозволено. Можна літати пальцем.",
+ vet:"🎖 Ветеранський режим",vetT:"Ветеранський режим: скид по старій пам'яті. Тільки скидаємо подарунки: чай, тапочки, квіти й корм для котів.",vetBuy:"Відкрити за 100 🐾",vetHave:"Увімкнути 🎖",vetNo:"Не вистачає котобаксів. Їх дають у Справах і на Верфі.",drop:"🎁 Скид",
+ land:"Посадка!",landT:"Тестовий політ пройдено ✅",landP:"Ти зібрав(-ла) {n} нот і {b} котобаксів. Ось твоя мелодія польоту:",again:"Ще раз",play:"▶ Мелодія",
+ gifts:["чай","тапочки","квіти","корм"],hit:{gran:"Бабуся отримала {g} 💛",cat:"Кіт на даху отримав {g} 🐈",bench:"Дідусь на лавці отримав {g} 🫶"},miss:"Подарунок м'яко приземлився в траву 🌼",
+ bird:"Лелека махнув крилом. Пропускаємо ✨",laugh:"Хмарка сміху! 😂",near:"Аеродром близько!"},
+en:{ttl:"Test Flight",title:"Test Flight",intro:"The only flight simulator allowed for kids. A cat in headphones flies a tiny plane and collects sounds: notes, laughter and catbucks. Hold your finger on the screen to climb, let go to glide down. Or climb by laughing: the louder you laugh, the higher you fly.",
+ fly:"Take off ✈️",mic:"😂 By laughing",micOn:"😂 Listening to laughs",hold:"👆 By finger",micNote:"The microphone only measures loudness: nothing is recorded or sent anywhere.",micErr:"Microphone not allowed. You can fly with your finger.",
+ vet:"🎖 Veteran mode",vetT:"Veteran mode: a drop, for old times' sake. We only drop gifts: tea, slippers, flowers and cat food.",vetBuy:"Unlock for 100 🐾",vetHave:"Turn on 🎖",vetNo:"Not enough catbucks. You get them in Chores and at the Shipyard.",drop:"🎁 Drop",
+ land:"Landing!",landT:"Test flight passed ✅",landP:"You collected {n} notes and {b} catbucks. Here's your flight melody:",again:"Again",play:"▶ Melody",
+ gifts:["tea","slippers","flowers","cat food"],hit:{gran:"Grandma got {g} 💛",cat:"The rooftop cat got {g} 🐈",bench:"Grandpa on the bench got {g} 🫶"},miss:"The gift landed softly in the grass 🌼",
+ bird:"A stork waved its wing. Let it pass ✨",laugh:"A laughter cloud! 😂",near:"The airfield is close!"},
+nl:{ttl:"Testvlucht",title:"Testvlucht",intro:"De enige vluchtsimulator die voor kinderen mag. Een kat met koptelefoon vliegt een klein vliegtuigje en verzamelt geluiden: noten, gelach en kattenbucks. Houd je vinger op het scherm om te stijgen, laat los om rustig te dalen. Of stijg door te lachen: hoe harder je lacht, hoe hoger je vliegt.",
+ fly:"Opstijgen ✈️",mic:"😂 Met lachen",micOn:"😂 Ik luister naar gelach",hold:"👆 Met je vinger",micNote:"De microfoon meet alleen het volume: er wordt niets opgenomen of verstuurd.",micErr:"Microfoon niet toegestaan. Je kunt met je vinger vliegen.",
+ vet:"🎖 Veteranenmodus",vetT:"Veteranenmodus: een drop, voor de goede oude tijd. We droppen alleen cadeautjes: thee, sloffen, bloemen en kattenvoer.",vetBuy:"Ontgrendelen voor 100 🐾",vetHave:"Aanzetten 🎖",vetNo:"Niet genoeg kattenbucks. Die krijg je bij Klusjes en op de Werf.",drop:"🎁 Drop",
+ land:"Landen!",landT:"Testvlucht geslaagd ✅",landP:"Je verzamelde {n} noten en {b} kattenbucks. Dit is je vluchtmelodie:",again:"Nog een keer",play:"▶ Melodie",
+ gifts:["thee","sloffen","bloemen","kattenvoer"],hit:{gran:"Oma kreeg {g} 💛",cat:"De kat op het dak kreeg {g} 🐈",bench:"Opa op het bankje kreeg {g} 🫶"},miss:"Het cadeautje landde zacht in het gras 🌼",
+ bird:"Een ooievaar zwaaide met zijn vleugel. Laat hem voor ✨",laugh:"Een lachwolkje! 😂",near:"Het vliegveld is dichtbij!"},
+de:{ttl:"Testflug",title:"Testflug",intro:"Der einzige Flugsimulator, der für Kinder erlaubt ist. Eine Katze mit Kopfhörern fliegt ein kleines Flugzeug und sammelt Klänge: Noten, Lachen und Katzenbucks. Halte den Finger auf dem Bildschirm, um zu steigen, lass los, um sanft zu sinken. Oder steig durch Lachen: je lauter du lachst, desto höher fliegst du.",
+ fly:"Abheben ✈️",mic:"😂 Mit Lachen",micOn:"😂 Ich höre Lachen",hold:"👆 Mit dem Finger",micNote:"Das Mikrofon misst nur die Lautstärke: Nichts wird aufgenommen oder gesendet.",micErr:"Mikrofon nicht erlaubt. Du kannst mit dem Finger fliegen.",
+ vet:"🎖 Veteranenmodus",vetT:"Veteranenmodus: ein Abwurf, der alten Zeiten wegen. Abgeworfen werden nur Geschenke: Tee, Hausschuhe, Blumen und Katzenfutter.",vetBuy:"Für 100 🐾 freischalten",vetHave:"Einschalten 🎖",vetNo:"Nicht genug Katzenbucks. Die gibt es bei den Aufgaben und auf der Werft.",drop:"🎁 Abwurf",
+ land:"Landung!",landT:"Testflug bestanden ✅",landP:"Du hast {n} Noten und {b} Katzenbucks gesammelt. Hier ist deine Flugmelodie:",again:"Nochmal",play:"▶ Melodie",
+ gifts:["Tee","Hausschuhe","Blumen","Katzenfutter"],hit:{gran:"Oma bekam {g} 💛",cat:"Die Dachkatze bekam {g} 🐈",bench:"Opa auf der Bank bekam {g} 🫶"},miss:"Das Geschenk landete weich im Gras 🌼",
+ bird:"Ein Storch winkte mit dem Flügel. Vorfahrt ✨",laugh:"Eine Lachwolke! 😂",near:"Der Flugplatz ist nah!"}};
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!TX[LN])LN=LN==="ru"?"uk":"en";
+function T(){return TX[LN];}
+function fmt(s,o){for(var k in o)s=s.split("{"+k+"}").join(o[k]);return s;}
+function feel(k){try{window.VV_TAPTIC&&VV_TAPTIC(k);}catch(e){}}
+var tt=null;function toast(s){var t=$("toast");t.textContent=s;t.classList.add("on");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("on");},1600);}
+/* ---- sound ---- */
+var AC=null;function ac(){if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C();}if(AC&&AC.state!=="running")try{AC.resume();}catch(e){}return AC;}
+var PENT=[0,2,4,7,9];function nf(i){return 523.25*Math.pow(2,(Math.floor(i/5)*12+PENT[i%5])/12);}
+function bell(f,t,v,d){var c=ac();if(!c)return;t=t||c.currentTime;[[1,1],[2,.3],[3,.1]].forEach(function(p){var o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.value=f*p[0];g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v*p[1],t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+(d||.8)/p[0]);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+(d||.8)+.05);});}
+function giggle(){var c=ac();if(!c)return;var t=c.currentTime;for(var i=0;i<5;i++){var o=c.createOscillator(),g=c.createGain();o.type="triangle";o.frequency.setValueAtTime(700+i*60,t+i*.09);o.frequency.exponentialRampToValueAtTime(1100+i*60,t+i*.09+.06);g.gain.setValueAtTime(.0001,t+i*.09);g.gain.exponentialRampToValueAtTime(.08,t+i*.09+.01);g.gain.exponentialRampToValueAtTime(.0001,t+i*.09+.08);o.connect(g);g.connect(c.destination);o.start(t+i*.09);o.stop(t+i*.09+.1);}}
+var eng=null;function engine(on){var c=ac();if(!c)return;if(on&&!eng){var o=c.createOscillator(),f=c.createBiquadFilter(),g=c.createGain();o.type="sawtooth";o.frequency.value=90;f.type="lowpass";f.frequency.value=500;g.gain.value=.018;o.connect(f);f.connect(g);g.connect(c.destination);o.start();eng={o:o,g:g};}
+  if(!on&&eng){try{eng.g.gain.setTargetAtTime(0,c.currentTime,.1);var e=eng;setTimeout(function(){try{e.o.stop();}catch(x){}},400);}catch(x){}eng=null;}}
+/* ---- mic: loudness only ---- */
+var mic=null,micLvl=0;
+function nativeMode(m){try{var C=window.Capacitor,P=C&&C.isNativePlatform&&C.isNativePlatform()&&(C.Plugins&&C.Plugins.Purr||C.registerPlugin&&C.registerPlugin("Purr"));if(P&&P.audioMode)return P.audioMode({mode:m}).catch(function(){});}catch(e){}return Promise.resolve();}
+function micStart(){var c=ac();if(!c||!navigator.mediaDevices)return Promise.reject();
+  return nativeMode("record").then(function(){return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});}).then(function(s){
+    var src=c.createMediaStreamSource(s),an=c.createAnalyser();an.fftSize=1024;src.connect(an);mic={s:s,an:an,buf:new Float32Array(1024)};$("lvl").style.display="block";});}
+function micStop(){if(mic){mic.s.getTracks().forEach(function(t){t.stop();});mic=null;}$("lvl").style.display="none";nativeMode("play");}
+window.addEventListener("pagehide",micStop);
+function micRead(){if(!mic)return 0;mic.an.getFloatTimeDomainData(mic.buf);var s=0;for(var i=0;i<mic.buf.length;i++)s+=mic.buf[i]*mic.buf[i];var r=Math.sqrt(s/mic.buf.length);micLvl=micLvl*.7+Math.min(1,r*9)*.3;$("lvlI").style.height=Math.round(micLvl*100)+"%";return micLvl;}
+/* ---- world ---- */
+var cv=$("cv"),cx=cv.getContext("2d"),W,H,D;function rs(){D=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;cx.setTransform(D,0,0,D,0,0);}rs();addEventListener("resize",rs);
+var LEN=5200,S;
+function fresh(){return {x:0,y:H*.45,vy:0,t:0,run:false,done:false,notes:[],bucks:0,items:[],gifts:[],parts:[],hold:false,lastNote:0};}
+function spawn(){S.items=[];var r=function(a,b){return a+Math.random()*(b-a);};
+  for(var x=500;x<LEN-500;x+=r(110,200)){var k=Math.random();S.items.push({x:x,y:r(H*.12,H*.62),k:k<.55?"note":k<.72?"buck":k<.86?"laugh":"bird",got:false,ph:Math.random()*6});}
+  var t=["gran","cat","bench"];for(var gx=700;gx<LEN-600;gx+=r(380,620))S.items.push({x:gx,y:0,k:"target",tk:t[Math.floor(Math.random()*3)],got:false});}
+var vet=false;try{vet=localStorage.getItem("polit-vet")==="1"&&localStorage.getItem("polit-vet-on")==="1";}catch(e){}
+function ground(){return H-90;}
+var hills=[];for(var i=0;i<40;i++)hills.push({x:i*260+Math.random()*80,h:60+Math.random()*90,c:i%2});
+function drawWorld(cam){
+  var g=cx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#7cc4ff");g.addColorStop(.6,"#cfeeff");g.addColorStop(1,"#fff0c8");cx.fillStyle=g;cx.fillRect(0,0,W,H);
+  cx.fillStyle="#fff7c2";cx.beginPath();cx.arc(W*.8-cam*.02,H*.18,40,0,7);cx.fill();
+  cx.fillStyle="#ffffffd8";for(var c=0;c<8;c++){var x=((c*330-cam*.25)%(W+400)+W+400)%(W+400)-200,y=60+(c*53)%(H*.3);[0,30,60,32].forEach(function(o,i){cx.beginPath();cx.arc(x+o,y-(i%2?12:0),22+(i%2)*8,0,7);cx.fill();});}
+  hills.forEach(function(h){var x=((h.x-cam*.45)%(W+520)+W+520)%(W+520)-260;cx.fillStyle=h.c?"#9ad48a":"#b5e29a";cx.beginPath();cx.ellipse(x,ground()+10,180,h.h,0,Math.PI,0);cx.fill();});
+  cx.fillStyle="#86c76a";cx.fillRect(0,ground(),W,H-ground());
+  cx.fillStyle="#f4d35e";for(var sx=-((cam*.9)%46);sx<W;sx+=46){cx.beginPath();cx.arc(sx,ground()+26,6,0,7);cx.fill();}
+  var ax=LEN-cam+W*.3;if(ax<W+300){cx.fillStyle="#8c8c94";cx.fillRect(ax,ground()-6,520,14);cx.fillStyle="#fff";for(var k=0;k<8;k++)cx.fillRect(ax+20+k*62,ground()-1,30,4);cx.font="34px system-ui";cx.fillText("🏁",ax+500,ground()-14);cx.fillText("🗼",ax-40,ground()-12);}
+}
+function emo(e,x,y,s){cx.font=(s||28)+"px system-ui";cx.textAlign="center";cx.textBaseline="middle";cx.fillText(e,x,y);}
+function drawPlane(x,y,tilt){
+  cx.save();cx.translate(x,y);cx.rotate(tilt);
+  cx.fillStyle="#ffffff";cx.strokeStyle="#ff8a3d";cx.lineWidth=3;
+  cx.beginPath();cx.ellipse(0,0,46,12,0,0,7);cx.fill();cx.stroke();                 /* fuselage */
+  cx.fillStyle="#ffb347";cx.beginPath();cx.moveTo(-8,0);cx.lineTo(16,-4);cx.lineTo(10,26);cx.lineTo(-14,26);cx.closePath();cx.fill(); /* wing */
+  cx.fillStyle="#2f8fe0";cx.beginPath();cx.moveTo(-40,-2);cx.lineTo(-54,-22);cx.lineTo(-44,-22);cx.lineTo(-30,-4);cx.fill();        /* tail */
+  cx.fillStyle="#14324a";cx.fillRect(44,-2,5,4);cx.save();cx.translate(49,0);cx.rotate(S.t*40);cx.fillStyle="#14324a88";cx.fillRect(-2,-16,4,32);cx.restore(); /* propeller */
+  cx.fillStyle="#cde8ff";cx.beginPath();cx.arc(20,-4,6,0,7);cx.fill();
+  /* the cat on top, headphones on */
+  cx.fillStyle="#fff8ef";cx.beginPath();cx.ellipse(-6,-20,15,11,0,0,7);cx.fill();cx.beginPath();cx.arc(6,-33,11,0,7);cx.fill();
+  cx.beginPath();cx.moveTo(-1,-40);cx.lineTo(0,-50);cx.lineTo(5,-42);cx.fill();cx.beginPath();cx.moveTo(8,-42);cx.lineTo(13,-50);cx.lineTo(14,-40);cx.fill();
+  cx.strokeStyle="#ffb347";cx.lineWidth=3;cx.beginPath();cx.arc(6,-33,13,Math.PI*1.1,Math.PI*1.9);cx.stroke();cx.fillStyle="#ffb347";cx.fillRect(-9,-37,5,9);cx.fillRect(17,-37,5,9);
+  cx.strokeStyle="#ff6a4d";cx.lineWidth=2;cx.beginPath();cx.arc(3,-33,2.5,Math.PI,0);cx.stroke();cx.beginPath();cx.arc(10,-33,2.5,Math.PI,0);cx.stroke();
+  cx.beginPath();cx.moveTo(-20,-18);cx.quadraticCurveTo(-34,-24,-30,-36);cx.stroke();
+  cx.restore();
+}
+/* ---- loop ---- */
+var px=W*.28,last=0,flyBtn=null;
+function step(now){
+  var dt=Math.min(.05,(now-last)/1000||0);last=now;
+  if(S.run&&!S.done){
+    S.t+=dt;S.x+=dt*230;
+    var lift=S.hold?1:0;if(mic){var l=micRead();lift=Math.max(lift,l>.12?Math.min(1,(l-.12)*2.2):0);}
+    S.vy+=(lift?-520*lift:260)*dt;S.vy*=.92;S.y=Math.max(70,Math.min(ground()-40,S.y+S.vy*dt));
+    if(eng)eng.o.frequency.setTargetAtTime(90+lift*60,ac().currentTime,.1);
+    S.items.forEach(function(it){if(it.got||it.k==="target")return;var sx=it.x-S.x+px,dy=it.y+Math.sin(S.t*2+it.ph)*8-S.y;
+      if(Math.abs(sx-px)<38&&Math.abs(dy)<34){it.got=true;
+        if(it.k==="note"){S.notes.push(S.notes.length);bell(nf(S.notes.length%10),0,.12);feel("light");burst(px,S.y,"#ffd86b");}
+        else if(it.k==="buck"){S.bucks++;bell(1760,0,.08,.4);feel("tick");}
+        else if(it.k==="laugh"){giggle();toast(T().laugh);feel("soft");S.notes.push(99);}
+        else{toast(T().bird);S.vy+=-120;feel("soft");}
+        hud();}});
+    S.gifts.forEach(function(g){if(g.done)return;g.vy+=500*dt;g.y+=g.vy*dt;g.x+=150*dt;
+      if(g.y>=ground()-20){g.done=true;var hit=S.items.filter(function(it){return it.k==="target"&&!it.got&&Math.abs(it.x-g.x)<70;})[0];
+        if(hit){hit.got=true;toast(fmt(T().hit[hit.tk],{g:g.name}));bell(1318.5,0,.1);bell(1568,ac()&&ac().currentTime+.1,.08);feel("success");S.bucks+=2;burst(hit.x-S.x+px,ground()-30,"#ff6aa0");hud();}
+        else{toast(T().miss);feel("tick");}}});
+    if(S.x>LEN-700&&!S.near){S.near=true;toast(T().near);}
+    if(S.x>LEN){S.done=true;land();}
+  }
+  var cam=S.x-px;drawWorld(cam+px);
+  S.items.forEach(function(it){var sx=it.x-cam;if(sx<-60||sx>W+60)return;
+    if(it.k==="target"){var e=it.tk==="gran"?"👵":it.tk==="cat"?"🐈":"👴",base=it.tk==="cat"?"🏠":it.tk==="gran"?"🌻":"🪑";emo(base,sx,ground()-22,40);emo(e,sx+(it.tk==="cat"?0:26),ground()-(it.tk==="cat"?52:30),30);if(it.got)emo("💛",sx,ground()-80,24);return;}
+    if(it.got)return;var y=it.y+Math.sin(S.t*2+it.ph)*8;emo(it.k==="note"?"🎵":it.k==="buck"?"🐾":it.k==="laugh"?"😂":"🕊️",sx,y,it.k==="laugh"?34:28);});
+  S.gifts.forEach(function(g){if(g.done)return;emo(g.e,g.x-cam,g.y,26);});
+  var tilt=Math.max(-.35,Math.min(.35,S.vy/900));if(!S.done)drawPlane(px,S.y,tilt);else drawPlane(px+(S.x-LEN)*.0,Math.min(S.y,ground()-24),0);
+  S.parts=S.parts.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.l-=.03;if(p.l<=0)return false;cx.globalAlpha=p.l;cx.fillStyle=p.c;cx.beginPath();cx.arc(p.x,p.y,3,0,7);cx.fill();cx.globalAlpha=1;return true;});
+  if(S.done&&S.y<ground()-24)S.y+=dt*120;
+  requestAnimationFrame(step);
+}
+function burst(x,y,c){for(var i=0;i<14;i++){var a=Math.random()*6.3,s=2+Math.random()*4;S.parts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c:i%2?c:"#fff"});}}
+function hud(){$("nN").textContent=S.notes.filter(function(n){return n!==99;}).length;$("nB").textContent=S.bucks;}
+/* ---- input ---- */
+cv.addEventListener("pointerdown",function(){S.hold=true;ac();});
+["pointerup","pointercancel","pointerleave"].forEach(function(n){cv.addEventListener(n,function(){S.hold=false;});});
+addEventListener("keydown",function(e){if(e.code==="Space"||e.code==="ArrowUp"){S.hold=true;e.preventDefault();}if(e.code==="KeyD"&&vet)dropGift();});
+addEventListener("keyup",function(e){if(e.code==="Space"||e.code==="ArrowUp")S.hold=false;});
+$("mic").onclick=function(){ac();if(mic){micStop();paint();return;}micStart().then(function(){paint();toast(T().micNote);}).catch(function(){toast(T().micErr);nativeMode("play");});};
+function dropGift(){if(!S.run||S.done)return;var i=Math.floor(Math.random()*4);S.gifts.push({x:S.x+10,y:S.y+18,vy:0,e:["🫖","🩴","💐","🐟"][i],name:T().gifts[i]});feel("soft");bell(392,0,.06,.3);}
+$("drop").onclick=dropGift;
+function paint(){$("ttl").textContent=T().ttl;$("mic").textContent=mic?T().micOn:T().mic;$("mic").className=mic?"on":"";$("drop").textContent=T().drop;$("drop").style.display=vet?"block":"none";document.documentElement.lang=LN;}
+/* ---- cards ---- */
+function card(h){$("card").innerHTML=h;$("ov").style.display="flex";}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function intro(){
+  var own=false;try{own=localStorage.getItem("polit-vet")==="1";}catch(e){}
+  card('<div class="big">🐈✈️🎵</div><h1>'+esc(T().title)+'</h1><p>'+esc(T().intro)+'</p><small>'+esc(T().micNote)+'</small><button class="go" id="go">'+esc(T().fly)+'</button>'+
+    '<p style="margin-top:14px"><b>'+esc(T().vet)+'</b><br><small>'+esc(T().vetT)+'</small><button class="alt" id="vetB">'+esc(own?(vet?"✓ "+T().vetHave:T().vetHave):T().vetBuy)+'</button></p>'+
+    '<div class="lang">'+["uk","en","nl","de"].map(function(l){return '<button data-l="'+l+'" aria-pressed="'+(l===LN)+'">'+l.toUpperCase()+'</button>';}).join("")+'</div>');
+  [].forEach.call(document.querySelectorAll(".lang button"),function(b){b.onclick=function(){LN=b.dataset.l;try{localStorage.setItem("lang",LN);}catch(e){}paint();intro();};});
+  $("vetB").onclick=function(){
+    if(own){vet=!vet;try{localStorage.setItem("polit-vet-on",vet?"1":"0");}catch(e){}feel("click");paint();intro();return;}
+    var K=window.VV_KOTO;if(!K||K.balance()<100){toast(T().vetNo);feel("warning");return;}
+    K.spend(100,"🎖 "+T().vet).then(function(r){if(!r){toast(T().vetNo);return;}try{localStorage.setItem("polit-vet","1");localStorage.setItem("polit-vet-on","1");}catch(e){}vet=true;feel("success");bell(1046.5,0,.1);paint();intro();});};
+  $("go").onclick=function(){ac();$("ov").style.display="none";S=fresh();spawn();S.run=true;engine(true);hud();feel("rigid");bell(659.25,0,.1);};
+}
+function land(){
+  engine(false);feel("success");var n=S.notes.filter(function(x){return x!==99;}).length;
+  if(window.VV_KOTO)VV_KOTO.earn(10+S.bucks,"✈️ "+T().landT,true);
+  setTimeout(function(){
+    card('<div class="big">🛬🐈</div><h1>'+esc(T().landT)+'</h1><p>'+esc(fmt(T().landP,{n:n,b:10+S.bucks}))+'</p><button class="alt" id="pl">'+esc(T().play)+'</button><br><button class="go" id="ag">'+esc(T().again)+'</button><p><a href="index.html#more">←</a></p>');
+    function play(){var c=ac();if(!c)return;var t=c.currentTime+.1;S.notes.forEach(function(x,i){if(x===99){setTimeout(giggle,i*220);}else bell(nf(x%10),t+i*.22,.12);});}
+    $("pl").onclick=play;play();$("ag").onclick=function(){$("ov").style.display="none";S=fresh();spawn();S.run=true;engine(true);hud();};
+  },1400);
+}
+S=fresh();spawn();paint();intro();requestAnimationFrame(step);
+window.VV_POLIT={state:function(){return S;},drop:dropGift};
+})();
+</script>
+</body>
+</html>

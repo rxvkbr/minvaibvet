@@ -27,11 +27,34 @@
         var m=c.createGain();m.gain.value=g();m.connect(out);
         Object.defineProperty(c,"destination",{configurable:true,get:function(){return m;}});
         c.__vvOut=out;gains.push({c:c,m:m});
+        /* remember when a page silences a context on purpose (radio off, the minute of silence, a hidden game),
+           so the iOS wake-up below never undoes it */
+        var s0=c.suspend&&c.suspend.bind(c),r0=c.resume&&c.resume.bind(c);
+        if(s0)c.suspend=function(){c.__vvHeld=1;return s0();};
+        if(r0)c.resume=function(){c.__vvHeld=0;return r0();};
       }catch(e){}
       seen();return c;
     };
     W.prototype=C.prototype;W.__vvVol=1;try{window[n]=W;}catch(e){}
   });
+
+  /* ---- iOS keeps a context "suspended" or "interrupted" (after the background, a call, Siri, a lock)
+     and never wakes it by itself: wake every context on any touch, on return to the page, on focus.
+     The first touch also plays one silent sample, which is what unlocks Web Audio on older iPhones. ---- */
+  var unlocked=false;
+  function wakeAll(e){
+    gains.forEach(function(x){var c=x.c;try{
+      if(c.__vvHeld&&c.state!=="interrupted")return;   /* silenced on purpose: leave it */
+      if(c.state!=="running"&&c.state!=="closed"&&c.resume)c.resume().catch(function(){});
+      if(!unlocked&&e&&e.type!=="visibilitychange"){var b=c.createBuffer(1,1,22050),s=c.createBufferSource();s.buffer=b;s.connect(c.__vvOut||c.destination);s.start(0);}
+    }catch(er){}});
+    if(e&&e.type!=="visibilitychange"&&gains.length)unlocked=true;
+  }
+  ["pointerdown","touchend","keydown","click"].forEach(function(t){document.addEventListener(t,wakeAll,{capture:true,passive:true});});
+  document.addEventListener("visibilitychange",function(e){if(!document.hidden)wakeAll(e);});
+  window.addEventListener("pageshow",wakeAll);window.addEventListener("focus",wakeAll);
+  /* a context that drops out on its own while the page is visible gets one more try */
+  setInterval(function(){if(!document.hidden)gains.forEach(function(x){if(x.c.state==="interrupted"&&!x.c.__vvHeld&&x.c.resume)x.c.resume().catch(function(){});});},2000);
 
   /* ---- <audio>/<video>: remember the page's own volume, multiply by ours ---- */
   function media(el){

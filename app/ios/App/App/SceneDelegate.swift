@@ -1,3 +1,4 @@
+import AVFoundation
 import Capacitor
 import UIKit
 
@@ -7,7 +8,25 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
+    /// The radio must keep sounding: put the audio session back to playback every time the app comes to the front,
+    /// and after anything that interrupted it (a call, Siri, an alarm). Otherwise Web Audio stays mute after the first interruption.
+    static func audioOn() {
+        let a = AVAudioSession.sharedInstance()
+        try? a.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+        try? a.setActive(true)
+    }
+
+    func sceneDidBecomeActive(_ scene: UIScene) { SceneDelegate.audioOn() }
+    func sceneWillEnterForeground(_ scene: UIScene) { SceneDelegate.audioOn() }
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { n in
+            let raw = n.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt
+            if raw == AVAudioSession.InterruptionType.ended.rawValue { SceneDelegate.audioOn() }
+        }
+        NotificationCenter.default.addObserver(forName: AVAudioSession.mediaServicesWereResetNotification, object: nil, queue: .main) { _ in
+            SceneDelegate.audioOn()
+        }
         if let url = connectionOptions.urlContexts.first?.url {
             if url.scheme == "vaibvet" {
                 // A widget started the app: wait for the page, then jump.

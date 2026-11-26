@@ -156,7 +156,7 @@ function jarSave(v){try{localStorage.setItem("kotobank-jars",JSON.stringify(v));
 var phraseI=Math.floor(Math.random()*5);
 function fmtN(n){return n.toLocaleString(LN==="ar"?"ar":LN==="zh"?"zh-CN":LN,{maximumFractionDigits:0});}
 function render(){
-  var X=T();document.documentElement.lang=LN;document.body.dir=LN==="ar"?"rtl":"ltr";
+  var X=T();document.documentElement.lang=LN;document.querySelector(".logo").innerHTML={uk:"Кото<span>банк</span>",ru:"Кото<span>банк</span>",en:"Cat<span>bank</span>",nl:"Katten<span>bank</span>",ar:"بنك <span>القطط</span>",zh:"猫猫<span>银行</span>"}[LN]||"Cat<span>bank</span>";document.body.dir=LN==="ar"?"rtl":"ltr";
   $("cardName").textContent=X.name;$("cur").textContent=X.cur;$("bal").textContent=fmtN(K.balance());
   [["aEarn","earn"],["aPet","pet"],["aOut","out"],["aKurt","kurt"]].forEach(function(p){$(p[0]).querySelector("span").textContent=X[p[1]];});
   $("hJars").textContent=X.jars;$("hTr").textContent=X.tr;$("trP").textContent=X.trP;$("trSrc").textContent=X.phrases[phraseI];

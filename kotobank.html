@@ -49,6 +49,14 @@ h2{font:800 19px -apple-system,Inter,system-ui;margin:22px 4px 10px;letter-spaci
 .chain .blk b{color:var(--tx)}
 .note{color:var(--dim);font-size:12px;text-align:center;margin:18px 8px}
 .kurtka-stage{margin-top:8px}
+.shop{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.it{background:var(--card);border:0;border-radius:20px;padding:12px 8px;color:var(--tx);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.it .e{font-size:30px;width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--card2)}
+.it b{font-size:12px;line-height:1.2}.it small{font:750 12px system-ui;color:var(--gold)}.it.own small{color:var(--ok)}.it.on{outline:2px solid var(--gold)}
+.mycat{position:relative;background:var(--card);border-radius:22px;height:150px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px}
+.mycat .c{font-size:86px;position:relative}.mycat .w{position:absolute;font-size:38px}
+.mycat .w.hat{left:50%;top:-34px;transform:translateX(-30%)}.mycat .w.gl{left:50%;top:20px;transform:translateX(-35%);font-size:30px}.mycat .w.sc{left:50%;top:62px;transform:translateX(-40%);font-size:32px}.mycat .w.hp{left:50%;top:-6px;transform:translateX(-40%);font-size:44px}
+.mycat .st{position:absolute;right:12px;bottom:10px;font-size:13px;color:var(--dim)}
 #sheet{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:20}
 #sheet .in{background:#17171b;width:100%;max-width:520px;border-radius:28px 28px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));animation:up .3s cubic-bezier(.3,1.4,.5,1)}
 @keyframes up{from{transform:translateY(40%)}to{transform:none}}
@@ -67,6 +75,7 @@ h2{font:800 19px -apple-system,Inter,system-ui;margin:22px 4px 10px;letter-spaci
 </div>
 <div id="kurtBox"></div>
 <h2 id="hJars"></h2><div class="jars" id="jars"></div>
+<h2 id="hShop"></h2><div class="mycat" id="mycat"></div><div class="shop" id="shop"></div>
 <h2 id="hTr"></h2>
 <div class="tr"><p id="trP"></p><div class="src" id="trSrc"></div>
   <input id="trLang" autocomplete="off"><textarea id="trTxt"></textarea>
@@ -167,8 +176,47 @@ function render(){
     r.querySelector(".a").textContent=(b.a>0?"+":"−")+fmtN(Math.abs(b.a))+" 🐾";f.appendChild(r);});
   var ch=$("chain");ch.innerHTML="";K.chain().slice(-6).reverse().forEach(function(b){var d=document.createElement("div");d.className="blk";
     d.innerHTML="<b>#"+b.i+"</b> · "+(b.a>=0?"+":"")+b.a+" 🐾<br>hash "+String(b.h).slice(0,32)+"…<br>prev "+String(b.p).slice(0,32)+"…";ch.appendChild(d);});
+  renderShop();
   $("langs").innerHTML="";["uk","en","nl","ru","ar","zh"].forEach(function(l){var b=document.createElement("button");b.textContent={uk:"УК",en:"EN",nl:"NL",ru:"РУ",ar:"ع",zh:"中"}[l];
     b.setAttribute("aria-pressed",l===LN);b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}VV_TAPTIC&&VV_TAPTIC("tick");render();};$("langs").appendChild(b);});
+}
+
+var SKINS={svitanok:"linear-gradient(135deg,#ff5f6d 0%,#ffc371 48%,#7b5cff 100%)",nich:"linear-gradient(135deg,#141e30 0%,#243b55 50%,#7b5cff 100%)",ukr:"linear-gradient(160deg,#0057b7 0%,#0057b7 48%,#ffd700 52%,#ffd700 100%)",burshtyn:"linear-gradient(135deg,#f7971e 0%,#ffd200 60%,#fff1b8 100%)",zelen:"linear-gradient(135deg,#11998e 0%,#38ef7d 100%)"};
+var MERCH=[
+ {id:"skin_nich",e:"🌌",k:"skin",v:"nich",p:60},{id:"skin_ukr",e:"💙",k:"skin",v:"ukr",p:80},{id:"skin_burshtyn",e:"🍯",k:"skin",v:"burshtyn",p:70},{id:"skin_zelen",e:"🌿",k:"skin",v:"zelen",p:50},
+ {id:"w_hp",e:"🎧",k:"wear",slot:"hp",p:40},{id:"w_hat",e:"🎩",k:"wear",slot:"hat",p:45},{id:"w_crown",e:"👑",k:"wear",slot:"hat",p:150},{id:"w_gl",e:"🕶️",k:"wear",slot:"gl",p:30},{id:"w_sc",e:"🧣",k:"wear",slot:"sc",p:35},
+ {id:"b_jacket",e:"🧥",k:"badge",p:25},{id:"b_ship",e:"🚢",k:"badge",p:100},{id:"b_bell",e:"🔔",k:"badge",p:40},{id:"b_fish",e:"🐟",k:"badge",p:15},{id:"b_globe",e:"🌍",k:"badge",p:60},{id:"b_tea",e:"🫖",k:"badge",p:20}];
+var MN={
+ uk:{shop:"Віртуальний мерч",skin_nich:"Картка «Нічна зміна»",skin_ukr:"Картка «Синьо-жовта»",skin_burshtyn:"Картка «Бурштин»",skin_zelen:"Картка «Весна»",w_hp:"Навушники",w_hat:"Циліндр",w_crown:"Корона котокороля",w_gl:"Окуляри «Світанок»",w_sc:"Шарф «Щедрик»",b_jacket:"Значок «Куртка»",b_ship:"Мініатюра корабля",b_bell:"Дзвіночок Щедрика",b_fish:"Вічна рибка",b_globe:"Значок перекладача",b_tea:"Чайник Девіда",own:"твоє",on:"вдягнуто",buy:"Куплено: ",equip:"Вдягнуто: ",off:"Знято: ",badges:"значків"},
+ en:{shop:"Virtual merch",skin_nich:"«Night shift» card",skin_ukr:"«Blue and yellow» card",skin_burshtyn:"«Amber» card",skin_zelen:"«Spring» card",w_hp:"Headphones",w_hat:"Top hat",w_crown:"Cat king's crown",w_gl:"«Sunrise» shades",w_sc:"«Shchedryk» scarf",b_jacket:"«Jacket» badge",b_ship:"Ship miniature",b_bell:"Shchedryk bell",b_fish:"Eternal fish",b_globe:"Translator badge",b_tea:"David's kettle",own:"yours",on:"wearing",buy:"Bought: ",equip:"Put on: ",off:"Taken off: ",badges:"badges"},
+ nl:{shop:"Virtuele merch",skin_nich:"Kaart «Nachtdienst»",skin_ukr:"Kaart «Blauw-geel»",skin_burshtyn:"Kaart «Barnsteen»",skin_zelen:"Kaart «Lente»",w_hp:"Koptelefoon",w_hat:"Hoge hoed",w_crown:"Kroon van de kattenkoning",w_gl:"Zonnebril «Zonsopgang»",w_sc:"Sjaal «Sjtsjedryk»",b_jacket:"Speldje «Jas»",b_ship:"Scheepje",b_bell:"Belletje van Sjtsjedryk",b_fish:"Eeuwig visje",b_globe:"Vertalersspeldje",b_tea:"Waterkoker van David",own:"van jou",on:"aan",buy:"Gekocht: ",equip:"Aangedaan: ",off:"Uitgedaan: ",badges:"speldjes"},
+ ru:{shop:"Виртуальный мерч",skin_nich:"Карта «Ночная смена»",skin_ukr:"Карта «Сине-жёлтая»",skin_burshtyn:"Карта «Янтарь»",skin_zelen:"Карта «Весна»",w_hp:"Наушники",w_hat:"Цилиндр",w_crown:"Корона котокороля",w_gl:"Очки «Рассвет»",w_sc:"Шарф «Щедрик»",b_jacket:"Значок «Куртка»",b_ship:"Миниатюра корабля",b_bell:"Колокольчик Щедрика",b_fish:"Вечная рыбка",b_globe:"Значок переводчика",b_tea:"Чайник Давида",own:"твоё",on:"надето",buy:"Куплено: ",equip:"Надето: ",off:"Снято: ",badges:"значков"},
+ ar:{shop:"منتجات افتراضية",skin_nich:"بطاقة «النوبة الليلية»",skin_ukr:"بطاقة «أزرق وأصفر»",skin_burshtyn:"بطاقة «كهرمان»",skin_zelen:"بطاقة «ربيع»",w_hp:"سماعات",w_hat:"قبعة عالية",w_crown:"تاج ملك القطط",w_gl:"نظارة «الفجر»",w_sc:"وشاح «شيدريك»",b_jacket:"شارة «السترة»",b_ship:"سفينة مصغّرة",b_bell:"جرس شيدريك",b_fish:"سمكة أبدية",b_globe:"شارة المترجم",b_tea:"غلّاية داود",own:"لك",on:"ترتديه",buy:"اشتريت: ",equip:"ارتديت: ",off:"خلعت: ",badges:"شارات"},
+ zh:{shop:"虚拟周边",skin_nich:"「夜班」卡面",skin_ukr:"「蓝黄」卡面",skin_burshtyn:"「琥珀」卡面",skin_zelen:"「春天」卡面",w_hp:"耳机",w_hat:"礼帽",w_crown:"猫王王冠",w_gl:"「朝霞」墨镜",w_sc:"「Shchedryk」围巾",b_jacket:"「外套」徽章",b_ship:"船模",b_bell:"Shchedryk 铃铛",b_fish:"永恒小鱼",b_globe:"译者徽章",b_tea:"大卫的水壶",own:"已拥有",on:"已穿戴",buy:"已购买：",equip:"已穿戴：",off:"已取下：",badges:"枚徽章"}};
+function M(){return MN[LN]||MN.en;}
+function mLoad(){try{return JSON.parse(localStorage.getItem("kotobank-merch")||'{"own":[],"skin":"svitanok","wear":{}}');}catch(e){return {own:[],skin:"svitanok",wear:{}};}}
+function mSave(v){try{localStorage.setItem("kotobank-merch",JSON.stringify(v));}catch(e){}}
+function renderShop(){
+  var m=mLoad(),X=M();$("hShop").textContent=X.shop;
+  document.querySelector(".cardx").style.background=SKINS[m.skin]||SKINS.svitanok;
+  var cat=$("mycat");cat.innerHTML='<div class="c">🐈</div>';
+  ["hp","hat","gl","sc"].forEach(function(sl){var id=m.wear[sl];if(!id)return;var it=MERCH.filter(function(x){return x.id===id;})[0];if(!it)return;
+    var w=document.createElement("span");w.className="w "+sl;w.textContent=it.e;cat.querySelector(".c").appendChild(w);});
+  var bd=MERCH.filter(function(x){return x.k==="badge"&&m.own.indexOf(x.id)>=0;}).map(function(x){return x.e;}).join("");
+  var st=document.createElement("div");st.className="st";st.textContent=(bd||"")+" "+bd.length/2+" "+X.badges;cat.appendChild(st);
+  var sh=$("shop");sh.innerHTML="";
+  MERCH.forEach(function(it){var own=m.own.indexOf(it.id)>=0,on=(it.k==="skin"&&m.skin===it.v)||(it.k==="wear"&&m.wear[it.slot]===it.id);
+    var b=document.createElement("button");b.className="it"+(own?" own":"")+(on?" on":"");
+    b.innerHTML='<div class="e"></div><b></b><small></small>';b.querySelector(".e").textContent=it.e;b.querySelector(".e").style.background=it.k==="skin"?SKINS[it.v]:"";
+    b.querySelector("b").textContent=X[it.id];b.querySelector("small").textContent=on?"✓ "+X.on:own?X.own:"🐾 "+it.p;
+    b.onclick=function(){var v=mLoad();
+      if(v.own.indexOf(it.id)<0){K.spend(it.p,"🛍 "+X[it.id]).then(function(r){if(!r){toast(T().noMoney);VV_TAPTIC&&VV_TAPTIC("warning");return;}
+        v=mLoad();v.own.push(it.id);if(it.k==="skin")v.skin=it.v;if(it.k==="wear")v.wear[it.slot]=it.id;mSave(v);VV_TAPTIC&&VV_TAPTIC("success");toast(X.buy+X[it.id]+" "+it.e);render();});return;}
+      if(it.k==="skin"){v.skin=v.skin===it.v?"svitanok":it.v;}
+      else if(it.k==="wear"){if(v.wear[it.slot]===it.id){delete v.wear[it.slot];toast(X.off+X[it.id]);}else{v.wear[it.slot]=it.id;toast(X.equip+X[it.id]+" "+it.e);}}
+      else{toast(it.e+" "+X[it.id]);}
+      mSave(v);VV_TAPTIC&&VV_TAPTIC("tick");render();};
+    sh.appendChild(b);});
 }
 var lastFish=0;
 $("aEarn").onclick=function(){var n=Date.now();if(n-lastFish<1500){VV_TAPTIC&&VV_TAPTIC("tick");return;}lastFish=n;K.earn(1,T().fish);};

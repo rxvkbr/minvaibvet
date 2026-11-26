@@ -1,6 +1,6 @@
 /* «Туман і вальс» — 90.5 FM: Чайковський, Дебюссі, Перселл.
    Three sections that keep turning, written live, nothing sampled or quoted:
-   · «Граунд Перселла»  — a ground bass (the chromatic lament tetrachord in 3/2) repeating under new variations each time;
+   · «Граунд Перселла»  — a ground bass (a bright descending major ground in 3/2) repeating under new variations each time;
    · «Туман Дебюссі»    — whole-tone and pentatonic colours, parallel ninth chords that glide, harp, a held pedal;
    · «Вальс Чайковського» — 3/4: bass, chord, chord; a long singing string melody with sequences, and a celesta.
    VV_VALS.make(ctx, out) → {schedule(now), stop(), info()} — call schedule() every ~100 ms. */
@@ -22,7 +22,7 @@
 
     /* ---- instruments ---- */
     function strings(t,m,vel,dur){   /* a small section: three detuned saws, slow bow, soft top */
-      var g=ctx.createGain(),lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=Math.min(5000,mtof(m)*4);lp.Q.value=.4;
+      var g=ctx.createGain(),lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=Math.min(7000,mtof(m)*6);lp.Q.value=.4;
       var att=Math.min(.35,dur*.3);
       g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vel,t+att);g.gain.setValueAtTime(vel,t+dur*.85);g.gain.exponentialRampToValueAtTime(.0001,t+dur+.4);
       [-7,0,6].forEach(function(cents){var o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=mtof(m)*Math.pow(2,cents/1200);
@@ -52,7 +52,7 @@
     function deg(scale,d,base){var o=Math.floor(d/scale.length),r=((d%scale.length)+scale.length)%scale.length;return base+o*12+scale[r];}
 
     /* Purcell: the ground — tonic, down by semitones to the dominant, then a cadence; 6 bars of 3 minims */
-    var GROUND=[0,-1,-2,-3,-4,-5,-5,-7];   /* D C# C B Bb A … A, D (lament tetrachord in minor) */
+    var GROUND=[0,-1,-3,-5,-7,-8,-5,0];   /* a bright ground in the major: D C# B A G F# … A, D — sunlight, not lament */
     var melody=[];
     function newMelody(){melody=[];var d=4;for(var i=0;i<24;i++){d+=rnd([-1,1,-1,1,2,-2,0]);d=Math.max(0,Math.min(9,d));melody.push(d);}melody[23]=0;}
     newMelody();
@@ -67,17 +67,17 @@
         var bar=Math.floor(b/3)%8,pos=b%3,gnd=tonic-24+GROUND[bar];
         if(pos===0){bass(t,gnd,.18,2.4);bass(t,gnd+12,.06,2);}
         var chord=[gnd+12+3,gnd+12+7].map(function(x){return x;});
-        harpsi(t,gnd+24,.05);harpsi(t+.02,gnd+27+(bar%2),.04);
-        var mi=(Math.floor(b/3)*3+pos)%24,mel=deg(MIN,melody[mi],tonic+12);
-        strings(t,mel,.09,.95);lastMel=mel;
+        harpsi(t,gnd+24,.05);harpsi(t+.02,gnd+28,.04);harpsi(t+.04,gnd+31,.035);
+        var mi=(Math.floor(b/3)*3+pos)%24,mel=deg(MAJ,melody[mi],tonic+12);
+        strings(t,mel,.09,.95);lastMel=mel;if(pos===2&&Math.random()<.5)celesta(t+.3,mel+12,.04);
         return .78;   /* a slow minim */
       }
       if(sec==="Туман Дебюссі"){
         /* planing: a ninth chord gliding in parallel over the whole-tone scale; harp arpeggios in pentatonic; a held pedal */
-        var bar2=Math.floor(b/4),pos2=b%4,root=deg(WT,(bar2*2+(bar2%3))%6,tonic);
-        if(pos2===0){bass(t,tonic-24,.1,4);[0,4,7,10,14].forEach(function(iv,i){strings(t+i*.05,root+iv-12,.035,3.2);});}
+        var bar2=Math.floor(b/4),pos2=b%4,root=deg(PENT,(bar2*2+(bar2%3))%5,tonic);
+        if(pos2===0){bass(t,tonic-12,.07,4);[0,4,7,11,14].forEach(function(iv,i){strings(t+i*.05,root+iv-12,.035,3.2);});}
         for(var k=0;k<3;k++)harp(t+k*.11,deg(PENT,(b*3+k)%10,tonic+12),.05);
-        if(pos2===2&&Math.random()<.6)celesta(t+.2,deg(WT,Math.floor(Math.random()*8),tonic+24),.05);
+        if(pos2===2&&Math.random()<.6)celesta(t+.2,deg(PENT,Math.floor(Math.random()*8),tonic+24),.05);
         return .62;
       }
       /* Tchaikovsky waltz: 3/4 — bass on one, chord on two and three; melody in long notes with a lift */
@@ -102,7 +102,7 @@
         }
       },
       stop:function(){stopped=true;try{bus.disconnect();}catch(e){}},
-      info:function(){return {section:SECTIONS[section],key:(NAMES[tonic]||"")+(section===0?"-мінор":"-мажор")};}
+      info:function(){return {section:SECTIONS[section],key:(NAMES[tonic]||"")+"-мажор"};}
     };
   }};
 })();

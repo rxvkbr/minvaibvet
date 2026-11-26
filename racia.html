@@ -83,7 +83,7 @@ button{cursor:pointer;background:none;border:0}
     <div class="note">Тільки готові фрази Мінвайбкету: ніхто не напише тобі нічого свого. Невідомі спершу потрапляють у «запити».</div>
   </aside>
   <main class="main" id="main">
-    <div class="top"><div class="who"><button class="pill back" id="back">←</button><b id="chatName">Обери друга</b></div><button class="pill" id="del" hidden title="Прибрати зі списку">прибрати</button></div>
+    <div class="top"><div class="who"><button class="pill back" id="chatBack" type="button">←</button><b id="chatName">Обери друга</b></div><button class="pill" id="del" hidden title="Прибрати зі списку">прибрати</button></div>
     <div class="msgs" id="msgs"><div class="empty"><div class="big">📻</div><p>Додай друга за кодом або поділись своїм. Далі кидай фрази Мінвайбкету: прийом!</p></div></div>
     <div class="pad" id="pad" hidden><div class="cats" id="cats"></div><div class="ph" id="ph"></div></div>
   </main>
@@ -103,7 +103,8 @@ var CATS=[
  ["побут","☕",["Кава 3в1 чекає","Мівіна на двох?","Подзвони мамі","Купи хліб, будь ласка","Я вдома, чайник поставлено","Виходжу через 5 хвилин (через 20)","Пиши, як доїдеш","Довідку отримано з першого разу!"]],
  ["ніжне","💛",["Ти мені довідка з першого разу","Пишаюся тобою","Обіймаю міцно-міцно","Ти молодець, навіть якщо не віриш","Думаю про тебе","Добраніч, без тривог","Доброго ранку, вайб у нормі","Сумую, приїжджай"]],
  ["абсурд","🐄",["Корова перетнула лінію городів","Трактор знову щось знайшов","ЦНАП оголосив юрисдикцію над моїм серцем","Вікно №4 передає привіт","Дрон бачив кота. Кіт бачив дрон","Мене викликали в переговорку. Там казино","Бачу вівці на обрії","Туман, сонце й тиша"]],
- ["реакції","😺",["🐈","🫡","🫂","☕","🌹","🐄","🚜","📄","❤️","😂","🙏","🌙"]]];
+ ["реакції","😺",["🐈","🫡","🫂","☕","🌹","🐄","🚜","📄","❤️","😂","🙏","🌙"]],
+ ["справи","✅",["Посуд помито ✅","Сміття винесено ✅","Прання запущено 🧺","Ліжко застелено 🛏","Квіти полито 🪴","Прибрано 🧹","Продукти куплено 🛒","Вчуся, не відволікай 📚","Справу зроблено ✅","Візьму це на себе","Дякую, що зробив 💛","Допоможеш зі справами?"]]];
 var PH=[];CATS.forEach(function(c,ci){c[2].forEach(function(t,ti){PH.push({id:ci*100+ti,c:ci,t:t});});});
 function phrase(id){for(var i=0;i<PH.length;i++)if(PH[i].id===id)return PH[i];return null;}
 
@@ -158,7 +159,7 @@ var cat=0;
 function paintPad(){var C=$("cats");C.innerHTML="";CATS.forEach(function(c,i){var b=document.createElement("button");b.textContent=c[1]+" "+c[0];b.setAttribute("aria-pressed",String(i===cat));b.onclick=function(){cat=i;paintPad();};C.appendChild(b);});
   var P=$("ph");P.innerHTML="";PH.filter(function(p){return p.c===cat;}).forEach(function(p){var b=document.createElement("button");b.textContent=p.t;if(p.c===4){b.style.fontSize="26px";b.style.textAlign="center";}b.onclick=function(){send(p.id);};P.appendChild(b);});
   $("ph").style.gridTemplateColumns=cat===4?"repeat(auto-fill,minmax(56px,1fr))":"";}
-$("back").onclick=function(){open=null;$("app").classList.remove("chat");paintList();};
+$("chatBack").onclick=function(){open=null;$("app").classList.remove("chat");paintList();};
 $("del").onclick=function(){if(!open)return;if(!confirm("Прибрати цього друга й переписку з цього пристрою?"))return;delete friends[open];delete chats[open];delete unread[open];saveAll();unsub(open);open=null;$("app").classList.remove("chat");$("pad").hidden=true;$("del").hidden=true;$("chatName").textContent="Обери друга";$("msgs").innerHTML="";paintList();};
 $("roll").onclick=function(){me.cs=csRoll();store("cs",JSON.stringify(me.cs));paintMe();toast("Тепер ти "+csName(me.cs));};
 $("copy").onclick=function(){try{navigator.clipboard.writeText(link());toast("Посилання скопійовано");}catch(e){prompt("Посилання:",link());}};

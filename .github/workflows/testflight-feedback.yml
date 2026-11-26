@@ -1,0 +1,37 @@
+name: TestFlight feedback
+
+# Run by hand: pulls TestFlight screenshot and crash reports. The result is encrypted to .github/keys/feedback-pub.pem
+# (the repo is public, so nothing readable goes into logs or artifacts) and kept for one day.
+on:
+  workflow_dispatch:
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch and encrypt
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: |
+          set -e
+          mkdir -p "$RUNNER_TEMP/k" "$RUNNER_TEMP/fb" out
+          KEY="$RUNNER_TEMP/k/AuthKey_$ASC_KEY_ID.p8"
+          if [ -n "$ASC_KEY_P8" ]; then printf '%s\n' "$ASC_KEY_P8" > "$KEY"; else echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY"; fi
+          node app/scripts/testflight-feedback.js "$KEY" "$ASC_ISSUER_ID" "$RUNNER_TEMP/fb"
+          tar -czf "$RUNNER_TEMP/fb.tgz" -C "$RUNNER_TEMP/fb" .
+          openssl rand -out "$RUNNER_TEMP/k/aes" 32
+          openssl enc -aes-256-cbc -pbkdf2 -salt -in "$RUNNER_TEMP/fb.tgz" -out out/fb.tgz.enc -pass file:"$RUNNER_TEMP/k/aes"
+          openssl pkeyutl -encrypt -pubin -inkey .github/keys/feedback-pub.pem -pkeyopt rsa_padding_mode:oaep -in "$RUNNER_TEMP/k/aes" -out out/key.enc
+          rm -rf "$RUNNER_TEMP/k" "$RUNNER_TEMP/fb" "$RUNNER_TEMP/fb.tgz"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: feedback-encrypted
+          path: out/
+          retention-days: 1

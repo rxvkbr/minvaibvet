@@ -22,7 +22,8 @@ echo "→ Готую сайт для додатка"
 npm ci --silent
 npm run -s web
 npx cap sync ios
-ruby scripts/ios-add-widgets.rb   # the WidgetKit extension (does nothing if it is already there)
+# the widgets target is committed in the project by GitHub (ios-project.yml); run the script only where Ruby has xcodeproj
+if ruby -e 'require "xcodeproj"' 2>/dev/null; then ruby scripts/ios-add-widgets.rb; fi
 
 BUILD="$(date +%y%m%d%H%M)"
 OUT="$(mktemp -d)"

@@ -42,7 +42,7 @@ jobs:
         run: npm run web && npx cap sync ios
 
       - name: Home-screen widgets target
-        run: ruby scripts/ios-add-widgets.rb
+        run: ruby scripts/ios-add-widgets.rb   # no-op once ios-project.yml has committed the target
 
       - name: Compile for the simulator
         if: github.event_name == 'push'

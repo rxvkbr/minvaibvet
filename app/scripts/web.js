@@ -23,6 +23,7 @@ for (const f of fs.readdirSync(site)) if (/^(kolonka-.*|kurs|mriya|merch|vidnovl
   fs.writeFileSync(path.join(www, f), page);
 }
 fs.cpSync(path.join(site, "img"), path.join(www, "img"), { recursive: true });
+fs.cpSync(path.join(site, "audio"), path.join(www, "audio"), { recursive: true });   // «Легіон» voices
 
 // family package -> stylesheets for the weights the page uses
 const FONTS = {

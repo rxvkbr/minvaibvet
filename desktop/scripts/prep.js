@@ -10,6 +10,7 @@ for (const f of fs.readdirSync(site)) {
   if (/\.(html|ics)$/.test(f)) fs.copyFileSync(path.join(site, f), path.join(www, f));
 }
 fs.cpSync(path.join(site, "img"), path.join(www, "img"), { recursive: true });
+fs.cpSync(path.join(site, "audio"), path.join(www, "audio"), { recursive: true });
 fs.cpSync(path.join(site, "vendor"), path.join(www, "vendor"), { recursive: true });
 // build stamp (UTC yymmddhhmm): the app takes a downloaded content copy only if it is newer than this
 const d = new Date(), p2 = (n) => String(n).padStart(2, "0");

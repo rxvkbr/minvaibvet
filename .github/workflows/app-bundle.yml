@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["*.html", "kalendar.ics", "vendor/**", "img/**", "app/scripts/web.js", "desktop/scripts/prep.js"]
+    paths: ["*.html", "kalendar.ics", "vendor/**", "img/**","audio/**", "app/scripts/web.js", "desktop/scripts/prep.js"]
 
 permissions:
   contents: write

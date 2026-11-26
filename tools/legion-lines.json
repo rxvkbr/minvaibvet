@@ -1,0 +1,54 @@
+{
+  "nekromant": {
+    "select": {
+      "uk": ["Так. З потойбіччя.", "Слухаю. Мертві теж слухають.", "Хто кличе некроманта?"],
+      "en": ["Yes. From the beyond.", "I'm listening. The dead listen too.", "Who summons the necromancer?"],
+      "nl": ["Ja. Uit het hiernamaals.", "Ik luister. De doden luisteren ook.", "Wie roept de necromancer?"],
+      "ar": ["نعم. من العالم الآخر.", "أنا أسمع. الموتى يسمعون أيضاً.", "من يستدعي مستحضر الأرواح؟"],
+      "zh": ["是的。来自彼岸。", "我在听。亡者也在听。", "谁在召唤死灵法师？"],
+      "ru": ["Да. С того света.", "Слушаю. Мёртвые тоже слушают.", "Кто зовёт некроманта?"]
+    },
+    "ack": {
+      "uk": ["Буде зроблено. Посмертно.", "Підніму. Навіть настрій.", "Рапорт? Воскрешу.", "Ходжу між світами. І по магазинах."],
+      "en": ["It shall be done. Posthumously.", "I'll raise it. Even your mood.", "A request form? I'll resurrect it.", "I walk between worlds. And to the shops."],
+      "nl": ["Het wordt gedaan. Postuum.", "Ik wek het op. Zelfs je humeur.", "Een formulier? Ik wek het tot leven.", "Ik loop tussen werelden. En naar de winkel."],
+      "ar": ["سيتم ذلك. بعد الموت.", "سأرفعه. حتى مزاجك.", "طلب إجازة؟ سأعيده إلى الحياة.", "أمشي بين العوالم. وإلى المتجر."],
+      "zh": ["遵命。死后执行。", "我会唤醒它。连你的心情也是。", "请假条？我来复活它。", "我行走于两界之间。也去超市。"],
+      "ru": ["Будет сделано. Посмертно.", "Подниму. Даже настроение.", "Рапорт? Воскрешу.", "Хожу между мирами. И по магазинам."]
+    },
+    "annoyed": {
+      "uk": ["Я вже мертвий. Мене не задовбеш.", "Ще раз тицьнеш, і я стану котиком.", "Знаєш, скільки довідок треба для воскресіння?", "Я не зомбі. Я з вайбом."],
+      "en": ["I'm already dead. You can't annoy me.", "Poke me again and I'll turn into a cat.", "Do you know how many certificates a resurrection takes?", "I'm not a zombie. I have a vibe."],
+      "nl": ["Ik ben al dood. Mij irriteer je niet.", "Nog één keer porren en ik word een kat.", "Weet je hoeveel attesten een wederopstanding kost?", "Ik ben geen zombie. Ik heb een vibe."],
+      "ar": ["أنا ميت بالفعل. لا يمكنك إزعاجي.", "انقر مرة أخرى وسأتحول إلى قطة.", "هل تعرف كم شهادة تحتاج القيامة؟", "لست زومبي. عندي مزاج."],
+      "zh": ["我已经死了。你烦不到我。", "再戳一下，我就变成猫。", "你知道复活要开多少证明吗？", "我不是僵尸。我有氛围。"],
+      "ru": ["Я уже мёртв. Меня не достанешь.", "Ещё раз ткнёшь, и я стану котиком.", "Знаешь, сколько справок нужно для воскрешения?", "Я не зомби. Я с вайбом."]
+    }
+  },
+  "moriak": {
+    "select": {
+      "uk": ["Агой! Девід на палубі.", "Так, капітане?", "Море спокійне. Як і я."],
+      "en": ["Ahoy! David on deck.", "Yes, captain?", "The sea is calm. So am I."],
+      "nl": ["Ahoi! David aan dek.", "Ja, kapitein?", "De zee is kalm. Ik ook."],
+      "ar": ["أهلاً! ديفيد على السطح.", "نعم يا قبطان؟", "البحر هادئ. وأنا كذلك."],
+      "zh": ["啊嗬！大卫在甲板上。", "是，船长？", "大海很平静。我也是。"],
+      "ru": ["Ахой! Дэвид на палубе.", "Да, капитан?", "Море спокойно. Как и я."]
+    },
+    "ack": {
+      "uk": ["Курс на дім!", "Вже ставлю чайник.", "Ду нормал. Все буде.", "Тримаю штурвал. І тебе."],
+      "en": ["Course set for home!", "Putting the kettle on.", "Doe normaal. It'll be fine.", "I've got the wheel. And you."],
+      "nl": ["Koers naar huis!", "Ik zet de waterkoker aan.", "Doe normaal. Komt goed.", "Ik heb het roer. En jou."],
+      "ar": ["الوجهة: البيت!", "أضع الإبريق على النار.", "اهدأ. كل شيء سيكون بخير.", "أمسك الدفة. وأمسكك أنت."],
+      "zh": ["航向：回家！", "我去烧水。", "淡定。会好的。", "我掌着舵。也抓着你。"],
+      "ru": ["Курс на дом!", "Уже ставлю чайник.", "Ду нормал. Всё будет.", "Держу штурвал. И тебя."]
+    },
+    "annoyed": {
+      "uk": ["Ще раз тицьнеш, і почнеться шторм.", "Я голландець. Я все бачу.", "Ти тицяєш, а креветка нервує.", "Піду мити палубу. Від тебе."],
+      "en": ["Poke me again and a storm begins.", "I'm Dutch. I see everything.", "You keep poking, the shrimp gets nervous.", "I'm off to swab the deck. Away from you."],
+      "nl": ["Nog één keer porren en er komt storm.", "Ik ben Nederlander. Ik zie alles.", "Jij port, en de garnaal wordt zenuwachtig.", "Ik ga het dek dweilen. Weg van jou."],
+      "ar": ["انقر مرة أخرى وستبدأ العاصفة.", "أنا هولندي. أرى كل شيء.", "أنت تنقر والروبيان يتوتر.", "سأذهب لمسح السطح. بعيداً عنك."],
+      "zh": ["再戳一下，就要起风暴了。", "我是荷兰人。我什么都看得见。", "你一直戳，小虾都紧张了。", "我去擦甲板了。离你远点。"],
+      "ru": ["Ещё раз ткнёшь, и начнётся шторм.", "Я голландец. Я всё вижу.", "Ты тыкаешь, а креветка нервничает.", "Пойду драить палубу. От тебя."]
+    }
+  }
+}

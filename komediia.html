@@ -84,6 +84,7 @@ dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:v
 <div class="prog" id="prog"></div>
 <div class="top">
   <a class="pill" id="back" href="index.html">← Вайбвет FM</a>
+  <a class="pill" id="up" href="#" hidden>↑ зміст</a>
   <span class="now" id="now">Безкінечна читалка</span>
   <span class="fs"><button id="fsm" aria-label="Менший шрифт">A−</button><button id="fsp" aria-label="Більший шрифт">A+</button></span>
 </div>
@@ -317,10 +318,11 @@ dl.people dt{font-weight:700;margin-top:14px}dl.people dd{margin:2px 0 0;color:v
   addEventListener("scroll",tick,{passive:true});addEventListener("resize",tick);
   addEventListener("hashchange",route);
   addEventListener("pagehide",save);
-  document.getElementById("back").addEventListener("click",function(e){
-    if(location.hash&&location.hash!=="#"){e.preventDefault();var h=location.hash.slice(1).split("/");location.hash=h.length>1?h[0]:"";return;}
-    try{if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back();}}catch(_){}
-  });
+  /* "← Вайбвет FM" always leaves the reader; "↑ зміст" steps up inside it */
+  var up=document.getElementById("up");
+  function paintUp(){var h=location.hash.replace(/^#/,"").split("/");up.hidden=!h[0];up.href=h.length>1&&h[1]?"#"+h[0]:"#";up.textContent=h.length>1&&h[1]?"↑ зміст":"↑ усі гілки";}
+  addEventListener("hashchange",paintUp);paintUp();
+
   document.addEventListener("keydown",function(e){
     if(!cur||e.metaKey||e.ctrlKey||e.altKey||/input|textarea/i.test((e.target.tagName||"")))return;
     var i=cur.b.chapters.indexOf(cur.c);

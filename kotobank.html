@@ -66,6 +66,10 @@ html.ios-app .jarhero,html.ios-app #jarLink{display:none!important}
 .paybox video{width:100%;max-width:320px;border-radius:16px;background:#000;aspect-ratio:1;object-fit:cover}
 .paybox input{width:100%;box-sizing:border-box;background:#0e0e11;border:1px solid #ffffff1c;color:var(--tx);border-radius:14px;padding:11px 12px;font:700 17px ui-monospace,Menlo,monospace;margin-top:8px;text-align:center;letter-spacing:2px}
 .paybox small{color:var(--dim);display:block;margin-top:8px;font-size:12px}
+.cb{background:linear-gradient(160deg,#1f2a44,#1b1b1f);border:1px solid #ffffff14;border-radius:22px;padding:16px;margin-top:8px}
+.cb .row{display:flex;gap:8px;margin:10px 0}.cb .kpi{flex:1;background:#ffffff0d;border-radius:16px;padding:10px}.cb .kpi small{display:block;color:var(--dim);font-size:11px}.cb .kpi b{font:800 24px system-ui;font-variant-numeric:tabular-nums}
+.cb .kpi .up{color:#ff8a7a}.cb .kpi .dn{color:var(--ok)}.cb q{display:block;color:#dfe6ff;font-style:italic;margin-top:8px;quotes:"«" "»"}.cb .meta{color:var(--dim);font-size:12px}
+.cb svg{display:block;width:100%;height:70px;margin-top:6px}
 #sheet{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:20}
 #sheet .in{background:#17171b;width:100%;max-width:520px;border-radius:28px 28px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));animation:up .3s cubic-bezier(.3,1.4,.5,1)}
 @keyframes up{from{transform:translateY(40%)}to{transform:none}}
@@ -85,6 +89,7 @@ html.ios-app .jarhero,html.ios-app #jarLink{display:none!important}
   <button id="aEarn"><b>🐟</b><span></span></button><button id="aPet"><b>🫳</b><span></span></button><button id="aOut"><b>💸</b><span></span></button><button id="aKurt"><b>🧥</b><span></span></button>
 </div>
 <div id="kurtBox"></div>
+<h2 id="hCb"></h2><div class="cb" id="cb"></div>
 <h2 id="hJars"></h2><div class="jars" id="jars"></div>
 <h2 id="hShop"></h2><div class="mycat" id="mycat"></div><div class="shop" id="shop"></div>
 <h2 id="hTr"></h2>
@@ -188,7 +193,7 @@ function render(){
     r.querySelector(".a").textContent=(b.a>0?"+":"−")+fmtN(Math.abs(b.a))+" 🐾";f.appendChild(r);});
   var ch=$("chain");ch.innerHTML="";K.chain().slice(-6).reverse().forEach(function(b){var d=document.createElement("div");d.className="blk";
     d.innerHTML="<b>#"+b.i+"</b> · "+(b.a>=0?"+":"")+b.a+" 🐾<br>hash "+String(b.h).slice(0,32)+"…<br>prev "+String(b.p).slice(0,32)+"…";ch.appendChild(d);});
-  renderShop();payPaint();
+  renderShop();payPaint();cbPaint();
   $("langs").innerHTML="";["uk","en","nl","ru","ar","zh"].forEach(function(l){var b=document.createElement("button");b.textContent={uk:"УК",en:"EN",nl:"NL",ru:"РУ",ar:"ع",zh:"中"}[l];
     b.setAttribute("aria-pressed",l===LN);b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}VV_TAPTIC&&VV_TAPTIC("tick");render();};$("langs").appendChild(b);});
 }
@@ -220,9 +225,9 @@ function renderShop(){
   MERCH.forEach(function(it){var own=m.own.indexOf(it.id)>=0,on=(it.k==="skin"&&m.skin===it.v)||(it.k==="wear"&&m.wear[it.slot]===it.id);
     var b=document.createElement("button");b.className="it"+(own?" own":"")+(on?" on":"");
     b.innerHTML='<div class="e"></div><b></b><small></small>';b.querySelector(".e").textContent=it.e;b.querySelector(".e").style.background=it.k==="skin"?SKINS[it.v]:"";
-    b.querySelector("b").textContent=X[it.id];b.querySelector("small").textContent=on?"✓ "+X.on:own?X.own:"🐾 "+it.p;
+    b.querySelector("b").textContent=X[it.id];b.querySelector("small").textContent=on?"✓ "+X.on:own?X.own:"🐾 "+price(it.p);
     b.onclick=function(){var v=mLoad();
-      if(v.own.indexOf(it.id)<0){K.spend(it.p,"🛍 "+X[it.id]).then(function(r){if(!r){toast(T().noMoney);VV_TAPTIC&&VV_TAPTIC("warning");return;}
+      if(v.own.indexOf(it.id)<0){K.spend(price(it.p),"🛍 "+X[it.id]).then(function(r){if(!r){toast(T().noMoney);VV_TAPTIC&&VV_TAPTIC("warning");return;}
         v=mLoad();v.own.push(it.id);if(it.k==="skin")v.skin=it.v;if(it.k==="wear")v.wear[it.slot]=it.id;mSave(v);VV_TAPTIC&&VV_TAPTIC("success");toast(X.buy+X[it.id]+" "+it.e);render();});return;}
       if(it.k==="skin"){v.skin=v.skin===it.v?"svitanok":it.v;}
       else if(it.k==="wear"){if(v.wear[it.slot]===it.id){delete v.wear[it.slot];toast(X.off+X[it.id]);}else{v.wear[it.slot]=it.id;toast(X.equip+X[it.id]+" "+it.e);}}
@@ -247,6 +252,30 @@ $("pOut").onclick=function(){closeScan();var P=window.VV_KOTOPAY;if(!P)return;va
     P.send(c,a).then(function(r){if(!r.ok){toast(r.why==="money"?T().noMoney:X.bad);VV_TAPTIC&&VV_TAPTIC("warning");return;}closeScan();VV_TAPTIC&&VV_TAPTIC("success");toast(X.sent.replace("{a}",a).replace("{c}",c));$("payBox").innerHTML="";render();});};};
 if(window.VV_KOTOPAY){VV_KOTOPAY.onIncoming(function(m){toast(PX().got.replace("{a}",m.a).replace("{c}",m.f));render();});VV_KOTOPAY.connect();}
 window.addEventListener("pagehide",closeScan);
+
+var CBX={"uk": {"h": "🏛 Котоцентробанк", "meet": "Засідання ради № {n} · тиждень до {d}", "rate": "Ставка (на тиждень)", "idx": "Індекс рибки", "head": "Голова ради, кіт Франкфурт", "pay": "Відсотки по скарбничках", "hint": "Ціни мерчу множаться на індекс рибки. Скарбнички щопонеділка отримують відсотки за ставкою.", "up": ["Рибка подорожчала: коти забагато мріяли.", "Інфляція. Рада радить менше купувати й більше гладити.", "Рибний ринок перегрівся, ставку піднято."], "dn": ["Дефляція! Мерч дешевшає, саме час обновити шарф.", "Рибка дешевшає: на складі знайшли ще одне море.", "Ціни падають, рада задоволено муркоче."], "flat": ["Стабільність. Рада поспала й нічого не змінила.", "Без змін. Кіт-голова каже: «Мрр»."]}, "en": {"h": "🏛 Cat Central Bank", "meet": "Board meeting No. {n} · week until {d}", "rate": "Rate (per week)", "idx": "Fish index", "head": "Chair of the board, Frankfurt the cat", "pay": "Interest on jars", "hint": "Merch prices are multiplied by the fish index. Jars earn interest at the rate every Monday.", "up": ["Fish got pricier: the cats dreamed too much.", "Inflation. The board advises buying less and petting more.", "The fish market overheated, the rate is up."], "dn": ["Deflation! Merch is cheaper, time for a new scarf.", "Fish is cheaper: another sea was found in the warehouse.", "Prices are falling, the board purrs contentedly."], "flat": ["Stability. The board napped and changed nothing.", "No change. The chair says: «Mrrr»."]}, "nl": {"h": "🏛 Katten-Centrale Bank", "meet": "Bestuursvergadering nr. {n} · week tot {d}", "rate": "Rente (per week)", "idx": "Visindex", "head": "Voorzitter, kat Frankfurt", "pay": "Rente op spaarpotten", "hint": "Merchprijzen worden vermenigvuldigd met de visindex. Spaarpotten krijgen elke maandag rente.", "up": ["Vis werd duurder: de katten droomden te veel.", "Inflatie. Het bestuur raadt aan minder te kopen en meer te aaien.", "De vismarkt is oververhit, de rente gaat omhoog."], "dn": ["Deflatie! Merch wordt goedkoper, tijd voor een nieuwe sjaal.", "Vis wordt goedkoper: er is nog een zee in het magazijn gevonden.", "De prijzen dalen, het bestuur spint tevreden."], "flat": ["Stabiliteit. Het bestuur deed een dutje en veranderde niets.", "Geen wijziging. De voorzitter zegt: «Mrrr»."]}, "ru": {"h": "🏛 Котоцентробанк", "meet": "Заседание совета № {n} · неделя до {d}", "rate": "Ставка (в неделю)", "idx": "Индекс рыбки", "head": "Председатель совета, кот Франкфурт", "pay": "Проценты по копилкам", "hint": "Цены мерча умножаются на индекс рыбки. Копилки каждый понедельник получают проценты по ставке.", "up": ["Рыбка подорожала: коты слишком много мечтали.", "Инфляция. Совет советует меньше покупать и больше гладить.", "Рыбный рынок перегрелся, ставку подняли."], "dn": ["Дефляция! Мерч дешевеет, самое время обновить шарф.", "Рыбка дешевеет: на складе нашли ещё одно море.", "Цены падают, совет довольно мурчит."], "flat": ["Стабильность. Совет поспал и ничего не изменил.", "Без изменений. Кот-председатель говорит: «Мрр»."]}};
+function CX(){return CBX[LN]||CBX.en;}
+/* the Cat Central Bank: every Monday a new meeting; rate and fish index are the same for everyone (derived from the week number) */
+var MON0=Date.UTC(1970,0,5);function weekNo(t){var d=new Date(t);d.setUTCHours(0,0,0,0);var day=(d.getUTCDay()+6)%7;d.setUTCDate(d.getUTCDate()-day);return Math.round((d.getTime()-MON0)/6048e5);}
+function rnd(w,k){var x=Math.sin(w*12.9898+k*78.233)*43758.5453;return x-Math.floor(x);}
+var IDX={};function fishIndex(w){if(IDX[w])return IDX[w];var v=1;for(var i=w-60;i<=w;i++){v*=1+(rnd(i,1)-.5)*.16;v=Math.max(.6,Math.min(1.6,v));v+= (1-v)*.08;}IDX[w]=Math.round(v*100)/100;return IDX[w];}
+function rateOf(w){return Math.round((.5+rnd(w,2)*4.5)*10)/10;}   /* 0.5 … 5 % a week */
+function price(p){return Math.max(1,Math.round(p*fishIndex(weekNo(Date.now()))));}
+function accrue(){var w=weekNo(Date.now()),last=0;try{last=parseInt(localStorage.getItem("cb-week")||"0",10)||0;}catch(e){}
+  if(!last){try{localStorage.setItem("cb-week",String(w));}catch(e){}return;}
+  if(w<=last)return;var jv=jarLoad(),gain=0;for(var k=last+1;k<=w;k++){var r=rateOf(k)/100;jv=jv.map(function(v){var g=Math.floor(v*r);gain+=g;return v+g;});}
+  jarSave(jv);try{localStorage.setItem("cb-week",String(w));}catch(e){}
+  if(gain>0)K.earn(gain,"🏛 "+CX().pay,true).then(function(){K.spend(gain,"🏛 → 🏺");});   /* goes on the chain, lands in the jars */
+}
+function cbPaint(){var X=CX(),w=weekNo(Date.now()),i=fishIndex(w),p=fishIndex(w-1),r=rateOf(w),d=new Date(MON0+(w+1)*6048e5-864e5);
+  $("hCb").textContent=X.h;var dir=i>p+.005?"up":i<p-.005?"dn":"flat",lines=X[dir],q=lines[w%lines.length];
+  var pts=[];for(var k=11;k>=0;k--)pts.push(fishIndex(w-k));var mn=Math.min.apply(null,pts),mx=Math.max.apply(null,pts),rg=Math.max(.05,mx-mn);
+  var path=pts.map(function(v,j){return (j?"L":"M")+(j*300/11).toFixed(1)+" "+(62-(v-mn)/rg*54).toFixed(1);}).join(" ");
+  $("cb").innerHTML='<div class="meta"></div><div class="row"><div class="kpi"><small></small><b></b></div><div class="kpi"><small></small><b class="'+dir+'"></b></div></div><svg viewBox="0 0 300 66" preserveAspectRatio="none"><path d="'+path+'" fill="none" stroke="#ffc371" stroke-width="3" stroke-linejoin="round"/></svg><q></q><div class="meta" style="margin-top:4px"></div><div class="meta" style="margin-top:8px"></div>';
+  var m=$("cb").querySelectorAll(".meta");m[0].textContent=X.meet.replace("{n}",w-weekNo(Date.UTC(2026,9,26))+1).replace("{d}",d.toLocaleDateString(LN==="ar"?"ar":LN==="zh"?"zh-CN":LN,{day:"numeric",month:"short"}));
+  var kp=$("cb").querySelectorAll(".kpi");kp[0].querySelector("small").textContent=X.rate;kp[0].querySelector("b").textContent=r.toFixed(1)+"%";
+  kp[1].querySelector("small").textContent=X.idx;kp[1].querySelector("b").textContent="×"+i.toFixed(2)+(dir==="up"?" ↑":dir==="dn"?" ↓":"");
+  $("cb").querySelector("q").textContent=q;m[1].textContent="— "+X.head;m[2].textContent=X.hint;}
 var lastFish=0;
 $("aEarn").onclick=function(){var n=Date.now();if(n-lastFish<1500){VV_TAPTIC&&VV_TAPTIC("tick");return;}lastFish=n;K.earn(1,T().fish);};
 $("aPet").onclick=function(){K.spend(1,T().petR).then(function(r){if(!r){toast(T().noMoney);return;}VV_TAPTIC&&VV_TAPTIC("soft");toast("😽 purr…");});};
@@ -265,7 +294,7 @@ $("trGo").onclick=function(){
   $("trTxt").value="";phraseI=(phraseI+1)%5;render();
 };
 window.addEventListener("kotobank",render);
-render();K.daily();
+accrue();render();K.daily();
 })();
 </script>
 </body>

@@ -106,7 +106,7 @@ struct PressButton: AppIntent {
         let s = VV.store
         switch kind {
         case 1: s.set(s.integer(forKey: "vibes") + 1, forKey: "vibes"); s.set(1, forKey: "st_type")
-        case 2: s.set(pickOther(WS.hotline.count, s.integer(forKey: "st_type") == 2 ? s.integer(forKey: "st_idx") : -1), forKey: "st_idx"); s.set(2, forKey: "st_type")
+        case 2: s.set(pickOther(WS.hotlineLines.count, s.integer(forKey: "st_type") == 2 ? s.integer(forKey: "st_idx") : -1), forKey: "st_idx"); s.set(2, forKey: "st_type")
         default: s.set(pickOther(WS.rejections.count, s.integer(forKey: "st_type") == 3 ? s.integer(forKey: "st_idx") : -1), forKey: "st_idx"); s.set(3, forKey: "st_type")
         }
         return .result()
@@ -208,7 +208,7 @@ struct ButtonsView: View {
         let s = VV.store, i = s.integer(forKey: "st_idx")
         switch s.integer(forKey: "st_type") {
         case 1: return WS.vibePlusMsg
-        case 2: return WS.hotline[max(0, min(i, WS.hotline.count - 1))]
+        case 2: return WS.hotlineLines[max(0, min(i, WS.hotlineLines.count - 1))]
         case 3: return WS.rejections[max(0, min(i, WS.rejections.count - 1))]
         default: return WS.statusIdle
         }

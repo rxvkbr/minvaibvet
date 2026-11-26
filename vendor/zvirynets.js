@@ -23,6 +23,7 @@
               n("Caviidae","Кавієві",[n("Hydrochoerus","Капібара",[sp("Hydrochoerus hydrochaeris","Капібара","mammal","#a9774e")])]),
               n("Muridae","Мишеві",[n("Rattus","Пацюк",[sp("Rattus norvegicus","Пацюк сірий","mammal","#9a9590")])])]),
             n("Eulipotyphla","Комахоїдні",[n("Erinaceidae","Їжакові",[n("Erinaceus","Їжак",[sp("Erinaceus roumanicus","Їжак білочеревий","hedgehog","#8a6a4a")])])]),
+            n("Primates","Примати",[n("Hominidae","Гомініди",[n("Homo","Людина",[sp("Homo sapiens","Людина розумна","human","#e8b98d"),sp("Homo ukrainitas","Андрійко (вид-фантазія з казки)","human","#ffd36e")])])]),
             n("Artiodactyla","Парнокопитні",[n("Bovidae","Бикові",[n("Bos","Бик",[sp("Bos taurus","Корова свійська","mammal","#f2efe8")])])])]),
           n("Aves","Птахи",[
             n("Passeriformes","Горобцеподібні",[
@@ -90,9 +91,10 @@
     chain:function(c){var s="";for(var i=0;i<6;i++)s+='<circle cx="'+(70+i*36)+'" cy="'+(150+Math.sin(i)*14)+'" r="22" fill="'+c+'" stroke="'+shade(c,.7)+'" stroke-width="3"/>';return s+eyes(141,170,140);},
     coccus:function(c){return '<circle cx="160" cy="140" r="64" fill="'+c+'"/><circle cx="160" cy="140" r="50" fill="'+shade(c,1.2)+'" opacity=".5"/><path d="M96 140q-30-20-50 0M224 140q30 20 50 0" fill="none" stroke="'+shade(c,.7)+'" stroke-width="4"/>'+eyes(144,176,134);},
     phage:function(c){return '<polygon points="160,30 205,56 205,108 160,134 115,108 115,56" fill="'+c+'" stroke="'+shade(c,.6)+'" stroke-width="4"/><rect x="152" y="134" width="16" height="44" fill="'+shade(c,.7)+'"/><path d="M160 178l-50 26M160 178l-24 30M160 178l24 30M160 178l50 26" stroke="'+shade(c,.6)+'" stroke-width="5" stroke-linecap="round"/>'+eyes(146,174,80);},
+    human:function(c){return '<rect x="128" y="120" width="64" height="70" rx="22" fill="#2f6fd0"/><rect x="128" y="150" width="64" height="40" rx="10" fill="#ffd34a" opacity=".9"/><circle cx="160" cy="88" r="40" fill="'+c+'"/><path d="M122 78q38-44 76 0q-8-20-38-24q-30 4-38 24z" fill="#3a2414"/>'+eyes(146,174,90)+'<path d="M146 108q14 12 28 0" fill="none" stroke="#21150e" stroke-width="3" stroke-linecap="round"/><path d="M140 190v14M180 190v14" stroke="#14324a" stroke-width="12" stroke-linecap="round"/><rect x="200" y="150" width="22" height="26" rx="4" fill="#ff8a3d"/><path d="M211 150v-10" stroke="#8a5a30" stroke-width="3"/>';},
     tmv:function(c){var s="";for(var i=0;i<12;i++)s+='<path d="M'+(56+i*18)+' 120v56" stroke="'+shade(c,.75)+'" stroke-width="3"/>';return '<rect x="50" y="118" width="220" height="60" rx="10" fill="'+c+'"/>'+s+eyes(146,174,146);}
   };
-  var GROUP={mammal:"cat",hedgehog:"rat",bird:null,fish:null,frog:null,insect:"rat",butterfly:null,beetle:"rat",octopus:"cat",snail:null,flower:null,tree:null,mushroom:null,rod:"rat",chain:null,coccus:"rat",phage:"rat",tmv:null};
+  var GROUP={human:null,mammal:"cat",hedgehog:"rat",bird:null,fish:null,frog:null,insect:"rat",butterfly:null,beetle:"rat",octopus:"cat",snail:null,flower:null,tree:null,mushroom:null,rod:"rat",chain:null,coccus:"rat",phage:"rat",tmv:null};
   function art(leaf){var f=PLAN[leaf.plan]||PLAN.mammal;return f(leaf.col);}
   function hybridArt(a,b){   /* body of a, the "wings" or crown of b */
     var extra=b.plan==="bird"||b.plan==="butterfly"||b.plan==="insect"?'<ellipse cx="100" cy="90" rx="46" ry="22" fill="'+b.col+'" opacity=".85" transform="rotate(-25 100 90)"/><ellipse cx="220" cy="90" rx="46" ry="22" fill="'+b.col+'" opacity=".85" transform="rotate(25 220 90)"/>':
@@ -120,7 +122,7 @@
         path.slice(1).forEach(function(p,i){var b=el("button","zb");b.innerHTML='<small>'+R[i]+'</small><i>'+p.l+'</i> '+p.u;b.onclick=function(){path=path.slice(0,i+2);cur=null;hyb=null;draw();render();};crumbs.appendChild(b);});
         panel.appendChild(crumbs);
         if(hyb){var h=el("div","zr");h.innerHTML='<b>🧪 <i></i></b><p></p>';h.querySelector("i").textContent=hybridName(hyb[0],hyb[1]);h.querySelector("p").textContent=hyb[0].u+" × "+hyb[1].u+". Фантазія: у природі такого гібрида немає, бо "+hyb[0].u.toLowerCase()+" і "+hyb[1].u.toLowerCase()+" надто далекі родичі.";panel.appendChild(h);}
-        else if(cur){var r=el("div","zr");r.innerHTML='<b><i></i></b><p></p>';r.querySelector("i").textContent=cur.l;r.querySelector("p").textContent=cur.u+(isNew?" · 🎉 новий вид у твоєму звіринці! +3 🐾":"")+(isVirus()?" · Віруси не клітини, тому не входять у дерево життя.":"");panel.appendChild(r);}
+        else if(cur){var r=el("div","zr");r.innerHTML='<b><i></i></b><p></p>';r.querySelector("i").textContent=cur.l;r.querySelector("p").textContent=cur.u+(cur.l==="Homo ukrainitas"?" · Казка з газети. Науково всі ми Homo sapiens 🙂":"")+(isNew?" · 🎉 новий вид у твоєму звіринці! +3 🐾":"")+(isVirus()?" · Віруси не клітини, тому не входять у дерево життя.":"");panel.appendChild(r);}
         else{
           var q=el("p","zq");var R2=isVirus()?VR:RANKS,lvl=path.length?path.length-1:0;
           q.textContent=path.length?("Обери: "+(R2[lvl]||"").toLowerCase()):"Звідки почнемо? Обери домен або віруси.";panel.appendChild(q);

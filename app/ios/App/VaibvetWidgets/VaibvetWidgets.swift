@@ -265,5 +265,6 @@ struct VaibvetWidgets: WidgetBundle {
         HiLoWidget()
         ThorWidget()
         ShipIsland()
+        RaciaIsland()
     }
 }

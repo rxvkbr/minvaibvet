@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/legion.js" defer></script>
 <script src="vendor/hvylyna.js"></script>
+<script src="vendor/racia-i18n.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Рація Мінвайбкету · Вайбкет FM</title>
@@ -64,27 +65,38 @@ button{cursor:pointer;background:none;border:0}
 .ph button:hover{border-color:var(--amber)}
 .ph button:active{transform:scale(.97)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--panel);border:1px solid var(--amber);border-radius:12px;padding:9px 14px;font:13px "PT Mono",monospace;z-index:20;max-width:90vw;text-align:center}
+.langs{display:flex;gap:4px;flex-wrap:wrap;padding:8px 14px 0}.langs button{border:1px solid var(--edge);border-radius:8px;padding:3px 7px;font:11px "PT Mono",monospace;color:var(--dim)}.langs button[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+.fl{display:inline-block;vertical-align:middle;flex:none}
+.f .av{position:relative}.f .av .fl{position:absolute;right:-4px;bottom:-4px;background:var(--bg);border-radius:50%}
+.stat{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.stat select{background:#0b0d08;border:1px solid var(--edge);border-radius:10px;padding:7px 8px;font:13px "PT Mono",monospace;color:var(--ivory);max-width:100%}
+.who small{display:block;color:var(--dim);font:11px "PT Mono",monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.old{opacity:.45}
+.uaf{display:inline-block;width:18px;height:12px;border-radius:2px;background:linear-gradient(#0057b7 50%,#ffd700 50%);vertical-align:middle;margin-inline-start:6px}
+[dir=rtl] .side{border-right:0;border-left:1px solid var(--edge)}
 .note{color:var(--dim);font-size:12px;padding:10px 14px;font-family:"PT Mono",monospace}
 </style>
 </head>
 <body>
 <div class="app" id="app">
   <aside class="side">
-    <div class="top"><a class="pill" href="index.html#more" id="back" aria-label="Назад">← назад</a><h1>📻 Рація</h1><span class="pill"><span class="dot" id="net"></span><span id="netl">…</span></span><button class="pill" id="quiet" type="button" aria-pressed="false" title="Нові фрази приходять трьома тапами, без звуку й тексту на екрані">🤫 тільки тапи</button></div>
+    <div class="top"><a class="pill" href="index.html#more" id="back" aria-label="Назад">← назад</a><h1>📻 <span id="ttl">Рація</span><span class="uaf" aria-hidden="true"></span></h1><span class="pill"><span class="dot" id="net"></span><span id="netl">…</span></span><button class="pill" id="quiet" type="button" aria-pressed="false" title="Нові фрази приходять трьома тапами, без звуку й тексту на екрані">🤫 тільки тапи</button></div>
+    <div class="langs" id="langs"></div>
     <div class="me">
-      <span style="color:var(--dim);font-size:12px">ти в ефірі як</span>
+      <span style="color:var(--dim);font-size:12px" id="lOnair">ти в ефірі як</span>
       <b id="myName"></b>
-      <span style="color:var(--dim);font-size:12px">твій позивний-код для друзів</span>
+      <span style="color:var(--dim);font-size:12px" id="lCode">твій позивний-код для друзів</span>
       <div class="code" id="myCode"></div>
       <div class="row"><button class="btn pri" id="share">↗ Поділитися</button><button class="btn" id="copy">копіювати посилання</button><button class="btn" id="roll" title="Інше ім'я">🎲</button></div>
+      <div class="stat"><span id="myFl"></span><select id="stSel" aria-label="статус"></select><button class="btn" id="isl" type="button"></button></div>
     </div>
     <div class="list" id="list"></div>
     <div class="add"><input id="addIn" maxlength="6" placeholder="КОД ДРУГА" autocomplete="off" spellcheck="false" aria-label="Код друга"><button class="btn pri" id="addBtn">Додати</button></div>
-    <div class="note">Тільки готові фрази Мінвайбкету: ніхто не напише тобі нічого свого. Невідомі спершу потрапляють у «запити».</div>
+    <div class="note" id="lNote">Тільки готові фрази Мінвайбкету: ніхто не напише тобі нічого свого. Невідомі спершу потрапляють у «запити».</div>
   </aside>
   <main class="main" id="main">
-    <div class="top"><div class="who"><button class="pill back" id="chatBack" type="button">←</button><b id="chatName">Обери друга</b></div><button class="pill" id="del" hidden title="Прибрати зі списку">прибрати</button></div>
-    <div class="msgs" id="msgs"><div class="empty"><div class="big">📻</div><p>Додай друга за кодом або поділись своїм. Далі кидай фрази Мінвайбкету: прийом!</p></div></div>
+    <div class="top"><div class="who"><button class="pill back" id="chatBack" type="button">←</button><span id="chatFl"></span><span style="min-width:0"><b id="chatName">Обери друга</b><small id="chatSt"></small></span></div><button class="pill" id="pin" hidden type="button"></button><button class="pill" id="del" hidden title="Прибрати зі списку">прибрати</button></div>
+    <div class="msgs" id="msgs"><div class="empty"><div class="big">📻</div><p id="lEmpty">Додай друга за кодом або поділись своїм. Далі кидай фрази Мінвайбкету: прийом!</p></div></div>
     <div class="pad" id="pad" hidden><div class="cats" id="cats"></div><div class="ph" id="ph"></div></div>
   </main>
 </div>
@@ -106,7 +118,12 @@ var CATS=[
  ["реакції","😺",["🐈","🫡","🫂","☕","🌹","🐄","🚜","📄","❤️","😂","🙏","🌙"]],
  ["справи","✅",["Посуд помито ✅","Сміття винесено ✅","Прання запущено 🧺","Ліжко застелено 🛏","Квіти полито 🪴","Прибрано 🧹","Продукти куплено 🛒","Вчуся, не відволікай 📚","Справу зроблено ✅","Візьму це на себе","Дякую, що зробив 💛","Допоможеш зі справами?"]]];
 var PH=[];CATS.forEach(function(c,ci){c[2].forEach(function(t,ti){PH.push({id:ci*100+ti,c:ci,t:t});});});
-function phrase(id){for(var i=0;i<PH.length;i++)if(PH[i].id===id)return PH[i];return null;}
+/* ===== language ===== */
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!RL[LN])LN="en";
+var LOC={uk:"uk-UA",en:"en-GB",nl:"nl-NL",de:"de-DE",ar:"ar",zh:"zh-CN",ru:"ru-RU"};
+function T(k,v){var x=(RL[LN].ui[k]!=null?RL[LN].ui[k]:RL.uk.ui[k])||"";if(v)for(var q in v)x=x.replace("{"+q+"}",v[q]);return x;}
+function txt(c,t,fb){var L=RL[LN].ph;return L&&L[c]?L[c][t]:fb;}
+function phrase(id){for(var i=0;i<PH.length;i++)if(PH[i].id===id){var p=PH[i];return {id:p.id,c:p.c,t:txt(p.c,p.id%100,p.t)};}return null;}
 
 /* ===== callsigns: same fixed word lists as Δ онлайн, never free text ===== */
 var CS_A=["Сова","Пугач","Корова","Кіт","Трактор","Довідка","Кава","Мівіна","Ластівка","Рапорт","Вайб","Їжак","Гуска","Бобер","Відпустка","Комбат"];
@@ -114,7 +131,8 @@ var CS_F=[1,0,1,0,0,1,1,1,1,0,0,0,1,0,1,0];
 var CS_B=[["Тихий","Тиха"],["Бадьорий","Бадьора"],["Мирний","Мирна"],["Сонний","Сонна"],["Впертий","Вперта"],["Ввічливий","Ввічлива"],["Задумливий","Задумлива"],["Ранковий","Ранкова"],["Нічний","Нічна"],["Польовий","Польова"],["Чемний","Чемна"],["Терплячий","Терпляча"]];
 var EMO=["🦉","🦉","🐄","🐈","🚜","📄","☕","🍜","🐦","📋","✨","🦔","🪿","🦫","🏖","🎖"];
 function validCs(c){return Array.isArray(c)&&c.length===3&&c.every(function(n){return Number.isInteger(n)&&n>=0&&n<1000;})&&c[0]<CS_A.length&&c[1]<CS_B.length;}
-function csName(c){return CS_B[c[1]][CS_F[c[0]]?1:0]+" "+CS_A[c[0]]+"-"+c[2];}
+function csName(c){var L=CSL[LN];if(!L)return CS_B[c[1]][CS_F[c[0]]?1:0]+" "+CS_A[c[0]]+"-"+c[2];
+  var b=L.B[c[1]],adj=Array.isArray(b)?b[L.F&&L.F[c[0]]?1:0]:b,n=L.A[c[0]];return (L.post?n+" "+adj:adj+(L.join!=null?L.join:" ")+n)+"-"+c[2];}
 function csRoll(){return [Math.floor(rnd(0,CS_A.length)),Math.floor(rnd(0,CS_B.length)),Math.floor(rnd(100,1000))];}
 
 var ALPH="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; /* no 0/O, 1/I */
@@ -126,64 +144,90 @@ if(!validCs(me.cs)){me.cs=csRoll();store("cs",JSON.stringify(me.cs));}
 var friends=J("friends",{}),requests=J("req",{}),chats=J("chats",{}),unread=J("unread",{}),open=null;
 function saveAll(){store("friends",JSON.stringify(friends));store("req",JSON.stringify(requests));store("chats",JSON.stringify(chats));store("unread",JSON.stringify(unread));}
 
+/* ===== ICQ-style status: a number, never text. 1 is the Ukrainian flower. ===== */
+var myS=parseInt(store("st")||"0",10);if(!(myS>=0&&myS<STS.length))myS=0;
+var fst=J("fst",{});
+function stName(s){return (RL[LN].st||RL.uk.st)[s]||"";}
+function flower(s,px,old){px=px||16;var c=STS[s]||STS[0],o='<svg class="fl'+(old?' old':'')+'" width="'+px+'" height="'+px+'" viewBox="-10 -10 20 20" aria-hidden="true">';
+  for(var i=0;i<8;i++){var a=i*Math.PI/4,x=Math.cos(a)*5.6,y=Math.sin(a)*5.6,col=c[1];if(s===1||s===12)col=y<-.1||(Math.abs(y)<.1&&i===4)?"#0057b7":"#ffd700";o+='<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="3.4" fill="'+col+'"/>';}
+  return o+'<circle r="3.2" fill="'+(s===1||s===12?"#ffd700":c[2])+'" stroke="#10130c" stroke-width=".6"/></svg>';}
+function isOld(f){return !f||Date.now()-f.t>6*3600e3;}
+function fLine(code){var f=fst[code];if(!f)return "";return stName(f.s)+(isOld(f)?" · "+T("ago"):"");}
+
 /* ===== UI ===== */
 var toastT;function toast(t){var o=document.querySelector(".toast");if(o)o.remove();var d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(function(){d.remove();},2400);}
 function link(){return "https://minvaibvet.pp.ua/racia.html#add="+me.code;}
-function paintMe(){$("myName").textContent=csName(me.cs);$("myCode").textContent=me.code;}
-function last(code){var c=chats[code];if(!c||!c.length)return "";var m=c[c.length-1],p=phrase(m.p);return (m.me?"ти: ":"")+(p?p.t:"…");}
+function paintMe(){$("myName").textContent=csName(me.cs);$("myCode").textContent=me.code;$("myFl").innerHTML=flower(myS,22);}
+function paintStatic(){var X=RL[LN].ui;document.documentElement.lang=LN;document.documentElement.dir=LN==="ar"?"rtl":"ltr";
+  $("back").textContent=T("back");$("ttl").textContent=T("title");document.title=T("shareT")+" · Вайбкет FM";$("quiet").title=T("quietT");
+  $("lOnair").textContent=T("onair");$("lCode").textContent=T("code");$("share").textContent=T("share");$("copy").textContent=T("copy");$("roll").title=T("roll");
+  $("addIn").placeholder=T("ph");$("addIn").setAttribute("aria-label",T("ph"));$("addBtn").textContent=T("add");$("lNote").textContent=T("note");$("del").textContent=T("del");$("del").title=T("delT");
+  if(!open){$("chatName").textContent=T("pick");var e=$("lEmpty");if(e)e.textContent=T("empty");}
+  var S=$("stSel");S.innerHTML="";S.setAttribute("aria-label",T("status"));STS.forEach(function(x,i){var o=document.createElement("option");o.value=i;o.textContent=x[0]+" "+stName(i);S.appendChild(o);});S.value=myS;
+  $("isl").title=T("islT");paintIsl();
+  var Lg=$("langs");Lg.innerHTML="";["uk","en","nl","de","ar","zh","ru"].forEach(function(l){var b=document.createElement("button");b.type="button";b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));
+    b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paintStatic();paintMe();paintPad();paintList();if(open)openChat(open);var q=document.getElementById("quiet");q&&q.onclick&&q.dispatchEvent(new Event("vv-paint"));};Lg.appendChild(b);});}
+function last(code){var c=chats[code];if(!c||!c.length)return "";var m=c[c.length-1],p=phrase(m.p);return (m.me?T("you"):"")+(p?p.t:"…");}
 function paintList(){
   var L=$("list");L.innerHTML="";
   Object.keys(requests).forEach(function(code){var r=requests[code];
     var b=document.createElement("div");b.className="f req";b.innerHTML='<span class="av">❓</span><span class="t"><b></b><small></small></span>';
-    b.querySelector("b").textContent=csName(r.cs);b.querySelector("small").textContent="хоче на зв'язок · «"+(phrase(r.p)||{t:"…"}).t+"»";
-    var ok=document.createElement("button");ok.className="btn pri";ok.textContent="прийняти";ok.onclick=function(){friends[code]={cs:r.cs};delete requests[code];saveAll();sub();paintList();openChat(code);};
-    var no=document.createElement("button");no.className="btn";no.textContent="✕";no.title="Ігнорувати";no.onclick=function(){delete requests[code];delete chats[code];saveAll();paintList();};
+    b.querySelector("b").textContent=csName(r.cs);b.querySelector("small").textContent=T("wants")+" · «"+(phrase(r.p)||{t:"…"}).t+"»";
+    var ok=document.createElement("button");ok.className="btn pri";ok.textContent=T("accept");ok.onclick=function(){friends[code]={cs:r.cs};delete requests[code];saveAll();sub();pubStatus(code);paintList();openChat(code);};
+    var no=document.createElement("button");no.className="btn";no.textContent="✕";no.title=T("ignore");no.onclick=function(){delete requests[code];delete chats[code];saveAll();paintList();};
     b.appendChild(ok);b.appendChild(no);L.appendChild(b);});
   var ks=Object.keys(friends).sort(function(a,b){var x=(chats[a]||[]).slice(-1)[0],y=(chats[b]||[]).slice(-1)[0];return (y?y.t:0)-(x?x.t:0);});
-  if(!ks.length&&!Object.keys(requests).length){var e=document.createElement("p");e.className="note";e.textContent="Поки нікого. Поділись кодом або встав код друга нижче.";L.appendChild(e);}
+  if(!ks.length&&!Object.keys(requests).length){var e=document.createElement("p");e.className="note";e.textContent=T("nobody");L.appendChild(e);}
   ks.forEach(function(code){var f=friends[code];
     var b=document.createElement("button");b.className="f";b.setAttribute("aria-current",String(open===code));b.innerHTML='<span class="av"></span><span class="t"><b></b><small></small></span>';
-    b.querySelector(".av").textContent=EMO[f.cs?f.cs[0]:0]||"📻";b.querySelector("b").textContent=f.cs?csName(f.cs):code;b.querySelector("small").textContent=last(code)||"код "+code;
+    b.querySelector(".av").textContent=EMO[f.cs?f.cs[0]:0]||"📻";if(fst[code])b.querySelector(".av").insertAdjacentHTML("beforeend",flower(fst[code].s,16,isOld(fst[code])));b.querySelector("b").textContent=(f.cs?csName(f.cs):code)+(pinned()===code?" 📌":"");b.querySelector("small").textContent=(fst[code]?fLine(code)+" · ":"")+(last(code)||T("codeX")+code);
     if(unread[code]){var n=document.createElement("span");n.className="n";n.textContent=unread[code];b.appendChild(n);}
     b.onclick=function(){openChat(code);};L.appendChild(b);});
 }
 function paintChat(){
   var M=$("msgs");M.innerHTML="";var c=chats[open]||[];
-  if(!c.length){M.innerHTML='<div class="empty"><div class="big">📻</div><p>Ефір чистий. Кинь першу фразу!</p></div>';}
+  if(!c.length){M.innerHTML='<div class="empty"><div class="big">📻</div><p></p></div>';M.querySelector("p").textContent=T("clear");}
   c.forEach(function(m){var p=phrase(m.p);if(!p)return;var d=document.createElement("div");d.className="b"+(m.me?" me":"")+(p.c===4?" big":"");d.textContent=p.t;
-    var s=document.createElement("small");s.textContent=new Date(m.t).toLocaleString("uk-UA",{hour:"2-digit",minute:"2-digit",day:"numeric",month:"short"});d.appendChild(s);M.appendChild(d);});
+    var s=document.createElement("small");s.textContent=new Date(m.t).toLocaleString(LOC[LN]||"uk-UA",{hour:"2-digit",minute:"2-digit",day:"numeric",month:"short"});d.appendChild(s);M.appendChild(d);});
   M.scrollTop=M.scrollHeight;
 }
-function openChat(code){open=code;unread[code]=0;saveAll();var f=friends[code];$("chatName").textContent=f&&f.cs?csName(f.cs):code;$("pad").hidden=false;$("del").hidden=false;$("app").classList.add("chat");paintChat();paintList();}
+function paintHead(){if(!open)return;var f=friends[open];$("chatName").textContent=f&&f.cs?csName(f.cs):open;$("chatFl").innerHTML=fst[open]?flower(fst[open].s,18,isOld(fst[open])):"";$("chatSt").textContent=fLine(open);
+  var P=$("pin");P.hidden=!friends[open];P.textContent=pinned()===open?T("pinned"):T("pin");}
+function openChat(code){open=code;unread[code]=0;saveAll();paintHead();$("pad").hidden=false;$("del").hidden=false;$("app").classList.add("chat");paintChat();paintList();}
 var cat=0;
-function paintPad(){var C=$("cats");C.innerHTML="";CATS.forEach(function(c,i){var b=document.createElement("button");b.textContent=c[1]+" "+c[0];b.setAttribute("aria-pressed",String(i===cat));b.onclick=function(){cat=i;paintPad();};C.appendChild(b);});
-  var P=$("ph");P.innerHTML="";PH.filter(function(p){return p.c===cat;}).forEach(function(p){var b=document.createElement("button");b.textContent=p.t;if(p.c===4){b.style.fontSize="26px";b.style.textAlign="center";}b.onclick=function(){send(p.id);};P.appendChild(b);});
+function paintPad(){var C=$("cats");C.innerHTML="";CATS.forEach(function(c,i){var b=document.createElement("button");b.textContent=c[1]+" "+((RL[LN].cats||RL.uk.cats)[i]||c[0]);b.setAttribute("aria-pressed",String(i===cat));b.onclick=function(){cat=i;paintPad();};C.appendChild(b);});
+  var P=$("ph");P.innerHTML="";PH.filter(function(p){return p.c===cat;}).forEach(function(p){var b=document.createElement("button");b.textContent=phrase(p.id).t;if(p.c===4){b.style.fontSize="26px";b.style.textAlign="center";}b.onclick=function(){send(p.id);};P.appendChild(b);});
   $("ph").style.gridTemplateColumns=cat===4?"repeat(auto-fill,minmax(56px,1fr))":"";}
-$("chatBack").onclick=function(){open=null;$("app").classList.remove("chat");paintList();};
-$("del").onclick=function(){if(!open)return;if(!confirm("Прибрати цього друга й переписку з цього пристрою?"))return;delete friends[open];delete chats[open];delete unread[open];saveAll();unsub(open);open=null;$("app").classList.remove("chat");$("pad").hidden=true;$("del").hidden=true;$("chatName").textContent="Обери друга";$("msgs").innerHTML="";paintList();};
-$("roll").onclick=function(){me.cs=csRoll();store("cs",JSON.stringify(me.cs));paintMe();toast("Тепер ти "+csName(me.cs));};
-$("copy").onclick=function(){try{navigator.clipboard.writeText(link());toast("Посилання скопійовано");}catch(e){prompt("Посилання:",link());}};
-$("share").onclick=function(){var d={title:"Рація Мінвайбкету",text:"Додай мене в Рацію Мінвайбкету, код "+me.code+". Прийом!",url:link()};if(navigator.share)navigator.share(d).catch(function(){});else $("copy").click();};
-function addFriend(code){code=(code||"").toUpperCase().trim();if(!validCode(code)){toast("Код — це 6 літер і цифр");return;}if(code===me.code){toast("Це твій власний код 🙂");return;}
-  if(!friends[code])friends[code]={cs:null};delete requests[code];saveAll();sub();paintList();openChat(code);send(PH[2].id,true);toast("Додано. Надіслав «Прийом. Як чуєш?»");}
+$("chatBack").onclick=function(){open=null;$("pin").hidden=true;$("chatFl").innerHTML="";$("chatSt").textContent="";$("app").classList.remove("chat");paintList();};
+$("del").onclick=function(){if(!open)return;if(!confirm(T("confirm")))return;if(pinned()===open)store("pin","");delete friends[open];delete chats[open];delete unread[open];saveAll();unsub(open);open=null;$("app").classList.remove("chat");$("pad").hidden=true;$("del").hidden=true;$("chatName").textContent=T("pick");$("chatFl").innerHTML="";$("chatSt").textContent="";$("pin").hidden=true;$("msgs").innerHTML="";paintList();upIsland();};
+$("roll").onclick=function(){me.cs=csRoll();store("cs",JSON.stringify(me.cs));paintMe();toast(T("nowYou")+csName(me.cs));pubStatus();};
+$("copy").onclick=function(){try{navigator.clipboard.writeText(link());toast(T("copied"));}catch(e){prompt(T("linkP"),link());}};
+$("share").onclick=function(){var d={title:T("shareT"),text:T("shareX",{c:me.code}),url:link()};if(navigator.share)navigator.share(d).catch(function(){});else $("copy").click();};
+function addFriend(code){code=(code||"").toUpperCase().trim();if(!validCode(code)){toast(T("bad"));return;}if(code===me.code){toast(T("own"));return;}
+  if(!friends[code])friends[code]={cs:null};delete requests[code];saveAll();sub();paintList();openChat(code);send(PH[2].id,true);pubStatus(code);toast(T("added",{p:phrase(PH[2].id).t}));}
 $("addBtn").onclick=function(){addFriend($("addIn").value);$("addIn").value="";};
 $("addIn").addEventListener("keydown",function(e){if(e.key==="Enter")$("addBtn").click();});
 
 /* ===== radio link: a public MQTT broker carries {cs, p, t} only. A per-pair retained topic means
    the last word from each friend is waiting when you come back online. ===== */
 var BROKER="wss://broker.emqx.io:8084/mqtt",TP="vaibvet/racia/v1/",cl=null,subs={};
-function setNet(on,t){$("net").classList.toggle("on",on);$("netl").textContent=t;}
+var SP="vaibvet/racia/v1s/";
+function setNet(on,t){$("net").classList.toggle("on",on);$("netl").textContent=T(t);}
 function connect(){
-  if(!window.mqtt){setNet(false,"офлайн");return;}
-  try{cl=mqtt.connect(BROKER,{clientId:"racia_"+me.code+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000});}catch(e){setNet(false,"офлайн");return;}
-  cl.on("connect",function(){setNet(true,"на зв'язку");subs={};cl.subscribe(TP+me.code+"/+");sub();});
-  cl.on("reconnect",function(){setNet(false,"перепідключаюсь…");});
-  cl.on("offline",function(){setNet(false,"офлайн");});
+  if(!window.mqtt){setNet(false,"off");return;}
+  try{cl=mqtt.connect(BROKER,{clientId:"racia_"+me.code+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000});}catch(e){setNet(false,"off");return;}
+  cl.on("connect",function(){setNet(true,"on");subs={};cl.subscribe(TP+me.code+"/+");cl.subscribe(SP+me.code+"/+");sub();pubStatus();});
+  cl.on("reconnect",function(){setNet(false,"re");});
+  cl.on("offline",function(){setNet(false,"off");});
   cl.on("error",function(){});
   cl.on("message",function(topic,buf){
     if(buf.length>200)return;var parts=topic.split("/"),to=parts[3],from=parts[4],m;
     if(to!==me.code||!validCode(from)||from===me.code)return;
     try{m=JSON.parse(buf.toString());}catch(e){return;}
+    if(parts[2]==="v1s"){ /* a friend's status flower; strangers can't light anything up */
+      if(!friends[from]||!m||!validCs(m.cs)||!Number.isInteger(m.s)||m.s<0||m.s>=STS.length||typeof m.t!=="number"||m.t>Date.now()+6e4)return;
+      var was=fst[from];fst[from]={s:m.s,t:m.t};friends[from].cs=m.cs;store("fst",JSON.stringify(fst));saveAll();paintList();if(open===from)paintHead();
+      if(was&&was.s!==m.s&&window.VV_TAPTIC)VV_TAPTIC("tick");upIsland();return;}
     if(!m||!validCs(m.cs)||!phrase(m.p)||typeof m.t!=="number"||m.t>Date.now()+6e4)return;
     var c=chats[from]=chats[from]||[];if(c.some(function(x){return !x.me&&x.t===m.t&&x.p===m.p;}))return; /* the retained copy we've already seen */
     c.push({p:m.p,t:m.t});if(c.length>200)c.splice(0,c.length-200);
@@ -204,9 +248,26 @@ function send(id,quiet){
   if(!open)return;var t=Date.now(),msg={cs:me.cs,p:id,t:t};
   (chats[open]=chats[open]||[]).push({p:id,t:t,me:1});saveAll();paintChat();paintList();
   outbox.push({to:open,m:msg});store("outbox",JSON.stringify(outbox));
-  if(cl&&cl.connected)flush();else if(!quiet)toast("Немає зв'язку: фраза піде, щойно повернеться ефір");
+  if(cl&&cl.connected)flush();else if(!quiet)toast(T("noNet"));
   window.VV_TAPTIC?VV_TAPTIC("tick"):(function(){try{navigator.vibrate&&navigator.vibrate(12);}catch(e){}})();
 }
+/* ===== my status goes to every friend as a retained number ===== */
+function pubStatus(only){if(!cl||!cl.connected)return;var m=JSON.stringify({cs:me.cs,s:myS,t:Date.now()});
+  (only?[only]:Object.keys(friends)).forEach(function(code){if(validCode(code))cl.publish(SP+code+"/"+me.code,m,{qos:1,retain:true});});}
+$("stSel").onchange=function(){myS=parseInt(this.value,10)||0;store("st",String(myS));paintMe();pubStatus();upIsland();if(window.VV_TAPTIC)VV_TAPTIC("tick");};
+setInterval(pubStatus,10*60e3); /* a fresh timestamp so friends see the flower isn't stale */
+
+/* ===== ДивоОстрів: my flower on the left, the pinned friend's on the right ===== */
+function purr(){try{var C=window.Capacitor;if(C&&C.isNativePlatform&&C.isNativePlatform()&&C.getPlatform()==="ios"){if(C.Plugins&&C.Plugins.Purr)return C.Plugins.Purr;if(C.registerPlugin)return C.registerPlugin("Purr");}}catch(e){}return null;}
+function islOn(){return store("isl")==="1";}
+function pinned(){var p=store("pin");if(p&&friends[p])return p;var ks=Object.keys(friends).sort(function(a,b){var x=fst[a],y=fst[b];return (y?y.t:0)-(x?x.t:0);});return ks[0]||"";}
+function paintIsl(){var b=$("isl");b.textContent=islOn()?T("islOn"):T("isl");b.setAttribute("aria-pressed",String(islOn()));b.className=islOn()?"btn pri":"btn";}
+function upIsland(end){var P=purr();if(!P||!P.racia)return;if(end||!islOn()){P.racia({action:"end"}).catch(function(){});return;}
+  var f=pinned(),fr=friends[f],s=fst[f];
+  P.racia({action:"update",title:T("title")+" 🇺🇦",me:STS[myS][0],meLine:stName(myS),friend:s?STS[s.s][0]:"📻",friendName:fr?(fr.cs?csName(fr.cs):f):"🇺🇦",friendLine:f?fLine(f)||T("codeX")+f:T("nobody")}).catch(function(){});}
+$("isl").onclick=function(){var on=!islOn();store("isl",on?"1":"0");paintIsl();if(on&&!purr())toast(T("islApp"));upIsland(!on);if(window.VV_TAPTIC)VV_TAPTIC("tick");};
+$("pin").onclick=function(){if(!open)return;store("pin",open);paintHead();paintList();upIsland();if(!islOn()){store("isl","1");paintIsl();if(!purr())toast(T("islApp"));upIsland();}};
+
 /* «тільки тапи»: no sound, no notification text, just three taps in the pocket */
 function quietMode(){try{return localStorage.getItem("racia-quiet")==="1";}catch(e){return false;}}
 var ac=null;function ping(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.frequency.setValueAtTime(880,t);o.frequency.setValueAtTime(1320,t+.08);
@@ -214,10 +275,10 @@ var ac=null;function ping(){try{ac=ac||new (window.AudioContext||window.webkitAu
   if(!window.VV_TAPTIC)try{navigator.vibrate&&navigator.vibrate([16,110,16,110,16]);}catch(e){}}
 document.addEventListener("pointerdown",function once(){if(window.Notification&&Notification.permission==="default"&&Object.keys(friends).length)try{Notification.requestPermission();}catch(e){}document.removeEventListener("pointerdown",once);},{once:true});
 
-(function(){var q=document.getElementById("quiet");if(!q)return;function paint(){var on=quietMode();q.setAttribute("aria-pressed",String(on));q.style.opacity=on?"1":".55";q.textContent=on?"🤫 тільки тапи · увімкнено":"🤫 тільки тапи";}
+(function(){var q=document.getElementById("quiet");if(!q)return;function paint(){var on=quietMode();q.setAttribute("aria-pressed",String(on));q.style.opacity=on?"1":".55";q.textContent=on?T("quietOn"):T("quiet");}q.addEventListener("vv-paint",paint);
   q.onclick=function(){try{localStorage.setItem("racia-quiet",quietMode()?"0":"1");}catch(e){}paint();if(quietMode()&&window.VV_TAPTIC)VV_TAPTIC("message");};paint();})();
 /* ===== start ===== */
-paintMe();paintPad();paintList();connect();
+paintStatic();paintMe();paintPad();paintList();connect();upIsland();
 var hm=(location.hash||"").match(/add=([A-Za-z0-9]{6})/);if(hm){try{history.replaceState(null,"",location.pathname);}catch(e){}setTimeout(function(){addFriend(hm[1]);},400);}
 window.VV_RACIA={me:me,friends:function(){return friends;},chats:function(){return chats;}};
 })();

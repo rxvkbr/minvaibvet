@@ -19,7 +19,8 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "tick", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "awake", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "audioMode", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "island", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "island", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "racia", returnType: CAPPluginReturnPromise)
     ]
 
     private var engine: CHHapticEngine?
@@ -167,6 +168,42 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
             call.resolve(["ok": true])
         }
     }
+    /// «Рація» statuses in the Dynamic Island: racia({action: "start"|"update"|"end", title, me, meLine, friend, friendName, friendLine}).
+    /// Mine on the left, a friend's on the right. Local only: it updates while the app is open.
+    @objc func racia(_ call: CAPPluginCall) {
+        guard #available(iOS 16.2, *) else { call.resolve(["ok": false]); return }
+        let action = call.getString("action") ?? "update"
+        let state = RaciaAttributes.ContentState(
+            me: call.getString("me") ?? "🌼", meLine: call.getString("meLine") ?? "",
+            friend: call.getString("friend") ?? "📻", friendName: call.getString("friendName") ?? "",
+            friendLine: call.getString("friendLine") ?? "")
+        let title = call.getString("title") ?? "Рація"
+        Task {
+            let content = ActivityContent(state: state, staleDate: nil)
+            let running = Activity<RaciaAttributes>.activities
+            if action == "end" {
+                for a in running { await a.end(content, dismissalPolicy: .immediate) }
+            } else if let a = running.first {
+                await a.update(content)
+            } else if ActivityAuthorizationInfo().areActivitiesEnabled {
+                _ = try? Activity.request(attributes: RaciaAttributes(title: title), content: content, pushType: nil)
+            }
+            call.resolve(["ok": true])
+        }
+    }
+}
+
+/// The same type lives in VaibvetWidgets/ShipIsland.swift: the system matches the two by name.
+@available(iOS 16.1, *)
+struct RaciaAttributes: ActivityAttributes {
+    public struct ContentState: Codable, Hashable {
+        var me: String
+        var meLine: String
+        var friend: String
+        var friendName: String
+        var friendLine: String
+    }
+    var title: String
 }
 
 /// The same type lives in VaibvetWidgets/ShipIsland.swift: the system matches the two by name.

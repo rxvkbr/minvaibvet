@@ -83,3 +83,74 @@ struct ShipIsland: Widget {
         }
     }
 }
+
+
+// «Рація»: two ICQ-style statuses in the Dynamic Island, yours on the left and a friend's on the right.
+// racia.html starts and updates it through Purr.racia; only the two statuses live here.
+
+/// The same type lives in App/PurrPlugin.swift: the system matches the two by name.
+struct RaciaAttributes: ActivityAttributes {
+    public struct ContentState: Codable, Hashable {
+        var me: String        // flower/emoji for my status
+        var meLine: String    // "Вільний для чату"
+        var friend: String    // flower/emoji for the pinned friend
+        var friendName: String
+        var friendLine: String
+    }
+    var title: String
+}
+
+private let uaBlue = Color(red: 0.0, green: 0.36, blue: 0.73)
+private let uaYellow = Color(red: 1.0, green: 0.84, blue: 0.0)
+
+private struct UaFlag: View {
+    var body: some View {
+        VStack(spacing: 0) { uaBlue; uaYellow }
+            .frame(width: 18, height: 12).clipShape(RoundedRectangle(cornerRadius: 2))
+    }
+}
+
+struct RaciaIsland: Widget {
+    var body: some WidgetConfiguration {
+        ActivityConfiguration(for: RaciaAttributes.self) { ctx in
+            VStack(alignment: .leading, spacing: 8) {
+                HStack { UaFlag(); Text(ctx.attributes.title).font(.headline); Spacer() }
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading) {
+                        Text(ctx.state.me).font(.title2)
+                        Text(ctx.state.meLine).font(.caption).lineLimit(1)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text(ctx.state.friend).font(.title2)
+                        Text(ctx.state.friendName).font(.caption.weight(.semibold)).lineLimit(1)
+                        Text(ctx.state.friendLine).font(.caption2).lineLimit(1).opacity(0.8)
+                    }
+                }
+            }
+            .padding(14)
+            .foregroundColor(.white)
+            .activityBackgroundTint(Color(red: 0.06, green: 0.08, blue: 0.05))
+            .activitySystemActionForegroundColor(uaYellow)
+        } dynamicIsland: { ctx in
+            DynamicIsland {
+                DynamicIslandExpandedRegion(.leading) {
+                    VStack(alignment: .leading) { Text(ctx.state.me).font(.title2); Text(ctx.state.meLine).font(.caption2).lineLimit(1) }
+                }
+                DynamicIslandExpandedRegion(.trailing) {
+                    VStack(alignment: .trailing) { Text(ctx.state.friend).font(.title2); Text(ctx.state.friendLine).font(.caption2).lineLimit(1) }
+                }
+                DynamicIslandExpandedRegion(.center) {
+                    HStack(spacing: 6) { UaFlag(); Text(ctx.state.friendName).font(.subheadline.weight(.semibold)).lineLimit(1) }
+                }
+            } compactLeading: {
+                Text(ctx.state.me)
+            } compactTrailing: {
+                Text(ctx.state.friend)
+            } minimal: {
+                Text(ctx.state.friend)
+            }
+            .keylineTint(uaYellow)
+        }
+    }
+}

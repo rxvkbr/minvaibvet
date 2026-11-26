@@ -17,7 +17,7 @@ enum WS {
     static let buttonsTitle: String = isUk ? "ВАЙБВЕТ FM · КНОПКИ" : "VIBEVET FM · BUTTONS"
     static let stream: String = isUk ? "СТРІМ" : "STREAM"
     static let plus: String = isUk ? "+1 ВАЙБ" : "+1 VIBE"
-    static let hotlineLines: [String] = isUk ? ["Ваш дзвінок дуже важливий для нас. Ви в черзі 4 817-й.", "Щоб дізнатися статус заявки, натисніть 1. Щоб подати заявку на статус заявки, натисніть 2.", "Оператор зараз не може відповісти: він теж чекає на відпустку.", "Ви в черзі 4 816-й. Бачите, система працює.", "Орієнтовний час очікування: до демобілізації.", "Вашу довідку знайдено! Це не ваша довідка.", "Для вас звучить музика. Вона закінчиться раніше, ніж черга. Жартуємо, не закінчиться.", "Робочий день гарячої лінії завершено. Він тривав з 11:00 до 11:15. Дякуємо, що ви з нами."] : ["Your call is very important to us. You are number 4,817 in the queue.", "To check the status of your application, press 1. To apply for the status of your application, press 2.", "The operator can't answer right now: he's also waiting for his leave.", "You are number 4,816 in the queue. See, the system works.", "Estimated waiting time: until demobilisation.", "Your certificate has been found! It's not your certificate.", "Music is playing for you. It will end before the queue does. Just kidding, it won't.", "The hotline's working day is over. It lasted from 11:00 to 11:15. Thank you for being with us."]
+    static let hotline: String = isUk ? "ГАРЯЧА ЛІНІЯ" : "HOTLINE"
     static let pet: String = isUk ? "ПОГЛАДИТИ" : "PET"
     static let request: String = isUk ? "РАПОРТ" : "REQUEST"
     static let count: String = isUk ? "Вайбів: %d" : "Vibes: %d"

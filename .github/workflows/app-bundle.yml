@@ -38,9 +38,11 @@ jobs:
       - name: Build the desktop (Вайбвет Офіс) content
         run: |
           node desktop/scripts/prep.js
-          cd desktop/www && zip -qr "$RUNNER_TEMP/desk.zip" . && cd ../..
-          SUM=$(sha256sum "$RUNNER_TEMP/desk.zip" | cut -d' ' -f1)
-          mv "$RUNNER_TEMP/desk.zip" "$RUNNER_TEMP/desk-d1-${BUNDLE_STAMP}-${SUM}.zip"
+          rm -f desktop/desk.zip
+          (cd desktop/www && zip -qr ../desk.zip .)
+          ls -la desktop/desk.zip
+          SUM=$(sha256sum desktop/desk.zip | cut -d' ' -f1)
+          mv desktop/desk.zip "$RUNNER_TEMP/desk-d1-${BUNDLE_STAMP}-${SUM}.zip"
           echo "DESK=$RUNNER_TEMP/desk-d1-${BUNDLE_STAMP}-${SUM}.zip" >> "$GITHUB_ENV"
       - name: Publish, keeping the last three bundles
         env:

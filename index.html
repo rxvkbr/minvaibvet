@@ -1674,9 +1674,13 @@ html[dir="rtl"] .marq{direction:ltr}html[dir="rtl"] .marq span{unicode-bidi:isol
       try{localStorage.setItem("vibe-total",String(total));}catch(e){}
       b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
       clearTimeout(comboT);comboT=setTimeout(function(){combo=0;},1400);
+      /* «+ вайб» is a deliberate tap, so it always answers with a sound, unless interface sounds were switched off on purpose */
+      var was=ui,quiet=false;try{quiet=localStorage.getItem("ui-sound")==="0";}catch(x){}
+      if(!quiet)ui=true;
       blip(523.25*PENTA[Math.min(combo,PENTA.length-1)],0,0.1);
       combo++;
       if(total%5===0)arp(1046.5,[0,2,4,5,7],1,0.055);
+      ui=was;
     });
     a.appendChild(b);
   });

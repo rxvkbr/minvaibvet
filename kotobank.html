@@ -57,6 +57,15 @@ h2{font:800 19px -apple-system,Inter,system-ui;margin:22px 4px 10px;letter-spaci
 .mycat .c{font-size:86px;position:relative}.mycat .w{position:absolute;font-size:38px}
 .mycat .w.hat{left:50%;top:-34px;transform:translateX(-30%)}.mycat .w.gl{left:50%;top:20px;transform:translateX(-35%);font-size:30px}.mycat .w.sc{left:50%;top:62px;transform:translateX(-40%);font-size:32px}.mycat .w.hp{left:50%;top:-6px;transform:translateX(-40%);font-size:44px}
 .mycat .st{position:absolute;right:12px;bottom:10px;font-size:13px;color:var(--dim)}
+.jarhero{display:flex;align-items:center;gap:12px;margin:12px 0 0;padding:14px 16px;border-radius:22px;text-decoration:none;color:#1a0d08;background:linear-gradient(120deg,#ffd86b,#ff9a5a 55%,#ff5f8a);box-shadow:0 10px 30px #ff8a5a40}
+.jarhero .i{font-size:32px}.jarhero .t{flex:1}.jarhero b{display:block;font:800 17px system-ui}.jarhero small{opacity:.8;font-size:12px}.jarhero .b{background:#1a0d08;color:#ffd86b;border-radius:999px;padding:8px 13px;font:800 13px system-ui}
+html.ios-app .jarhero,html.ios-app #jarLink{display:none!important}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pay button{border:0;border-radius:18px;padding:14px;font:800 15px system-ui;cursor:pointer;background:var(--card);color:var(--tx)}
+.paybox{background:var(--card);border-radius:22px;padding:16px;margin-top:8px;text-align:center}.paybox .qr{background:#fff;border-radius:16px;padding:10px;width:220px;margin:0 auto}.paybox .qr svg{display:block;width:100%;height:auto}
+.paybox .code{font:800 28px ui-monospace,Menlo,monospace;letter-spacing:4px;margin:10px 0 4px}.paybox svg.bc{background:#fff;border-radius:12px;max-width:100%;margin-top:8px}
+.paybox video{width:100%;max-width:320px;border-radius:16px;background:#000;aspect-ratio:1;object-fit:cover}
+.paybox input{width:100%;box-sizing:border-box;background:#0e0e11;border:1px solid #ffffff1c;color:var(--tx);border-radius:14px;padding:11px 12px;font:700 17px ui-monospace,Menlo,monospace;margin-top:8px;text-align:center;letter-spacing:2px}
+.paybox small{color:var(--dim);display:block;margin-top:8px;font-size:12px}
 #sheet{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:20}
 #sheet .in{background:#17171b;width:100%;max-width:520px;border-radius:28px 28px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));animation:up .3s cubic-bezier(.3,1.4,.5,1)}
 @keyframes up{from{transform:translateY(40%)}to{transform:none}}
@@ -65,11 +74,13 @@ h2{font:800 19px -apple-system,Inter,system-ui;margin:22px 4px 10px;letter-spaci
 #toast.on{transform:translateX(-50%) translateY(0);opacity:1}
 [dir=rtl] .row .a{direction:ltr}
 </style>
-<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/kotobank.js"></script><script src="vendor/kurtka.js" defer></script>
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/kotobank.js"></script><script src="vendor/kurtka.js" defer></script><script src="vendor/mqtt-5.16.1.min.js"></script><script src="vendor/qrcode-generator-1.4.4.min.js"></script><script src="vendor/jsbarcode-code128-3.12.3.min.js"></script><script src="vendor/jsqr-1.4.0.min.js" defer></script><script src="vendor/kotopay.js"></script>
 </head>
 <body>
 <div class="top"><a class="back" href="index.html#more" id="back">←</a><div class="logo">Кото<span>банк</span></div><div class="langs" id="langs"></div></div>
 <div class="cardx"><div class="nm" id="cardName">КОТОКАРТКА · СВІТАНКОВА, ЯК НОВИЙ ДЕНЬ</div><div class="bal" id="bal">0</div><div class="cur" id="cur">котобаксів</div><div class="num">🐾🐾 🐾🐾 🐾🐾 🐾🐾</div><div class="paw">🐈</div></div>
+<a class="jarhero" href="https://send.monobank.ua/jar/AC4G66LERn" target="_blank" rel="noopener" id="jarTop"><span class="i">🫙</span><span class="t"><b id="jarT"></b><small id="jarS"></small></span><span class="b" id="jarB"></span></a>
+<h2 id="hPay"></h2><div class="pay"><button id="pIn"></button><button id="pOut"></button></div><div id="payBox"></div>
 <div class="acts">
   <button id="aEarn"><b>🐟</b><span></span></button><button id="aPet"><b>🫳</b><span></span></button><button id="aOut"><b>💸</b><span></span></button><button id="aKurt"><b>🧥</b><span></span></button>
 </div>
@@ -86,6 +97,7 @@ h2{font:800 19px -apple-system,Inter,system-ui;margin:22px 4px 10px;letter-spaci
 <p class="note"><a href="https://send.monobank.ua/jar/AC4G66LERn" target="_blank" rel="noopener" id="jarLink"></a></p>
 <div id="sheet"><div class="in"><h3 id="shT"></h3><p id="shP"></p><button class="btn" id="shOk">OK</button></div></div>
 <div id="toast"></div>
+<script>try{var C0=window.Capacitor;if(C0&&C0.getPlatform&&C0.getPlatform()==="ios")document.documentElement.classList.add("ios-app");}catch(e){}</script>
 <script>
 (function(){
 "use strict";
@@ -176,7 +188,7 @@ function render(){
     r.querySelector(".a").textContent=(b.a>0?"+":"−")+fmtN(Math.abs(b.a))+" 🐾";f.appendChild(r);});
   var ch=$("chain");ch.innerHTML="";K.chain().slice(-6).reverse().forEach(function(b){var d=document.createElement("div");d.className="blk";
     d.innerHTML="<b>#"+b.i+"</b> · "+(b.a>=0?"+":"")+b.a+" 🐾<br>hash "+String(b.h).slice(0,32)+"…<br>prev "+String(b.p).slice(0,32)+"…";ch.appendChild(d);});
-  renderShop();
+  renderShop();payPaint();
   $("langs").innerHTML="";["uk","en","nl","ru","ar","zh"].forEach(function(l){var b=document.createElement("button");b.textContent={uk:"УК",en:"EN",nl:"NL",ru:"РУ",ar:"ع",zh:"中"}[l];
     b.setAttribute("aria-pressed",l===LN);b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}VV_TAPTIC&&VV_TAPTIC("tick");render();};$("langs").appendChild(b);});
 }
@@ -218,6 +230,23 @@ function renderShop(){
       mSave(v);VV_TAPTIC&&VV_TAPTIC("tick");render();};
     sh.appendChild(b);});
 }
+
+var PAY={"uk": {"jarT": "Банка Андрійка", "jarS": "справжні гривні на домен, застосунок і каву", "jarB": "Кинути ↗", "pay": "Перекази QR і штрихкодом", "in": "📥 Мій код", "out": "📤 Надіслати", "inNote": "Покажи QR чи штрихкод другові: він сканує, і котобакси прилітають сюди.", "scanNote": "Наведи камеру на QR друга або введи його код із 6 знаків.", "code": "Код друга", "amt": "Скільки котобаксів", "send": "Надіслати", "sent": "📤 Надіслано {a} 🐾 на {c}", "got": "📲 +{a} 🐾 від {c}", "bad": "Перевір код і суму.", "nocam": "Камера недоступна. Введи код вручну."}, "en": {"jarT": "Andriiko's jar", "jarS": "real hryvnias for the domain, the app and coffee", "jarB": "Chip in ↗", "pay": "Transfers by QR and barcode", "in": "📥 My code", "out": "📤 Send", "inNote": "Show the QR or barcode to a friend: they scan it, and catbucks fly in here.", "scanNote": "Point the camera at your friend's QR or type their 6-character code.", "code": "Friend's code", "amt": "How many catbucks", "send": "Send", "sent": "📤 Sent {a} 🐾 to {c}", "got": "📲 +{a} 🐾 from {c}", "bad": "Check the code and the amount.", "nocam": "No camera. Type the code instead."}, "nl": {"jarT": "Andriiko's pot", "jarS": "echte hryvnja's voor domein, app en koffie", "jarB": "Doneer ↗", "pay": "Overmaken met QR en barcode", "in": "📥 Mijn code", "out": "📤 Versturen", "inNote": "Laat de QR of barcode aan een vriend zien: die scant, en de kattenbucks vliegen hierheen.", "scanNote": "Richt de camera op de QR van je vriend of typ de code van 6 tekens.", "code": "Code van je vriend", "amt": "Hoeveel kattenbucks", "send": "Versturen", "sent": "📤 {a} 🐾 verstuurd naar {c}", "got": "📲 +{a} 🐾 van {c}", "bad": "Controleer code en bedrag.", "nocam": "Geen camera. Typ de code."}, "ru": {"jarT": "Банка Андрийка", "jarS": "настоящие гривны на домен, приложение и кофе", "jarB": "Кинуть ↗", "pay": "Переводы QR и штрихкодом", "in": "📥 Мой код", "out": "📤 Отправить", "inNote": "Покажи QR или штрихкод другу: он сканирует, и котобаксы прилетают сюда.", "scanNote": "Наведи камеру на QR друга или введи его код из 6 знаков.", "code": "Код друга", "amt": "Сколько котобаксов", "send": "Отправить", "sent": "📤 Отправлено {a} 🐾 на {c}", "got": "📲 +{a} 🐾 от {c}", "bad": "Проверь код и сумму.", "nocam": "Камера недоступна. Введи код вручную."}};
+function PX(){return PAY[LN]||PAY.en;}
+function payPaint(){var X=PX();$("jarT").textContent=X.jarT;$("jarS").textContent=X.jarS;$("jarB").textContent=X.jarB;$("hPay").textContent=X.pay;$("pIn").textContent=X.in;$("pOut").textContent=X.out;}
+var stopScan=null;
+function closeScan(){if(stopScan){stopScan();stopScan=null;}}
+$("pIn").onclick=function(){closeScan();var P=window.VV_KOTOPAY;if(!P)return;var c=P.me(),b=$("payBox");
+  b.innerHTML='<div class="paybox"><div class="qr"></div><div class="code"></div><svg class="bc"></svg><small></small></div>';
+  b.querySelector(".qr").innerHTML=P.qrSvg("VVKOTO:"+c);b.querySelector(".code").textContent=c;P.barcode(b.querySelector("svg.bc"),c);b.querySelector("small").textContent=PX().inNote;P.connect();VV_TAPTIC&&VV_TAPTIC("tick");};
+$("pOut").onclick=function(){closeScan();var P=window.VV_KOTOPAY;if(!P)return;var X=PX(),b=$("payBox");
+  b.innerHTML='<div class="paybox"><video muted playsinline></video><canvas hidden></canvas><small></small><input id="pc" maxlength="6" autocomplete="off"><input id="pa" inputmode="numeric" maxlength="4"><button class="btn" id="ps" style="margin-top:10px"></button></div>';
+  b.querySelector("small").textContent=X.scanNote;$("pc").placeholder=X.code;$("pa").placeholder=X.amt;$("ps").textContent=X.send;
+  try{stopScan=P.scan(b.querySelector("video"),b.querySelector("canvas"),function(code,err){stopScan=null;if(code){$("pc").value=code;VV_TAPTIC&&VV_TAPTIC("success");$("pa").focus();}else{b.querySelector("video").style.display="none";toast(X.nocam);}});}catch(e){b.querySelector("video").style.display="none";}
+  $("ps").onclick=function(){var c=P.parse($("pc").value),a=parseInt($("pa").value,10);if(!c||!(a>0)){toast(X.bad);VV_TAPTIC&&VV_TAPTIC("warning");return;}
+    P.send(c,a).then(function(r){if(!r.ok){toast(r.why==="money"?T().noMoney:X.bad);VV_TAPTIC&&VV_TAPTIC("warning");return;}closeScan();VV_TAPTIC&&VV_TAPTIC("success");toast(X.sent.replace("{a}",a).replace("{c}",c));$("payBox").innerHTML="";render();});};};
+if(window.VV_KOTOPAY){VV_KOTOPAY.onIncoming(function(m){toast(PX().got.replace("{a}",m.a).replace("{c}",m.f));render();});VV_KOTOPAY.connect();}
+window.addEventListener("pagehide",closeScan);
 var lastFish=0;
 $("aEarn").onclick=function(){var n=Date.now();if(n-lastFish<1500){VV_TAPTIC&&VV_TAPTIC("tick");return;}lastFish=n;K.earn(1,T().fish);};
 $("aPet").onclick=function(){K.spend(1,T().petR).then(function(r){if(!r){toast(T().noMoney);return;}VV_TAPTIC&&VV_TAPTIC("soft");toast("😽 purr…");});};

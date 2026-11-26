@@ -29,6 +29,6 @@ jobs:
           const mqtt=require("mqtt"),to=process.env.TO.toUpperCase(),p=parseInt(process.env.P,10),me="KL5DNK";
           if(!/^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(to)||!Number.isInteger(p))throw new Error("bad input");
           const cl=mqtt.connect("wss://broker.emqx.io:8084/mqtt",{clientId:"racia_"+me+"_gh"+Math.random().toString(36).slice(2,6),connectTimeout:15000});
-          cl.on("connect",()=>cl.publish("vaibvet/racia/v1/"+to+"/"+me,JSON.stringify({cs:[1,8,25],p:p,t:Date.now()}),{qos:1,retain:true},e=>{if(e)throw e;console.log("sent",p,"to",to);cl.end();}));
+          cl.on("connect",()=>cl.publish("vaibvet/racia/v1/"+to+"/"+me,JSON.stringify({cs:[1,8,25],p:p,t:Date.now()}),{qos:1,retain:true},e=>{if(e)throw e;console.log("sent",p,"to",to);cl.end(false,{},()=>process.exit(0));}));
           cl.on("error",e=>{console.error(e.message);process.exit(1);});
           setTimeout(()=>{console.error("timeout");process.exit(1);},25000);'

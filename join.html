@@ -6,7 +6,7 @@
 <script src="vendor/hvylyna.js"></script>
 <script src="vendor/vkladky.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Вайбвет FM · набір тестувальників</title>
+<title>Вайбвет FM · завантажити й тестувати</title>
 <meta name="description" content="Мінвайбвет набирає тестувальників для Вайбвет FM, сатиричного радіо про життя українського ветерана. Три кроки, без довідок.">
 <meta property="og:title" content="Вайбвет FM · потрібні тестувальники">
 <meta property="og:description" content="Сатиричне радіо про життя ветерана. Новини тільки хороші, котика можна погладити. Три кроки, без довідок.">
@@ -53,6 +53,7 @@ small.note{display:block;color:#5b4630;font-size:14px;margin-top:6px}
 .row{display:flex;flex-wrap:wrap;gap:10px}
 .row .btn{background:#1a100b;border:1px solid var(--edge);box-shadow:none;color:var(--ivory)}
 .row .btn.x{background:#f5f5f7;color:#000;border-color:#f5f5f7}
+.row .btn.neon{background:var(--neon);color:#200804;border-color:var(--neon)}
 .row .btn.ig{background:linear-gradient(135deg,#feda75,#fa7e1e 30%,#d62976 60%,#962fbf 85%,#4f5bd5);color:#fff;border:0}
 .stat{min-height:1.4em;margin:10px 0 0;font-size:14px;color:var(--mint)}
 details{margin-top:26px;color:var(--dim)}
@@ -78,7 +79,28 @@ footer a{color:var(--amber)}
       <li><div><p>Стань тестувальником, тим самим Google-акаунтом, що на телефоні.</p><a class="btn" href="https://play.google.com/apps/testing/ua.pp.minvaibvet" target="_blank" rel="noopener">Стати тестувальником</a></div></li>
       <li><div><p>Встанови Вайбвет FM з Google Play і не видаляй чотирнадцять днів. Котик чекатиме.</p><a class="btn neon" href="https://play.google.com/store/apps/details?id=ua.pp.minvaibvet" target="_blank" rel="noopener">Відкрити в Google Play</a></div></li>
     </ol>
-    <small class="note">Відкривай у Chrome або Safari, не у вбудованому браузері X чи Instagram: там Google часто не бачить твого акаунта. На iPhone застосунок буде трохи згодом, а поки є сайт.</small>
+    <small class="note">Відкривай у Chrome або Safari, не у вбудованому браузері X чи Instagram: там Google часто не бачить твого акаунта. iPhone, iPad і комп'ютер — нижче.</small>
+  </div>
+
+  <div class="card" id="ios">
+    <h3>iPhone та iPad</h3>
+    <p>Через TestFlight від Apple: спершу встанови TestFlight, потім відкрий запрошення.</p>
+    <div class="row">
+      <a class="btn" href="https://testflight.apple.com/join/eWu4q85z" target="_blank" rel="noopener">Відкрити запрошення TestFlight</a>
+      <a class="btn" href="https://apps.apple.com/app/testflight/id899247664" target="_blank" rel="noopener">Встановити TestFlight</a>
+    </div>
+  </div>
+
+  <div class="card" id="desk">
+    <h3>Вайбвет Офіс для комп'ютера</h3>
+    <p>Браузер-офіс Мінвайбвету з вкладками, Столом, радіо і всіма сторінками застосунку. Для Mac підписаний і перевірений Apple, тож відкривається без попереджень.</p>
+    <div class="row" id="desk-row">
+      <a class="btn" data-k="arm" href="https://github.com/rxvkbr/minvaibvet/releases/tag/office-latest">Mac · Apple Silicon (M1–M4)</a>
+      <a class="btn" data-k="x64" href="https://github.com/rxvkbr/minvaibvet/releases/tag/office-latest">Mac · Intel</a>
+      <a class="btn" data-k="win" href="https://github.com/rxvkbr/minvaibvet/releases/tag/office-latest">Windows</a>
+      <a class="btn" data-k="port" href="https://github.com/rxvkbr/minvaibvet/releases/tag/office-latest">Windows без встановлення</a>
+    </div>
+    <p class="stat" id="desk-stat" role="status" style="color:var(--dim)">Не знаєш, який Mac? Меню Apple → «Про цей Mac»: якщо там «Chip Apple M…», бери Apple Silicon.</p>
   </div>
 
   <div class="card" id="invite">
@@ -97,6 +119,7 @@ footer a{color:var(--amber)}
     <p>Vibevet FM is a satirical radio app about how great it is to be a Ukrainian veteran. To get into Google Play it needs twelve testers who keep it for fourteen days.</p>
     <p>1. Join the <a href="https://groups.google.com/g/vaibvet-fm-testers" target="_blank" rel="noopener" style="color:var(--amber)">testers group</a>. 2. <a href="https://play.google.com/apps/testing/ua.pp.minvaibvet" target="_blank" rel="noopener" style="color:var(--amber)">Become a tester</a> with the Google account on your phone. 3. Install Vibevet FM from Google Play and keep it for 14 days.</p>
     <p>Open these links in Chrome or Safari, not inside the X or Instagram browser.</p>
+    <p>iPhone and iPad: install TestFlight, then open the <a href="https://testflight.apple.com/join/eWu4q85z" target="_blank" rel="noopener" style="color:var(--amber)">TestFlight invite</a>. Computer: Vibevet Office for Mac (signed and notarized by Apple) and Windows is in the section above.</p>
   </details>
 
   <footer>
@@ -128,6 +151,24 @@ footer a{color:var(--amber)}
       copy(URL_JOIN,"Картинку збережено, посилання скопійовано. Додай картинку в історію Instagram і встав посилання стікером.");
     }else{window.open(src,"_blank");copy(URL_JOIN,"Посилання скопійовано");}
   });
+  /* desktop downloads: the live asset list of the "office-latest" release */
+  (function(){
+    var row=document.getElementById("desk-row"),re={arm:/mac-arm64\.dmg$/,x64:/mac-x64\.dmg$/,win:/win-x64\.exe$/,port:/portable\.exe$/};
+    fetch("https://api.github.com/repos/rxvkbr/minvaibvet/releases/tags/office-latest").then(function(r){return r.json();}).then(function(d){
+      var as=(d&&d.assets)||[];
+      [].forEach.call(row.querySelectorAll("a[data-k]"),function(a){
+        var f=as.filter(function(x){return re[a.dataset.k].test(x.name);})[0];
+        if(f){a.href=f.browser_download_url;a.title=f.name+" · "+Math.round(f.size/1048576)+" МБ";}
+        else if(a.dataset.k==="arm"||a.dataset.k==="x64"){a.removeAttribute("href");a.style.opacity=".5";a.textContent+=" · скоро";}
+      });
+    }).catch(function(){});
+    var mac=/Mac/.test(navigator.platform||navigator.userAgent)&&!("ontouchend" in document);
+    if(navigator.userAgentData&&navigator.userAgentData.getHighEntropyValues)navigator.userAgentData.getHighEntropyValues(["architecture","platform"]).then(function(v){
+      var k=v.platform==="macOS"?(v.architecture==="arm"?"arm":"x64"):v.platform==="Windows"?"win":"";
+      var a=k&&row.querySelector('a[data-k="'+k+'"]');if(a)a.classList.add("neon");
+    }).catch(function(){});
+    else if(mac){var a=row.querySelector('a[data-k="arm"]');if(a)a.classList.add("neon");}
+  })();
 })();
 </script>
 </body>

@@ -42,14 +42,19 @@
         }
       ],
       "icon": "build/icon.png",
-      "identity": "-",
       "extendInfo": {
         "CFBundleDisplayName": "Вайбвет Офіс",
-        "LSApplicationCategoryType": "public.app-category.entertainment"
-      }
+        "LSApplicationCategoryType": "public.app-category.entertainment",
+        "NSCameraUsageDescription": "Камера потрібна Диригенту й Маестро, щоб бачити рух руки. Відео нікуди не надсилається."
+      },
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
     },
     "dmg": {
-      "title": "Вайбвет Офіс"
+      "title": "Вайбвет Офіс",
+      "artifactName": "VaibvetOffice-${version}-mac-${arch}.${ext}"
     },
     "win": {
       "target": [

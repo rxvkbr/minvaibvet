@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Котобанк · Вайбкет FM</title>
+<meta name="theme-color" content="#0b0b0d">
+<style>
+:root{--bg:#0b0b0d;--card:#1b1b1f;--card2:#25252b;--tx:#f5f5f7;--dim:#9a9aa3;--acc:#ff5f6d;--ok:#3ddc97;--gold:#ffc371}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:500 15px/1.4 -apple-system,"SF Pro Text",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:calc(10px + env(safe-area-inset-top)) 16px calc(90px + env(safe-area-inset-bottom));max-width:520px;margin:0 auto}
+a{color:inherit}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.top a.back{text-decoration:none;background:var(--card);border-radius:999px;padding:8px 12px;font-weight:700;font-size:13px}
+.logo{font:800 22px -apple-system,Inter,system-ui;letter-spacing:-.5px}.logo span{color:var(--acc)}
+.langs{margin-left:auto;display:flex;gap:4px}.langs button{border:0;background:var(--card);color:var(--dim);border-radius:10px;padding:5px 7px;font:700 11px system-ui;cursor:pointer}
+.langs button[aria-pressed=true]{background:var(--tx);color:var(--bg)}
+.cardx{position:relative;border-radius:26px;padding:20px;min-height:200px;overflow:hidden;background:linear-gradient(135deg,#ff5f6d 0%,#ffc371 48%,#7b5cff 100%);color:#140b12;box-shadow:0 18px 50px #ff5f6d33}
+.cardx::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:#ffffff26}
+.cardx .nm{font:800 14px system-ui;opacity:.75;letter-spacing:.3px}
+.cardx .bal{font:800 46px/1.05 -apple-system,Inter,system-ui;letter-spacing:-1.5px;margin:18px 0 4px;font-variant-numeric:tabular-nums}
+.cardx .cur{font:700 15px system-ui;opacity:.8}
+.cardx .num{position:absolute;left:20px;bottom:18px;font:700 15px ui-monospace,Menlo,monospace;letter-spacing:2px}
+.cardx .paw{position:absolute;right:18px;bottom:12px;font-size:40px}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
+.acts button{border:0;background:var(--card);color:var(--tx);border-radius:18px;padding:12px 4px 10px;font:700 11px system-ui;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
+.acts button b{font-size:22px;width:44px;height:44px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
+.acts button:active{transform:scale(.96)}
+h2{font:800 19px -apple-system,Inter,system-ui;margin:22px 4px 10px;letter-spacing:-.3px}
+.box{background:var(--card);border-radius:22px;padding:6px 14px}
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #ffffff10}.row:last-child{border:0}
+.row .ic{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+.row .t{flex:1;min-width:0}.row .t b{display:block;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .t small{color:var(--dim);font-size:12px}
+.row .a{font:750 15px system-ui;font-variant-numeric:tabular-nums}.row .a.p{color:var(--ok)}
+.jars{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.jar{background:var(--card);border-radius:20px;padding:12px;cursor:pointer;border:0;color:var(--tx);text-align:left;font:inherit}
+.jar .e{font-size:26px}.jar b{display:block;font-size:13px;margin:6px 0 2px}.jar small{color:var(--dim);font-size:11px}
+.jar .bar{height:6px;border-radius:9px;background:var(--card2);margin-top:8px;overflow:hidden}.jar .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--gold));border-radius:9px}
+.tr{background:linear-gradient(160deg,#20202a,#1b1b1f);border-radius:22px;padding:16px}
+.tr p{margin:0 0 10px;color:var(--dim);font-size:13px}
+.tr .src{background:var(--card2);border-radius:14px;padding:12px;font-weight:650;margin-bottom:10px}
+.tr input,.tr textarea{width:100%;background:#0e0e11;border:1px solid #ffffff1c;color:var(--tx);border-radius:14px;padding:11px 12px;font:500 15px system-ui;margin-bottom:8px}
+.tr textarea{min-height:70px;resize:vertical}
+.btn{border:0;border-radius:16px;padding:13px 16px;font:800 15px system-ui;cursor:pointer;background:var(--tx);color:var(--bg);width:100%}
+.btn.alt{background:var(--card2);color:var(--tx)}
+.chain{font:500 11px/1.45 ui-monospace,Menlo,monospace;color:var(--dim)}
+.chain .blk{background:var(--card);border-radius:14px;padding:10px 12px;margin-bottom:6px;word-break:break-all}
+.chain .blk b{color:var(--tx)}
+.note{color:var(--dim);font-size:12px;text-align:center;margin:18px 8px}
+.kurtka-stage{margin-top:8px}
+#sheet{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:20}
+#sheet .in{background:#17171b;width:100%;max-width:520px;border-radius:28px 28px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));animation:up .3s cubic-bezier(.3,1.4,.5,1)}
+@keyframes up{from{transform:translateY(40%)}to{transform:none}}
+#sheet h3{margin:0 0 8px;font:800 22px system-ui}#sheet p{color:var(--dim);margin:0 0 14px}
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translateX(-50%) translateY(-120%);background:#fff;color:#111;border-radius:16px;padding:10px 16px;font:800 14px system-ui;transition:transform .35s cubic-bezier(.3,1.5,.5,1),opacity .2s;opacity:0;z-index:30;width:max-content;max-width:calc(100% - 32px);text-align:center}
+#toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+[dir=rtl] .row .a{direction:ltr}
+</style>
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/kotobank.js"></script><script src="vendor/kurtka.js" defer></script>
+</head>
+<body>
+<div class="top"><a class="back" href="index.html#more" id="back">←</a><div class="logo">Кото<span>банк</span></div><div class="langs" id="langs"></div></div>
+<div class="cardx"><div class="nm" id="cardName">КОТОКАРТКА · СВІТАНКОВА, ЯК НОВИЙ ДЕНЬ</div><div class="bal" id="bal">0</div><div class="cur" id="cur">котобаксів</div><div class="num">🐾🐾 🐾🐾 🐾🐾 🐾🐾</div><div class="paw">🐈</div></div>
+<div class="acts">
+  <button id="aEarn"><b>🐟</b><span></span></button><button id="aPet"><b>🫳</b><span></span></button><button id="aOut"><b>💸</b><span></span></button><button id="aKurt"><b>🧥</b><span></span></button>
+</div>
+<div id="kurtBox"></div>
+<h2 id="hJars"></h2><div class="jars" id="jars"></div>
+<h2 id="hTr"></h2>
+<div class="tr"><p id="trP"></p><div class="src" id="trSrc"></div>
+  <input id="trLang" autocomplete="off"><textarea id="trTxt"></textarea>
+  <button class="btn" id="trGo"></button><p id="trNote" style="margin:10px 0 0"></p></div>
+<h2 id="hFeed"></h2><div class="box" id="feed"></div>
+<h2 id="hChain"></h2><button class="btn alt" id="verify"></button><div class="chain" id="chain" style="margin-top:10px"></div>
+<p class="note" id="disc"></p>
+<p class="note"><a href="https://send.monobank.ua/jar/AC4G66LERn" target="_blank" rel="noopener" id="jarLink"></a></p>
+<div id="sheet"><div class="in"><h3 id="shT"></h3><p id="shP"></p><button class="btn" id="shOk">OK</button></div></div>
+<div id="toast"></div>
+<script>
+(function(){
+"use strict";
+var K=window.VV_KOTO,$=function(i){return document.getElementById(i);};
+var TX={
+uk:{name:"КОТОКАРТКА · СВІТАНКОВА, ЯК НОВИЙ ДЕНЬ",cur:"котобаксів",earn:"Рибка",pet:"Погладити",out:"Вивести",kurt:"По куртку",
+ jars:"Скарбнички",tr:"Переклади на будь-яку мову світу",trP:"Переклади фразу Вайбкету своєю мовою — і отримай 20 котобаксів. Найкращі переклади потраплять на сайт.",
+ trLang:"Мова (наприклад: польська, Català, Kiswahili)",trTxt:"Твій переклад",trGo:"Надіслати й отримати 🐾 20",trNote:"Відкриється GitHub: там переклад побачать усі й додадуть на сайт. Потрібен акаунт GitHub.",
+ feed:"Історія",chain:"Блокчейн, як заповідали",verify:"Перевірити ланцюжок",ok:"✅ Ланцюжок цілий: {n} блоків, жоден кіт нічого не підробив",bad:"⚠️ Ланцюжок пошкоджено. Хтось поклав лапу на блок.",
+ disc:"Котобакси — це гра. Вони не мають жодної цінності: їх не можна купити, продати, обміняти чи вивести. Ланцюжок блоків живе тільки на цьому пристрої.",
+ jar:"Справжня банка Мінвайбкету для донатів ↗",outT:"Вивести котобакси",outP:"Готово! Котобакси виведено… на прогулянку 🐈. Повернуться, коли захочуть їсти. На рахунки вони не виводяться: це гра.",
+ fish:"Рибка за вайб",petR:"Погладив кота",noMoney:"Не вистачає котобаксів. Кіт дивиться розуміюче.",empty:"Поки тихо. Натисни «Рибка», щоб отримати перші котобакси.",
+ jarNames:["На рибку","На куртку","На Кіпр"],put:"Покласти 10",kurtT:"Котобанк — той банк, що переконав усіх піти по куртку",trThanks:"Дякуємо! +20 котобаксів за переклад",
+ phrases:["Новини тільки хороші: ми їх довго шукали.","Шикування скасовано. Можна спати далі.","Кіт на теплій зупинці гальмує всіх.","Корабель збудовано з нуля, а ми підемо пити чай.","Котобанк — той банк, що переконав усіх піти по куртку."]},
+en:{name:"CATCARD · SUNRISE, LIKE A NEW DAY",cur:"catbucks",earn:"Fish",pet:"Pet",out:"Withdraw",kurt:"Jacket",jars:"Jars",tr:"Translate into any language of the world",
+ trP:"Translate a Vibecat line into your language and get 20 catbucks. The best translations go on the site.",trLang:"Language (e.g. Polish, Català, Kiswahili)",trTxt:"Your translation",trGo:"Send and get 🐾 20",
+ trNote:"GitHub opens: everyone can see the translation there and add it to the site. A GitHub account is needed.",feed:"History",chain:"Blockchain, as was bequeathed",verify:"Verify the chain",
+ ok:"✅ The chain is intact: {n} blocks, no cat forged anything",bad:"⚠️ The chain is broken. Someone put a paw on a block.",
+ disc:"Catbucks are a game. They have no value: they cannot be bought, sold, exchanged or withdrawn. The chain lives only on this device.",jar:"The real MinVibecat donation jar ↗",
+ outT:"Withdraw catbucks",outP:"Done! Your catbucks have been taken out… for a walk 🐈. They'll come back when hungry. They can't go to a bank account: it's a game.",
+ fish:"A fish for the vibe",petR:"Petted the cat",noMoney:"Not enough catbucks. The cat looks understanding.",empty:"All quiet. Tap «Fish» for your first catbucks.",
+ jarNames:["For fish","For a jacket","For Cyprus"],put:"Put in 10",kurtT:"Catbank — the bank that talked everyone into going back for their jacket",trThanks:"Thank you! +20 catbucks for the translation",
+ phrases:["Good news only: it took us ages to find any.","Line-up cancelled. You can go back to sleep.","The cat at the warm bus stop slows everyone down.","The ship was built from scratch, and we're off to have tea.","Catbank — the bank that talked everyone into going back for their jacket."]},
+nl:{name:"KATTENKAART · ZONSOPGANG, ALS EEN NIEUWE DAG",cur:"kattenbucks",earn:"Visje",pet:"Aaien",out:"Opnemen",kurt:"Jas",jars:"Spaarpotten",tr:"Vertaal naar elke taal ter wereld",
+ trP:"Vertaal een zin van Vibecat in jouw taal en krijg 20 kattenbucks. De beste vertalingen komen op de site.",trLang:"Taal (bijv. Pools, Català, Kiswahili)",trTxt:"Jouw vertaling",trGo:"Versturen en 🐾 20 krijgen",
+ trNote:"GitHub gaat open: daar ziet iedereen de vertaling en zetten we hem op de site. Je hebt een GitHub-account nodig.",feed:"Geschiedenis",chain:"Blockchain, zoals beloofd",verify:"Keten controleren",
+ ok:"✅ De keten is heel: {n} blokken, geen kat heeft iets vervalst",bad:"⚠️ De keten is kapot. Iemand heeft een poot op een blok gezet.",
+ disc:"Kattenbucks zijn een spel. Ze zijn niets waard: je kunt ze niet kopen, verkopen, wisselen of opnemen. De keten bestaat alleen op dit apparaat.",jar:"De echte donatiepot van MinVibecat ↗",
+ outT:"Kattenbucks opnemen",outP:"Klaar! Je kattenbucks zijn uitgelaten… voor een wandeling 🐈. Ze komen terug als ze honger hebben. Naar een bankrekening kan niet: het is een spel.",
+ fish:"Een visje voor de vibe",petR:"De kat geaaid",noMoney:"Niet genoeg kattenbucks. De kat kijkt begripvol.",empty:"Nog stil. Tik op «Visje» voor je eerste kattenbucks.",
+ jarNames:["Voor vis","Voor een jas","Voor Cyprus"],put:"10 erin",kurtT:"Kattenbank — de bank die iedereen overhaalde om zijn jas te gaan halen",trThanks:"Dank je! +20 kattenbucks voor de vertaling",
+ phrases:["Alleen goed nieuws: we hebben er lang naar gezocht.","Appel afgelast. Je mag verder slapen.","De kat op de warme bushalte houdt iedereen op.","Het schip is vanaf nul gebouwd, en wij gaan thee drinken.","Kattenbank — de bank die iedereen overhaalde om zijn jas te gaan halen."]},
+ru:{name:"КОТОКАРТА · РАССВЕТНАЯ, КАК НОВЫЙ ДЕНЬ",cur:"котобаксов",earn:"Рыбка",pet:"Погладить",out:"Вывести",kurt:"За курткой",jars:"Копилки",tr:"Переводы на любой язык мира",
+ trP:"Переведи фразу Вайбкета на свой язык и получи 20 котобаксов. Лучшие переводы попадут на сайт.",trLang:"Язык (например: польский, Català, Kiswahili)",trTxt:"Твой перевод",trGo:"Отправить и получить 🐾 20",
+ trNote:"Откроется GitHub: там перевод увидят все и добавят на сайт. Нужен аккаунт GitHub.",feed:"История",chain:"Блокчейн, как завещали",verify:"Проверить цепочку",
+ ok:"✅ Цепочка цела: {n} блоков, ни один кот ничего не подделал",bad:"⚠️ Цепочка повреждена. Кто-то положил лапу на блок.",
+ disc:"Котобаксы — это игра. Они не имеют никакой ценности: их нельзя купить, продать, обменять или вывести. Цепочка живёт только на этом устройстве.",jar:"Настоящая банка Минвайбкета для донатов ↗",
+ outT:"Вывести котобаксы",outP:"Готово! Котобаксы выведены… на прогулку 🐈. Вернутся, когда захотят есть. На счета они не выводятся: это игра.",
+ fish:"Рыбка за вайб",petR:"Погладил кота",noMoney:"Не хватает котобаксов. Кот смотрит понимающе.",empty:"Пока тихо. Нажми «Рыбка», чтобы получить первые котобаксы.",
+ jarNames:["На рыбку","На куртку","На Кипр"],put:"Положить 10",kurtT:"Котобанк — тот банк, что убедил всех пойти за курткой",trThanks:"Спасибо! +20 котобаксов за перевод",
+ phrases:["Новости только хорошие: мы их долго искали.","Построение отменено. Можно спать дальше.","Кот на тёплой остановке тормозит всех.","Корабль построен с нуля, а мы пойдём пить чай.","Котобанк — тот банк, что убедил всех пойти за курткой."]},
+ar:{name:"بطاقة القط · بلون الفجر، كيوم جديد",cur:"دولار قطط",earn:"سمكة",pet:"ربّت",out:"اسحب",kurt:"السترة",jars:"حصّالات",tr:"ترجم إلى أي لغة في العالم",
+ trP:"ترجم عبارة من فايبكات إلى لغتك واحصل على 20 دولار قطط. أفضل الترجمات تُنشر على الموقع.",trLang:"اللغة (مثلًا: البولندية، Català، Kiswahili)",trTxt:"ترجمتك",trGo:"أرسل واحصل على 🐾 20",
+ trNote:"سيفتح GitHub: هناك يرى الجميع الترجمة وتُضاف إلى الموقع. تحتاج حسابًا على GitHub.",feed:"السجلّ",chain:"بلوكتشين، كما أوصوا",verify:"تحقّق من السلسلة",
+ ok:"✅ السلسلة سليمة: {n} كتلة، لم يزوّر أي قطّ شيئًا",bad:"⚠️ السلسلة تالفة. أحدهم وضع مخلبه على كتلة.",
+ disc:"دولارات القطط لعبة. لا قيمة لها: لا تُشترى ولا تُباع ولا تُبدَّل ولا تُسحب. السلسلة موجودة على هذا الجهاز فقط.",jar:"حصّالة التبرعات الحقيقية لوزارة فايبكات ↗",
+ outT:"سحب دولارات القطط",outP:"تم! أُخرجت دولارات القطط… في نزهة 🐈. ستعود حين تجوع. لا تُسحب إلى حساب بنكي: إنها لعبة.",
+ fish:"سمكة مقابل المزاج",petR:"ربّتَّ على القطّ",noMoney:"دولارات القطط لا تكفي. القطّ ينظر بتفهّم.",empty:"هدوء تام. اضغط «سمكة» لتحصل على أول دولارات القطط.",
+ jarNames:["للسمك","للسترة","لقبرص"],put:"ضع 10",kurtT:"بنك القطط — البنك الذي أقنع الجميع بالعودة لأخذ السترة",trThanks:"شكرًا! +20 دولار قطط على الترجمة",
+ phrases:["الأخبار الجيدة فقط: بحثنا عنها طويلًا.","أُلغي الاصطفاف. يمكنك متابعة النوم.","القطّ في المحطة الدافئة يبطئ الجميع.","بُنيت السفينة من الصفر، ونحن ذاهبون لشرب الشاي.","بنك القطط — البنك الذي أقنع الجميع بالعودة لأخذ السترة."]},
+zh:{name:"猫猫卡 · 朝霞色，像新的一天",cur:"猫币",earn:"小鱼",pet:"摸猫",out:"提现",kurt:"外套",jars:"存钱罐",tr:"翻译成世界上任何一种语言",
+ trP:"把一句 Vibecat 的话翻译成你的语言，就能得到 20 猫币。最好的译文会放上网站。",trLang:"语言（例如：波兰语、Català、Kiswahili）",trTxt:"你的译文",trGo:"发送并获得 🐾 20",
+ trNote:"会打开 GitHub：大家都能看到译文，并把它加到网站上。需要 GitHub 账号。",feed:"记录",chain:"区块链，如遗嘱所言",verify:"校验链条",
+ ok:"✅ 链条完好：{n} 个区块，没有猫伪造任何东西",bad:"⚠️ 链条损坏。有谁把爪子按在了区块上。",
+ disc:"猫币是游戏。它没有任何价值：不能购买、出售、兑换或提现。区块链只存在于这台设备上。",jar:"Vibecat 部真正的捐款罐 ↗",
+ outT:"提现猫币",outP:"完成！猫币被带出去……散步了 🐈。饿了就会回来。它不能提到银行账户：这是游戏。",
+ fish:"为氛围送小鱼",petR:"摸了摸猫",noMoney:"猫币不够。猫理解地看着你。",empty:"还很安静。点「小鱼」领取第一笔猫币。",
+ jarNames:["买鱼","买外套","去塞浦路斯"],put:"存 10",kurtT:"猫猫银行——说服大家回去拿外套的那家银行",trThanks:"谢谢！翻译奖励 +20 猫币",
+ phrases:["只有好消息：我们找了很久。","集合取消。可以继续睡。","暖和车站上的猫让大家都慢下来。","船从零造好了，我们去喝茶。","猫猫银行——说服大家回去拿外套的那家银行。"]}};
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!TX[LN])LN="en";
+function T(){return TX[LN];}
+function toast(s){var t=$("toast");t.textContent=s;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove("on");},1900);}
+function sheet(t,p){$("shT").textContent=t;$("shP").textContent=p;$("sheet").style.display="flex";}
+$("shOk").onclick=function(){$("sheet").style.display="none";};
+var JARS=[{e:"🐟",goal:100},{e:"🧥",goal:250},{e:"🏝",goal:1000}];
+function jarLoad(){try{return JSON.parse(localStorage.getItem("kotobank-jars")||"[0,0,0]");}catch(e){return [0,0,0];}}
+function jarSave(v){try{localStorage.setItem("kotobank-jars",JSON.stringify(v));}catch(e){}}
+var phraseI=Math.floor(Math.random()*5);
+function fmtN(n){return n.toLocaleString(LN==="ar"?"ar":LN==="zh"?"zh-CN":LN,{maximumFractionDigits:0});}
+function render(){
+  var X=T();document.documentElement.lang=LN;document.body.dir=LN==="ar"?"rtl":"ltr";
+  $("cardName").textContent=X.name;$("cur").textContent=X.cur;$("bal").textContent=fmtN(K.balance());
+  [["aEarn","earn"],["aPet","pet"],["aOut","out"],["aKurt","kurt"]].forEach(function(p){$(p[0]).querySelector("span").textContent=X[p[1]];});
+  $("hJars").textContent=X.jars;$("hTr").textContent=X.tr;$("trP").textContent=X.trP;$("trSrc").textContent=X.phrases[phraseI];
+  $("trLang").placeholder=X.trLang;$("trTxt").placeholder=X.trTxt;$("trGo").textContent=X.trGo;$("trNote").textContent=X.trNote;
+  $("hFeed").textContent=X.feed;$("hChain").textContent=X.chain;$("verify").textContent=X.verify;$("disc").textContent=X.disc;$("jarLink").textContent=X.jar;
+  var jv=jarLoad();$("jars").innerHTML="";JARS.forEach(function(j,i){var b=document.createElement("button");b.className="jar";
+    b.innerHTML='<div class="e">'+j.e+'</div><b></b><small></small><div class="bar"><i style="width:'+Math.min(100,jv[i]/j.goal*100)+'%"></i></div>';
+    b.querySelector("b").textContent=X.jarNames[i];b.querySelector("small").textContent=fmtN(jv[i])+" / "+fmtN(j.goal)+" · "+X.put;
+    b.onclick=function(){K.spend(10,"🏺 "+X.jarNames[i]).then(function(r){if(!r){toast(X.noMoney);VV_TAPTIC&&VV_TAPTIC("warning");return;}var v=jarLoad();v[i]+=10;jarSave(v);if(v[i]>=j.goal&&v[i]-10<j.goal){VV_TAPTIC&&VV_TAPTIC("success");toast("🎉 "+X.jarNames[i]);}render();});};
+    $("jars").appendChild(b);});
+  var c=K.chain().slice().reverse(),f=$("feed");f.innerHTML="";
+  if(c.length<2){f.innerHTML='<div class="row"><div class="ic">🐈</div><div class="t"><small></small></div></div>';f.querySelector("small").textContent=X.empty;}
+  c.filter(function(b){return b.i>0;}).slice(0,30).forEach(function(b){var r=document.createElement("div");r.className="row";
+    var ic=b.a>0?(/перекл|transl|vertal|перев|ترجم|翻译/i.test(b.r)?"🌍":/корабель|ship|schip|корабль|سفينة|船/i.test(b.r)?"🚢":"🐟"):(/🏺/.test(b.r)?"🏺":"🫳");
+    r.innerHTML='<div class="ic">'+ic+'</div><div class="t"><b></b><small></small></div><div class="a'+(b.a>0?' p':'')+'"></div>';
+    r.querySelector("b").textContent=b.r;r.querySelector("small").textContent=new Date(b.t).toLocaleString(LN==="ar"?"ar":LN==="zh"?"zh-CN":LN,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+    r.querySelector(".a").textContent=(b.a>0?"+":"−")+fmtN(Math.abs(b.a))+" 🐾";f.appendChild(r);});
+  var ch=$("chain");ch.innerHTML="";K.chain().slice(-6).reverse().forEach(function(b){var d=document.createElement("div");d.className="blk";
+    d.innerHTML="<b>#"+b.i+"</b> · "+(b.a>=0?"+":"")+b.a+" 🐾<br>hash "+String(b.h).slice(0,32)+"…<br>prev "+String(b.p).slice(0,32)+"…";ch.appendChild(d);});
+  $("langs").innerHTML="";["uk","en","nl","ru","ar","zh"].forEach(function(l){var b=document.createElement("button");b.textContent={uk:"УК",en:"EN",nl:"NL",ru:"РУ",ar:"ع",zh:"中"}[l];
+    b.setAttribute("aria-pressed",l===LN);b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}VV_TAPTIC&&VV_TAPTIC("tick");render();};$("langs").appendChild(b);});
+}
+var lastFish=0;
+$("aEarn").onclick=function(){var n=Date.now();if(n-lastFish<1500){VV_TAPTIC&&VV_TAPTIC("tick");return;}lastFish=n;K.earn(1,T().fish);};
+$("aPet").onclick=function(){K.spend(1,T().petR).then(function(r){if(!r){toast(T().noMoney);return;}VV_TAPTIC&&VV_TAPTIC("soft");toast("😽 purr…");});};
+$("aOut").onclick=function(){VV_TAPTIC&&VV_TAPTIC("click");sheet(T().outT,T().outP);};
+$("aKurt").onclick=function(){var b=$("kurtBox");VV_TAPTIC&&VV_TAPTIC("click");
+  if(!b.firstChild){var h=document.createElement("h2");h.textContent=T().kurtT;b.appendChild(h);var s=document.createElement("div");s.className="kurtka-stage";b.appendChild(s);if(window.VV_KURTKA)VV_KURTKA(s);}
+  b.scrollIntoView({behavior:"smooth",block:"start"});};
+$("verify").onclick=function(){K.verify().then(function(ok){VV_TAPTIC&&VV_TAPTIC(ok?"success":"error");toast(ok?T().ok.replace("{n}",K.chain().length):T().bad);});};
+$("trGo").onclick=function(){
+  var lang=$("trLang").value.trim(),txt=$("trTxt").value.trim();if(!lang||!txt){$((lang?"trTxt":"trLang")).focus();VV_TAPTIC&&VV_TAPTIC("warning");return;}
+  var src=T().phrases[phraseI],ua=TX.uk.phrases[phraseI];
+  var url="https://github.com/rxvkbr/minvaibvet/issues/new?labels=translation&title="+encodeURIComponent("Переклад · "+lang)+
+    "&body="+encodeURIComponent("**Мова:** "+lang+"\n\n**Оригінал:** "+ua+"\n\n**Переклад:** "+txt+"\n\n_Надіслано з Котобанку_ 🐾");
+  window.open(url,"_blank","noopener");
+  K.earn(20,"🌍 "+lang+": "+txt.slice(0,40)).then(function(){toast(T().trThanks);});
+  $("trTxt").value="";phraseI=(phraseI+1)%5;render();
+};
+window.addEventListener("kotobank",render);
+render();K.daily();
+})();
+</script>
+</body>
+</html>

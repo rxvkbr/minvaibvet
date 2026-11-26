@@ -52,7 +52,7 @@ html,body{margin:0;height:100%;background:#bfe6ff;color:#14324a;font-family:ui-r
 .vvk{bottom:auto!important;top:calc(48px + env(safe-area-inset-top))!important;left:auto!important;right:10px!important}
 </style>
 <script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script>
-<script src="vendor/korabel-text.js"></script>
+<script src="vendor/korabel-text.js"></script><script src="vendor/kotobank.js"></script>
 </head>
 <body>
 <div id="wrap">
@@ -366,6 +366,7 @@ function launch(){
   setTimeout(function(){horn();feel("rigid");},700);
 }
 function finish(){
+  if(!S.done&&window.VV_KOTO)VV_KOTO.earn(50,"🚢 "+T().onWater);
   S.done=true;if(!S.name)S.name=T().names[Math.floor(Math.random()*T().names.length)];save();
   feel("success");fanfare();island("end");
   var L=notif();if(L&&ANDROID)try{L.cancel({notifications:[{id:7700}]}).catch(function(){});}catch(e){}

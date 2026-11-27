@@ -247,3 +247,18 @@ test('GDPR: no page asks Google Fonts, the policy names the controller and right
   await expect(page.getByText('Контролер у розумінні')).toBeVisible();
   await expect(page.getByText('Autoriteit Persoonsgegevens').first()).toBeVisible();
 });
+
+test('Мої місця: far from saved places in the evening, the torch is offered; nothing leaves the phone', async ({ browser }) => {
+  const ctx = await browser.newContext({ geolocation: { latitude: 52.25, longitude: 4.95 }, permissions: ['geolocation'] });
+  const page = await ctx.newPage();
+  const errs = watch(page);
+  await page.goto('/index.html');
+  await page.evaluate(() => localStorage.setItem('vv-places', JSON.stringify([[50.45, 30.523]])));
+  expect(await page.evaluate(() => Math.round(window.VV_PLACES.km([50.45, 30.523], [52.25, 4.95])))).toBeGreaterThan(1700);
+  await page.evaluate(() => window.VV_PLACES.check(true));
+  await expect(page.locator('#farask')).toBeVisible();
+  await page.locator('#farask button').first().click();
+  expect(await page.evaluate(() => window.VV_TORCH.level())).toBe(1);
+  await ctx.close();
+  expect(errs).toEqual([]);
+});

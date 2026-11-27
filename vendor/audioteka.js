@@ -5,3 +5,6 @@
 window.VV_AUDIOTEKA=(window.VV_AUDIOTEKA||[]).concat([
   {title:{uk:"Туман і вальс (сонячна версія) · 90.5",en:"Mist and Waltz (sunny version) · 90.5"},who:"Вайбкет FM",sc:"https://soundcloud.com/user-897685701/tuman-i-vals-sonyachna-versiya"}
 ]);
+
+/* Discord-спільнота Аудіотеки */
+window.VV_AUDIOTEKA_DISCORD="https://discord.gg/f4N4B342F";

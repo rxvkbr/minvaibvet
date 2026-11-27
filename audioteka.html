@@ -32,6 +32,7 @@ audio{width:100%;margin-top:10px}
 <body>
 <div class="top"><a href="index.html#more">←</a><div class="logo" id="ttl"></div><div class="langs" id="langs"></div></div>
 <p class="lead" id="lead"></p>
+<a id="dc" target="_blank" rel="noopener" hidden style="display:flex;align-items:center;gap:10px;background:#5865f2;color:#fff;text-decoration:none;border-radius:16px;padding:12px 14px;font:800 15px system-ui;margin:4px 0 6px"></a>
 <h2 id="hLib"></h2><div id="lib"></div>
 <h2 id="hSt"></h2>
 <div id="gate" class="gate" hidden></div>
@@ -68,22 +69,22 @@ var WORKS=[
  {id:"brick-arthur",pd:1,own:1,t:{uk:"Ксав'є Брік · «Артур» (рання проза, рос.) · 18+",en:"Xavier Brick · “Arthur” (early prose, in Russian) · 18+"},src:"https://andrew-amand.webflow.io/arthur"},
  {id:"own",pd:1,own:1,t:{uk:"✍️ Свій текст (твій власний)",en:"✍️ My own text"},x:""}];
 var TX={
-uk:{open:"↗ Відкрити текст",lock:"🔒 Цей автор ще під авторським правом: читай і співай для себе скільки завгодно, але не викладай запис на SoundCloud без дозволу правовласників.",ttl:"🎙 Аудіотека",lead:"Слухай читання й наспіви Вайбкет FM через SoundCloud. А в студії прочитай класику або заспівай поверх нашої станції.",hLib:"Слухати",hSt:"Студія читання",listen:"▶ Слухати на SoundCloud",
+uk:{dc:"💬 Discord-спільнота Аудіотеки: обговорення, нові епізоди, живі читання",open:"↗ Відкрити текст",lock:"🔒 Цей автор ще під авторським правом: читай і співай для себе скільки завгодно, але не викладай запис на SoundCloud без дозволу правовласників.",ttl:"🎙 Аудіотека",lead:"Слухай читання й наспіви Вайбкет FM через SoundCloud. А в студії прочитай класику або заспівай поверх нашої станції.",hLib:"Слухати",hSt:"Студія читання",listen:"▶ Слухати на SoundCloud",
  gate:"Студія відкривається з ветеранською Pro-підпискою в «Тестовому польоті» (за котобакси). Слухати можна всім.",gateA:"✈️ До Тестового польоту",
  back:{none:"Без музики, тільки голос",vals:"90.5 · Туман і вальс",sumishi:"88.1 · Суміші",perehavorka:"🪩 Перегаворка"},lBack:"Музика під голос",lVol:"Гучність музики",
  rec:"⏺ Записати",stop:"■ Зупинити",scroll:"↓ Суфлер",share:"↗ Зберегти / поділитися",sc:"☁️ Викласти на SoundCloud",own:"Встав свій текст: власний або той, що вже став суспільним надбанням.",
  note:"Запис лишається на цьому телефоні. Нічого нікуди не надсилається, доки ти сам не натиснеш «Зберегти / поділитися». На SoundCloud викладай лише своє читання класики або власні тексти.",noMic:"Мікрофон недоступний."},
-en:{open:"↗ Open the text",lock:"🔒 This author is still under copyright: read and sing for yourself as much as you like, but don't upload the recording to SoundCloud without the rights holders' permission.",ttl:"🎙 Audio Library",lead:"Listen to Vibecat FM readings and songs through SoundCloud. In the studio, read a classic or sing over our station.",hLib:"Listen",hSt:"Reading studio",listen:"▶ Listen on SoundCloud",
+en:{dc:"💬 The Audio Library Discord: discussion, new episodes, live readings",open:"↗ Open the text",lock:"🔒 This author is still under copyright: read and sing for yourself as much as you like, but don't upload the recording to SoundCloud without the rights holders' permission.",ttl:"🎙 Audio Library",lead:"Listen to Vibecat FM readings and songs through SoundCloud. In the studio, read a classic or sing over our station.",hLib:"Listen",hSt:"Reading studio",listen:"▶ Listen on SoundCloud",
  gate:"The studio opens with the veteran Pro subscription in “Test Flight” (paid in catbucks). Listening is open to everyone.",gateA:"✈️ To Test Flight",
  back:{none:"No music, voice only",vals:"90.5 · Mist and Waltz",sumishi:"88.1 · Blends",perehavorka:"🪩 Meeting Room"},lBack:"Music under the voice",lVol:"Music volume",
  rec:"⏺ Record",stop:"■ Stop",scroll:"↓ Prompter",share:"↗ Save / share",sc:"☁️ Upload to SoundCloud",own:"Paste your text: your own, or one already in the public domain.",
  note:"The recording stays on this phone. Nothing is sent anywhere until you tap “Save / share” yourself. Only upload your own readings of classics or your own texts to SoundCloud.",noMic:"Microphone unavailable."},
-nl:{open:"↗ Tekst openen",lock:"🔒 Deze auteur valt nog onder het auteursrecht: lees en zing voor jezelf zoveel je wilt, maar zet de opname niet op SoundCloud zonder toestemming van de rechthebbenden.",ttl:"🎙 Audiotheek",lead:"Luister naar voorlezingen en liedjes van Vibecat FM via SoundCloud. Lees in de studio een klassieker voor of zing over onze zender heen.",hLib:"Luisteren",hSt:"Voorleesstudio",listen:"▶ Luisteren op SoundCloud",
+nl:{dc:"💬 De Discord van de Audiotheek: gesprekken, nieuwe afleveringen, live voorlezingen",open:"↗ Tekst openen",lock:"🔒 Deze auteur valt nog onder het auteursrecht: lees en zing voor jezelf zoveel je wilt, maar zet de opname niet op SoundCloud zonder toestemming van de rechthebbenden.",ttl:"🎙 Audiotheek",lead:"Luister naar voorlezingen en liedjes van Vibecat FM via SoundCloud. Lees in de studio een klassieker voor of zing over onze zender heen.",hLib:"Luisteren",hSt:"Voorleesstudio",listen:"▶ Luisteren op SoundCloud",
  gate:"De studio gaat open met het veteranen-Pro-abonnement in „Testvlucht” (betaald in kattenbucks). Luisteren kan iedereen.",gateA:"✈️ Naar Testvlucht",
  back:{none:"Geen muziek, alleen stem",vals:"90.5 · Mist en wals",sumishi:"88.1 · Mengsels",perehavorka:"🪩 Vergaderzaal"},lBack:"Muziek onder de stem",lVol:"Muziekvolume",
  rec:"⏺ Opnemen",stop:"■ Stoppen",scroll:"↓ Autocue",share:"↗ Bewaren / delen",sc:"☁️ Op SoundCloud zetten",own:"Plak je tekst: je eigen, of een die al publiek domein is.",
  note:"De opname blijft op deze telefoon. Er wordt niets verstuurd tot je zelf op „Bewaren / delen” tikt. Zet alleen je eigen voorlezingen van klassiekers of eigen teksten op SoundCloud.",noMic:"Microfoon niet beschikbaar."},
-de:{open:"↗ Text öffnen",lock:"🔒 Dieser Autor ist noch urheberrechtlich geschützt: Lies und sing für dich, so viel du willst, aber lade die Aufnahme ohne Erlaubnis der Rechteinhaber nicht auf SoundCloud hoch.",ttl:"🎙 Audiothek",lead:"Hör Lesungen und Lieder von Vibecat FM über SoundCloud. Im Studio liest du einen Klassiker oder singst über unseren Sender.",hLib:"Hören",hSt:"Lesestudio",listen:"▶ Auf SoundCloud hören",
+de:{dc:"💬 Der Discord der Audiothek: Gespräche, neue Folgen, Live-Lesungen",open:"↗ Text öffnen",lock:"🔒 Dieser Autor ist noch urheberrechtlich geschützt: Lies und sing für dich, so viel du willst, aber lade die Aufnahme ohne Erlaubnis der Rechteinhaber nicht auf SoundCloud hoch.",ttl:"🎙 Audiothek",lead:"Hör Lesungen und Lieder von Vibecat FM über SoundCloud. Im Studio liest du einen Klassiker oder singst über unseren Sender.",hLib:"Hören",hSt:"Lesestudio",listen:"▶ Auf SoundCloud hören",
  gate:"Das Studio öffnet sich mit dem Veteranen-Pro-Abo im „Testflug“ (bezahlt in Katzenbucks). Hören können alle.",gateA:"✈️ Zum Testflug",
  back:{none:"Keine Musik, nur Stimme",vals:"90.5 · Nebel und Walzer",sumishi:"88.1 · Mischungen",perehavorka:"🪩 Besprechungsraum"},lBack:"Musik unter der Stimme",lVol:"Musiklautstärke",
  rec:"⏺ Aufnehmen",stop:"■ Stopp",scroll:"↓ Teleprompter",share:"↗ Speichern / teilen",sc:"☁️ Auf SoundCloud hochladen",own:"Füge deinen Text ein: deinen eigenen oder einen gemeinfreien.",
@@ -137,7 +138,7 @@ function paint(){document.documentElement.lang=LN;$("ttl").textContent=T("ttl");
   var W=$("work"),cur=W.value;W.innerHTML="";WORKS.forEach(function(w){var o=document.createElement("option");o.value=w.id;o.textContent=L(w.t);W.appendChild(o);});W.value=cur||"reve";
   var B=$("back"),cb=B.value;B.innerHTML="";["none","vals","sumishi","perehavorka"].forEach(function(k){var o=document.createElement("option");o.value=k;o.textContent=T("back")[k];B.appendChild(o);});B.value=cb||"vals";
   $("own").placeholder=T("own");$("lBack").textContent=T("lBack");$("lVol").textContent=T("lVol");$("rec").textContent=rec&&rec.state==="recording"?T("stop"):T("rec");$("scroll").textContent=T("scroll");
-  $("share").textContent=T("share");$("sc").textContent=T("sc");$("note").textContent=T("note");$("lock").textContent=T("lock");paintPrompter();paintLib();
+  $("share").textContent=T("share");$("sc").textContent=T("sc");$("note").textContent=T("note");$("lock").textContent=T("lock");paintPrompter();paintLib();var D=$("dc"),u=window.VV_AUDIOTEKA_DISCORD;D.hidden=!(u&&/^https:\/\/discord\.gg\/[A-Za-z0-9]+$/.test(u));if(!D.hidden){D.href=u;D.textContent=T("dc");}
   var Lg=$("langs");Lg.innerHTML="";["uk","en","nl","de"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paint();};Lg.appendChild(b);});}
 paint();
 })();

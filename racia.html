@@ -128,7 +128,7 @@ button{cursor:pointer;background:none;border:0}
       <span style="color:var(--dim);font-size:12px" id="lCode">твій позивний-код для друзів</span>
       <div class="code" id="myCode"></div>
       <div class="row"><button class="btn pri" id="share">↗ Поділитися</button><button class="btn" id="copy">копіювати посилання</button><button class="btn" id="roll" title="Інше ім'я">🎲</button></div>
-      <div class="stat"><span id="myFl"></span><select id="stSel" aria-label="статус"></select><button class="btn" id="isl" type="button"></button></div>
+      <div class="stat"><span id="myFl"></span><select id="stSel" aria-label="статус"></select><button class="btn" id="isl" type="button"></button><button class="btn" id="fm977" type="button" aria-pressed="false">📻 97.7</button></div>
     </div>
     <div class="list" id="list"></div>
     <div class="add"><input id="addIn" maxlength="6" placeholder="КОД ДРУГА" autocomplete="off" spellcheck="false" aria-label="Код друга"><button class="btn pri" id="addBtn">Додати</button></div>
@@ -322,6 +322,20 @@ paintStatic();paintMe();paintPad();paintList();connect();upIsland();
 var hm=(location.hash||"").match(/add=([A-Za-z0-9]{6})/);if(hm){try{history.replaceState(null,"",location.pathname);}catch(e){}setTimeout(function(){addFriend(hm[1]);},400);}
 window.VV_RACIA={me:me,friends:function(){return friends;},chats:function(){return chats;}};
 })();
+</script>
+<script src="vendor/akvavita.js"></script>
+<script>
+/* 97.7 «Жіньмінь Жібао» on the walkie-talkie: the «Аква віта» neurovibe plays under the chat, written live */
+(function(){var b=document.getElementById("fm977");if(!b)return;var ctx=null,eng=null,g=null,iv=null;
+var TT={uk:"Жіньмінь Жібао FM: нейровайб «Аква віта»",en:"Zhenmin Zhibao FM: the «Aqua Vita» neurovibe",nl:"Zhenmin Zhibao FM: neurovibe «Aqua Vita»",de:"Zhenmin Zhibao FM: Neurovibe «Aqua Vita»",ar:"جينمين جيباو إف إم: «أكوا فيتا»",zh:"人民日报 FM：神经氛围《生命之水》",ru:"Жэньминь Жибао FM: нейровайб «Аква вита»"};
+function lang(){return (typeof LN==="string"&&TT[LN])?LN:"uk";}
+function on(){var AC=window.AudioContext||window.webkitAudioContext;if(!AC||!window.VV_AKVAVITA)return;ctx=ctx||new AC();ctx.resume&&ctx.resume();
+  g=ctx.createGain();g.gain.value=.0001;g.connect(ctx.destination);g.gain.exponentialRampToValueAtTime(.7,ctx.currentTime+1.2);
+  eng=VV_AKVAVITA.make(ctx,g);iv=setInterval(function(){eng.schedule(ctx.currentTime);},100);paint(true);}
+function off(){clearInterval(iv);iv=null;if(g){var gg=g,ee=eng;gg.gain.setValueAtTime(gg.gain.value,ctx.currentTime);gg.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.6);setTimeout(function(){ee.stop();try{gg.disconnect();}catch(e){}},800);}eng=null;g=null;paint(false);}
+function paint(x){b.setAttribute("aria-pressed",String(x));b.className=x?"btn pri":"btn";b.title=TT[lang()];b.textContent=x?"📻 97.7 ■":"📻 97.7";}
+b.addEventListener("click",function(){if(eng)off();else on();if(window.VV_TAPTIC)VV_TAPTIC("tick");});paint(false);
+window.VV_FM977={on:function(){return !!eng;},info:function(){return eng?eng.info():null;}};})();
 </script>
 </body>
 </html>

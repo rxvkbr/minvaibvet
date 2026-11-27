@@ -173,3 +173,20 @@ test('ШІ-перемовини: the public feed renders', async ({ page }) => {
   await expect(page.locator('.m').first()).toBeVisible();
   expect(errs).toEqual([]);
 });
+
+test('Жіньмінь Жібао 97.7: the station plays on the radio and on the Рація', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/index.html');
+  await page.locator('.preset[data-s="akva"]').click();
+  await expect(page.locator('#freq')).toContainText('97.7');
+  await expect(page.locator('#akvalink a')).toHaveAttribute('href', 'https://dakhabrakha.com.ua/');
+  await expect(page.locator('#show')).toContainText('Аква віта');
+  await page.goto('/racia.html');
+  await page.locator('#fm977').click();
+  await expect(page.locator('#fm977')).toHaveAttribute('aria-pressed', 'true');
+  expect(await page.evaluate(() => window.VV_FM977.on())).toBe(true);
+  await page.waitForTimeout(1500);
+  const inf = await page.evaluate(() => window.VV_FM977.info());
+  expect(['Вода', 'Бубон', 'Злива']).toContain(inf.section);
+  expect(errs).toEqual([]);
+});

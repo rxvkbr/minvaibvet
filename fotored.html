@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Фоторедакція Вісника · Вайбкет FM</title>
+<meta name="description" content="Гра Мінвайбкету: сортуй знімки для Вісника за чіткістю й посмішкою. Усі обличчя намальовані, жодного справжнього фото.">
+<meta name="theme-color" content="#0b0b0d">
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/kotobank.js"></script>
+<style>
+:root{--bg:#0b0b0d;--card:#1b1b1f;--card2:#26262c;--tx:#f5f5f7;--dim:#9a9aa3;--acc:#ff5f6d;--gold:#ffc371;--ok:#3ddc97;--bad:#ff6b6b;--ua1:#0057b7;--ua2:#ffd700}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:500 15px/1.4 -apple-system,"SF Pro Text",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:calc(10px + env(safe-area-inset-top)) 14px calc(30px + env(safe-area-inset-bottom));max-width:620px;margin:0 auto}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.top a{text-decoration:none;color:var(--tx);background:var(--card);border-radius:999px;padding:8px 12px;font-weight:700;font-size:13px}
+.logo{font:800 20px system-ui;letter-spacing:-.4px}
+.uaf{display:inline-block;width:18px;height:12px;border-radius:2px;background:linear-gradient(var(--ua1) 50%,var(--ua2) 50%);vertical-align:middle;margin-left:6px}
+.langs{margin-left:auto;display:flex;gap:4px}.langs button{border:0;background:var(--card);color:var(--dim);border-radius:10px;padding:5px 7px;font:700 11px system-ui;cursor:pointer}.langs button[aria-pressed=true]{background:var(--tx);color:var(--bg)}
+.desk{background:linear-gradient(135deg,#ff5f6d1f,#7b5cff1f);border:1px solid #ffffff12;border-radius:24px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+.desk .ed{font-size:38px;flex:none}
+.desk b{display:block;font:800 17px/1.25 system-ui}.desk small{color:var(--dim);font-size:13px;display:block;margin-top:3px}
+.bar{display:flex;gap:8px;margin:12px 2px;flex-wrap:wrap}.bar span{background:var(--card);border-radius:999px;padding:5px 11px;font:750 12px system-ui}
+.ask{font:800 18px/1.3 system-ui;margin:14px 4px 4px}.hint{color:var(--dim);font-size:13px;margin:0 4px 12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (min-width:520px){.grid{grid-template-columns:repeat(5,1fr)}}
+.ph{position:relative;border:0;padding:6px 6px 22px;background:#f4efe6;border-radius:6px;cursor:pointer;box-shadow:0 6px 18px #0008;transition:transform .15s}
+.ph:nth-child(odd){transform:rotate(-1.6deg)}.ph:nth-child(even){transform:rotate(1.4deg)}
+.ph:active{transform:scale(.96)}
+.ph .fr{overflow:hidden;border-radius:2px;aspect-ratio:1;background:#ddd}
+.ph svg{width:100%;height:100%;display:block}
+.ph .n{position:absolute;top:-8px;right:-8px;width:30px;height:30px;border-radius:50%;background:var(--tx);color:var(--bg);font:800 15px system-ui;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px #0009}
+.ph.on .n{display:flex}
+.ph .k{position:absolute;left:0;right:0;bottom:3px;text-align:center;font:700 10px system-ui;color:#555}
+.ph.good .n{background:var(--ok);color:#06210f}.ph.badp .n{background:var(--bad);color:#2a0606}
+.ph.pick{outline:4px solid var(--gold)}
+.row{display:flex;gap:8px;margin-top:14px}
+.row button{flex:1;border:0;border-radius:16px;padding:13px;font:800 15px system-ui;cursor:pointer}
+.go{background:linear-gradient(90deg,var(--acc),var(--gold));color:#1a0d0d}.mini{background:var(--card2);color:var(--tx)}
+.res{margin-top:12px;background:var(--card);border-radius:18px;padding:12px 14px;font-size:14px;display:none}
+.res.show{display:block}
+.end{text-align:center;padding:26px 10px}.end .big{font-size:60px}.end h2{font:800 22px system-ui;margin:8px 0}
+.note{color:var(--dim);font-size:12px;text-align:center;margin:18px 6px}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more" id="back">←</a><div class="logo" id="logo"></div><div class="langs" id="langs"></div></div>
+<div class="desk"><div class="ed">🧑‍💼</div><div><b id="edT"></b><small id="edS"></small></div></div>
+<div class="bar"><span id="bRound"></span><span id="bScore"></span><span id="bBest"></span></div>
+<div id="game">
+  <div class="ask" id="ask"></div>
+  <p class="hint" id="hint"></p>
+  <div class="grid" id="grid"></div>
+  <div class="res" id="res"></div>
+  <div class="row"><button class="mini" id="undo"></button><button class="go" id="next" hidden></button></div>
+</div>
+<p class="note" id="note"></p>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+var TX={
+uk:{logo:"📸 Фоторедакція",edT:"Редактор Вісника чекає знімки",edS:"На першу шпальту йде тільки чітке й усміхнене. Як і все в Мінвайбкеті.",round:"Раунд {a}/{b}",score:"Очки: {a}",best:"Рекорд: {a}",
+ sharp:"Від найчіткішого до найрозмитішого",sharpH:"Тисни на знімки по черзі: 1 — найчіткіший.",smile:"Від найусміхненішого до найсумнішого",smileH:"1 — найширша посмішка, останній — той, кому треба обійми.",
+ front:"Обери один знімок на першу шпальту",frontH:"Потрібен і чіткий, і усміхнений. Розмита радість теж не годиться.",undo:"↺ скасувати",next:"Наступний раунд →",finish:"Підсумок →",
+ perfect:"Ідеально! Редактор плаче від щастя. +{k} котобакси",okk:"{a} з {b} на своїх місцях. Правильний порядок підсвічено.",frontOk:"Саме це фото й пішло на шпальту! +{k} котобакси",frontNo:"Редактор узяв інше: підсвічене золотом.",
+ endT:"Номер зверстано!",endS:"Ти набрав {a} очок із {b}.",again:"Ще один номер",
+ note:"Усі обличчя тут намальовані, жодного справжнього фото. Справжніх людей без їхньої згоди ми не оцінюємо.",kinds:["вояка","кіт","корова","бабуся","студентка"],photo:"фото"},
+en:{logo:"📸 Photo Desk",edT:"The Gazette's editor is waiting for photos",edS:"Only sharp and smiling makes the front page. Like everything at MinVibeCat.",round:"Round {a}/{b}",score:"Score: {a}",best:"Best: {a}",
+ sharp:"From sharpest to blurriest",sharpH:"Tap the photos in order: 1 is the sharpest.",smile:"From biggest smile to saddest",smileH:"1 is the widest smile, the last one needs a hug.",
+ front:"Pick one photo for the front page",frontH:"It has to be sharp and smiling. A blurry joy won't do.",undo:"↺ undo",next:"Next round →",finish:"Results →",
+ perfect:"Perfect! The editor is crying with joy. +{k} catbucks",okk:"{a} of {b} in the right place. The right order is highlighted.",frontOk:"That's the one that made the front page! +{k} catbucks",frontNo:"The editor picked another one: highlighted in gold.",
+ endT:"Issue laid out!",endS:"You scored {a} of {b}.",again:"Another issue",
+ note:"Every face here is drawn, there are no real photos. We don't rate real people without their consent.",kinds:["soldier","cat","cow","granny","student"],photo:"photo"},
+nl:{logo:"📸 Fotoredactie",edT:"De redacteur van de Krant wacht op foto's",edS:"Alleen scherp en vrolijk haalt de voorpagina. Zoals alles bij MinVibeCat.",round:"Ronde {a}/{b}",score:"Punten: {a}",best:"Record: {a}",
+ sharp:"Van scherpst naar wazigst",sharpH:"Tik de foto's op volgorde: 1 is de scherpste.",smile:"Van grootste glimlach naar treurigst",smileH:"1 is de breedste glimlach, de laatste heeft een knuffel nodig.",
+ front:"Kies één foto voor de voorpagina",frontH:"Scherp én vrolijk. Wazige vreugde telt niet.",undo:"↺ ongedaan",next:"Volgende ronde →",finish:"Resultaat →",
+ perfect:"Perfect! De redacteur huilt van geluk. +{k} kattenbucks",okk:"{a} van {b} op de juiste plek. De juiste volgorde is gemarkeerd.",frontOk:"Precies die haalde de voorpagina! +{k} kattenbucks",frontNo:"De redacteur koos een andere: goud gemarkeerd.",
+ endT:"Editie opgemaakt!",endS:"Je scoorde {a} van {b}.",again:"Nog een editie",
+ note:"Alle gezichten hier zijn getekend, er zijn geen echte foto's. Echte mensen beoordelen we niet zonder hun toestemming.",kinds:["soldaat","kat","koe","oma","studente"],photo:"foto"},
+de:{logo:"📸 Fotoredaktion",edT:"Der Redakteur des Boten wartet auf Fotos",edS:"Auf die Titelseite kommt nur Scharfes und Lächelndes. Wie alles im MinVibeCat.",round:"Runde {a}/{b}",score:"Punkte: {a}",best:"Rekord: {a}",
+ sharp:"Vom schärfsten zum unschärfsten",sharpH:"Tippe die Fotos der Reihe nach: 1 ist das schärfste.",smile:"Vom breitesten Lächeln zum traurigsten",smileH:"1 ist das breiteste Lächeln, das letzte braucht eine Umarmung.",
+ front:"Wähle ein Foto für die Titelseite",frontH:"Scharf und lächelnd. Verschwommene Freude zählt nicht.",undo:"↺ rückgängig",next:"Nächste Runde →",finish:"Ergebnis →",
+ perfect:"Perfekt! Der Redakteur weint vor Glück. +{k} Katzenbucks",okk:"{a} von {b} am richtigen Platz. Die richtige Reihenfolge ist markiert.",frontOk:"Genau das kam auf die Titelseite! +{k} Katzenbucks",frontNo:"Der Redakteur nahm ein anderes: golden markiert.",
+ endT:"Ausgabe gesetzt!",endS:"Du hast {a} von {b} Punkten.",again:"Noch eine Ausgabe",
+ note:"Alle Gesichter hier sind gezeichnet, es gibt keine echten Fotos. Echte Menschen bewerten wir nicht ohne ihre Zustimmung.",kinds:["Soldat","Katze","Kuh","Oma","Studentin"],photo:"Foto"}};
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!TX[LN])LN=(LN==="ru"?"uk":"en");
+function T(k,v){var x=TX[LN][k];if(v)for(var q in v)x=x.split("{"+q+"}").join(v[q]);return x;}
+function tap(k){try{window.VV_TAPTIC&&VV_TAPTIC(k);}catch(e){}}
+function rnd(a,b){return a+Math.random()*(b-a);}function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* ===== a drawn face: kind, smile (-1 sad … 1 beaming), blur in px. Nothing here is a real person. ===== */
+var SKIN=["#f6d7c3","#eac0a0","#d39c76","#b07650","#8a5636","#5e3a24"],HAIR=["#2b1d14","#5a3a22","#a0662e","#e3c07a","#b9b9b9","#7a2b1f"];
+var BG=["#bfe3f2","#f6d6a8","#cfe8c8","#f3c6cf","#d9d0f3","#f1ecd2"];
+function mouth(cx,cy,w,s,col){var c=cy+s*w*.75;return '<path d="M'+(cx-w)+' '+cy+' Q'+cx+' '+c+' '+(cx+w)+' '+cy+'" stroke="'+col+'" stroke-width="3.2" fill="'+(s>.55?"#8c2a2a":"none")+'" stroke-linecap="round"/>';}
+function eyes(cx,cy,dx,s,col){if(s>.6)return '<path d="M'+(cx-dx-5)+' '+cy+' q5 -5 10 0 M'+(cx+dx-5)+' '+cy+' q5 -5 10 0" stroke="'+col+'" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+  return '<circle cx="'+(cx-dx)+'" cy="'+cy+'" r="3.4" fill="'+col+'"/><circle cx="'+(cx+dx)+'" cy="'+cy+'" r="3.4" fill="'+col+'"/>';}
+function brows(cx,cy,dx,s,col){var t=s<-.2?-s*5:0;return '<path d="M'+(cx-dx-6)+' '+(cy+t)+' L'+(cx-dx+5)+' '+(cy-t*.4)+' M'+(cx+dx-5)+' '+(cy-t*.4)+' L'+(cx+dx+6)+' '+(cy+t)+'" stroke="'+col+'" stroke-width="2.4" stroke-linecap="round"/>';}
+function face(p){
+  var o='<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+T("photo")+'">';
+  o+=p.ua?'<rect width="100" height="50" fill="#0057b7"/><rect y="50" width="100" height="50" fill="#ffd700"/>':'<rect width="100" height="100" fill="'+p.bg+'"/>';
+  o+='<circle cx="'+(20+p.sx)+'" cy="18" r="9" fill="#ffffff55"/>';
+  if(p.kind===1){ /* cat */
+    var f=p.fur;o+='<path d="M24 46 L30 18 L44 34 Z M76 46 L70 18 L56 34 Z" fill="'+f+'"/><ellipse cx="50" cy="56" rx="30" ry="27" fill="'+f+'"/><ellipse cx="50" cy="100" rx="34" ry="22" fill="'+f+'"/>';
+    o+=eyes(50,52,11,p.s,"#1c1c1c")+'<path d="M47 61 L53 61 L50 64 Z" fill="#e98a9a"/>'+mouth(50,67,8,p.s,"#1c1c1c");
+    o+='<path d="M28 62 L14 59 M28 66 L14 68 M72 62 L86 59 M72 66 L86 68" stroke="#33333388" stroke-width="1.4"/>';
+  }else if(p.kind===2){ /* cow */
+    o+='<ellipse cx="50" cy="100" rx="36" ry="22" fill="#f4f4f4"/><path d="M22 34 Q12 26 16 18 M78 34 Q88 26 84 18" stroke="#e6dcc8" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    o+='<ellipse cx="50" cy="52" rx="28" ry="30" fill="#f4f4f4"/><ellipse cx="38" cy="40" rx="9" ry="7" fill="#2a2a2a"/><ellipse cx="50" cy="72" rx="20" ry="12" fill="#f2b8c0"/>';
+    o+=eyes(50,48,12,p.s,"#1c1c1c")+'<circle cx="44" cy="71" r="2" fill="#7a4a52"/><circle cx="56" cy="71" r="2" fill="#7a4a52"/>'+mouth(50,78,9,p.s,"#7a4a52");
+  }else{ /* people: soldier, granny, student */
+    var sk=p.skin,h=p.hair;o+='<ellipse cx="50" cy="104" rx="38" ry="26" fill="'+(p.kind===0?"#5b6b3a":p.kind===3?"#a8456a":"#4a6fb5")+'"/>';
+    if(p.kind===4)o+='<path d="M24 50 Q22 88 34 96 L66 96 Q78 88 76 50 Z" fill="'+h+'"/>';
+    o+='<ellipse cx="50" cy="54" rx="24" ry="28" fill="'+sk+'"/>';
+    if(p.kind===0)o+='<path d="M24 42 Q50 16 76 42 L76 36 Q50 20 24 36 Z" fill="#4d5a2e"/><path d="M26 40 L74 40 L70 30 Q50 22 30 30 Z" fill="#5b6b3a"/>';
+    else if(p.kind===3)o+='<path d="M22 50 Q20 22 50 22 Q80 22 78 50 Q70 34 50 34 Q30 34 22 50 Z" fill="#c23b6b"/><circle cx="74" cy="44" r="4" fill="#ffd700"/>';
+    else o+='<path d="M26 46 Q26 24 50 24 Q74 24 74 46 Q64 32 50 34 Q36 32 26 46 Z" fill="'+h+'"/>';
+    o+=brows(50,44,10,p.s,p.kind===3?"#888":"#3a2a20")+eyes(50,52,10,p.s,"#222");
+    if(p.glasses)o+='<circle cx="40" cy="52" r="7" fill="none" stroke="#222" stroke-width="1.6"/><circle cx="60" cy="52" r="7" fill="none" stroke="#222" stroke-width="1.6"/><path d="M47 52 L53 52" stroke="#222" stroke-width="1.6"/>';
+    o+='<path d="M50 56 L48 64 L52 64" stroke="#00000033" stroke-width="1.6" fill="none"/>'+mouth(50,70,9,p.s,"#7a3a30");
+    if(p.s>.5)o+='<circle cx="34" cy="64" r="4" fill="#ff7a7a44"/><circle cx="66" cy="64" r="4" fill="#ff7a7a44"/>';
+  }
+  return o+'</svg>';
+}
+function subject(){var k=Math.random()<.5?pick([0,3,4]):pick([1,1,2]);
+  return {kind:k,skin:pick(SKIN),hair:pick(HAIR),fur:pick(["#e0a060","#9a9a9a","#3a3a3a","#f1e6d6","#c46b2a"]),bg:pick(BG),ua:Math.random()<.18,glasses:Math.random()<.25,sx:rnd(0,60)};}
+
+/* ===== rounds: values spread apart enough to judge, closer as the game goes on ===== */
+var ROUNDS=10,round=0,score=0,maxScore=0,best=0,cur=null,order=[],done=false;
+try{best=+localStorage.getItem("fotored-best")||0;}catch(e){}
+function spaced(n,lo,hi,gap){for(var t=0;t<200;t++){var a=[];for(var i=0;i<n;i++)a.push(rnd(lo,hi));a.sort(function(x,y){return x-y;});var ok=true;for(i=1;i<n;i++)if(a[i]-a[i-1]<gap)ok=false;if(ok)return shuffle(a);}
+  var b=[];for(i=0;i<n;i++)b.push(lo+(hi-lo)*i/(n-1));return shuffle(b);}
+function makeRound(){
+  var n=round<3?4:5,type=round%3===2?"front":(Math.random()<.5?"sharp":"smile"),k=Math.min(1,round/(ROUNDS-1));
+  var gB=1.4-k*.8,gS=.5-k*.28,blur,smile;
+  if(type==="sharp"){blur=spaced(n,0,6.5,gB);smile=[];for(var i=0;i<n;i++)smile.push(rnd(-.2,.9));}
+  else if(type==="smile"){smile=spaced(n,-1,1,gS);blur=[];for(i=0;i<n;i++)blur.push(rnd(0,1.4));}
+  else{blur=spaced(n,0,5,gB*.8);smile=spaced(n,-1,1,gS*.8);}
+  var ph=[];for(i=0;i<n;i++){var s=subject();s.b=blur[i];s.s=smile[i];ph.push(s);}
+  var want;if(type==="sharp")want=ph.map(function(_,i){return i;}).sort(function(a,b){return ph[a].b-ph[b].b;});
+  else if(type==="smile")want=ph.map(function(_,i){return i;}).sort(function(a,b){return ph[b].s-ph[a].s;});
+  else{var bi=0;ph.forEach(function(p,i){if(p.s*2-p.b/2.5>ph[bi].s*2-ph[bi].b/2.5)bi=i;});want=[bi];}
+  return {type:type,ph:ph,want:want};
+}
+function paintBar(){$("bRound").textContent=T("round",{a:Math.min(round+1,ROUNDS),b:ROUNDS});$("bScore").textContent=T("score",{a:score});$("bBest").textContent=T("best",{a:best});}
+function paintRound(){
+  $("ask").textContent=T(cur.type);$("hint").textContent=T(cur.type+"H");$("res").className="res";$("next").hidden=true;$("undo").hidden=cur.type==="front";
+  var G=$("grid");G.innerHTML="";var kinds=T("kinds");
+  cur.ph.forEach(function(p,i){var b=document.createElement("button");b.className="ph";b.type="button";b.setAttribute("aria-label",T("photo")+" "+(i+1));
+    b.innerHTML='<div class="fr"><div style="width:100%;height:100%;filter:blur('+p.b.toFixed(2)+'px)">'+face(p)+'</div></div><span class="n"></span><span class="k"></span>';
+    b.querySelector(".k").textContent=kinds[p.kind];b.onclick=function(){choose(i);};G.appendChild(b);});
+  paintMarks();paintBar();
+}
+function paintMarks(){var B=$("grid").children;for(var i=0;i<B.length;i++){var at=order.indexOf(i);B[i].classList.toggle("on",at>=0);B[i].querySelector(".n").textContent=at>=0?at+1:"";}}
+function choose(i){if(done)return;if(order.indexOf(i)>=0)return;order.push(i);tap("tick");paintMarks();
+  if(cur.type==="front"||order.length===cur.ph.length)check();}
+function check(){done=true;var B=$("grid").children,R=$("res"),k=0;
+  if(cur.type==="front"){var ok=order[0]===cur.want[0];maxScore+=5;B[cur.want[0]].classList.add("pick");
+    if(ok){score+=5;k=2;R.textContent=T("frontOk",{k:k});tap("success");}else{B[order[0]].classList.add("badp");R.textContent=T("frontNo");tap("warning");}}
+  else{var right=0;order.forEach(function(ph,pos){var good=cur.want[pos]===ph;if(good)right++;B[ph].classList.add(good?"good":"badp");});
+    maxScore+=cur.ph.length;score+=right;
+    if(right===cur.ph.length){k=2;R.textContent=T("perfect",{k:k});tap("success");}
+    else{R.textContent=T("okk",{a:right,b:cur.ph.length});tap("warning");
+      cur.want.forEach(function(ph,pos){var n=B[ph].querySelector(".n");n.textContent=(order.indexOf(ph)+1)+"→"+(pos+1);n.style.width="auto";n.style.padding="0 7px";n.style.borderRadius="999px";});}}
+  if(k&&window.VV_KOTO)try{VV_KOTO.earn(k,"📸 "+T("logo").replace("📸 ",""));}catch(e){}
+  R.className="res show";$("undo").hidden=true;var N=$("next");N.hidden=false;N.textContent=round+1>=ROUNDS?T("finish"):T("next");paintBar();}
+function start(){round=0;score=0;maxScore=0;next(true);}
+function next(first){if(!first)round++;
+  if(round>=ROUNDS){if(score>best){best=score;try{localStorage.setItem("fotored-best",String(best));}catch(e){}}
+    $("game").innerHTML='<div class="end"><div class="big">🗞</div><h2></h2><p></p><div class="row"><button class="go" id="again"></button></div></div>';
+    var E=$("game");E.querySelector("h2").textContent=T("endT");E.querySelector("p").textContent=T("endS",{a:score,b:maxScore});E.querySelector("#again").textContent=T("again");
+    E.querySelector("#again").onclick=function(){location.reload();};paintBar();tap("success");return;}
+  cur=makeRound();order=[];done=false;paintRound();}
+$("undo").onclick=function(){if(done||!order.length)return;order.pop();paintMarks();tap("tick");};
+$("next").onclick=function(){next();};
+function paintStatic(){document.documentElement.lang=LN;$("logo").innerHTML="";$("logo").appendChild(document.createTextNode(T("logo")));$("logo").insertAdjacentHTML("beforeend",'<span class="uaf" aria-hidden="true"></span>');
+  $("edT").textContent=T("edT");$("edS").textContent=T("edS");$("undo").textContent=T("undo");$("note").textContent=T("note");
+  var L=$("langs");L.innerHTML="";["uk","en","nl","de"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));
+    b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paintStatic();if(cur&&$("grid"))paintRound();};L.appendChild(b);});}
+paintStatic();start();
+window.VV_FOTORED={state:function(){return {round:round,score:score,cur:cur,order:order};}};
+})();
+</script>
+</body>
+</html>

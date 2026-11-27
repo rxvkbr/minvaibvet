@@ -262,3 +262,15 @@ test('Мої місця: far from saved places in the evening, the torch is offe
   await ctx.close();
   expect(errs).toEqual([]);
 });
+
+test('Рація: 🪪 «тема» — a vibe badge with the call sign, both themes draw', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/racia.html');
+  await page.locator('#vcard').click();
+  await expect(page.locator('.vcm canvas')).toBeVisible();
+  const w = await page.locator('.vcm canvas').evaluate(c => c.width);
+  expect(w).toBe(1080);
+  await page.locator('.vcm .btn[data-t="sk"]').click();
+  await expect(page.locator('.vcm .btn[data-t="sk"]')).toHaveAttribute('aria-pressed', 'true');
+  expect(errs).toEqual([]);
+});

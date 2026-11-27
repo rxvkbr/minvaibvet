@@ -274,3 +274,13 @@ test('Рація: 🪪 «тема» — a vibe badge with the call sign, both th
   await expect(page.locator('.vcm .btn[data-t="sk"]')).toHaveAttribute('aria-pressed', 'true');
   expect(errs).toEqual([]);
 });
+
+test('88.1 awards: an hour of listening shows up as a hug certificate in Котобанк', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/kotobank.html');
+  await expect(page.getByText('Довідка на одні обійми (1 год на 88.1)')).toHaveCount(0);
+  await page.evaluate(() => localStorage.setItem('kotobank-merch', JSON.stringify({ own: ['a_obiimy'], skin: 'svitanok', wear: {} })));
+  await page.reload();
+  await expect(page.getByText('Довідка на одні обійми (1 год на 88.1)')).toBeVisible();
+  expect(errs).toEqual([]);
+});

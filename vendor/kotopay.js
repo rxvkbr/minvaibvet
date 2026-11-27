@@ -1,7 +1,10 @@
 /* Котоперекази: твоя QR- і штрихкод-система як платіжна мережа для котобаксів.
    Кожен гаманець має код із шести знаків. Отримати: показуєш QR або штрихкод (Code128). Надіслати: скануєш камерою чи вводиш код.
    Переказ іде через той самий публічний MQTT-брокер, що й Рація: vaibvet/koto/v1/<кому>/<id>, retained, доки отримувач не забере.
-   Котобакси — гра без цінності; переказ — лише блок у ланцюжку обох гаманців. Потрібні vendor/kotobank.js, mqtt, jsQR, qrcode-generator, JsBarcode. */
+   P.send(code, amount) — як і раніше, лише котобакси. P.send(code, amount, cardId) докладає картку авторки з колекції:
+   друг отримує і суму, і картку. Чужу картку надіслати не можна. Якщо в друга вона вже є, друга копія не з’являється, а котобакси все одно приходять.
+   Котобакси — гра без цінності; переказ — лише блок у ланцюжку обох гаманців. Потрібні vendor/kotobank.js, mqtt, jsQR, qrcode-generator, JsBarcode.
+   Картки: vendor/avtorky.js (VV_CARDS). Це не гроші й не криптовалюта. */
 (function(){
   "use strict";
   if(window.VV_KOTOPAY)return;
@@ -22,19 +25,32 @@
       try{m=JSON.parse(buf.toString());}catch(e){return;}
       if(!m||!valid(m.f)||m.f===me()||!Number.isInteger(m.a)||m.a<1||m.a>1000||m.id!==id||seen().indexOf(id)>=0)return;
       mark(id);cl.publish(topic,"",{retain:true,qos:1});   /* picked up: clear it from the broker */
-      if(typeof m.c==="string"&&/^[a-z0-9-]{1,32}$/.test(m.c)){ /* a gifted author card: the card arrives, not the bucks */
-        try{var own=JSON.parse(localStorage.getItem("avtorky-own")||"{}");own[m.c]=1;localStorage.setItem("avtorky-own",JSON.stringify(own));}catch(e){}
-      }else if(window.VV_KOTO)VV_KOTO.earn(m.a,"📲 Переказ від "+m.f);
-      try{window.VV_TAPTIC&&VV_TAPTIC("success");}catch(e){}
-      onIn&&onIn(m);
+      deliver(m);
     });
     return cl;
   }
+  function cardIdOk(card){return typeof card==="string"&&/^[a-z0-9-]{1,32}$/.test(card);}
+  function deliver(m){
+    var gift=null,dup=false;
+    if(cardIdOk(m.c)&&window.VV_CARDS){var g=VV_CARDS.grant(m.c);if(g&&g.ok){gift=g.card;dup=!!g.dup;}}
+    var why="📲 Переказ від "+m.f;
+    if(gift){var nm=(gift.name&&gift.name.uk)||gift.id;why=(dup?"🎁 Повтор «":"🎁 «")+nm+"» від "+m.f;}
+    if(window.VV_KOTO)VV_KOTO.earn(m.a,why);
+    m.card=gift;m.dup=!!dup;
+    try{window.VV_TAPTIC&&VV_TAPTIC(dup?"warning":"success");}catch(e){}
+    onIn&&onIn(m);
+  }
   function send(to,a,card){
     a=Math.round(a);if(!valid(to)||to===me()||!(a>=1&&a<=1000))return Promise.resolve({ok:false,why:"bad"});
+    var cid="";
+    if(card!=null&&card!==""){
+      if(!cardIdOk(card)||!window.VV_CARDS||!VV_CARDS.byId(card)||!VV_CARDS.owns(card))return Promise.resolve({ok:false,why:"card"});
+      cid=card;
+    }
     if(!window.VV_KOTO||VV_KOTO.balance()<a)return Promise.resolve({ok:false,why:"money"});
-    var id=Date.now().toString(36)+Math.random().toString(36).slice(2,8),m={f:me(),a:a,id:id,t:Date.now()};if(card&&/^[a-z0-9-]{1,32}$/.test(card))m.c=card;
-    return VV_KOTO.spend(a,(m.c?"🎁 Картка "+m.c+" → ":"📤 Переказ → ")+to).then(function(r){if(!r)return {ok:false,why:"money"};
+    var id=Date.now().toString(36)+Math.random().toString(36).slice(2,8),m={f:me(),a:a,id:id,t:Date.now()};if(cid)m.c=cid;
+    var nm=cid&&VV_CARDS.byId(cid)&&(VV_CARDS.byId(cid).name||{}).uk||cid;
+    return VV_KOTO.spend(a,(cid?"🎁 "+nm+" → ":"📤 Переказ → ")+to).then(function(r){if(!r)return {ok:false,why:"money"};
       var c=connect();function pub(){c.publish(TP+to+"/"+id,JSON.stringify(m),{retain:true,qos:1});}
       if(c&&c.connected)pub();else if(c)c.once("connect",pub);
       return {ok:true,id:id};});

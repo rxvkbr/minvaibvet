@@ -1,0 +1,12 @@
+{
+  "name": "minvaibvet",
+  "private": true,
+  "description": "Вайбкет FM: local browser tests (they run on your own laptop, not in CI)",
+  "scripts": {
+    "test": "playwright test",
+    "test:iphone": "playwright test --project=iphone"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1"
+  }
+}

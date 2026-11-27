@@ -1,1 +1,8 @@
 .feedback/
+
+# Playwright (local tests)
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

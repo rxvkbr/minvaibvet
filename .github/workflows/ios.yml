@@ -3,13 +3,7 @@ name: iOS
 # On every change to the app: compile for the simulator (no signing needed).
 # Run by hand (Actions → iOS → Run workflow): sign with the App Store Connect API key and upload to TestFlight.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "index.html"
-      - "privacy.html"
-      - "app/**"
-      - ".github/workflows/ios.yml"
+  # Manual only: Actions tab or `gh workflow run ios.yml`. Everyday checks run on Andrew's Mac (npx playwright test).
   workflow_dispatch:
     inputs:
       runner:

@@ -1,10 +1,8 @@
 name: Desktop (Вайбкет Офіс)
 
 on:
+  # Manual only: Actions tab or `gh workflow run desktop.yml`. Everyday checks run on Andrew's Mac (npx playwright test).
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ["office.html", "stil.html", "sova.html", "vendor/**", "desktop/**", ".github/workflows/desktop.yml"]
 
 permissions:
   contents: write

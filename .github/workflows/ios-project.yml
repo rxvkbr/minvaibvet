@@ -4,12 +4,7 @@ name: iOS project (widgets target)
 # new .swift file, then commits the project file. Runs on Linux (the xcodeproj gem is plain Ruby), so nobody needs
 # Ruby gems on their Mac.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "app/ios/App/VaibvetWidgets/**"
-      - "app/scripts/ios-add-widgets.rb"
-      - ".github/workflows/ios-project.yml"
+  # Manual only: Actions tab or `gh workflow run ios-project.yml`. Everyday checks run on Andrew's Mac (npx playwright test).
   workflow_dispatch:
 
 permissions:

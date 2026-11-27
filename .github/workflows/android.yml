@@ -1,9 +1,7 @@
 name: Android build
 
 on:
-  push:
-    branches: [main]
-    paths: ["index.html", "app/**", ".github/workflows/android.yml"]
+  # Manual only: Actions tab or `gh workflow run android.yml`. Everyday checks run on Andrew's Mac (npx playwright test).
   workflow_dispatch:
 
 permissions:

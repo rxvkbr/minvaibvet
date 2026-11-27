@@ -126,12 +126,20 @@ test('Сцени Променя: locked without Pro, order form with Pro', async
 test('Кімната тваринок: the sock is a pet too', async ({ page }) => {
   const errs = watch(page);
   await page.goto('/index.html');
+  await page.locator('[data-tab="pet"]').first().click();
   const b = page.locator('.pick button[data-a="sock"]');
-  await b.scrollIntoViewIfNeeded();
   await b.click();
   await expect(page.locator('#petstage')).toHaveAttribute('data-a', 'sock');
   await expect(page.locator('#petstage .an-sock')).toBeVisible();
   await expect(page.locator('#petstage .an-duck')).toBeHidden();
+  // ironing: stroke the sock and the creases fade
+  const box = await page.locator('#petstage').boundingBox();
+  await page.mouse.move(box.x + 60, box.y + box.height / 2);
+  await page.mouse.down();
+  for (let i = 0; i < 40; i++) await page.mouse.move(box.x + 60 + (i % 2) * 180, box.y + box.height / 2, { steps: 4 });
+  await page.mouse.up();
+  await page.waitForTimeout(800);
+  expect(Number(await page.locator('#sockZm').evaluate(e => e.style.opacity || '1'))).toBeLessThan(1);
   expect(errs).toEqual([]);
 });
 

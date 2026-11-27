@@ -137,3 +137,15 @@ test('Рада безпеки вайбу: the session runs, votes come in', asyn
   expect(await page.evaluate(() => VV_RADBEZ.state().cur.votes.some(v => v !== null) || VV_RADBEZ.state().meet > 1)).toBe(true);
   expect(errs).toEqual([]);
 });
+
+test('Аудіотека: listening for all, studio only with Pro', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/audioteka.html');
+  await expect(page.locator('#lib .trk').first()).toBeVisible();
+  await expect(page.locator('#studio')).toBeHidden();
+  await page.evaluate(() => localStorage.setItem('polit-vet', '1'));
+  await page.reload();
+  await expect(page.locator('#studio')).toBeVisible();
+  await expect(page.locator('#prompter')).toContainText('Реве та стогне Дніпр широкий');
+  expect(errs).toEqual([]);
+});

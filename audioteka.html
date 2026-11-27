@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Аудіотека й студія читання · Вайбкет FM</title>
+<meta name="description" content="Слухай читання й наспіви Вайбкет FM через SoundCloud, а в студії прочитай чи заспівай класику поверх нашої станції. Запис лишається на твоєму телефоні.">
+<meta name="theme-color" content="#0b0b0d">
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script>
+<script src="vendor/sumishi.js"></script><script src="vendor/vals.js"></script><script src="vendor/perehavorka.js"></script><script src="vendor/audioteka.js"></script>
+<style>
+:root{--bg:#0b0b0d;--card:#1b1b1f;--card2:#26262c;--tx:#f5f5f7;--dim:#9a9aa3;--sc:#ff5500;--gold:#ffc371;--rec:#ff3b30}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:500 15px/1.45 -apple-system,Inter,system-ui,sans-serif}
+body{padding:calc(10px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom));max-width:720px;margin:0 auto}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}.top a{text-decoration:none;color:var(--tx);background:var(--card);border-radius:999px;padding:8px 12px;font-weight:700;font-size:13px}
+.logo{font:800 19px system-ui}.langs{margin-left:auto;display:flex;gap:4px}.langs button{border:0;background:var(--card);color:var(--dim);border-radius:10px;padding:5px 7px;font:700 11px system-ui;cursor:pointer}.langs button[aria-pressed=true]{background:var(--tx);color:var(--bg)}
+h2{font:800 18px system-ui;margin:18px 2px 8px}.lead{color:var(--dim);margin:0 2px 10px}
+.trk{background:var(--card);border-radius:16px;padding:10px 12px;margin-bottom:8px}.trk b{display:block}.trk small{color:var(--dim)}
+.trk button{margin-top:8px;border:0;border-radius:999px;padding:7px 12px;font:700 13px system-ui;background:var(--sc);color:#fff;cursor:pointer}
+.trk iframe{width:100%;height:120px;border:0;border-radius:12px;margin-top:8px}
+.studio{background:linear-gradient(160deg,#2a1214,#16161a);border:1px solid #ff3b3033;border-radius:22px;padding:14px}
+select,textarea,input[type=range]{width:100%}select,textarea{background:#0e0e11;border:1px solid #ffffff1c;color:var(--tx);border-radius:12px;padding:9px 10px;font:600 14px system-ui;margin-bottom:8px}
+.prompter{background:#0e0e11;border-radius:14px;padding:14px 16px;max-height:260px;overflow:auto;font:500 19px/1.6 Georgia,"PT Serif",serif;white-space:pre-wrap;margin-bottom:10px}
+.lbl{font:700 12px system-ui;color:var(--dim);margin:4px 2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.row button{flex:1;min-width:130px;border:0;border-radius:14px;padding:13px 8px;font:800 14px system-ui;cursor:pointer;background:var(--card2);color:var(--tx)}
+.rec{background:var(--rec)!important;color:#fff!important}.rec.on{animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.6}}
+audio{width:100%;margin-top:10px}
+.gate{background:var(--card);border-radius:16px;padding:14px;color:var(--dim)}.gate a{color:var(--gold)}
+.note{color:var(--dim);font-size:12px;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more">←</a><div class="logo" id="ttl"></div><div class="langs" id="langs"></div></div>
+<p class="lead" id="lead"></p>
+<h2 id="hLib"></h2><div id="lib"></div>
+<h2 id="hSt"></h2>
+<div id="gate" class="gate" hidden></div>
+<div class="studio" id="studio" hidden>
+  <select id="work"></select>
+  <textarea id="own" rows="5" hidden></textarea>
+  <div class="prompter" id="prompter"></div>
+  <div class="lbl" id="lBack"></div><select id="back"></select>
+  <div class="lbl" id="lVol"></div><input type="range" id="vol" min="0" max="100" value="35">
+  <div class="row"><button id="rec" class="rec" type="button"></button><button id="scroll" type="button"></button></div>
+  <audio id="take" controls hidden></audio>
+  <div class="row" id="after" hidden><button id="share" type="button"></button><button id="sc" type="button"></button></div>
+  <p class="note" id="note"></p>
+</div>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+/* public domain only: Шевченко (†1861) */
+var WORKS=[
+ {id:"zapovit",t:{uk:"Тарас Шевченко · «Заповіт» (1845)",en:"Taras Shevchenko · “Testament” (1845)"},x:"Як умру, то поховайте\nМене на могилі,\nСеред степу широкого,\nНа Вкраїні милій,\nЩоб лани широкополі,\nІ Дніпро, і кручі\nБуло видно, було чути,\nЯк реве ревучий.\n\nЯк понесе з України\nУ синєє море\nКров ворожу… отойді я\nІ лани і гори —\nВсе покину і полину\nДо самого Бога\nМолитися… а до того\nЯ не знаю Бога.\n\nПоховайте та вставайте,\nКайдани порвіте\nІ вражою злою кров'ю\nВолю окропіте.\nІ мене в сім'ї великій,\nВ сім'ї вольній, новій,\nНе забудьте пом'янути\nНезлим тихим словом."},
+ {id:"sadok",t:{uk:"Тарас Шевченко · «Садок вишневий коло хати» (1847)",en:"Taras Shevchenko · “A cherry orchard by the house” (1847)"},x:"Садок вишневий коло хати,\nХрущі над вишнями гудуть,\nПлугатарі з плугами йдуть,\nСпівають ідучи дівчата,\nА матері вечерять ждуть.\n\nСем'я вечеря коло хати,\nВечірня зіронька встає.\nДочка вечерять подає,\nА мати хоче научати,\nТак соловейко не дає.\n\nПоклала мати коло хати\nМаленьких діточок своїх;\nСама заснула коло їх.\nЗатихло все, тілько дівчата\nТа соловейко не затих."},
+ {id:"reve",t:{uk:"Тарас Шевченко · «Реве та стогне Дніпр широкий» (з «Причинної», 1837)",en:"Taras Shevchenko · “The wide Dnipro roars and moans” (1837)"},x:"Реве та стогне Дніпр широкий,\nСердитий вітер завива,\nДодолу верби гне високі,\nГорами хвилю підійма.\n\nІ блідий місяць на ту пору\nІз хмари де-де виглядав,\nНеначе човен в синім морі,\nТо виринав, то потопав.\n\nЩе треті півні не співали,\nНіхто нігде не гомонів,\nСичі в гаю перекликались,\nТа ясен раз у раз скрипів."},
+ {id:"own",t:{uk:"✍️ Свій текст (твій власний)",en:"✍️ My own text"},x:""}];
+var TX={
+uk:{ttl:"🎙 Аудіотека",lead:"Слухай читання й наспіви Вайбкет FM через SoundCloud. А в студії прочитай класику або заспівай поверх нашої станції.",hLib:"Слухати",hSt:"Студія читання",listen:"▶ Слухати на SoundCloud",
+ gate:"Студія відкривається з ветеранською Pro-підпискою в «Тестовому польоті» (за котобакси). Слухати можна всім.",gateA:"✈️ До Тестового польоту",
+ back:{none:"Без музики, тільки голос",vals:"90.5 · Туман і вальс",sumishi:"88.1 · Суміші",perehavorka:"🪩 Перегаворка"},lBack:"Музика під голос",lVol:"Гучність музики",
+ rec:"⏺ Записати",stop:"■ Зупинити",scroll:"↓ Суфлер",share:"↗ Зберегти / поділитися",sc:"☁️ Викласти на SoundCloud",own:"Встав свій текст: власний або той, що вже став суспільним надбанням.",
+ note:"Запис лишається на цьому телефоні. Нічого нікуди не надсилається, доки ти сам не натиснеш «Зберегти / поділитися». На SoundCloud викладай лише своє читання класики або власні тексти.",noMic:"Мікрофон недоступний."},
+en:{ttl:"🎙 Audio Library",lead:"Listen to Vibecat FM readings and songs through SoundCloud. In the studio, read a classic or sing over our station.",hLib:"Listen",hSt:"Reading studio",listen:"▶ Listen on SoundCloud",
+ gate:"The studio opens with the veteran Pro subscription in “Test Flight” (paid in catbucks). Listening is open to everyone.",gateA:"✈️ To Test Flight",
+ back:{none:"No music, voice only",vals:"90.5 · Mist and Waltz",sumishi:"88.1 · Blends",perehavorka:"🪩 Meeting Room"},lBack:"Music under the voice",lVol:"Music volume",
+ rec:"⏺ Record",stop:"■ Stop",scroll:"↓ Prompter",share:"↗ Save / share",sc:"☁️ Upload to SoundCloud",own:"Paste your text: your own, or one already in the public domain.",
+ note:"The recording stays on this phone. Nothing is sent anywhere until you tap “Save / share” yourself. Only upload your own readings of classics or your own texts to SoundCloud.",noMic:"Microphone unavailable."},
+nl:{ttl:"🎙 Audiotheek",lead:"Luister naar voorlezingen en liedjes van Vibecat FM via SoundCloud. Lees in de studio een klassieker voor of zing over onze zender heen.",hLib:"Luisteren",hSt:"Voorleesstudio",listen:"▶ Luisteren op SoundCloud",
+ gate:"De studio gaat open met het veteranen-Pro-abonnement in „Testvlucht” (betaald in kattenbucks). Luisteren kan iedereen.",gateA:"✈️ Naar Testvlucht",
+ back:{none:"Geen muziek, alleen stem",vals:"90.5 · Mist en wals",sumishi:"88.1 · Mengsels",perehavorka:"🪩 Vergaderzaal"},lBack:"Muziek onder de stem",lVol:"Muziekvolume",
+ rec:"⏺ Opnemen",stop:"■ Stoppen",scroll:"↓ Autocue",share:"↗ Bewaren / delen",sc:"☁️ Op SoundCloud zetten",own:"Plak je tekst: je eigen, of een die al publiek domein is.",
+ note:"De opname blijft op deze telefoon. Er wordt niets verstuurd tot je zelf op „Bewaren / delen” tikt. Zet alleen je eigen voorlezingen van klassiekers of eigen teksten op SoundCloud.",noMic:"Microfoon niet beschikbaar."},
+de:{ttl:"🎙 Audiothek",lead:"Hör Lesungen und Lieder von Vibecat FM über SoundCloud. Im Studio liest du einen Klassiker oder singst über unseren Sender.",hLib:"Hören",hSt:"Lesestudio",listen:"▶ Auf SoundCloud hören",
+ gate:"Das Studio öffnet sich mit dem Veteranen-Pro-Abo im „Testflug“ (bezahlt in Katzenbucks). Hören können alle.",gateA:"✈️ Zum Testflug",
+ back:{none:"Keine Musik, nur Stimme",vals:"90.5 · Nebel und Walzer",sumishi:"88.1 · Mischungen",perehavorka:"🪩 Besprechungsraum"},lBack:"Musik unter der Stimme",lVol:"Musiklautstärke",
+ rec:"⏺ Aufnehmen",stop:"■ Stopp",scroll:"↓ Teleprompter",share:"↗ Speichern / teilen",sc:"☁️ Auf SoundCloud hochladen",own:"Füge deinen Text ein: deinen eigenen oder einen gemeinfreien.",
+ note:"Die Aufnahme bleibt auf diesem Telefon. Nichts wird gesendet, bis du selbst auf „Speichern / teilen“ tippst. Lade auf SoundCloud nur eigene Lesungen von Klassikern oder eigene Texte hoch.",noMic:"Mikrofon nicht verfügbar."}};
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!TX[LN])LN=LN==="ru"?"uk":"en";
+function T(k){return TX[LN][k];}function L(o){return o[LN]||o.en||o.uk;}
+function tap(k){try{window.VV_TAPTIC&&VV_TAPTIC(k);}catch(e){}}
+function isPro(){try{return localStorage.getItem("polit-vet")==="1";}catch(e){return false;}}
+function nativeMode(m){try{var C=window.Capacitor,P=C&&C.isNativePlatform&&C.isNativePlatform()&&(C.Plugins&&C.Plugins.Purr||C.registerPlugin&&C.registerPlugin("Purr"));if(P&&P.audioMode)return P.audioMode({mode:m}).catch(function(){});}catch(e){}return Promise.resolve();}
+
+/* ===== listening: the official SoundCloud player ===== */
+function paintLib(){var B=$("lib");B.innerHTML="";(window.VV_AUDIOTEKA||[]).forEach(function(t){if(!/^https:\/\/soundcloud\.com\/[\w\-\/]+$/.test(t.sc))return;
+  var d=document.createElement("div");d.className="trk";d.innerHTML="<b></b><small></small><br><button type='button'></button>";d.querySelector("b").textContent=L(t.title);d.querySelector("small").textContent=t.who||"";
+  var b=d.querySelector("button");b.textContent=T("listen");b.onclick=function(){var f=document.createElement("iframe");f.allow="autoplay";f.title=L(t.title);
+    f.src="https://w.soundcloud.com/player/?url="+encodeURIComponent(t.sc)+"&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&visual=false";b.replaceWith(f);tap("tick");};B.appendChild(d);});}
+
+/* ===== the studio: voice + one of our stations → a local recording ===== */
+var ctx=null,eng=null,mix=null,musicGain=null,mic=null,rec=null,chunks=[],timer=null,takeBlob=null,scrollT=null;
+function work(){return WORKS.filter(function(w){return w.id===$("work").value;})[0]||WORKS[0];}
+function paintPrompter(){var w=work();$("own").hidden=w.id!=="own";$("prompter").textContent=w.id==="own"?($("own").value||T("own")):w.x;}
+function ensureCtx(){if(!ctx){var C=window.AudioContext||window.webkitAudioContext;ctx=new C();mix=ctx.createMediaStreamDestination();musicGain=ctx.createGain();musicGain.connect(ctx.destination);musicGain.connect(mix);}
+  if(ctx.state!=="running")ctx.resume();musicGain.gain.value=$("vol").value/100;}
+function startMusic(){var k=$("back").value;if(k==="none")return;var M={vals:window.VV_VALS,sumishi:window.VV_SUMISHI,perehavorka:window.VV_PEREHAVORKA}[k];if(!M)return;
+  eng=M.make(ctx,musicGain);timer=setInterval(function(){eng&&eng.schedule(ctx.currentTime);},100);}
+function stopMusic(){clearInterval(timer);if(eng){eng.stop();eng=null;}}
+function startRec(){ensureCtx();
+  nativeMode("record").then(function(){return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});}).then(function(s){
+    mic=s;var src=ctx.createMediaStreamSource(s),g=ctx.createGain();g.gain.value=1.1;src.connect(g);g.connect(mix);startMusic();
+    var type=["audio/mp4","audio/webm;codecs=opus","audio/webm"].filter(function(t){return window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t);})[0]||"";
+    rec=new MediaRecorder(mix.stream,type?{mimeType:type}:undefined);chunks=[];rec.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data);};
+    rec.onstop=function(){takeBlob=new Blob(chunks,{type:rec.mimeType||"audio/mp4"});var A=$("take");A.src=URL.createObjectURL(takeBlob);A.hidden=false;$("after").hidden=false;tap("success");};
+    rec.start(500);$("rec").textContent=T("stop");$("rec").classList.add("on");tap("tick");
+  }).catch(function(){alert(T("noMic"));nativeMode("play");});}
+function stopRec(){if(rec&&rec.state!=="inactive")rec.stop();if(mic){mic.getTracks().forEach(function(t){t.stop();});mic=null;}stopMusic();nativeMode("play");
+  $("rec").textContent=T("rec");$("rec").classList.remove("on");clearInterval(scrollT);}
+$("rec").onclick=function(){rec&&rec.state==="recording"?stopRec():startRec();};
+$("vol").oninput=function(){if(musicGain)musicGain.gain.value=this.value/100;};
+$("scroll").onclick=function(){var P=$("prompter");clearInterval(scrollT);P.scrollTop=0;scrollT=setInterval(function(){P.scrollTop+=1;if(P.scrollTop+P.clientHeight>=P.scrollHeight)clearInterval(scrollT);},60);};
+$("work").onchange=paintPrompter;$("own").oninput=paintPrompter;
+$("share").onclick=function(){if(!takeBlob)return;var ext=/webm/.test(takeBlob.type)?"webm":"m4a",name="vaibket-"+work().id+"-"+new Date().toISOString().slice(0,10)+"."+ext,f;
+  try{f=new File([takeBlob],name,{type:takeBlob.type});}catch(e){}
+  if(f&&navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:name}).catch(function(){});
+  else{var a=document.createElement("a");a.href=URL.createObjectURL(takeBlob);a.download=name;document.body.appendChild(a);a.click();a.remove();}};
+$("sc").onclick=function(){window.open("https://soundcloud.com/upload","_blank","noopener");};
+window.addEventListener("pagehide",function(){if(rec&&rec.state==="recording")stopRec();});
+
+function paint(){document.documentElement.lang=LN;$("ttl").textContent=T("ttl");$("lead").textContent=T("lead");$("hLib").textContent=T("hLib");$("hSt").textContent=T("hSt");
+  var pro=isPro();$("studio").hidden=!pro;$("gate").hidden=pro;$("gate").textContent=T("gate")+" ";var ga=document.createElement("a");ga.href="polit.html";ga.textContent=T("gateA");$("gate").appendChild(ga);
+  var W=$("work"),cur=W.value;W.innerHTML="";WORKS.forEach(function(w){var o=document.createElement("option");o.value=w.id;o.textContent=L(w.t);W.appendChild(o);});W.value=cur||"reve";
+  var B=$("back"),cb=B.value;B.innerHTML="";["none","vals","sumishi","perehavorka"].forEach(function(k){var o=document.createElement("option");o.value=k;o.textContent=T("back")[k];B.appendChild(o);});B.value=cb||"vals";
+  $("own").placeholder=T("own");$("lBack").textContent=T("lBack");$("lVol").textContent=T("lVol");$("rec").textContent=rec&&rec.state==="recording"?T("stop"):T("rec");$("scroll").textContent=T("scroll");
+  $("share").textContent=T("share");$("sc").textContent=T("sc");$("note").textContent=T("note");paintPrompter();paintLib();
+  var Lg=$("langs");Lg.innerHTML="";["uk","en","nl","de"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paint();};Lg.appendChild(b);});}
+paint();
+})();
+</script>
+</body>
+</html>

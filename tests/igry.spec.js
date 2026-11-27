@@ -95,6 +95,8 @@ test('Стіл: a photo note renders, iMessage and share buttons are there', asy
     const a = JSON.parse(localStorage.getItem('vvs-notes') || '[]');
     a.unshift({ id: 'n1', t: 'Фото-нотатка', b: 'Текст\n![фото](img:' + id + ')', tag: '', ts: Date.now() });
     localStorage.setItem('vvs-notes', JSON.stringify(a));
+    // skip the first-run mode picker: on a phone its modal covers the bottom nav
+    localStorage.setItem('vvs-cfg', JSON.stringify({ mode: 'office', widgets: [], m1: 1 }));
   }, id);
   await page.reload();
   await page.getByRole('navigation', { name: 'Програми' }).getByRole('button', { name: '📝 Нотатки' }).click();

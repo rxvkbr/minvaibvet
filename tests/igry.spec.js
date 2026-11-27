@@ -128,3 +128,12 @@ test('Безкінечний діджей: three engines play and the auto-DJ st
   await expect(page.locator('#iB')).toContainText(/Хайперпоп|Перехід|Подіум/);
   expect(errs).toEqual([]);
 });
+
+test('Рада безпеки вайбу: the session runs, votes come in', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/radbez.html');
+  await expect(page.locator('#aT')).not.toBeEmpty();
+  await page.waitForTimeout(15000);
+  expect(await page.evaluate(() => VV_RADBEZ.state().cur.votes.some(v => v !== null) || VV_RADBEZ.state().meet > 1)).toBe(true);
+  expect(errs).toEqual([]);
+});

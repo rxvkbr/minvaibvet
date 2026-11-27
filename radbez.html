@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рада безпеки вайбу · Вайбкет FM</title>
+<meta name="description" content="Окремий переговорний стіл Мінвайбкету: чотири постійні члени нової Ради безпеки вайбу засідають безперервно. Сатира.">
+<meta name="theme-color" content="#0b0b0d">
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/kotobank.js"></script>
+<style>
+:root{--bg:#0d1016;--card:#181c24;--card2:#232835;--tx:#f2f4f8;--dim:#98a0b0;--un:#5b92e5;--gold:#ffc371;--ok:#3ddc97;--no:#ff6b6b}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:500 15px/1.45 -apple-system,Inter,system-ui,sans-serif}
+body{padding:calc(10px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom));max-width:760px;margin:0 auto}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}.top a{text-decoration:none;color:var(--tx);background:var(--card);border-radius:999px;padding:8px 12px;font-weight:700;font-size:13px}
+.logo{font:800 19px system-ui}.langs{margin-left:auto;display:flex;gap:4px}.langs button{border:0;background:var(--card);color:var(--dim);border-radius:10px;padding:5px 7px;font:700 11px system-ui;cursor:pointer}.langs button[aria-pressed=true]{background:var(--tx);color:var(--bg)}
+.lead{color:var(--dim);margin:0 2px 12px}
+.room{position:relative;background:radial-gradient(ellipse at 50% 30%,#1f2a44,#0d1016 75%);border-radius:24px;padding:10px;overflow:hidden}
+.room svg{width:100%;display:block}
+.agenda{margin:12px 0 0;background:var(--card);border-radius:16px;padding:12px 14px}
+.agenda small{color:var(--un);font:800 11px system-ui;letter-spacing:.08em;text-transform:uppercase}
+.agenda b{display:block;font-size:17px;margin-top:2px}
+.votes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.votes div{background:var(--card2);border-radius:12px;padding:7px 4px;text-align:center;font:700 12px system-ui;min-height:52px}
+.votes span{display:block;font-size:20px}
+.res{margin-top:10px;font:800 15px system-ui}.res.ok{color:var(--ok)}.res.no{color:var(--no)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.row button{flex:1;min-width:140px;border:0;border-radius:14px;padding:12px 8px;font:800 14px system-ui;cursor:pointer;background:var(--card2);color:var(--tx)}
+.row button.pri{background:var(--un);color:#06122a}
+h2{font:800 16px system-ui;margin:20px 2px 8px}
+.log{list-style:none;margin:0;padding:0}.log li{background:var(--card);border-radius:12px;padding:9px 12px;margin-bottom:6px;font-size:14px}.log li small{color:var(--dim);display:block}
+.note{color:var(--dim);font-size:12px;margin-top:16px}
+@keyframes nod{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.talk{animation:nod .5s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more">←</a><div class="logo" id="ttl"></div><div class="langs" id="langs"></div></div>
+<p class="lead" id="lead"></p>
+<div class="room"><svg id="stage" viewBox="0 0 400 260" aria-hidden="true"></svg></div>
+<div class="agenda"><small id="aNo"></small><b id="aT"></b><div class="votes" id="votes"></div><div class="res" id="res"></div></div>
+<div class="row"><button class="pri" id="mine" type="button"></button><button id="pause" type="button"></button></div>
+<h2 id="hLog"></h2><ul class="log" id="log"></ul>
+<p class="note" id="note"></p>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+/* four permanent members; nobody real, nobody's face */
+var M=[{e:"🐈",c:"#e0a060",veto:true},{e:"🐄",c:"#f1f1f1"},{e:"🚜",c:"#6fae4a"},{e:"🐦",c:"#4a6fb5"}];
+var TX={
+uk:{ttl:"🇺🇳 Рада безпеки вайбу",lead:"Окремий переговорний стіл у Перегаворці. Чотири постійні члени засідають безперервно, з 05:45 і доки не попросять. Право вето має лише Кіт: він просто лягає на документ.",
+ names:["Кіт","Корова","Трактор","Ластівка"],no:"Засідання № {n} · порядок денний",yes:"за",nay:"проти",abs:"утрим.",veto:"ВЕТО (ліг на папір)",passed:"✅ Резолюцію № {n} ухвалено",failed:"❌ Не ухвалено",vetoed:"🐾 Заблоковано вето Кота",
+ mine:"📝 Внести своє питання",pause:"⏸ Перерва на каву",resume:"▶ Продовжити засідання",hLog:"Журнал резолюцій",
+ note:"Сатира. Рада безпеки вайбу, її члени й резолюції вигадані. Усі збіги з реальними радами випадкові, але бажані.",
+ verbs:["Терміново засудити","Висловити глибоке занепокоєння щодо","Створити міжвідомчу комісію з","Перенести на після відпустки","Ухвалити в першому читанні","Видати кожному громадянину"],
+ objs:["нестачу кави три в одному","черги до вікна №4","тишу після сирени","відпустку, обіцяну законом","котів на теплих зупинках","нараду, яка могла бути листом","мівіну з гострим соусом","довідку з першого разу","обійми без довідки","корову, що перетнула лінію городів"],
+ lines:["Пропоную додати пункт про печиво.","Мур.","Тракторна делегація утримується від коментарів.","Ластівки летять додому. Ми теж.","А можна це листом?","Я лише нагадаю про каву.","Колеги, давайте до суті. Суть — у каві.","Корова проти, бо понеділок.","Беру слово. Мовчу.","Кіт ліг на мікрофон."]},
+en:{ttl:"🇺🇳 The Vibe Security Council",lead:"A separate negotiating table in the Meeting Room. Four permanent members sit non-stop, from 05:45 until someone asks them to leave. Only the Cat has a veto: he simply lies down on the document.",
+ names:["Cat","Cow","Tractor","Swallow"],no:"Meeting No. {n} · agenda",yes:"yes",nay:"no",abs:"abst.",veto:"VETO (lay on the paper)",passed:"✅ Resolution No. {n} adopted",failed:"❌ Not adopted",vetoed:"🐾 Blocked by the Cat's veto",
+ mine:"📝 Table my own item",pause:"⏸ Coffee break",resume:"▶ Resume the meeting",hLog:"Resolution log",
+ note:"Satire. The Vibe Security Council, its members and resolutions are fictional. Any resemblance to real councils is coincidental, though welcome.",
+ verbs:["Urgently condemn","Express deep concern about","Set up an inter-agency commission on","Postpone until after the holidays","Adopt in first reading","Issue every citizen with"],
+ objs:["the shortage of 3-in-1 coffee","the queue at window No. 4","the silence after the siren","the leave promised by law","cats at heated bus stops","the meeting that could have been an email","instant noodles with hot sauce","a certificate on the first try","hugs without a certificate","the cow that crossed the garden line"],
+ lines:["I propose adding a clause on cookies.","Meow.","The tractor delegation declines to comment.","The swallows are flying home. So are we.","Could this be an email?","Just a reminder about coffee.","Colleagues, to the point. The point is coffee.","The cow votes no, it's Monday.","I take the floor. I remain silent.","The cat is lying on the microphone."]},
+nl:{ttl:"🇺🇳 De Veiligheidsraad van de Vibe",lead:"Een aparte onderhandelingstafel in de vergaderzaal. Vier permanente leden vergaderen non-stop, van 05:45 tot iemand ze wegstuurt. Alleen de Kat heeft een veto: hij gaat gewoon op het document liggen.",
+ names:["Kat","Koe","Tractor","Zwaluw"],no:"Vergadering nr. {n} · agenda",yes:"voor",nay:"tegen",abs:"onth.",veto:"VETO (lag op het papier)",passed:"✅ Resolutie nr. {n} aangenomen",failed:"❌ Niet aangenomen",vetoed:"🐾 Geblokkeerd door het veto van de Kat",
+ mine:"📝 Eigen agendapunt",pause:"⏸ Koffiepauze",resume:"▶ Vergadering hervatten",hLog:"Resolutielogboek",
+ note:"Satire. De Veiligheidsraad van de Vibe, de leden en de resoluties zijn verzonnen. Gelijkenissen met echte raden zijn toevallig, maar welkom.",
+ verbs:["Dringend veroordelen","Diepe bezorgdheid uiten over","Een interdepartementale commissie instellen over","Uitstellen tot na de vakantie","In eerste lezing aannemen","Elke burger voorzien van"],
+ objs:["het tekort aan 3-in-1-koffie","de rij bij loket 4","de stilte na de sirene","het verlof dat de wet belooft","katten bij verwarmde bushokjes","de vergadering die een mail had kunnen zijn","instant noedels met hete saus","een attest in één keer","knuffels zonder attest","de koe die de moestuinlinie overstak"],
+ lines:["Ik stel een artikel over koekjes voor.","Miauw.","De tractordelegatie onthoudt zich van commentaar.","De zwaluwen vliegen naar huis. Wij ook.","Kan dit per mail?","Even een herinnering over koffie.","Collega's, ter zake. De zaak is koffie.","De koe stemt tegen, het is maandag.","Ik neem het woord. Ik zwijg.","De kat ligt op de microfoon."]},
+de:{ttl:"🇺🇳 Der Sicherheitsrat des Vibes",lead:"Ein eigener Verhandlungstisch im Besprechungsraum. Vier ständige Mitglieder tagen ununterbrochen, ab 05:45, bis man sie hinausbittet. Nur die Katze hat ein Veto: Sie legt sich einfach aufs Dokument.",
+ names:["Katze","Kuh","Traktor","Schwalbe"],no:"Sitzung Nr. {n} · Tagesordnung",yes:"ja",nay:"nein",abs:"Enth.",veto:"VETO (aufs Papier gelegt)",passed:"✅ Resolution Nr. {n} angenommen",failed:"❌ Nicht angenommen",vetoed:"🐾 Durch das Veto der Katze blockiert",
+ mine:"📝 Eigenen Punkt einbringen",pause:"⏸ Kaffeepause",resume:"▶ Sitzung fortsetzen",hLog:"Resolutionsprotokoll",
+ note:"Satire. Der Sicherheitsrat des Vibes, seine Mitglieder und Resolutionen sind erfunden. Ähnlichkeiten mit echten Räten sind zufällig, aber willkommen.",
+ verbs:["Dringend verurteilen","Tiefe Besorgnis äußern über","Eine interministerielle Kommission einsetzen zu","Auf nach dem Urlaub verschieben","In erster Lesung annehmen","Jedem Bürger ausgeben:"],
+ objs:["den Mangel an 3-in-1-Kaffee","die Schlange an Schalter 4","die Stille nach der Sirene","den gesetzlich versprochenen Urlaub","Katzen an beheizten Haltestellen","die Besprechung, die eine Mail hätte sein können","Instantnudeln mit scharfer Soße","eine Bescheinigung beim ersten Mal","Umarmungen ohne Bescheinigung","die Kuh, die die Gartenlinie überquerte"],
+ lines:["Ich schlage einen Absatz über Kekse vor.","Miau.","Die Traktordelegation enthält sich jeden Kommentars.","Die Schwalben fliegen heim. Wir auch.","Geht das per Mail?","Nur eine Erinnerung an den Kaffee.","Kollegen, zur Sache. Die Sache ist Kaffee.","Die Kuh stimmt dagegen, es ist Montag.","Ich ergreife das Wort. Ich schweige.","Die Katze liegt auf dem Mikrofon."]}};
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!TX[LN])LN=LN==="ru"?"uk":"en";
+function T(k,v){var x=TX[LN][k];if(v&&typeof x==="string")for(var q in v)x=x.split("{"+q+"}").join(v[q]);return x;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function tap(k){try{window.VV_TAPTIC&&VV_TAPTIC(k);}catch(e){}}
+
+/* ===== the table: drawn once, bubbles move around ===== */
+var SEATS=[[95,120],[305,120],[95,205],[305,205]];
+function drawStage(){var o='<defs><radialGradient id="tb" cx="50%" cy="40%"><stop offset="0" stop-color="#3b2a1c"/><stop offset="1" stop-color="#22170e"/></radialGradient></defs>';
+  o+='<rect x="20" y="8" width="360" height="40" rx="10" fill="#5b92e5" opacity=".18"/><text x="200" y="34" text-anchor="middle" fill="#9cc0f5" font-size="15" font-weight="800" font-family="system-ui" id="sTitle"></text>';
+  o+='<ellipse cx="200" cy="165" rx="150" ry="62" fill="url(#tb)" stroke="#5a4130" stroke-width="3"/><ellipse cx="200" cy="165" rx="40" ry="16" fill="#5b92e5" opacity=".35"/>';
+  o+='<g><rect x="186" y="140" width="28" height="18" rx="2" fill="#f4efe6"/><path d="M190 146h20M190 151h14" stroke="#999" stroke-width="1.5"/></g>';
+  M.forEach(function(m,i){var s=SEATS[i];o+='<g id="m'+i+'"><circle cx="'+s[0]+'" cy="'+(s[1]-4)+'" r="26" fill="'+m.c+'" opacity=".22"/><text x="'+s[0]+'" y="'+(s[1]+8)+'" text-anchor="middle" font-size="34">'+m.e+'</text>'+
+    '<rect x="'+(s[0]-22)+'" y="'+(s[1]+16)+'" width="44" height="14" rx="3" fill="#0d1016" opacity=".8"/><text x="'+s[0]+'" y="'+(s[1]+27)+'" text-anchor="middle" fill="#e8eef8" font-size="10" font-weight="700" font-family="system-ui" id="n'+i+'"></text></g>';});
+  o+='<g id="bub" opacity="0"><rect id="bubR" rx="10" fill="#f2f4f8"/><text id="bubT" fill="#0d1016" font-size="11" font-weight="600" font-family="system-ui"></text></g>';
+  $("stage").innerHTML=o;$("sTitle").textContent=T("ttl").toUpperCase()+" 🐾";M.forEach(function(_,i){$("n"+i).textContent=T("names")[i];});}
+function say(i,text){var s=SEATS[i],B=$("bub"),t=$("bubT"),r=$("bubR");t.textContent=text.length>46?text.slice(0,45)+"…":text;
+  var w=Math.min(250,t.textContent.length*5.6+18),x=Math.max(6,Math.min(394-w,s[0]-w/2)),y=i<2?s[1]-62:s[1]-58;
+  r.setAttribute("x",x);r.setAttribute("y",y);r.setAttribute("width",w);r.setAttribute("height",24);t.setAttribute("x",x+9);t.setAttribute("y",y+16);B.setAttribute("opacity","1");
+  M.forEach(function(_,k){var g=$("m"+k);g.classList.toggle("talk",k===i);});}
+
+/* ===== the endless session ===== */
+var meet=1,resN=4117,cur=null,paused=false,clock=null,log=[];try{var sv=JSON.parse(localStorage.getItem("radbez")||"{}");meet=sv.meet||1;resN=sv.resN||4117;log=sv.log||[];}catch(e){}
+function save(){try{localStorage.setItem("radbez",JSON.stringify({meet:meet,resN:resN,log:log.slice(0,30)}));}catch(e){}}
+function agenda(custom){var X=TX[LN];return custom||(pick(X.verbs)+" "+pick(X.objs));}
+function newItem(custom){cur={t:agenda(custom),votes:[null,null,null,null],step:0,talk:3+Math.floor(Math.random()*3)};
+  $("aNo").textContent=T("no",{n:meet});$("aT").textContent=cur.t;$("res").textContent="";$("res").className="res";paintVotes();}
+function paintVotes(){var V=$("votes");V.innerHTML="";var X=TX[LN];M.forEach(function(m,i){var d=document.createElement("div"),v=cur.votes[i];
+  d.innerHTML='<span></span>';d.querySelector("span").textContent=m.e;d.appendChild(document.createTextNode(v==null?"…":v==="veto"?X.veto:X[v]));
+  if(v==="yes")d.style.color="var(--ok)";if(v==="nay"||v==="veto")d.style.color="var(--no)";V.appendChild(d);});}
+function beat(){if(paused||!cur)return;
+  if(cur.step<cur.talk){say(Math.floor(Math.random()*4),pick(TX[LN].lines));cur.step++;return;}
+  var k=cur.step-cur.talk;
+  if(k<4){var r=Math.random(),v=r<.55?"yes":r<.78?"nay":"abs";if(M[k].veto&&Math.random()<.18)v="veto";cur.votes[k]=v;
+    say(k,v==="veto"?"🐾 …":TX[LN][v]);paintVotes();tap(v==="veto"?"warning":"tick");cur.step++;return;}
+  if(k===4){var yes=cur.votes.filter(function(v){return v==="yes";}).length,R=$("res");
+    if(cur.votes.indexOf("veto")>=0){R.textContent=T("vetoed");R.className="res no";}
+    else if(yes>=3){R.textContent=T("passed",{n:resN});R.className="res ok";log.unshift({n:resN,t:cur.t,m:meet});resN++;tap("success");
+      if(window.VV_KOTO)try{VV_KOTO.earn(1,"🇺🇳 Резолюція",true);}catch(e){}}
+    else{R.textContent=T("failed");R.className="res no";}
+    meet++;save();paintLog();cur.step++;return;}
+  if(k>=6)newItem();else cur.step++;}
+function paintLog(){var L=$("log");L.innerHTML="";log.slice(0,12).forEach(function(e){var li=document.createElement("li");li.textContent="№ "+e.n+": "+e.t;var s=document.createElement("small");s.textContent="#"+e.m;li.appendChild(s);L.appendChild(li);});}
+$("pause").onclick=function(){paused=!paused;this.textContent=paused?T("resume"):T("pause");if(paused)$("bub").setAttribute("opacity","0");tap("tick");};
+$("mine").onclick=function(){var X=TX[LN],q=prompt(X.mine,pick(X.verbs)+" "+pick(X.objs));if(!q)return;newItem(q.slice(0,90));tap("light");};
+function paint(){document.documentElement.lang=LN;$("ttl").textContent=T("ttl");$("lead").textContent=T("lead");$("mine").textContent=T("mine");$("pause").textContent=paused?T("resume"):T("pause");
+  $("hLog").textContent=T("hLog");$("note").textContent=T("note");drawStage();if(cur){$("aNo").textContent=T("no",{n:meet});paintVotes();}paintLog();
+  var L=$("langs");L.innerHTML="";["uk","en","nl","de"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paint();newItem();};L.appendChild(b);});}
+paint();newItem();clock=setInterval(beat,1700);
+window.VV_RADBEZ={state:function(){return {meet:meet,resN:resN,cur:cur};}};
+})();
+</script>
+</body>
+</html>

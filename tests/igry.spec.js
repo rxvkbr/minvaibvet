@@ -60,3 +60,27 @@ test('motto: the vibecat either is or isn\'t, in every language', async ({ page 
     await expect(page.locator('.motto')).toContainText(t);
   }
 });
+
+test('Бібліотека: author card opens for 3, pays +1 for reading', async ({ page }) => {
+  const errs = watch(page);
+  await page.addInitScript(() => {
+    localStorage.setItem('lang', 'uk');
+    window.VV_AVTORKY = [{ id: 'test-card', name: { uk: 'Тестова Авторка', en: 'Test Author' }, years: '1900–1990',
+      place: { uk: 'Київ', en: 'Kyiv' }, work: { uk: '«Тест»', en: 'Test', year: '1950' }, text: { uk: 'Тестовий опис.', en: 'Test text.' },
+      emoji: '🖋', src: 'https://uk.wikipedia.org/' }];
+  });
+  await page.goto('/biblioteka.html');
+  await page.evaluate(() => VV_KOTO.earn(5, 'test', true));
+  await page.waitForTimeout(300);
+  const bal = async () => page.evaluate(() => VV_KOTO.balance());
+  const start = await bal();
+  await page.getByRole('button', { name: '🃏 Авторки' }).click();
+  await expect(page.locator('.card.locked')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Відкрити за 3 🐾' }).click();
+  await expect(page.locator('.card .tx')).toHaveText('Тестовий опис.');
+  expect(await bal()).toBe(start - 3);
+  await page.getByRole('button', { name: 'Прочитав ✓ +1 🐾' }).click();
+  await expect(page.getByRole('button', { name: 'прочитано ✓' })).toBeVisible();
+  expect(await bal()).toBe(start - 2);
+  expect(errs).toEqual([]);
+});

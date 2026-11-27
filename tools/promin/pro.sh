@@ -6,6 +6,8 @@
 set -e
 cd "$(dirname "$0")"; ROOT="$(cd ../.. && pwd)"; REPO=rxvkbr/minvaibvet
 export JAVA_TOOL_OPTIONS="-Dstdout.encoding=UTF-8 -Dfile.encoding=UTF-8"
+# Homebrew's openjdk is keg-only: macOS's /usr/bin/java stub can't see it, so use it directly
+if ! java -version >/dev/null 2>&1; then for d in "$(brew --prefix openjdk 2>/dev/null)/bin" /opt/homebrew/opt/openjdk/bin /usr/local/opt/openjdk/bin; do [ -x "$d/java" ] && export PATH="$d:$PATH" && break; done; fi
 command -v java >/dev/null && java -version >/dev/null 2>&1 || { echo "Потрібна Java: brew install openjdk"; exit 1; }
 mkdir -p inbox out "$ROOT/img/sceny"
 

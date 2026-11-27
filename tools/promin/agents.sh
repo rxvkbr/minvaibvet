@@ -4,6 +4,8 @@
 #   bash tools/promin/agents.sh scene.txt  render one scene now
 #   (no Java or a warm Air? the cloud renders it: push the scene into inbox/, then bash tools/promin/cloud.sh)
 cd "$(dirname "$0")"
+# Homebrew's openjdk is keg-only: macOS's /usr/bin/java stub can't see it, so use it directly
+if ! java -version >/dev/null 2>&1; then for d in "$(brew --prefix openjdk 2>/dev/null)/bin" /opt/homebrew/opt/openjdk/bin /usr/local/opt/openjdk/bin; do [ -x "$d/java" ] && export PATH="$d:$PATH" && break; done; fi
 if ! command -v java >/dev/null || ! java -version >/dev/null 2>&1; then
   echo "Потрібна Java 11+. Встанови: brew install openjdk && sudo ln -sfn \$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk"
   exit 1

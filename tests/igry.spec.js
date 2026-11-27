@@ -84,3 +84,24 @@ test('Бібліотека: author card opens for 3, pays +1 for reading', async
   expect(await bal()).toBe(start - 2);
   expect(errs).toEqual([]);
 });
+
+test('Стіл: a photo note renders, iMessage and share buttons are there', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/stil.html');
+  const id = 'abcd1234';
+  await page.evaluate(id => {
+    const c = document.createElement('canvas'); c.width = 8; c.height = 8; c.getContext('2d').fillRect(0, 0, 8, 8);
+    localStorage.setItem('vvs-nimg-' + id, c.toDataURL('image/jpeg', .7));
+    const a = JSON.parse(localStorage.getItem('vvs-notes') || '[]');
+    a.unshift({ id: 'n1', t: 'Фото-нотатка', b: 'Текст\n![фото](img:' + id + ')', tag: '', ts: Date.now() });
+    localStorage.setItem('vvs-notes', JSON.stringify(a));
+  }, id);
+  await page.reload();
+  await page.locator('[data-app="notes"], button:has-text("Нотатки")').first().click().catch(() => {});
+  await page.getByText('Фото-нотатка').first().click();
+  await page.getByRole('button', { name: '👁 Перегляд' }).click();
+  await expect(page.locator('.prev img.nimg')).toBeVisible();
+  await expect(page.getByRole('button', { name: '💬 iMessage' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '📷 Фото' })).toBeVisible();
+  expect(errs).toEqual([]);
+});

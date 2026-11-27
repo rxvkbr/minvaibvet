@@ -1,0 +1,35 @@
+{
+  "info": {
+    "author": "xcode",
+    "version": 1
+  },
+  "properties": {
+    "grid-size": "regular"
+  },
+  "stickers": [
+    {
+      "filename": "pryiom.sticker"
+    },
+    {
+      "filename": "vaib.sticker"
+    },
+    {
+      "filename": "dovidka.sticker"
+    },
+    {
+      "filename": "kava.sticker"
+    },
+    {
+      "filename": "obiimy.sticker"
+    },
+    {
+      "filename": "vdoma.sticker"
+    },
+    {
+      "filename": "raport.sticker"
+    },
+    {
+      "filename": "dobranich.sticker"
+    }
+  ]
+}

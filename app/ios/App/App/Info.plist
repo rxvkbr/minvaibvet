@@ -18,7 +18,9 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Цифрова дудка слухає, як сильно ти дмухаєш, щоб грати сопілкою. Звук не записується і не залишає телефон.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Безкінечний диригент читає позицію руки, щоб обирати акорди. Відео не залишає телефон і не записується.</string>
+	<string>Камера потрібна, щоб сфотографувати щось у нотатку, зчитати QR-код Котопереказу або щоб Безкінечний диригент бачив позицію руки. Відео не записується й не залишає телефон.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Щоб зберегти фото з нотатки у твою бібліотеку Фото, коли ти сам цього попросиш.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

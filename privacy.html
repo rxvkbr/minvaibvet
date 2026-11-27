@@ -32,14 +32,16 @@ a{color:var(--amber)}
 <main>
   <p class="meta">Вайбкет FM · Vibecat FM</p>
   <h1>Політика конфіденційності · Privacy policy</h1>
-  <p class="meta">Оновлено 23 листопада 2026 · Updated 23 November 2026</p>
+  <p class="meta">Оновлено 27 листопада 2026 · Updated 27 November 2026</p>
   <nav><a href="#uk">Українською</a><a href="#en">English</a></nav>
 
   <section id="uk" lang="uk">
     <h2>Українською</h2>
     <p>Вайбкет FM — сатиричний проєкт: вебсайт <a href="https://minvaibvet.pp.ua">minvaibvet.pp.ua</a> і застосунок «Вайбкет FM». Мінвайбкет вигаданий і не пов'язаний з жодним державним органом.</p>
+    <h3>Хто відповідає за дані</h3>
+    <p>Контролер у розумінні Загального регламенту ЄС про захист даних (GDPR) — Андрій Аманд, приватна особа, автор проєкту. Офіцера із захисту даних не призначено: проєкт некомерційний і не обробляє даних у великому обсязі (ст. 37 GDPR).</p>
     <h3>Що ми збираємо</h3>
-    <p>Нічого. У проєкті немає реєстрації, акаунтів, реклами, аналітики чи відстеження. Ми не отримуємо ваших персональних даних і нікому їх не передаємо.</p>
+    <p>Ми самі не збираємо й не зберігаємо ваших персональних даних: немає реєстрації, акаунтів, реклами, аналітики, відстеження чи профілювання, і немає автоматизованих рішень щодо вас. Майже все, що ви робите, лишається на вашому пристрої. Нижче чесно перелічено ті кілька випадків, коли технічні дані все ж проходять через сторонні сервери, і навіщо.</p>
     <h3>Що зберігається на вашому пристрої</h3>
     <ul>
       <li>вибрана мова;</li>
@@ -65,13 +67,34 @@ a{color:var(--amber)}
     <p>Щодня о 9:00 за київським часом, а в четверту суботу листопада о 16:00, усі сторінки Вайбкет FM на хвилину замовкають: зникають кнопки, зупиняються звуки, горить свічка. Після хвилини лишається короткий тихий текст і кнопка «повернутися». Час визначається на самому пристрої, без сервера. <a href="index.html?hvylyna">Як це виглядає (12 секунд)</a>.</p>
     <h3>Сторонні сервіси</h3>
     <ul>
-      <li><b>Google Fonts.</b> Сайт завантажує шрифти із серверів Google, тому Google отримує IP-адресу вашого пристрою під час цього запиту. Застосунок містить шрифти всередині й до Google не звертається. Див. <a href="https://policies.google.com/privacy">політику конфіденційності Google</a>.</li>
+      <li><b>Шрифти.</b> З 27 листопада 2026 сайт і застосунок містять шрифти всередині й до Google Fonts не звертаються. Для арабської й китайської використовуються системні шрифти пристрою. <span hidden><a href="https://policies.google.com/privacy">політику конфіденційності Google</a>.</span></li>
       <li><b>GitHub Pages.</b> Сайт розміщено на GitHub, який може вести технічні журнали відвідувань. Див. <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">заяву GitHub про конфіденційність</a>.</li>
       <li><b>Оновлення вмісту.</b> Застосунок час від часу перевіряє на GitHub, чи вийшов новий випуск новин і казок, і завантажує його звідти. Це звичайний запит без ідентифікаторів; GitHub бачить лише IP-адресу.</li>
       <li><b>Банка Монобанку.</b> Кнопка «Кинути в банку» на сайті відкриває сторінку Монобанку; там діють правила банку. У застосунку цієї кнопки немає.</li>
     </ul>
+    <h3>Правові підстави</h3>
+    <ul>
+      <li>Пересилання фраз Рації й котопереказів через ретранслятор — щоб виконати те, про що ви самі попросили, натиснувши кнопку (ст. 6(1)(b) GDPR).</li>
+      <li>Технічні журнали хостингу (GitHub) і перевірка оновлень вмісту — законний інтерес у тому, щоб сайт і застосунок працювали й були захищені (ст. 6(1)(f)).</li>
+      <li>Камера, мікрофон, сповіщення — лише з вашого дозволу в системі, який можна відкликати в налаштуваннях телефону будь-коли.</li>
+    </ul>
+    <h3>Отримувачі й передача за межі ЄЕЗ</h3>
+    <ul>
+      <li><b>GitHub, Inc.</b> (США) — хостинг сайту й оновлень вмісту; бачить IP-адресу. Передача — на підставі EU-US Data Privacy Framework, до якого приєднано GitHub/Microsoft.</li>
+      <li><b>Публічний MQTT-ретранслятор broker.emqx.io</b> (EMQ Technologies) — Рація, котоперекази, «Сова». Отримує IP-адресу й зміст повідомлень: номер фрази, випадковий позивний, час. Розташування серверів може бути поза ЄЕЗ; повідомлення не містять імен, контактів чи вільного тексту.</li>
+      <li><b>jsDelivr</b> — лише в Диригенті й Маестро, щоб завантажити модель розпізнавання руки; бачить IP-адресу.</li>
+      <li><b>SoundCloud</b> — програвач в Аудіотеці вмикається тільки після натискання «Слухати»; до того сторінка до SoundCloud не звертається.</li>
+    </ul>
+    <h3>Скільки зберігається</h3>
+    <ul>
+      <li>Дані на пристрої — доки ви їх не зітрете або не видалите застосунок.</li>
+      <li>Повідомлення на ретрансляторі — не довше 7 днів: кожне має термін придатності (MQTT 5 message expiry), після чого брокер його видаляє; котопереказ видаляється одразу, щойно друг його отримав.</li>
+      <li>Журнали GitHub — за правилами GitHub.</li>
+    </ul>
+    <h3>Ваші права</h3>
+    <p>Ви маєте право на доступ, виправлення, видалення, обмеження обробки, перенесення даних і заперечення проти обробки (ст. 15–21 GDPR). Оскільки ваші дані лежать на вашому пристрої, більшість цих прав ви здійснюєте самі: кожен розділ має «стерти все», а видалення застосунку стирає решту. Ви також можете поскаржитися до наглядового органу: у Нідерландах це Autoriteit Persoonsgegevens (<a href="https://autoriteitpersoonsgegevens.nl">autoriteitpersoonsgegevens.nl</a>), або до органу країни, де ви живете.</p>
     <h3>Діти</h3>
-    <p>Проєкт розрахований на дорослих і не призначений для дітей.</p>
+    <p>Застосунок має віковий рейтинг 12+. Дітям не потрібно нічого реєструвати чи вказувати про себе, і ми не збираємо даних дітей. Функції з мікрофоном для дітей лише міряють гучність і нічого не записують.</p>
     <h3>Зміни й контакти</h3>
     <p>Якщо політика зміниться, ми оновимо цю сторінку й дату вгорі. Питання можна поставити в <a href="https://github.com/rxvkbr/minvaibvet/issues">репозиторії проєкту на GitHub</a>.</p>
   </section>
@@ -79,8 +102,10 @@ a{color:var(--amber)}
   <section id="en" lang="en">
     <h2>English</h2>
     <p>Vibecat FM is a satire project: the website <a href="https://minvaibvet.pp.ua">minvaibvet.pp.ua</a> and the “Vibecat FM” app. MinVibeCat is fictional and is not affiliated with any government body.</p>
+    <h3>Who is responsible</h3>
+    <p>The controller under the EU General Data Protection Regulation (GDPR) is Andrew Amand, a private individual and the author of the project. No data protection officer is appointed: the project is non-commercial and does not process data on a large scale (Art. 37 GDPR).</p>
     <h3>What we collect</h3>
-    <p>Nothing. There is no sign-up, no accounts, no ads, no analytics and no tracking. We do not receive your personal data and do not share it with anyone.</p>
+    <p>We do not collect or store your personal data ourselves: no sign-up, accounts, ads, analytics, tracking or profiling, and no automated decisions about you. Almost everything you do stays on your device. Below we list honestly the few cases where technical data does pass through third-party servers, and why.</p>
     <h3>What is stored on your device</h3>
     <ul>
       <li>your language choice;</li>
@@ -96,13 +121,34 @@ a{color:var(--amber)}
     <p>Test Flight likewise only measures how loud the laughter is. The only place where sound is recorded is the Reading Studio in the Audio Library (Pro only): after you tap “Record”, your voice and the music are recorded into the phone’s memory. The recording is never sent anywhere; you decide whether to save or share it.</p>
     <h3>Third-party services</h3>
     <ul>
-      <li><b>Google Fonts.</b> The website loads fonts from Google's servers, so Google receives your device's IP address with that request. The app has its fonts built in and does not contact Google. See <a href="https://policies.google.com/privacy">Google's privacy policy</a>.</li>
+      <li><b>Fonts.</b> Since 27 November 2026 both the website and the app carry their fonts inside and do not contact Google Fonts. Arabic and Chinese use your device's system fonts.<span hidden> See <a href="https://policies.google.com/privacy">Google's privacy policy</a>.</span></li>
       <li><b>GitHub Pages.</b> The site is hosted on GitHub, which may keep technical access logs. See <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</li>
       <li><b>Content updates.</b> The app occasionally checks GitHub for a new issue of the news and tales and downloads it from there. It is a plain request with no identifiers; GitHub only sees the IP address.</li>
       <li><b>Monobank jar.</b> The “Drop into the jar” button on the website opens a Monobank page, where the bank's own terms apply. The app does not include this button.</li>
     </ul>
+    <h3>Legal bases</h3>
+    <ul>
+      <li>Relaying walkie-talkie phrases and cat-bucks transfers through the broker — to do what you asked for by tapping the button (Art. 6(1)(b) GDPR).</li>
+      <li>Hosting logs (GitHub) and content-update checks — legitimate interest in keeping the site and app working and secure (Art. 6(1)(f)).</li>
+      <li>Camera, microphone, notifications — only with your permission in the system, which you can withdraw in your phone settings at any time.</li>
+    </ul>
+    <h3>Recipients and transfers outside the EEA</h3>
+    <ul>
+      <li><b>GitHub, Inc.</b> (USA) — hosting of the site and content updates; sees your IP address. Transfers rely on the EU-US Data Privacy Framework, which GitHub/Microsoft has joined.</li>
+      <li><b>Public MQTT broker broker.emqx.io</b> (EMQ Technologies) — walkie-talkie, cat-bucks transfers, «Sova». Receives your IP address and the message content: a phrase number, a random call sign, a time. Its servers may be outside the EEA; messages contain no names, contacts or free text.</li>
+      <li><b>jsDelivr</b> — only in the Conductor and Maestro, to load the hand-tracking model; sees your IP address.</li>
+      <li><b>SoundCloud</b> — the player in the Audio Library loads only after you tap “Listen”; until then the page does not contact SoundCloud.</li>
+    </ul>
+    <h3>How long data is kept</h3>
+    <ul>
+      <li>Data on your device — until you erase it or delete the app.</li>
+      <li>Messages on the broker — no longer than 7 days: each carries an expiry (MQTT 5 message expiry) after which the broker deletes it; a cat-bucks transfer is removed as soon as your friend has received it.</li>
+      <li>GitHub logs — under GitHub's rules.</li>
+    </ul>
+    <h3>Your rights</h3>
+    <p>You have the right of access, rectification, erasure, restriction, data portability and objection (Arts. 15–21 GDPR). Because your data sits on your own device, you exercise most of these yourself: each section has “erase all”, and deleting the app removes the rest. You can also complain to a supervisory authority: in the Netherlands that is the Autoriteit Persoonsgegevens (<a href="https://autoriteitpersoonsgegevens.nl">autoriteitpersoonsgegevens.nl</a>), or the authority of the country where you live.</p>
     <h3>Children</h3>
-    <p>The project is meant for adults and is not directed at children.</p>
+    <p>The app is rated 12+. Children do not need to register or tell us anything about themselves, and we do not collect children's data. Microphone features for children only measure loudness and record nothing.</p>
     <h3>Changes and contact</h3>
     <p>If this policy changes, we will update this page and the date at the top. Questions can be raised in the <a href="https://github.com/rxvkbr/minvaibvet/issues">project's GitHub repository</a>.</p>
   </section>

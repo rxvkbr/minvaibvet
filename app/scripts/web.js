@@ -57,7 +57,9 @@ let html = fs.readFileSync(path.join(site, "index.html"), "utf8");
 const marker = '<script type="application/json" id="i18n">';
 const remote = /<link rel="preconnect" href="https:\/\/fonts\.googleapis\.com">\s*<link rel="preconnect" href="https:\/\/fonts\.gstatic\.com" crossorigin>\s*<link href="https:\/\/fonts\.googleapis\.com\/css2[^"]*" rel="stylesheet">/;
 if (html.split(marker).length !== 2) throw new Error("index.html: expected one translations block");
-if (!remote.test(html)) throw new Error("index.html: Google Fonts links not found where expected");
+// the site itself now ships self-hosted fonts (GDPR: no IP goes to Google); older copies may still have the remote links
+const local = '<link rel="stylesheet" href="fonts.css">\n<script>window.NO_REMOTE_FONTS=true;</script>';
+if (!remote.test(html) && !html.includes(local)) throw new Error("index.html: font links not found where expected");
 // every bundle carries its build stamp; the app swaps in a newer one from GitHub without a store update.
 // NATIVE_API goes up only when the native shell changes in a way old bundles can't handle.
 const NATIVE_API = 1;
@@ -65,7 +67,8 @@ const d = new Date();
 const p2 = (n) => String(n).padStart(2, "0");
 const STAMP = process.env.BUNDLE_STAMP || `${String(d.getUTCFullYear()).slice(2)}${p2(d.getUTCMonth() + 1)}${p2(d.getUTCDate())}${p2(d.getUTCHours())}${p2(d.getUTCMinutes())}`;
 fs.writeFileSync(path.join(www, "bundle.json"), JSON.stringify({ stamp: Number(STAMP), nativeApi: NATIVE_API }));
-html = html.replace(remote, `<link rel="stylesheet" href="fonts.css">\n<script>window.NO_REMOTE_FONTS=true;window.VV_APP=true;window.VV_BUNDLE=${Number(STAMP)};window.VV_NATIVE_API=${NATIVE_API};</script>`);
+const fontBlock = `<link rel="stylesheet" href="fonts.css">\n<script>window.NO_REMOTE_FONTS=true;window.VV_APP=true;window.VV_BUNDLE=${Number(STAMP)};window.VV_NATIVE_API=${NATIVE_API};</script>`;
+html = remote.test(html) ? html.replace(remote, fontBlock) : html.replace(local, fontBlock);
 html = html.replace(marker, '<script src="capacitor.js"></script>\n' + marker);
 fs.writeFileSync(path.join(www, "index.html"), html);
 console.log("www/ ready:", fs.readdirSync(fontsOut).length, "font files bundled");

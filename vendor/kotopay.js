@@ -14,7 +14,7 @@
   var cl=null,onIn=null;
   function connect(){
     if(cl||!window.mqtt)return cl;
-    try{cl=mqtt.connect(BROKER,{clientId:"koto_"+me()+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:5000,connectTimeout:8000});}catch(e){return null;}
+    try{cl=mqtt.connect(BROKER,{protocolVersion:5,clientId:"koto_"+me()+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:5000,connectTimeout:8000});}catch(e){return null;}
     cl.on("connect",function(){cl.subscribe(TP+me()+"/+");});
     cl.on("error",function(){});
     cl.on("message",function(topic,buf){
@@ -35,7 +35,7 @@
     if(!window.VV_KOTO||VV_KOTO.balance()<a)return Promise.resolve({ok:false,why:"money"});
     var id=Date.now().toString(36)+Math.random().toString(36).slice(2,8),m={f:me(),a:a,id:id,t:Date.now()};if(card&&/^[a-z0-9-]{1,32}$/.test(card))m.c=card;
     return VV_KOTO.spend(a,(m.c?"🎁 Картка "+m.c+" → ":"📤 Переказ → ")+to).then(function(r){if(!r)return {ok:false,why:"money"};
-      var c=connect();function pub(){c.publish(TP+to+"/"+id,JSON.stringify(m),{retain:true,qos:1});}
+      var c=connect();function pub(){c.publish(TP+to+"/"+id,JSON.stringify(m),{retain:true,qos:1,properties:{messageExpiryInterval:604800}});}
       if(c&&c.connected)pub();else if(c)c.once("connect",pub);
       return {ok:true,id:id};});
   }

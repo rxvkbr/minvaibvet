@@ -238,3 +238,12 @@ test('Дрон: 🔦 a gentle grainy torch with comforting words, three levels t
   await expect(b).toHaveAttribute('aria-pressed', 'false');
   expect(errs).toEqual([]);
 });
+
+test('GDPR: no page asks Google Fonts, the policy names the controller and rights', async ({ page }) => {
+  const hits = [];
+  page.on('request', r => { if (/fonts\.(googleapis|gstatic)\.com/.test(r.url())) hits.push(r.url()); });
+  for (const p of ['/index.html', '/racia.html', '/merch.html', '/privacy.html']) { await page.goto(p); await page.waitForLoadState('load'); }
+  expect(hits).toEqual([]);
+  await expect(page.getByText('Контролер у розумінні')).toBeVisible();
+  await expect(page.getByText('Autoriteit Persoonsgegevens').first()).toBeVisible();
+});

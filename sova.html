@@ -372,7 +372,7 @@ function startNet(){
   if(!window.mqtt){setLive("off","офлайн · літаєш з ботами");return;}
   var cl;
   try{
-    cl=mqtt.connect(BROKER,{clientId:"sova_"+myId+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000,
+    cl=mqtt.connect(BROKER,{protocolVersion:5,clientId:"sova_"+myId+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000,
       will:{topic:TP+"p/"+myId,payload:JSON.stringify({bye:1}),qos:0,retain:false}});
   }catch(e){setLive("off","офлайн · літаєш з ботами");return;}
   cl.on("connect",function(){
@@ -386,7 +386,7 @@ function startNet(){
     if(buf.length>600)return;var m;try{m=JSON.parse(buf.toString());}catch(e){return;}
     var r=parseTopic(t);onMsg(r.kind,r.id,m);
   });
-  NET={ok:false,pub:function(k,m,ret){if(!cl.connected)return;cl.publish(TP+k+"/"+myId,JSON.stringify(m),{qos:0,retain:!!ret});}};
+  NET={ok:false,pub:function(k,m,ret){if(!cl.connected)return;cl.publish(TP+k+"/"+myId,JSON.stringify(m),ret?{qos:0,retain:true,properties:{messageExpiryInterval:604800}}:{qos:0,retain:false});}};
   Object.defineProperty(NET,"ok",{get:function(){return cl.connected;}});
   addEventListener("pagehide",function(){try{cl.publish(TP+"p/"+myId,JSON.stringify({bye:1}));cl.end(true);}catch(e){}});
 }

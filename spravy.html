@@ -130,9 +130,9 @@ var cl=null;
 function radio(to,pid){
   var code=null;try{code=localStorage.getItem("vv-racia-code");}catch(e){}var cs=R("cs",null);if(!code||!cs)return;
   var t=Date.now(),m={cs:cs,p:500+pid,t:t},chats=R("chats",{});(chats[to]=chats[to]||[]).push({p:500+pid,t:t,me:1});try{localStorage.setItem("vv-racia-chats",JSON.stringify(chats));}catch(e){}
-  function pub(){cl.publish("vaibvet/racia/v1/"+to+"/"+code,JSON.stringify(m),{qos:1,retain:true});}
+  function pub(){cl.publish("vaibvet/racia/v1/"+to+"/"+code,JSON.stringify(m),{qos:1,retain:true,properties:{messageExpiryInterval:604800}});}
   if(!window.mqtt){var ob=R("outbox",[]);ob.push({to:to,m:m});try{localStorage.setItem("vv-racia-outbox",JSON.stringify(ob));}catch(e){}return;}
-  if(cl&&cl.connected){pub();}else{try{cl=cl||mqtt.connect("wss://broker.emqx.io:8084/mqtt",{clientId:"spravy_"+code+"_"+Math.random().toString(36).slice(2,6),clean:true,connectTimeout:8000});cl.once("connect",pub);}catch(e){}}
+  if(cl&&cl.connected){pub();}else{try{cl=cl||mqtt.connect("wss://broker.emqx.io:8084/mqtt",{protocolVersion:5,clientId:"spravy_"+code+"_"+Math.random().toString(36).slice(2,6),clean:true,connectTimeout:8000});cl.once("connect",pub);}catch(e){}}
   window.VV_TAPTIC&&VV_TAPTIC("tick");toast(fmt(T().sent,{p:RP[pid]}));
 }
 /* ---- render ---- */

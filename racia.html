@@ -52,9 +52,7 @@ var STS=[["🟢","#3fbf5f","#2a8a43"],["🇺🇦","#0057b7","#ffd700"],["🟡","
 <meta property="og:title" content="Рація Мінвайбкету">
 <meta property="og:description" content="Готові дурацькі фрази для своїх. Прийом!">
 <meta property="og:url" content="https://minvaibvet.pp.ua/racia">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
 <style>
 :root{--bg:#10130c;--panel:#1a1f14;--edge:#343d27;--ivory:#e9e3c6;--dim:#a8a283;--amber:#d9a441;--mint:#6fc3b2;--coral:#ff6f5b;color-scheme:dark}
 *{box-sizing:border-box}
@@ -255,7 +253,7 @@ var SP="vaibvet/racia/v1s/";
 function setNet(on,t){$("net").classList.toggle("on",on);$("netl").textContent=T(t);}
 function connect(){
   if(!window.mqtt){setNet(false,"off");return;}
-  try{cl=mqtt.connect(BROKER,{clientId:"racia_"+me.code+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000});}catch(e){setNet(false,"off");return;}
+  try{cl=mqtt.connect(BROKER,{protocolVersion:5,clientId:"racia_"+me.code+"_"+Math.random().toString(36).slice(2,6),clean:true,keepalive:30,reconnectPeriod:4000,connectTimeout:8000});}catch(e){setNet(false,"off");return;}
   cl.on("connect",function(){setNet(true,"on");subs={};cl.subscribe(TP+me.code+"/+");cl.subscribe(SP+me.code+"/+");sub();pubStatus();});
   cl.on("reconnect",function(){setNet(false,"re");});
   cl.on("offline",function(){setNet(false,"off");});
@@ -286,7 +284,7 @@ function connect(){
 }
 /* phrases said while offline wait here and go out once the link is back */
 var outbox=J("outbox",[]);
-function flush(){if(!cl||!cl.connected||!outbox.length)return;outbox.forEach(function(o){cl.publish(TP+o.to+"/"+me.code,JSON.stringify(o.m),{qos:1,retain:true});});outbox=[];store("outbox","[]");}
+function flush(){if(!cl||!cl.connected||!outbox.length)return;outbox.forEach(function(o){cl.publish(TP+o.to+"/"+me.code,JSON.stringify(o.m),{qos:1,retain:true,properties:{messageExpiryInterval:604800}});});outbox=[];store("outbox","[]");}
 function sub(){flush();}
 function unsub(code){outbox=outbox.filter(function(o){return o.to!==code;});store("outbox",JSON.stringify(outbox));}
 function send(id,quiet){
@@ -316,7 +314,7 @@ $("wake").onclick=function(){if(!open||!friends[open])return;var a=prompt(T("wak
 window.VV_WAKE={nextAt:nextAt};
 /* ===== my status goes to every friend as a retained number ===== */
 function pubStatus(only){if(!cl||!cl.connected)return;var m=JSON.stringify({cs:me.cs,s:myS,t:Date.now()});
-  (only?[only]:Object.keys(friends)).forEach(function(code){if(validCode(code))cl.publish(SP+code+"/"+me.code,m,{qos:1,retain:true});});}
+  (only?[only]:Object.keys(friends)).forEach(function(code){if(validCode(code))cl.publish(SP+code+"/"+me.code,m,{qos:1,retain:true,properties:{messageExpiryInterval:604800}});});}
 $("stSel").onchange=function(){myS=parseInt(this.value,10)||0;store("st",String(myS));paintMe();pubStatus();upIsland();if(window.VV_TAPTIC)VV_TAPTIC("tick");};
 setInterval(pubStatus,10*60e3); /* a fresh timestamp so friends see the flower isn't stale */
 

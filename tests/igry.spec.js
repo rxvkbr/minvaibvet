@@ -117,3 +117,14 @@ test('Сцени Променя: locked without Pro, order form with Pro', async
   await expect(page.locator('#oSend')).toHaveAttribute('href', /labels=scene/);
   expect(errs).toEqual([]);
 });
+
+test('Безкінечний діджей: three engines play and the auto-DJ starts a transition', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/dj.html');
+  await page.locator('#sB').selectOption('perehavorka');
+  await page.locator('#play').click();
+  await page.waitForTimeout(1500);
+  expect(await page.evaluate(() => VV_DJ.state().running)).toBe(true);
+  await expect(page.locator('#iB')).toContainText(/Хайперпоп|Перехід|Подіум/);
+  expect(errs).toEqual([]);
+});

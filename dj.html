@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Безкінечний діджей · Вайбкет FM</title>
+<meta name="description" content="Діджей Вайбкет FM безкінечно міксує дві наші станції: «Суміші» 88.1 і «Туман і вальс» 90.5. Або твій власний трек.">
+<meta name="theme-color" content="#0b0b0d">
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script>
+<script src="vendor/sumishi.js"></script><script src="vendor/vals.js"></script><script src="vendor/perehavorka.js"></script>
+<style>
+:root{--bg:#0b0b0d;--card:#1b1b1f;--card2:#26262c;--tx:#f5f5f7;--dim:#9a9aa3;--a:#ff5f6d;--b:#4aa3ff;--gold:#ffc371}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:500 15px/1.45 -apple-system,Inter,system-ui,sans-serif}
+body{padding:calc(10px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom));max-width:720px;margin:0 auto}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:12px}.top a{text-decoration:none;color:var(--tx);background:var(--card);border-radius:999px;padding:8px 12px;font-weight:700;font-size:13px}
+.logo{font:800 20px system-ui}.langs{margin-left:auto;display:flex;gap:4px}.langs button{border:0;background:var(--card);color:var(--dim);border-radius:10px;padding:5px 7px;font:700 11px system-ui;cursor:pointer}.langs button[aria-pressed=true]{background:var(--tx);color:var(--bg)}
+.lead{color:var(--dim);margin:0 2px 14px}
+.decks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.deck{background:var(--card);border-radius:20px;padding:12px;text-align:center;transition:box-shadow .4s}
+.deck.live{box-shadow:0 0 0 2px var(--c),0 0 30px -6px var(--c)}
+.deck.a{--c:var(--a)}.deck.b{--c:var(--b)}
+.vinyl{width:100%;max-width:170px;aspect-ratio:1;margin:4px auto 8px;display:block}
+.vinyl g{transform-origin:50% 50%}.playing .vinyl g{animation:spin 1.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.deck select{width:100%;background:#0e0e11;border:1px solid #ffffff1c;color:var(--tx);border-radius:10px;padding:8px;font:600 13px system-ui}
+.deck small{display:block;color:var(--dim);font-size:12px;margin-top:6px;min-height:2.6em}
+.meter{height:6px;border-radius:3px;background:#ffffff14;margin-top:6px;overflow:hidden}.meter i{display:block;height:100%;width:0;background:var(--c);transition:width .1s}
+.xf{margin:16px 2px 6px;display:flex;align-items:center;gap:10px;font:800 14px system-ui}
+.xf input{flex:1;accent-color:var(--gold)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.row button{flex:1;min-width:120px;border:0;border-radius:14px;padding:13px 8px;font:800 14px system-ui;cursor:pointer;background:var(--card2);color:var(--tx)}
+.row button.on{background:linear-gradient(90deg,var(--a),var(--gold));color:#1a0d0d}
+.go{background:linear-gradient(90deg,var(--a),var(--gold))!important;color:#1a0d0d!important}
+.now{margin-top:14px;background:var(--card);border-radius:16px;padding:12px 14px;font-size:14px;color:var(--dim);min-height:3em}
+.now b{color:var(--tx)}
+.note{color:var(--dim);font-size:12px;margin-top:16px}.note a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more" id="back">←</a><div class="logo" id="ttl"></div><div class="langs" id="langs"></div></div>
+<p class="lead" id="lead"></p>
+<div class="decks">
+  <div class="deck a" id="dA"><svg class="vinyl" viewBox="0 0 100 100"><g><circle cx="50" cy="50" r="48" fill="#111"/><circle cx="50" cy="50" r="40" fill="none" stroke="#222" stroke-width="1"/><circle cx="50" cy="50" r="32" fill="none" stroke="#222" stroke-width="1"/><circle cx="50" cy="50" r="17" fill="#ff5f6d"/><path d="M50 36 v6" stroke="#fff" stroke-width="2"/><circle cx="50" cy="50" r="2.5" fill="#0b0b0d"/></g></svg>
+    <select id="sA"></select><input type="file" id="fA" accept="audio/*" hidden><small id="iA"></small><div class="meter"><i id="mA"></i></div></div>
+  <div class="deck b" id="dB"><svg class="vinyl" viewBox="0 0 100 100"><g><circle cx="50" cy="50" r="48" fill="#111"/><circle cx="50" cy="50" r="40" fill="none" stroke="#222" stroke-width="1"/><circle cx="50" cy="50" r="32" fill="none" stroke="#222" stroke-width="1"/><circle cx="50" cy="35" r="17" fill="#0057b7"/><path d="M33 50 a17 17 0 0 0 34 0 Z" fill="#ffd700"/><circle cx="50" cy="50" r="17" fill="none"/><path d="M50 36 v6" stroke="#fff" stroke-width="2"/><circle cx="50" cy="50" r="2.5" fill="#0b0b0d"/></g></svg>
+    <select id="sB"></select><input type="file" id="fB" accept="audio/*" hidden><small id="iB"></small><div class="meter"><i id="mB"></i></div></div>
+</div>
+<div class="xf"><span style="color:var(--a)">A</span><input type="range" id="xf" min="0" max="1000" value="0" aria-label="crossfader"><span style="color:var(--b)">B</span></div>
+<div class="row"><button class="go" id="play" type="button"></button><button id="auto" type="button" class="on"></button></div>
+<div class="row"><button id="echo" type="button"></button><button id="sweep" type="button"></button></div>
+<div class="now" id="now"></div>
+<p class="note" id="note"></p>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+var TX={
+uk:{ttl:"🎧 Безкінечний діджей",lead:"Дві наші станції грають одночасно, а діджей безкінечно переводить одну в іншу: фільтр, ехо, плавний кросфейд. Кожен перехід новий, бо обидві станції пишуть музику наживо.",
+ src:{sumishi:"88.1 · Суміші (Рахманінов × Бах)",vals:"90.5 · Туман і вальс",perehavorka:"🪩 Перегаворка (хайперпоп → подіум)",file:"🎵 Свій трек з телефону…"},play:"▶ Старт",stop:"■ Стоп",auto:"🤖 Авто-діджей",echo:"🌀 Ехо",sweep:"🌊 Фільтр",
+ hold:"Грає {d}. Наступний перехід за {s} с.",mix:"Перехід: {a} → {b}…",manual:"Ручний режим: кросфейдер твій.",idle:"Натисни «Старт», і діджей стане за пульт.",
+ note:"Spotify, Apple Music і YouTube Music не дозволяють міксувати свої треки в чужих застосунках, а звук у них захищений, тож підключити їх як деки не можна. Декою може бути наша станція або твій власний файл. Наш «Туман і вальс» є і на "},
+en:{ttl:"🎧 Endless DJ",lead:"Both of our stations play at once and the DJ keeps blending one into the other forever: filter, echo, a smooth crossfade. Every transition is new, because both stations write their music live.",
+ src:{sumishi:"88.1 · Blends (Rachmaninoff × Bach)",vals:"90.5 · Mist and Waltz",perehavorka:"🪩 Meeting Room (hyperpop → runway)",file:"🎵 My own track…"},play:"▶ Start",stop:"■ Stop",auto:"🤖 Auto-DJ",echo:"🌀 Echo",sweep:"🌊 Filter",
+ hold:"Playing {d}. Next transition in {s} s.",mix:"Transition: {a} → {b}…",manual:"Manual mode: the crossfader is yours.",idle:"Press Start and the DJ takes the decks.",
+ note:"Spotify, Apple Music and YouTube Music don't allow mixing their tracks in other apps, and their audio is protected, so they can't be loaded as decks. A deck can be one of our stations or your own file. Our «Mist and Waltz» is also on "},
+nl:{ttl:"🎧 Eindeloze dj",lead:"Onze twee zenders spelen tegelijk en de dj mixt ze eindeloos in elkaar over: filter, echo, een zachte crossfade. Elke overgang is nieuw, want beide zenders schrijven hun muziek live.",
+ src:{sumishi:"88.1 · Mengsels (Rachmaninov × Bach)",vals:"90.5 · Mist en wals",perehavorka:"🪩 Vergaderzaal (hyperpop → catwalk)",file:"🎵 Mijn eigen nummer…"},play:"▶ Start",stop:"■ Stop",auto:"🤖 Auto-dj",echo:"🌀 Echo",sweep:"🌊 Filter",
+ hold:"Speelt {d}. Volgende overgang over {s} s.",mix:"Overgang: {a} → {b}…",manual:"Handmatig: de crossfader is van jou.",idle:"Druk op Start en de dj neemt de draaitafels over.",
+ note:"Spotify, Apple Music en YouTube Music staan niet toe dat hun nummers in andere apps gemixt worden, en hun geluid is beveiligd, dus ze kunnen geen deck zijn. Een deck kan een van onze zenders zijn of je eigen bestand. Onze «Mist en wals» staat ook op "},
+de:{ttl:"🎧 Endloser DJ",lead:"Unsere beiden Sender spielen gleichzeitig, und der DJ blendet endlos vom einen in den anderen: Filter, Echo, sanfter Crossfade. Jeder Übergang ist neu, weil beide Sender ihre Musik live schreiben.",
+ src:{sumishi:"88.1 · Mischungen (Rachmaninow × Bach)",vals:"90.5 · Nebel und Walzer",perehavorka:"🪩 Besprechungsraum (Hyperpop → Laufsteg)",file:"🎵 Mein eigener Track…"},play:"▶ Start",stop:"■ Stopp",auto:"🤖 Auto-DJ",echo:"🌀 Echo",sweep:"🌊 Filter",
+ hold:"Es läuft {d}. Nächster Übergang in {s} s.",mix:"Übergang: {a} → {b}…",manual:"Manuell: der Crossfader gehört dir.",idle:"Drück Start, und der DJ übernimmt die Plattenteller.",
+ note:"Spotify, Apple Music und YouTube Music erlauben nicht, ihre Titel in anderen Apps zu mixen, und ihr Ton ist geschützt, daher können sie kein Deck sein. Ein Deck kann einer unserer Sender oder deine eigene Datei sein. Unser «Nebel und Walzer» ist auch auf "}};
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!TX[LN])LN=LN==="ru"?"uk":"en";
+function T(k,v){var x=TX[LN][k];if(v)for(var q in v)x=x.split("{"+q+"}").join(v[q]);return x;}
+function tap(k){try{window.VV_TAPTIC&&VV_TAPTIC(k);}catch(e){}}
+
+/* ===== audio graph: deck → filter → fader → master, with an echo send ===== */
+var ctx=null,master,echoIn,decks={A:{src:"sumishi"},B:{src:"vals"}},timer=null,running=false,auto=true,xf=0;
+function deckChain(d){d.in=ctx.createGain();d.hp=ctx.createBiquadFilter();d.hp.type="highpass";d.hp.frequency.value=20;
+  d.lp=ctx.createBiquadFilter();d.lp.type="lowpass";d.lp.frequency.value=18000;d.fader=ctx.createGain();d.send=ctx.createGain();d.send.gain.value=0;
+  d.an=ctx.createAnalyser();d.an.fftSize=256;d.buf=new Uint8Array(d.an.fftSize);
+  d.in.connect(d.hp);d.hp.connect(d.lp);d.lp.connect(d.fader);d.fader.connect(master);d.fader.connect(d.an);d.lp.connect(d.send);d.send.connect(echoIn);}
+function load(d){if(d.eng){try{d.eng.stop();}catch(e){}d.eng=null;}if(d.audio){try{d.audio.pause();}catch(e){}}
+  if(d.src==="sumishi"&&window.VV_SUMISHI)d.eng=VV_SUMISHI.make(ctx,d.in);
+  else if(d.src==="vals"&&window.VV_VALS)d.eng=VV_VALS.make(ctx,d.in);
+  else if(d.src==="perehavorka"&&window.VV_PEREHAVORKA)d.eng=VV_PEREHAVORKA.make(ctx,d.in);
+  else if(d.src==="file"&&d.audio){if(!d.node){d.node=ctx.createMediaElementSource(d.audio);d.node.connect(d.in);}d.audio.play().catch(function(){});}}
+function build(){var C=window.AudioContext||window.webkitAudioContext;ctx=new C();master=ctx.createGain();master.gain.value=.9;
+  var comp=ctx.createDynamicsCompressor();master.connect(comp);comp.connect(ctx.destination);
+  echoIn=ctx.createGain();var dl=ctx.createDelay(2),fb=ctx.createGain(),ef=ctx.createBiquadFilter();dl.delayTime.value=.42;fb.gain.value=.48;ef.type="lowpass";ef.frequency.value=3200;
+  echoIn.connect(dl);dl.connect(ef);ef.connect(fb);fb.connect(dl);ef.connect(master);
+  deckChain(decks.A);deckChain(decks.B);setXf(xf,0);}
+/* equal-power crossfade */
+function setXf(v,ramp){xf=v;var t=ctx.currentTime,a=Math.cos(v*Math.PI/2),b=Math.sin(v*Math.PI/2);
+  decks.A.fader.gain.setTargetAtTime(a,t,ramp||.03);decks.B.fader.gain.setTargetAtTime(b,t,ramp||.03);$("xf").value=Math.round(v*1000);paintLive();}
+function paintLive(){$("dA").classList.toggle("live",xf<.5);$("dB").classList.toggle("live",xf>=.5);}
+
+/* ===== the auto-DJ: hold one deck 40–80 s, then a 12–16 s transition with a filter sweep and an echo throw ===== */
+var phase="hold",phaseEnd=0,mixFrom=0,mixTo=1,mixStart=0,mixLen=14;
+function name(k){var d=decks[k];return d.src==="file"?(d.fileName||"🎵"):T("src")[d.src].split(" · ")[0];}
+function plan(now){phase="hold";phaseEnd=now+40+Math.random()*40;}
+function dj(now){if(!auto)return;
+  if(phase==="hold"&&now>=phaseEnd){phase="mix";mixFrom=xf<.5?0:1;mixTo=1-mixFrom;mixStart=now;mixLen=12+Math.random()*4;
+    var out=mixFrom===0?decks.A:decks.B,inn=mixFrom===0?decks.B:decks.A,t=ctx.currentTime;
+    inn.hp.frequency.cancelScheduledValues(t);inn.hp.frequency.setValueAtTime(900,t);inn.hp.frequency.exponentialRampToValueAtTime(20,t+mixLen);
+    out.lp.frequency.cancelScheduledValues(t);out.lp.frequency.setValueAtTime(18000,t);out.lp.frequency.exponentialRampToValueAtTime(380,t+mixLen*.9);out.lp.frequency.setValueAtTime(18000,t+mixLen+.5);
+    if(Math.random()<.7)throwEcho(out,mixLen*.55);tap("tick");}
+  if(phase==="mix"){var p=Math.min(1,(now-mixStart)/mixLen),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;setXf(mixFrom+(mixTo-mixFrom)*e,.08);
+    if(p>=1){plan(now);tap("success");}}}
+function throwEcho(d,at){var t=ctx.currentTime+(at||0);d.send.gain.cancelScheduledValues(t);d.send.gain.setValueAtTime(0,t);d.send.gain.linearRampToValueAtTime(.8,t+.15);d.send.gain.setTargetAtTime(0,t+1.6,.6);}
+
+function meter(d,el){if(!d.an)return;d.an.getByteTimeDomainData(d.buf);var m=0;for(var i=0;i<d.buf.length;i++)m=Math.max(m,Math.abs(d.buf[i]-128));el.style.width=Math.min(100,m*1.6)+"%";}
+function tick(){if(!running)return;var now=ctx.currentTime;["A","B"].forEach(function(k){var d=decks[k];if(d.eng)d.eng.schedule(now);
+    var inf=d.eng&&d.eng.info?d.eng.info():null;$("i"+k).textContent=inf?inf.section+" · "+inf.key:(d.fileName||"");});
+  dj(now);meter(decks.A,$("mA"));meter(decks.B,$("mB"));
+  var N=$("now");if(!auto)N.textContent=T("manual");
+  else if(phase==="hold")N.textContent=T("hold",{d:name(xf<.5?"A":"B"),s:Math.max(0,Math.round(phaseEnd-now))});
+  else N.textContent=T("mix",{a:name(mixFrom===0?"A":"B"),b:name(mixTo===0?"A":"B")});}
+function start(){if(!ctx)build();if(ctx.state!=="running")ctx.resume();load(decks.A);load(decks.B);running=true;plan(ctx.currentTime);
+  timer=setInterval(tick,100);document.body.classList.add("playing");$("play").textContent=T("stop");tap("success");}
+function stop(){running=false;clearInterval(timer);["A","B"].forEach(function(k){var d=decks[k];if(d.eng){d.eng.stop();d.eng=null;}if(d.audio)d.audio.pause();});
+  document.body.classList.remove("playing");$("play").textContent=T("play");$("now").textContent=T("idle");}
+
+/* ===== controls ===== */
+$("play").onclick=function(){running?stop():start();};
+$("auto").onclick=function(){auto=!auto;this.classList.toggle("on",auto);if(auto&&ctx)plan(ctx.currentTime);tap("tick");};
+$("xf").oninput=function(){if(!ctx)return;auto=false;$("auto").classList.remove("on");phase="hold";setXf(this.value/1000);};
+$("echo").onclick=function(){if(!running)return;throwEcho(xf<.5?decks.A:decks.B,0);tap("light");};
+$("sweep").onclick=function(){if(!running)return;var d=xf<.5?decks.A:decks.B,t=ctx.currentTime;d.lp.frequency.cancelScheduledValues(t);d.lp.frequency.setValueAtTime(18000,t);
+  d.lp.frequency.exponentialRampToValueAtTime(500,t+2);d.lp.frequency.exponentialRampToValueAtTime(18000,t+4);tap("light");};
+["A","B"].forEach(function(k){var S=$("s"+k),F=$("f"+k),d=decks[k];
+  S.onchange=function(){if(S.value==="file"){F.click();S.value=d.src;return;}d.src=S.value;if(running&&ctx)load(d);};
+  F.onchange=function(){var f=F.files&&F.files[0];if(!f)return;if(!d.audio){d.audio=new Audio();d.audio.loop=true;d.audio.crossOrigin="anonymous";}
+    d.audio.src=URL.createObjectURL(f);d.fileName="🎵 "+f.name.replace(/\.[^.]+$/,"").slice(0,30);d.src="file";paint();if(running&&ctx)load(d);};});
+function paint(){document.documentElement.lang=LN;$("ttl").textContent=T("ttl");$("lead").textContent=T("lead");
+  ["A","B"].forEach(function(k){var S=$("s"+k),d=decks[k];S.innerHTML="";["sumishi","vals","perehavorka","file"].forEach(function(v){var o=document.createElement("option");o.value=v;o.textContent=v==="file"&&d.fileName?d.fileName:T("src")[v];S.appendChild(o);});S.value=d.src;});
+  $("play").textContent=running?T("stop"):T("play");$("auto").textContent=T("auto");$("echo").textContent=T("echo");$("sweep").textContent=T("sweep");if(!running)$("now").textContent=T("idle");
+  var n=$("note");n.textContent=T("note");var a=document.createElement("a");a.href="https://soundcloud.com/user-897685701/tuman-i-vals-sonyachna-versiya";a.target="_blank";a.rel="noopener";a.textContent="SoundCloud ↗";n.appendChild(a);
+  var L=$("langs");L.innerHTML="";["uk","en","nl","de"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paint();};L.appendChild(b);});}
+paint();
+window.VV_DJ={state:function(){return {running:running,auto:auto,xf:xf,phase:phase};}};
+})();
+</script>
+</body>
+</html>

@@ -4,11 +4,7 @@ name: Промінь (рендер у хмарі)
 # comes out as a PNG on the `promin` branch — https://raw.githubusercontent.com/rxvkbr/minvaibvet/promin/<name>.png
 # On the Mac: bash tools/promin/cloud.sh   (downloads the finished pictures into tools/promin/out/)
 on:
-  push:
-    branches: [main]
-    paths:
-      - "tools/promin/inbox/**"
-      - "tools/promin/Promin.java"
+  # Manual only: scenes render on Andrew's Mac (tools/promin/agents.sh, tools/promin/pro.sh).
   workflow_dispatch:
     inputs:
       scene:

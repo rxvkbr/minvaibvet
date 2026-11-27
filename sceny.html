@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сцени Променя · Вайбкет FM</title>
+<meta name="description" content="Pro-галерея Вайбкет FM: сцени, намальовані Променем, нашим маленьким трасувальником променів. Замов свою.">
+<meta name="theme-color" content="#0b0b0d">
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script><script src="vendor/kotobank.js"></script>
+<style>
+:root{--bg:#0b0b0d;--card:#1b1b1f;--card2:#26262c;--tx:#f5f5f7;--dim:#9a9aa3;--gold:#ffc371;--acc:#ff5f6d}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:500 15px/1.45 -apple-system,Inter,system-ui,sans-serif}
+body{padding:calc(10px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom));max-width:760px;margin:0 auto}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:12px}.top a{text-decoration:none;color:var(--tx);background:var(--card);border-radius:999px;padding:8px 12px;font-weight:700;font-size:13px}
+.logo{font:800 20px system-ui}.pro{background:linear-gradient(90deg,var(--acc),var(--gold));color:#1a0d0d;border-radius:8px;padding:2px 7px;font:800 12px system-ui;margin-left:6px;vertical-align:3px}
+.langs{margin-left:auto;display:flex;gap:4px}.langs button{border:0;background:var(--card);color:var(--dim);border-radius:10px;padding:5px 7px;font:700 11px system-ui;cursor:pointer}.langs button[aria-pressed=true]{background:var(--tx);color:var(--bg)}
+.lead{color:var(--dim);margin:0 2px 14px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.sc{background:var(--card);border-radius:16px;overflow:hidden}.sc img{width:100%;display:block;aspect-ratio:5/3;object-fit:cover;background:#111}.sc div{padding:8px 11px}.sc small{color:var(--dim)}
+.empty,.gate{background:var(--card);border-radius:18px;padding:18px;color:var(--dim)}
+.gate b{display:block;color:var(--tx);font-size:18px;margin-bottom:6px}
+h2{font:800 18px system-ui;margin:22px 2px 10px}
+.pre{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.pre button{border:0;background:var(--card2);color:var(--tx);border-radius:999px;padding:8px 12px;font:700 13px system-ui;cursor:pointer}
+input,textarea{width:100%;background:#0e0e11;border:1px solid #ffffff1c;color:var(--tx);border-radius:12px;padding:10px 12px;font:13px ui-monospace,Menlo,monospace;margin-bottom:8px}
+textarea{min-height:220px}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row button,.row a{flex:1;border:0;border-radius:14px;padding:12px;font:800 14px system-ui;cursor:pointer;text-align:center;text-decoration:none}
+.go{background:linear-gradient(90deg,var(--acc),var(--gold));color:#1a0d0d}.mini{background:var(--card2);color:var(--tx)}
+.note{color:var(--dim);font-size:12px;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html#more" id="back">←</a><div class="logo"><span id="ttl"></span><span class="pro">PRO</span></div><div class="langs" id="langs"></div></div>
+<p class="lead" id="lead"></p>
+<div id="gate" class="gate" hidden><b id="gT"></b><span id="gS"></span><div class="row" style="margin-top:12px"><a class="go" href="polit.html" id="gGo"></a></div></div>
+<div id="gal" class="gal"></div>
+<div id="order" hidden>
+  <h2 id="oT"></h2>
+  <div class="pre" id="pre"></div>
+  <input id="oName" maxlength="70">
+  <textarea id="oScene" spellcheck="false"></textarea>
+  <div class="row"><a class="go" id="oSend" target="_blank" rel="noopener"></a><button class="mini" id="oCopy" type="button"></button></div>
+  <p class="note" id="oNote"></p>
+</div>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+var TX={
+uk:{ttl:"🎬 Сцени Променя",lead:"Промінь — наш маленький трасувальник променів. Сцени малюються не на чужих серверах, а на ноутбуці редакції: кожна куля світла рахується чесно.",
+ gT:"Це Pro-зала",gS:"Сцени Променя відкриваються з ветеранською Pro-підпискою в «Тестовому польоті» (за котобакси, справжніх грошей не треба).",gGo:"✈️ До Тестового польоту",
+ empty:"Галерея ще порожня: перші сцени вже рендеряться на ноутбуці редакції.",oT:"Замовити свою сцену",oName:"Назва сцени",oSend:"Надіслати замовлення ↗",oCopy:"Скопіювати сцену",copied:"Скопійовано",
+ oNote:"Замовлення відкриється на GitHub. Андрійко перегляне сцену, і якщо скаже «так», ноутбук намалює її й вона з'явиться тут. Ніяких фото, облич чи справжніх людей: тільки кулі, коробки, скло, метал і світло.",
+ presets:["🧪 Лабораторія","🌅 Захід над морем","🇺🇦 Синьо-жовта","🐈 Котяча кімната"]},
+en:{ttl:"🎬 Promin Scenes",lead:"Promin is our little ray tracer. Scenes aren't rendered on someone else's servers but on the newsroom's laptop: every ball of light is counted honestly.",
+ gT:"This is the Pro hall",gS:"Promin Scenes open with the veteran Pro subscription in “Test Flight” (paid in catbucks, no real money).",gGo:"✈️ To Test Flight",
+ empty:"The gallery is still empty: the first scenes are rendering on the newsroom's laptop.",oT:"Order your own scene",oName:"Scene name",oSend:"Send the order ↗",oCopy:"Copy the scene",copied:"Copied",
+ oNote:"The order opens on GitHub. Andrii reviews the scene, and if he says yes, the laptop renders it and it shows up here. No photos, faces or real people: just spheres, boxes, glass, metal and light.",
+ presets:["🧪 Laboratory","🌅 Sunset over the sea","🇺🇦 Blue and yellow","🐈 Cat's room"]},
+nl:{ttl:"🎬 Promin-scènes",lead:"Promin is onze kleine raytracer. Scènes worden niet op andermans servers gerenderd maar op de laptop van de redactie: elke lichtbol wordt eerlijk geteld.",
+ gT:"Dit is de Pro-zaal",gS:"Promin-scènes gaan open met het veteranen-Pro-abonnement in „Testvlucht” (betaald in kattenbucks, geen echt geld).",gGo:"✈️ Naar Testvlucht",
+ empty:"De galerij is nog leeg: de eerste scènes renderen op de laptop van de redactie.",oT:"Bestel je eigen scène",oName:"Naam van de scène",oSend:"Bestelling versturen ↗",oCopy:"Scène kopiëren",copied:"Gekopieerd",
+ oNote:"De bestelling opent op GitHub. Andrii bekijkt de scène, en als hij ja zegt, rendert de laptop haar en verschijnt ze hier. Geen foto's, gezichten of echte mensen: alleen bollen, dozen, glas, metaal en licht.",
+ presets:["🧪 Laboratorium","🌅 Zonsondergang op zee","🇺🇦 Blauw en geel","🐈 Kattenkamer"]},
+de:{ttl:"🎬 Promin-Szenen",lead:"Promin ist unser kleiner Raytracer. Szenen werden nicht auf fremden Servern gerendert, sondern auf dem Laptop der Redaktion: jede Lichtkugel wird ehrlich gezählt.",
+ gT:"Das ist der Pro-Saal",gS:"Promin-Szenen öffnen sich mit dem Veteranen-Pro-Abo im „Testflug“ (bezahlt in Katzenbucks, kein echtes Geld).",gGo:"✈️ Zum Testflug",
+ empty:"Die Galerie ist noch leer: die ersten Szenen rendern auf dem Laptop der Redaktion.",oT:"Eigene Szene bestellen",oName:"Name der Szene",oSend:"Bestellung senden ↗",oCopy:"Szene kopieren",copied:"Kopiert",
+ oNote:"Die Bestellung öffnet sich auf GitHub. Andrii sieht sich die Szene an, und wenn er ja sagt, rendert der Laptop sie und sie erscheint hier. Keine Fotos, Gesichter oder echten Menschen: nur Kugeln, Kisten, Glas, Metall und Licht.",
+ presets:["🧪 Labor","🌅 Sonnenuntergang am Meer","🇺🇦 Blau und Gelb","🐈 Katzenzimmer"]}};
+var PRE=[
+"size 1200 720\nsamples 64\nbounces 8\ncamera  0 1.6 -6   0 0.7 0   40\nsky     0.02 0.02 0.04   0.05 0.04 0.06\nmaterial floor  diffuse 0.55 0.5 0.45\nmaterial gold   metal   0.95 0.75 0.35  0.05\nmaterial glass  glass   1 1 1  1.5\nmaterial lamp   light   1.0 0.6 0.3  8\nplane   0  floor\nsphere -1.2 0.8 0.5  0.8  gold\nsphere  0.6 0.7 -0.4 0.7  glass\nsphere  0 3 -1  0.5  lamp",
+"size 1200 720\nsamples 64\nbounces 6\ncamera  0 1 -7   0 1 0   45\nsky     0.25 0.3 0.6   1.0 0.55 0.3\nfog     0.02 1.0 0.7 0.5\nmaterial sea   metal   0.2 0.35 0.5  0.15\nmaterial sun   light   1.0 0.7 0.4  12\nplane   0  sea\nsphere  0 1.2 20  2.5  sun",
+"size 1200 720\nsamples 64\nbounces 6\ncamera  0 1.4 -6   0 0.9 0   40\nsky     0.2 0.4 0.8   0.6 0.75 0.95\nmaterial field  diffuse 0.9 0.75 0.1\nmaterial blue   diffuse 0.0 0.34 0.72\nmaterial yellow metal   1.0 0.84 0.0  0.1\nmaterial lamp   light   1 1 0.9  6\nplane   0  field\nbox    -2 0 0  2 0.5 1  blue\nsphere -0.9 1.1 0.5 0.6  yellow\nsphere  0.9 1.1 0.5 0.6  blue\nsphere  0 4 -2  0.6  lamp",
+"size 1200 720\nsamples 64\nbounces 8\ncamera  0 1.5 -5   0 0.6 0   45\nsky     0 0 0   0 0 0\nmaterial floor  diffuse 0.6 0.45 0.35\nmaterial fur    diffuse 0.88 0.6 0.35\nmaterial bowl   metal   0.9 0.9 0.92  0.05\nmaterial lamp   light   1.0 0.8 0.5  10\nplane   0  floor\nsphere  0 0.6 0.5  0.6  fur\nsphere -0.35 1.25 0.5 0.32 fur\nsphere  0.35 1.25 0.5 0.32 fur\nbox     1.2 0 -0.3  1.8 0.25 0.3  bowl\nsphere  0 3 -1.5  0.5  lamp"];
+var LN="uk";try{LN=localStorage.getItem("lang")||"uk";}catch(e){}if(!TX[LN])LN=LN==="ru"?"uk":"en";
+function T(k){return TX[LN][k];}
+function isPro(){try{return localStorage.getItem("polit-vet")==="1";}catch(e){return false;}}
+var list=[];
+function paint(){document.documentElement.lang=LN;$("ttl").textContent=T("ttl");$("lead").textContent=T("lead");
+  var L=$("langs");L.innerHTML="";["uk","en","nl","de"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paint();};L.appendChild(b);});
+  var pro=isPro();$("gate").hidden=pro;$("order").hidden=!pro;$("gT").textContent=T("gT");$("gS").textContent=T("gS");$("gGo").textContent=T("gGo");
+  var G=$("gal");G.innerHTML="";
+  if(!list.length){var e=document.createElement("div");e.className="empty";e.textContent=T("empty");G.appendChild(e);}
+  list.forEach(function(s){if(!/^[a-z0-9-]{1,40}$/.test(s.id))return;var d=document.createElement("div");d.className="sc";d.innerHTML='<img loading="lazy" alt=""><div><b></b><br><small></small></div>';
+    var im=d.querySelector("img");im.src="img/sceny/"+s.id+".jpg";im.alt=s.title||"";if(!pro)im.style.filter="blur(10px)";
+    d.querySelector("b").textContent=s.title||s.id;d.querySelector("small").textContent=s.date||"";G.appendChild(d);});
+  $("oT").textContent=T("oT");$("oName").placeholder=T("oName");$("oCopy").textContent=T("oCopy");$("oNote").textContent=T("oNote");$("oSend").textContent=T("oSend");
+  var P=$("pre");P.innerHTML="";T("presets").forEach(function(n,i){var b=document.createElement("button");b.type="button";b.textContent=n;b.onclick=function(){$("oScene").value=PRE[i];if(!$("oName").value)$("oName").value=n.replace(/^\S+\s/,"");link();window.VV_TAPTIC&&VV_TAPTIC("tick");};P.appendChild(b);});
+  if(!$("oScene").value)$("oScene").value=PRE[2];link();}
+function link(){var t=($("oName").value||"Сцена").slice(0,70),body="Замовлення з Вайбкет FM (Pro).\n\n```scene\n"+$("oScene").value.slice(0,3000)+"\n```\n";
+  $("oSend").href="https://github.com/rxvkbr/minvaibvet/issues/new?labels=scene&title="+encodeURIComponent("🎬 "+t)+"&body="+encodeURIComponent(body);}
+$("oName").addEventListener("input",link);$("oScene").addEventListener("input",link);
+$("oCopy").onclick=function(){try{navigator.clipboard.writeText($("oScene").value);this.textContent=T("copied");}catch(e){}};
+fetch("img/sceny/index.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(a){if(Array.isArray(a))list=a.slice(0,200);paint();}).catch(paint);
+paint();
+})();
+</script>
+</body>
+</html>

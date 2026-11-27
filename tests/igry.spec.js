@@ -105,3 +105,15 @@ test('Стіл: a photo note renders, iMessage and share buttons are there', asy
   await expect(page.getByRole('button', { name: '📷 Фото' })).toBeVisible();
   expect(errs).toEqual([]);
 });
+
+test('Сцени Променя: locked without Pro, order form with Pro', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/sceny.html');
+  await expect(page.locator('#gate')).toBeVisible();
+  await expect(page.locator('#order')).toBeHidden();
+  await page.evaluate(() => localStorage.setItem('polit-vet', '1'));
+  await page.reload();
+  await expect(page.locator('#order')).toBeVisible();
+  await expect(page.locator('#oSend')).toHaveAttribute('href', /labels=scene/);
+  expect(errs).toEqual([]);
+});

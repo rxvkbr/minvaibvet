@@ -117,6 +117,21 @@ test('Сцени Променя: locked without Pro, order form with Pro', async
   await page.reload();
   await expect(page.locator('#order')).toBeVisible();
   await expect(page.locator('#oSend')).toHaveAttribute('href', /labels=scene/);
+  // the published renders are in the gallery, the sock one first
+  await expect(page.locator('img[src="img/sceny/shkarpetky.jpg"]')).toBeVisible();
+  expect(await page.locator('img[src^="img/sceny/"]').count()).toBeGreaterThanOrEqual(3);
+  expect(errs).toEqual([]);
+});
+
+test('Кімната тваринок: the sock is a pet too', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/index.html');
+  const b = page.locator('.pick button[data-a="sock"]');
+  await b.scrollIntoViewIfNeeded();
+  await b.click();
+  await expect(page.locator('#petstage')).toHaveAttribute('data-a', 'sock');
+  await expect(page.locator('#petstage .an-sock')).toBeVisible();
+  await expect(page.locator('#petstage .an-duck')).toBeHidden();
   expect(errs).toEqual([]);
 });
 

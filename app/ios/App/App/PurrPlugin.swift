@@ -20,7 +20,8 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "awake", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "audioMode", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "island", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "racia", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "racia", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "torch", returnType: CAPPluginReturnPromise)
     ]
 
     private var engine: CHHapticEngine?
@@ -141,6 +142,21 @@ public class PurrPlugin: CAPPlugin, CAPBridgedPlugin {
             default: UISelectionFeedbackGenerator().selectionChanged()
             }
             call.resolve()
+        }
+    }
+    /// A gentle torch: torch({level: 0…1}); 0 turns it off. Returns {ok, has} so the page knows whether this model has one.
+    /// No camera permission is needed for the torch, and nothing is captured.
+    @objc func torch(_ call: CAPPluginCall) {
+        let level = Float(call.getDouble("level") ?? 0)
+        DispatchQueue.main.async {
+            guard let d = AVCaptureDevice.default(for: .video), d.hasTorch, d.isTorchAvailable else { call.resolve(["ok": false, "has": false]); return }
+            do {
+                try d.lockForConfiguration()
+                if level <= 0.001 { d.torchMode = .off }
+                else { try d.setTorchModeOn(level: min(max(level, 0.01), AVCaptureDevice.maxAvailableTorchLevel)) }
+                d.unlockForConfiguration()
+                call.resolve(["ok": true, "has": true])
+            } catch { call.resolve(["ok": false, "has": true]) }
         }
     }
     /// «Верф» in the Dynamic Island and on the Lock Screen: a local Live Activity, started and updated from the game.

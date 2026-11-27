@@ -223,3 +223,18 @@ test('Рація: «розбуди мене о…» parses the time for the next
   expect(r).toEqual({ ok: true, h: 8, m: 0, bad: 0 });
   expect(errs).toEqual([]);
 });
+
+test('Дрон: 🔦 a gentle grainy torch with comforting words, three levels then off', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/index.html#dron');
+  const b = page.locator('#dtorch');
+  await expect(b).toBeVisible();
+  await b.click();
+  await expect(b).toHaveAttribute('aria-pressed', 'true');
+  expect(await page.evaluate(() => window.VV_TORCH.level())).toBe(1);
+  await expect(page.locator('#dcap')).toContainText('Ластівка-1 світить тобі', { timeout: 3000 });
+  await b.click(); await b.click(); await b.click();
+  expect(await page.evaluate(() => window.VV_TORCH.level())).toBe(0);
+  await expect(b).toHaveAttribute('aria-pressed', 'false');
+  expect(errs).toEqual([]);
+});

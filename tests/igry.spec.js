@@ -97,7 +97,7 @@ test('Стіл: a photo note renders, iMessage and share buttons are there', asy
     localStorage.setItem('vvs-notes', JSON.stringify(a));
   }, id);
   await page.reload();
-  await page.locator('[data-app="notes"], button:has-text("Нотатки")').first().click().catch(() => {});
+  await page.getByRole('navigation', { name: 'Програми' }).getByRole('button', { name: '📝 Нотатки' }).click();
   await page.getByText('Фото-нотатка').first().click();
   await page.getByRole('button', { name: '👁 Перегляд' }).click();
   await expect(page.locator('.prev img.nimg')).toBeVisible();

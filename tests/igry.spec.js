@@ -212,3 +212,14 @@ test('Бактеріофаг: theme, card skin, badge and грамота exist',
   expect(bg).toBe('#070d1a');
   expect(errs).toEqual([]);
 });
+
+test('Рація: «розбуди мене о…» parses the time for the next occurrence', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/racia.html');
+  const r = await page.evaluate(() => {
+    const at = window.VV_WAKE.nextAt('08:00'), d = new Date(at);
+    return { ok: at > Date.now() && at - Date.now() <= 864e5, h: d.getHours(), m: d.getMinutes(), bad: window.VV_WAKE.nextAt('25:99') };
+  });
+  expect(r).toEqual({ ok: true, h: 8, m: 0, bad: 0 });
+  expect(errs).toEqual([]);
+});

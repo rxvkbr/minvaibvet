@@ -37,6 +37,7 @@ audio{width:100%;margin-top:10px}
 <div id="gate" class="gate" hidden></div>
 <div class="studio" id="studio" hidden>
   <select id="work"></select>
+  <a id="src" target="_blank" rel="noopener" hidden style="display:inline-block;color:var(--gold);margin:0 2px 8px;font-weight:700"></a>
   <textarea id="own" rows="5" hidden></textarea>
   <div class="prompter" id="prompter"></div>
   <div class="lbl" id="lBack"></div><select id="back"></select>
@@ -44,35 +45,44 @@ audio{width:100%;margin-top:10px}
   <div class="row"><button id="rec" class="rec" type="button"></button><button id="scroll" type="button"></button></div>
   <audio id="take" controls hidden></audio>
   <div class="row" id="after" hidden><button id="share" type="button"></button><button id="sc" type="button"></button></div>
+  <p class="note" id="lock" hidden></p>
   <p class="note" id="note"></p>
 </div>
 <script>
 (function(){
 "use strict";
 var $=function(i){return document.getElementById(i);};
-/* public domain only: Шевченко (†1861) */
+/* Суспільне надбання (Шевченко †1861, Леся Українка †1913, Підмогильний †1937) можна читати й викладати.
+   Тичина (†1967), Стус (†1985), Костенко — під авторським правом: читати можна для себе, викладати — ні.
+   Ксав'є Брік — власні тексти Андрія. Тексти, яких тут немає, відкриваються за посиланням і вставляються в поле. */
 var WORKS=[
- {id:"zapovit",t:{uk:"Тарас Шевченко · «Заповіт» (1845)",en:"Taras Shevchenko · “Testament” (1845)"},x:"Як умру, то поховайте\nМене на могилі,\nСеред степу широкого,\nНа Вкраїні милій,\nЩоб лани широкополі,\nІ Дніпро, і кручі\nБуло видно, було чути,\nЯк реве ревучий.\n\nЯк понесе з України\nУ синєє море\nКров ворожу… отойді я\nІ лани і гори —\nВсе покину і полину\nДо самого Бога\nМолитися… а до того\nЯ не знаю Бога.\n\nПоховайте та вставайте,\nКайдани порвіте\nІ вражою злою кров'ю\nВолю окропіте.\nІ мене в сім'ї великій,\nВ сім'ї вольній, новій,\nНе забудьте пом'янути\nНезлим тихим словом."},
- {id:"sadok",t:{uk:"Тарас Шевченко · «Садок вишневий коло хати» (1847)",en:"Taras Shevchenko · “A cherry orchard by the house” (1847)"},x:"Садок вишневий коло хати,\nХрущі над вишнями гудуть,\nПлугатарі з плугами йдуть,\nСпівають ідучи дівчата,\nА матері вечерять ждуть.\n\nСем'я вечеря коло хати,\nВечірня зіронька встає.\nДочка вечерять подає,\nА мати хоче научати,\nТак соловейко не дає.\n\nПоклала мати коло хати\nМаленьких діточок своїх;\nСама заснула коло їх.\nЗатихло все, тілько дівчата\nТа соловейко не затих."},
- {id:"reve",t:{uk:"Тарас Шевченко · «Реве та стогне Дніпр широкий» (з «Причинної», 1837)",en:"Taras Shevchenko · “The wide Dnipro roars and moans” (1837)"},x:"Реве та стогне Дніпр широкий,\nСердитий вітер завива,\nДодолу верби гне високі,\nГорами хвилю підійма.\n\nІ блідий місяць на ту пору\nІз хмари де-де виглядав,\nНеначе човен в синім морі,\nТо виринав, то потопав.\n\nЩе треті півні не співали,\nНіхто нігде не гомонів,\nСичі в гаю перекликались,\nТа ясен раз у раз скрипів."},
- {id:"own",t:{uk:"✍️ Свій текст (твій власний)",en:"✍️ My own text"},x:""}];
+ {id:"zapovit",pd:1,t:{uk:"Тарас Шевченко · «Заповіт» (1845)",en:"Taras Shevchenko · “Testament” (1845)"},x:"Як умру, то поховайте\nМене на могилі,\nСеред степу широкого,\nНа Вкраїні милій,\nЩоб лани широкополі,\nІ Дніпро, і кручі\nБуло видно, було чути,\nЯк реве ревучий.\n\nЯк понесе з України\nУ синєє море\nКров ворожу… отойді я\nІ лани і гори —\nВсе покину і полину\nДо самого Бога\nМолитися… а до того\nЯ не знаю Бога.\n\nПоховайте та вставайте,\nКайдани порвіте\nІ вражою злою кров'ю\nВолю окропіте.\nІ мене в сім'ї великій,\nВ сім'ї вольній, новій,\nНе забудьте пом'янути\nНезлим тихим словом."},
+ {id:"sadok",pd:1,t:{uk:"Тарас Шевченко · «Садок вишневий коло хати» (1847)",en:"Taras Shevchenko · “A cherry orchard by the house” (1847)"},x:"Садок вишневий коло хати,\nХрущі над вишнями гудуть,\nПлугатарі з плугами йдуть,\nСпівають ідучи дівчата,\nА матері вечерять ждуть.\n\nСем'я вечеря коло хати,\nВечірня зіронька встає.\nДочка вечерять подає,\nА мати хоче научати,\nТак соловейко не дає.\n\nПоклала мати коло хати\nМаленьких діточок своїх;\nСама заснула коло їх.\nЗатихло все, тілько дівчата\nТа соловейко не затих."},
+ {id:"reve",pd:1,t:{uk:"Тарас Шевченко · «Реве та стогне Дніпр широкий» (з «Причинної», 1837)",en:"Taras Shevchenko · “The wide Dnipro roars and moans” (1837)"},x:"Реве та стогне Дніпр широкий,\nСердитий вітер завива,\nДодолу верби гне високі,\nГорами хвилю підійма.\n\nІ блідий місяць на ту пору\nІз хмари де-де виглядав,\nНеначе човен в синім морі,\nТо виринав, то потопав.\n\nЩе треті півні не співали,\nНіхто нігде не гомонів,\nСичі в гаю перекликались,\nТа ясен раз у раз скрипів."},
+ {id:"lesia",pd:1,t:{uk:"Леся Українка · «Contra spem spero!» (1890)",en:"Lesya Ukrainka · “Contra spem spero!” (1890)"},src:"https://uk.wikisource.org/w/index.php?search="+encodeURIComponent("Contra spem spero Леся Українка")},
+ {id:"pidmohylnyi",pd:1,t:{uk:"Валер'ян Підмогильний · «Місто» (1928), уривок на вибір",en:"Valerian Pidmohylnyi · “The City” (1928), an excerpt"},src:"https://uk.wikisource.org/w/index.php?search="+encodeURIComponent("Підмогильний Місто")},
+ {id:"tychyna",pd:0,t:{uk:"Павло Тичина · вірш на вибір 🔒",en:"Pavlo Tychyna · a poem of your choice 🔒"},src:"https://www.google.com/search?q="+encodeURIComponent("Павло Тичина вірші")},
+ {id:"stus",pd:0,t:{uk:"Василь Стус · вірш на вибір 🔒",en:"Vasyl Stus · a poem of your choice 🔒"},src:"https://www.google.com/search?q="+encodeURIComponent("Василь Стус вірші")},
+ {id:"kostenko",pd:0,t:{uk:"Ліна Костенко · вірш на вибір 🔒",en:"Lina Kostenko · a poem of your choice 🔒"},src:"https://www.google.com/search?q="+encodeURIComponent("Ліна Костенко вірші")},
+ {id:"brick",pd:1,own:1,t:{uk:"Ксав'є Брік · рання проза (російською, до переходу з Андрєя до Андрія)",en:"Xavier Brick · early prose (in Russian, before Andrei became Andrii)"},src:"https://minvaibvet.pp.ua/"},
+ {id:"own",pd:1,own:1,t:{uk:"✍️ Свій текст (твій власний)",en:"✍️ My own text"},x:""}];
 var TX={
-uk:{ttl:"🎙 Аудіотека",lead:"Слухай читання й наспіви Вайбкет FM через SoundCloud. А в студії прочитай класику або заспівай поверх нашої станції.",hLib:"Слухати",hSt:"Студія читання",listen:"▶ Слухати на SoundCloud",
+uk:{open:"↗ Відкрити текст",lock:"🔒 Цей автор ще під авторським правом: читай і співай для себе скільки завгодно, але не викладай запис на SoundCloud без дозволу правовласників.",ttl:"🎙 Аудіотека",lead:"Слухай читання й наспіви Вайбкет FM через SoundCloud. А в студії прочитай класику або заспівай поверх нашої станції.",hLib:"Слухати",hSt:"Студія читання",listen:"▶ Слухати на SoundCloud",
  gate:"Студія відкривається з ветеранською Pro-підпискою в «Тестовому польоті» (за котобакси). Слухати можна всім.",gateA:"✈️ До Тестового польоту",
  back:{none:"Без музики, тільки голос",vals:"90.5 · Туман і вальс",sumishi:"88.1 · Суміші",perehavorka:"🪩 Перегаворка"},lBack:"Музика під голос",lVol:"Гучність музики",
  rec:"⏺ Записати",stop:"■ Зупинити",scroll:"↓ Суфлер",share:"↗ Зберегти / поділитися",sc:"☁️ Викласти на SoundCloud",own:"Встав свій текст: власний або той, що вже став суспільним надбанням.",
  note:"Запис лишається на цьому телефоні. Нічого нікуди не надсилається, доки ти сам не натиснеш «Зберегти / поділитися». На SoundCloud викладай лише своє читання класики або власні тексти.",noMic:"Мікрофон недоступний."},
-en:{ttl:"🎙 Audio Library",lead:"Listen to Vibecat FM readings and songs through SoundCloud. In the studio, read a classic or sing over our station.",hLib:"Listen",hSt:"Reading studio",listen:"▶ Listen on SoundCloud",
+en:{open:"↗ Open the text",lock:"🔒 This author is still under copyright: read and sing for yourself as much as you like, but don't upload the recording to SoundCloud without the rights holders' permission.",ttl:"🎙 Audio Library",lead:"Listen to Vibecat FM readings and songs through SoundCloud. In the studio, read a classic or sing over our station.",hLib:"Listen",hSt:"Reading studio",listen:"▶ Listen on SoundCloud",
  gate:"The studio opens with the veteran Pro subscription in “Test Flight” (paid in catbucks). Listening is open to everyone.",gateA:"✈️ To Test Flight",
  back:{none:"No music, voice only",vals:"90.5 · Mist and Waltz",sumishi:"88.1 · Blends",perehavorka:"🪩 Meeting Room"},lBack:"Music under the voice",lVol:"Music volume",
  rec:"⏺ Record",stop:"■ Stop",scroll:"↓ Prompter",share:"↗ Save / share",sc:"☁️ Upload to SoundCloud",own:"Paste your text: your own, or one already in the public domain.",
  note:"The recording stays on this phone. Nothing is sent anywhere until you tap “Save / share” yourself. Only upload your own readings of classics or your own texts to SoundCloud.",noMic:"Microphone unavailable."},
-nl:{ttl:"🎙 Audiotheek",lead:"Luister naar voorlezingen en liedjes van Vibecat FM via SoundCloud. Lees in de studio een klassieker voor of zing over onze zender heen.",hLib:"Luisteren",hSt:"Voorleesstudio",listen:"▶ Luisteren op SoundCloud",
+nl:{open:"↗ Tekst openen",lock:"🔒 Deze auteur valt nog onder het auteursrecht: lees en zing voor jezelf zoveel je wilt, maar zet de opname niet op SoundCloud zonder toestemming van de rechthebbenden.",ttl:"🎙 Audiotheek",lead:"Luister naar voorlezingen en liedjes van Vibecat FM via SoundCloud. Lees in de studio een klassieker voor of zing over onze zender heen.",hLib:"Luisteren",hSt:"Voorleesstudio",listen:"▶ Luisteren op SoundCloud",
  gate:"De studio gaat open met het veteranen-Pro-abonnement in „Testvlucht” (betaald in kattenbucks). Luisteren kan iedereen.",gateA:"✈️ Naar Testvlucht",
  back:{none:"Geen muziek, alleen stem",vals:"90.5 · Mist en wals",sumishi:"88.1 · Mengsels",perehavorka:"🪩 Vergaderzaal"},lBack:"Muziek onder de stem",lVol:"Muziekvolume",
  rec:"⏺ Opnemen",stop:"■ Stoppen",scroll:"↓ Autocue",share:"↗ Bewaren / delen",sc:"☁️ Op SoundCloud zetten",own:"Plak je tekst: je eigen, of een die al publiek domein is.",
  note:"De opname blijft op deze telefoon. Er wordt niets verstuurd tot je zelf op „Bewaren / delen” tikt. Zet alleen je eigen voorlezingen van klassiekers of eigen teksten op SoundCloud.",noMic:"Microfoon niet beschikbaar."},
-de:{ttl:"🎙 Audiothek",lead:"Hör Lesungen und Lieder von Vibecat FM über SoundCloud. Im Studio liest du einen Klassiker oder singst über unseren Sender.",hLib:"Hören",hSt:"Lesestudio",listen:"▶ Auf SoundCloud hören",
+de:{open:"↗ Text öffnen",lock:"🔒 Dieser Autor ist noch urheberrechtlich geschützt: Lies und sing für dich, so viel du willst, aber lade die Aufnahme ohne Erlaubnis der Rechteinhaber nicht auf SoundCloud hoch.",ttl:"🎙 Audiothek",lead:"Hör Lesungen und Lieder von Vibecat FM über SoundCloud. Im Studio liest du einen Klassiker oder singst über unseren Sender.",hLib:"Hören",hSt:"Lesestudio",listen:"▶ Auf SoundCloud hören",
  gate:"Das Studio öffnet sich mit dem Veteranen-Pro-Abo im „Testflug“ (bezahlt in Katzenbucks). Hören können alle.",gateA:"✈️ Zum Testflug",
  back:{none:"Keine Musik, nur Stimme",vals:"90.5 · Nebel und Walzer",sumishi:"88.1 · Mischungen",perehavorka:"🪩 Besprechungsraum"},lBack:"Musik unter der Stimme",lVol:"Musiklautstärke",
  rec:"⏺ Aufnehmen",stop:"■ Stopp",scroll:"↓ Teleprompter",share:"↗ Speichern / teilen",sc:"☁️ Auf SoundCloud hochladen",own:"Füge deinen Text ein: deinen eigenen oder einen gemeinfreien.",
@@ -92,7 +102,9 @@ function paintLib(){var B=$("lib");B.innerHTML="";(window.VV_AUDIOTEKA||[]).forE
 /* ===== the studio: voice + one of our stations → a local recording ===== */
 var ctx=null,eng=null,mix=null,musicGain=null,mic=null,rec=null,chunks=[],timer=null,takeBlob=null,scrollT=null;
 function work(){return WORKS.filter(function(w){return w.id===$("work").value;})[0]||WORKS[0];}
-function paintPrompter(){var w=work();$("own").hidden=w.id!=="own";$("prompter").textContent=w.id==="own"?($("own").value||T("own")):w.x;}
+function paintPrompter(){var w=work(),need=!w.x;$("own").hidden=!need;$("prompter").textContent=need?($("own").value||T("own")):w.x;
+  var S=$("src");S.hidden=!w.src;if(w.src){S.href=w.src;S.textContent=T("open");}
+  $("sc").hidden=!w.pd;$("lock").hidden=!!w.pd;}
 function ensureCtx(){if(!ctx){var C=window.AudioContext||window.webkitAudioContext;ctx=new C();mix=ctx.createMediaStreamDestination();musicGain=ctx.createGain();musicGain.connect(ctx.destination);musicGain.connect(mix);}
   if(ctx.state!=="running")ctx.resume();musicGain.gain.value=$("vol").value/100;}
 function startMusic(){var k=$("back").value;if(k==="none")return;var M={vals:window.VV_VALS,sumishi:window.VV_SUMISHI,perehavorka:window.VV_PEREHAVORKA}[k];if(!M)return;
@@ -124,7 +136,7 @@ function paint(){document.documentElement.lang=LN;$("ttl").textContent=T("ttl");
   var W=$("work"),cur=W.value;W.innerHTML="";WORKS.forEach(function(w){var o=document.createElement("option");o.value=w.id;o.textContent=L(w.t);W.appendChild(o);});W.value=cur||"reve";
   var B=$("back"),cb=B.value;B.innerHTML="";["none","vals","sumishi","perehavorka"].forEach(function(k){var o=document.createElement("option");o.value=k;o.textContent=T("back")[k];B.appendChild(o);});B.value=cb||"vals";
   $("own").placeholder=T("own");$("lBack").textContent=T("lBack");$("lVol").textContent=T("lVol");$("rec").textContent=rec&&rec.state==="recording"?T("stop"):T("rec");$("scroll").textContent=T("scroll");
-  $("share").textContent=T("share");$("sc").textContent=T("sc");$("note").textContent=T("note");paintPrompter();paintLib();
+  $("share").textContent=T("share");$("sc").textContent=T("sc");$("note").textContent=T("note");$("lock").textContent=T("lock");paintPrompter();paintLib();
   var Lg=$("langs");Lg.innerHTML="";["uk","en","nl","de"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.setAttribute("aria-pressed",String(l===LN));b.onclick=function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paint();};Lg.appendChild(b);});}
 paint();
 })();

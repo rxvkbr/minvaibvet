@@ -190,3 +190,17 @@ test('Жіньмінь Жібао 97.7: the station plays on the radio and on th
   expect(['Вода', 'Бубон', 'Злива']).toContain(inf.section);
   expect(errs).toEqual([]);
 });
+
+test('Бактеріофаг: theme, card skin, badge and грамота exist', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/kotobank.html');
+  await expect(page.getByText('Картка «Бактеріофаг»')).toBeVisible();
+  await expect(page.getByText('Плюшевий фаг T4')).toBeVisible();
+  await page.goto('/merch.html');
+  await expect(page.getByRole('button', { name: /бактеріофагу T4/ })).toBeVisible();
+  await page.goto('/index.html');
+  await page.evaluate(() => { document.documentElement.dataset.skin = 'fag'; });
+  const bg = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bakelite').trim());
+  expect(bg).toBe('#070d1a');
+  expect(errs).toEqual([]);
+});

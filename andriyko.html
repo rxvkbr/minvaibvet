@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<script src="vendor/huchnist.js"></script><script src="vendor/taptic.js"></script>
+<script src="vendor/hvylyna.js"></script>
+<script src="vendor/vkladky.js" defer></script>
+<script src="vendor/andriyko-config.js"></script>
+<script src="vendor/andriyko-corpus.js"></script>
+<script src="vendor/andriyko.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>до Андрійка · Вайбкет FM</title>
+<meta name="description" content="Вікно «до Андрійка»: продовжує твою фразу голосом Андрія Аманда. Схожі уривки шукає на пристрої.">
+<meta property="og:title" content="до Андрійка · Вайбкет FM">
+<meta property="og:description" content="Почни фразу. Він підхопить її своїм голосом.">
+<meta property="og:url" content="https://minvaibvet.pp.ua/andriyko">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Yeseva+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a100b;--panel:#2b1a11;--edge:#4a2f1f;--ivory:#f2e3bd;--dim:#b9a47f;--amber:#f0a93a;--coral:#ff5d47;--mint:#58c9b9;--ink:#21150e;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:
+  radial-gradient(ellipse 80% 40% at 50% 0,#3a2114 0,transparent 70%),
+  var(--bg);color:var(--ivory);font:18px/1.55 "PT Serif",Georgia,serif}
+button,textarea,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--bg),#1a100bcc 70%,transparent)}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 14px;color:var(--ivory);text-decoration:none;font:13px "PT Mono",monospace}
+.langs{display:flex;gap:4px}
+.langs button{border:1px solid var(--edge);background:transparent;border-radius:999px;padding:6px 8px;font:11px "PT Mono",monospace;color:var(--dim)}
+.langs button[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+main{max-width:680px;margin:0 auto;padding:0 18px calc(48px + env(safe-area-inset-bottom))}
+.k{font:12px "PT Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);text-align:center}
+h1{font:400 clamp(36px,8vw,56px)/1.05 "Yeseva One",Georgia,serif;text-align:center;margin:6px 0 8px}
+.lead{text-align:center;color:var(--dim);margin:0 0 18px}
+.desk,.cfg{border:1px solid var(--edge);background:var(--panel);border-radius:18px;padding:16px}
+label{display:block;margin:12px 0 6px;font:12px "PT Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+textarea,input,select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--edge);background:#140c08;outline:0;font-size:17px;line-height:1.45}
+textarea{min-height:140px;resize:vertical}
+textarea:focus,input:focus,select:focus{border-color:var(--amber)}
+.row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.row .go{flex:1;margin:0;min-width:160px}
+.sp{flex:1}
+.reg{font:12px "PT Mono",monospace;color:var(--mint);letter-spacing:.04em}
+button.go,button.alt{border:0;border-radius:999px;padding:13px 16px;background:var(--amber);color:#1a100b;font:700 15px "PT Mono",monospace;cursor:pointer}
+button.go:disabled{opacity:.45}
+button.alt{background:transparent;border:1px solid var(--edge);color:var(--ivory);font-weight:400}
+button.go:active,button.alt:active{transform:translateY(1px)}
+.mic[aria-pressed="true"]{background:var(--coral);color:#200804;border-color:transparent}
+.paper{margin-top:16px;background:var(--ivory);color:var(--ink);border-radius:6px;padding:18px 18px 14px;
+  box-shadow:0 18px 40px #0009;background-image:radial-gradient(#0000000d 1px,transparent 1px);background-size:5px 5px}
+.paper[hidden]{display:none}
+.src{margin:0 0 10px;font:12px "PT Mono",monospace;letter-spacing:.04em;color:#8a5a28}
+.said{margin:0;font-size:19px}
+.said .mine{color:#5c4632}
+.said .his{color:var(--ink)}
+.paper .row{margin-top:14px}
+.paper .alt{border-color:#21150e55;color:var(--ink)}
+details{margin-top:14px;border:1px solid var(--edge);border-radius:16px;background:#140c08;padding:0 14px}
+summary{cursor:pointer;padding:12px 0;font:13px "PT Mono",monospace;color:var(--amber);letter-spacing:.04em}
+.hit{padding:10px 0 12px;border-top:1px dashed var(--edge)}
+.hit b{display:block;font:13px "PT Mono",monospace;font-weight:400;color:var(--ivory)}
+.hit a{color:var(--mint);font:12px "PT Mono",monospace}
+.hit p{margin:6px 0 0;color:var(--dim);font-size:15.5px}
+.help,.foot,.now{color:var(--dim);font-size:15px}
+.help{margin:0 0 8px}
+.foot{margin:16px 0 0;font-size:14px;text-align:center}
+.presets{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.presets button{border:1px solid var(--edge);background:transparent;border-radius:999px;padding:7px 11px;font:12px "PT Mono",monospace;color:var(--ivory)}
+.presets button[aria-pressed="true"]{background:var(--amber);color:#1a100b;border-color:var(--amber)}
+.cfg{margin-top:8px}
+.now{margin:10px 0 0;font:12px "PT Mono",monospace}
+#toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(140%);opacity:0;background:var(--ivory);color:var(--ink);border-radius:999px;padding:10px 16px;font:14px "PT Mono",monospace;transition:transform .35s cubic-bezier(.3,1.4,.5,1),opacity .2s;z-index:20;max-width:calc(100% - 28px);text-align:center}
+#toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+</style>
+</head>
+<body>
+<div class="top"><a class="pill" href="index.html#more" id="back">← назад</a><div class="langs" id="langs" role="group"></div></div>
+<main>
+  <div class="k" id="kicker"></div>
+  <h1 id="title"></h1>
+  <p class="lead" id="lead"></p>
+  <div class="desk">
+    <label for="seed" id="seedL"></label>
+    <textarea id="seed" maxlength="2000" autocomplete="off" spellcheck="true"></textarea>
+    <div class="row"><span class="reg" id="reg" aria-live="polite"></span></div>
+    <div class="row">
+      <button type="button" class="alt mic" id="mic"></button>
+      <button type="button" class="go" id="go"></button>
+    </div>
+  </div>
+  <div class="paper" id="paper" hidden>
+    <p class="src" id="src"></p>
+    <p class="said" id="said"></p>
+    <div class="row">
+      <button type="button" class="alt" id="again"></button>
+      <button type="button" class="alt" id="copy"></button>
+    </div>
+  </div>
+  <details id="hitsBox">
+    <summary id="hitsSum"></summary>
+    <div id="hits"></div>
+  </details>
+  <details id="cfgBox">
+    <summary id="cfgSum"></summary>
+    <div class="cfg">
+      <p class="help" id="help"></p>
+      <div class="presets" id="presets"></div>
+      <label for="ep" id="epL"></label>
+      <input id="ep" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://…">
+      <label for="model" id="modelL"></label>
+      <input id="model" autocomplete="off" spellcheck="false" placeholder="">
+      <label for="key" id="keyL"></label>
+      <input id="key" type="password" autocomplete="off" spellcheck="false">
+      <div class="row">
+        <button type="button" class="go" id="save"></button>
+        <button type="button" class="alt" id="wipe"></button>
+      </div>
+      <p class="now" id="now"></p>
+    </div>
+  </details>
+  <p class="foot" id="foot"></p>
+</main>
+<div id="toast" role="status"></div>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var TX={
+  uk:{back:"← назад",kicker:"голос · @andrew_amand",title:"до Андрійка",
+    lead:"Напиши або надиктуй початок. Він підхопить його своїм голосом: лекцією, якщо почав як у гуртку, і студією, якщо «ну що». Схожі місця з ефіру шукаються тут, на пристрої.",
+    seed:"Твої слова",ph:"Наприклад: Дельта. Це прогалина між словом і ділом.",
+    mic:"Диктувати",micOn:"Слухаю…",go:"Продовжити",goOn:"Збираю…",again:"Ще раз",copy:"Копіювати",copied:"Скопійовано",
+    hits:"Схожі місця з ефіру",cfg:"Адреса моделі",
+    save:"Зберегти на цьому пристрої",wipe:"Забути адресу і ключ",saved:"Збережено. Ключ лишається тільки тут.",wiped:"Забуто. Далі знову без мережі.",
+    need:"Напиши хоч кілька слів.",noMic:"Диктування в цьому браузері немає. Можна написати.",
+    reg:{lec:"схоже на лекцію",stu:"схоже на студію",mix:"мішане",en:"англійський курс"},
+    src:{online:"Відповідь моделі. Запит зібрано на пристрої.",cache:"З кешу на цьому пристрої.",offline:"На пристрої, без мережі: ланцюжок слів з його уривків.",fail:"Мережа не відповіла — продовження зібрано на пристрої."},
+    ep:"Адреса",model:"Модель",key:"Ключ",keyPh:"не пиши його у файли",
+    presets:{off:"Вимкнено",grok:"Грок",claude:"Клод",proxy:"Проксі"},
+    nowOff:"Зараз без мережі: адресу не вказано.",nowOn:"Зараз у мережу: ",
+    help:"Поки адреса порожня, продовження збирається на пристрої і мережа не потрібна. Грок — це chat completions на api.x.ai, Клод — messages на api.anthropic.com (сторінка сама додає дозвіл на запит із браузера). Ключ у код не зашитий: встав його сюди, і він ляже лише в цей браузер, або підніми проксі, який тримає ключ у змінній ANDRIYKO_KEY (node tools/andriyko-proxy.js), і впиши його адресу, а поле ключа лиши порожнім. Якщо браузер заріже прямий запит, виручить той самий проксі. У мережу йде тільки зібраний запит: твоя фраза, коротка інструкція і кілька уривків.",
+    foot:"Уривки — почищені шматки публічних субтитрів каналу Андрія Аманда. Шумні ehy5qUozzyA і ez1rZ94Q40U у зріз не входять."},
+  en:{back:"← back",kicker:"voice · @andrew_amand",title:"to Andriyko",
+    lead:"Type or dictate a beginning. He picks it up in his own voice: a lecture if you opened like the circle, the studio if you opened with “nu shcho”. Similar passages are searched here, on the device.",
+    seed:"Your words",ph:"For example: Delta. It is the gap between word and deed.",
+    mic:"Dictate",micOn:"Listening…",go:"Continue",goOn:"Gathering…",again:"Again",copy:"Copy",copied:"Copied",
+    hits:"Similar passages",cfg:"Model address",
+    save:"Save on this device",wipe:"Forget address and key",saved:"Saved. The key stays only here.",wiped:"Forgotten. Offline again.",
+    need:"Write at least a few words.",noMic:"This browser has no dictation. You can type.",
+    reg:{lec:"sounds like a lecture",stu:"sounds like the studio",mix:"mixed",en:"the English course"},
+    src:{online:"The model’s reply. The request was assembled on the device.",cache:"From the cache on this device.",offline:"On the device, no network: a word-chain from his passages.",fail:"The network didn’t answer — the continuation was made on the device."},
+    ep:"Address",model:"Model",key:"Key",keyPh:"don’t put it in the files",
+    presets:{off:"Off",grok:"Grok",claude:"Claude",proxy:"Proxy"},
+    nowOff:"Offline right now: no address set.",nowOn:"Sending to: ",
+    help:"With an empty address the continuation is built on the device and no network is used. Grok is chat completions at api.x.ai, Claude is messages at api.anthropic.com (the page adds the browser-access header itself). The key is not in the source: paste it here and it stays in this browser only, or run a proxy that keeps the key in ANDRIYKO_KEY (node tools/andriyko-proxy.js), put its address here, and leave the key empty. If the browser blocks a direct call, that same proxy is the way through. Only the assembled request leaves: your phrase, a short instruction, and a few passages.",
+    foot:"Passages are cleaned excerpts of Andrii Amand’s public captions. The noisy ehy5qUozzyA and ez1rZ94Q40U are not included."},
+  nl:{back:"← terug",kicker:"stem · @andrew_amand",title:"naar Andriyko",
+    lead:"Schrijf of dicteer een begin. Hij pakt het op in zijn eigen stem: een lezing als je opent zoals in de kring, de studio als je opent met “nu shcho”. Vergelijkbare stukken worden hier gezocht, op het apparaat.",
+    seed:"Jouw woorden",ph:"Bijvoorbeeld: Delta. Dat is de kloof tussen woord en daad.",
+    mic:"Dicteren",micOn:"Ik luister…",go:"Ga verder",goOn:"Ik verzamel…",again:"Opnieuw",copy:"Kopiëren",copied:"Gekopieerd",
+    hits:"Vergelijkbare stukken",cfg:"Adres van het model",
+    save:"Bewaar op dit apparaat",wipe:"Vergeet adres en sleutel",saved:"Bewaard. De sleutel blijft alleen hier.",wiped:"Vergeten. Weer zonder netwerk.",
+    need:"Schrijf minstens een paar woorden.",noMic:"Deze browser kan niet dicteren. Typen kan wel.",
+    reg:{lec:"klinkt als een lezing",stu:"klinkt als de studio",mix:"gemengd",en:"de Engelse cursus"},
+    src:{online:"Antwoord van het model. Het verzoek is op het apparaat samengesteld.",cache:"Uit de cache op dit apparaat.",offline:"Op het apparaat, zonder netwerk: een woordketen uit zijn stukken.",fail:"Het netwerk antwoordde niet — de voortzetting is op het apparaat gemaakt."},
+    ep:"Adres",model:"Model",key:"Sleutel",keyPh:"niet in de bestanden zetten",
+    presets:{off:"Uit",grok:"Grok",claude:"Claude",proxy:"Proxy"},
+    nowOff:"Nu zonder netwerk: geen adres ingesteld.",nowOn:"Nu naar: ",
+    help:"Zonder adres wordt de voortzetting op het apparaat gemaakt en is er geen netwerk nodig. Grok is chat completions op api.x.ai, Claude is messages op api.anthropic.com (de pagina zet zelf de browser-header). De sleutel staat niet in de code: plak hem hier, dan blijft hij alleen in deze browser, of start een proxy die de sleutel in ANDRIYKO_KEY houdt (node tools/andriyko-proxy.js), vul dat adres in en laat de sleutel leeg. Als de browser een directe aanroep blokkeert, helpt diezelfde proxy. Alleen het samengestelde verzoek gaat weg: jouw zin, een korte instructie en een paar stukken.",
+    foot:"De stukken zijn opgeschoonde fragmenten van de openbare ondertitels van Andrii Amand. De ruis van ehy5qUozzyA en ez1rZ94Q40U zit er niet in."},
+  ru:{back:"← назад",kicker:"голос · @andrew_amand",title:"к Андрейку",
+    lead:"Напиши или надиктуй начало. Он подхватит его своим голосом: лекцией, если начал как в кружке, и студией, если «ну що». Похожие места из эфира ищутся здесь, на устройстве.",
+    seed:"Твои слова",ph:"Например: Дельта. Это прогалина между словом и делом.",
+    mic:"Диктовать",micOn:"Слушаю…",go:"Продолжить",goOn:"Собираю…",again:"Ещё раз",copy:"Копировать",copied:"Скопировано",
+    hits:"Похожие места из эфира",cfg:"Адрес модели",
+    save:"Сохранить на этом устройстве",wipe:"Забыть адрес и ключ",saved:"Сохранено. Ключ остаётся только здесь.",wiped:"Забыто. Дальше снова без сети.",
+    need:"Напиши хотя бы несколько слов.",noMic:"Диктовки в этом браузере нет. Можно написать.",
+    reg:{lec:"похоже на лекцию",stu:"похоже на студию",mix:"смешанное",en:"английский курс"},
+    src:{online:"Ответ модели. Запрос собран на устройстве.",cache:"Из кеша на этом устройстве.",offline:"На устройстве, без сети: цепочка слов из его отрывков.",fail:"Сеть не ответила — продолжение собрано на устройстве."},
+    ep:"Адрес",model:"Модель",key:"Ключ",keyPh:"не пиши его в файлы",
+    presets:{off:"Выключено",grok:"Грок",claude:"Клод",proxy:"Прокси"},
+    nowOff:"Сейчас без сети: адрес не указан.",nowOn:"Сейчас в сеть: ",
+    help:"Пока адрес пустой, продолжение собирается на устройстве и сеть не нужна. Грок — это chat completions на api.x.ai, Клод — messages на api.anthropic.com (страница сама добавляет разрешение на запрос из браузера). Ключ в код не вшит: вставь его сюда, и он ляжет только в этот браузер, или подними прокси, который держит ключ в переменной ANDRIYKO_KEY (node tools/andriyko-proxy.js), и впиши его адрес, а поле ключа оставь пустым. Если браузер отрежет прямой запрос, выручит тот же прокси. В сеть уходит только собранный запрос: твоя фраза, короткая инструкция и несколько отрывков.",
+    foot:"Отрывки — почищенные куски публичных субтитров канала Андрея Аманда. Шумные ehy5qUozzyA и ez1rZ94Q40U в срез не входят."}
+};
+var ORDER=["uk","en","nl","ru"];
+var LN="uk";
+try{LN=localStorage.getItem("lang")||"uk";}catch(e){}
+if(!TX[LN])LN="en";
+function T(){return TX[LN];}
+function feel(k){if(window.VV_TAPTIC)VV_TAPTIC(k||"tick");}
+function toast(s){var t=$("toast");t.textContent=s;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove("on");},2200);}
+var PRE=[
+  {id:"off",p:"openai",e:"",m:""},
+  {id:"grok",p:"openai",e:"https://api.x.ai/v1",m:"grok-4.7"},
+  {id:"claude",p:"anthropic",e:"https://api.anthropic.com/v1/messages",m:"claude-sonnet-4-5"},
+  {id:"proxy",p:"openai",e:"",m:""}
+];
+var busy=false, hearing=false, rec=null, lastAns=null;
+function srcText(ans){
+  if(!ans)return "";
+  var X=T();
+  var src=X.src[ans.source]||X.src.offline;
+  if(ans.source==="offline"&&ans.error) src=X.src.fail+(ans.error?" ("+ans.error+")":"");
+  return src;
+}
+
+function paint(){
+  var X=T();
+  document.documentElement.lang=LN;
+  document.title=X.title+" · Вайбкет FM";
+  $("back").textContent=X.back;
+  $("kicker").textContent=X.kicker;
+  $("title").textContent=X.title;
+  $("lead").textContent=X.lead;
+  $("seedL").textContent=X.seed;
+  $("seed").placeholder=X.ph;
+  $("mic").textContent=hearing?X.micOn:X.mic;
+  $("mic").setAttribute("aria-pressed",hearing?"true":"false");
+  $("go").textContent=busy?X.goOn:X.go;
+  $("again").textContent=X.again;
+  $("copy").textContent=X.copy;
+  $("hitsSum").textContent=X.hits;
+  $("cfgSum").textContent=X.cfg;
+  $("help").textContent=X.help;
+  $("epL").textContent=X.ep;
+  $("modelL").textContent=X.model;
+  $("keyL").textContent=X.key;
+  $("key").placeholder=X.keyPh;
+  $("save").textContent=X.save;
+  $("wipe").textContent=X.wipe;
+  $("foot").textContent=X.foot;
+  if(lastAns) $("src").textContent=srcText(lastAns);
+  var box=$("langs");box.innerHTML="";
+  ORDER.forEach(function(l){
+    var b=document.createElement("button");b.type="button";b.textContent=l.toUpperCase();
+    b.setAttribute("aria-pressed",l===LN?"true":"false");b.lang=l;
+    b.addEventListener("click",function(){LN=l;try{localStorage.setItem("lang",l);}catch(e){}paint();paintReg();paintNow();});
+    box.appendChild(b);
+  });
+  var presets=$("presets");presets.innerHTML="";
+  PRE.forEach(function(p){
+    var b=document.createElement("button");b.type="button";b.textContent=X.presets[p.id];b.dataset.id=p.id;
+    b.addEventListener("click",function(){
+      feel("tick");
+      $("provHold").value=p.p;
+      if(p.id==="grok"||p.id==="claude"||p.id==="off"){$("ep").value=p.e;$("model").value=p.m;}
+      if(p.id==="proxy"){$("ep").focus();}
+      markPreset();
+    });
+    presets.appendChild(b);
+  });
+  markPreset();
+  paintNow();
+  var Rec=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Rec){$("mic").disabled=true;$("mic").title=X.noMic;}
+}
+var provHold=document.createElement("input");provHold.id="provHold";provHold.type="hidden";provHold.value="openai";document.body.appendChild(provHold);
+
+function paintReg(){
+  var A=window.ANDRIYKO, s=$("seed").value.trim();
+  if(!s||!A||!A.registerOf){$("reg").textContent="";return;}
+  var r=A.registerOf(s);
+  $("reg").textContent=T().reg[r]||"";
+}
+function paintNow(){
+  var A=window.ANDRIYKO, s=A&&A.settings?A.settings():{endpoint:""};
+  if(!s.endpoint){$("now").textContent=T().nowOff;return;}
+  var host=s.endpoint;
+  try{host=new URL(s.endpoint).host;}catch(e){}
+  $("now").textContent=T().nowOn+host+(s.model?" · "+s.model:"")+(s.key?" · ✓":"");
+}
+function markPreset(){
+  var id="";
+  PRE.forEach(function(p){
+    if(p.id==="proxy")return;
+    if((provHold.value||"openai")===p.p && $("ep").value.trim()===p.e && $("model").value.trim()===p.m) id=p.id;
+  });
+  if(!id && $("ep").value.trim()) id="proxy";
+  [].forEach.call($("presets").children,function(b){b.setAttribute("aria-pressed",b.dataset.id===id?"true":"false");});
+}
+function showHits(hits){
+  var box=$("hits");box.innerHTML="";
+  (hits||[]).forEach(function(h){
+    var d=document.createElement("div");d.className="hit";
+    var b=document.createElement("b");b.textContent=h.title||h.id;
+    var a=document.createElement("a");a.href="https://www.youtube.com/watch?v="+encodeURIComponent(h.id);a.target="_blank";a.rel="noopener";a.textContent="YouTube ↗";
+    var p=document.createElement("p");p.textContent=h.text;
+    d.appendChild(b);d.appendChild(a);d.appendChild(p);box.appendChild(d);
+  });
+}
+function show(seed, ans){
+  var X=T();
+  $("paper").hidden=false;
+  lastAns=ans;
+  $("src").textContent=srcText(ans);
+  var said=$("said");said.innerHTML="";
+  var mine=document.createElement("span");mine.className="mine";mine.textContent=seed.trim();
+  var his=document.createElement("span");his.className="his";his.textContent=(seed.trim()?" ":"")+ (ans.text||"");
+  said.appendChild(mine);said.appendChild(his);
+  showHits(ans.hits);
+  $("paper").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function run(redo){
+  var A=window.ANDRIYKO, seed=$("seed").value.trim();
+  if(!seed || seed.split(/\s+/).length<2){toast(T().need);feel("warning");$("seed").focus();return;}
+  if(busy)return;
+  busy=true;paint();feel("click");
+  var done=function(ans){
+    busy=false;paint();
+    show(seed, ans||{text:"",source:"offline",hits:[]});
+    feel(ans&&ans.source==="online"?"success":ans&&ans.source==="cache"?"soft":"warning");
+  };
+  if(!A||!A.complete){done({text:"",source:"offline",hits:[],error:"corpus"});return;}
+  A.complete(seed,{redo:!!redo}).then(done,function(e){done({text:"",source:"offline",hits:[],error:e&&e.message});});
+}
+$("seed").addEventListener("input",paintReg);
+$("go").addEventListener("click",function(){run(false);});
+$("again").addEventListener("click",function(){feel("tick");run(true);});
+$("copy").addEventListener("click",function(){
+  var s=$("said").textContent||"";
+  var done=function(){toast(T().copied);feel("success");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(s).then(done).catch(function(){legacy(s);done();});}
+  else{legacy(s);done();}
+});
+function legacy(s){var ta=document.createElement("textarea");ta.value=s;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}ta.remove();}
+$("mic").addEventListener("click",function(){
+  var Rec=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Rec){toast(T().noMic);feel("warning");return;}
+  if(hearing&&rec){try{rec.stop();}catch(e){}return;}
+  rec=new Rec();
+  var seed=$("seed").value;
+  var latin=/[a-z]/i.test(seed)&&!/[а-яіїєґ]/i.test(seed);
+  rec.lang=latin?"en-US":"uk-UA";
+  rec.interimResults=true;rec.continuous=true;
+  var base=seed.replace(/\s+$/,"");
+  var failed=false;
+  rec.onresult=function(ev){
+    var fin="", mid="", i;
+    for(i=0;i<ev.results.length;i++){
+      var bit=ev.results[i][0]?ev.results[i][0].transcript:"";
+      if(ev.results[i].isFinal) fin+=bit; else mid+=bit;
+    }
+    var add=(fin+" "+mid).replace(/\s+/g," ").trim();
+    $("seed").value=(base?base+" ":"")+add;
+    paintReg();
+  };
+  rec.onerror=function(){failed=true;};
+  rec.onend=function(){hearing=false;paint();feel(failed?"warning":"success");};
+  try{rec.start();hearing=true;paint();feel("click");}
+  catch(e){hearing=false;paint();toast(T().noMic);feel("error");}
+});
+$("ep").addEventListener("input",markPreset);
+$("model").addEventListener("input",markPreset);
+$("save").addEventListener("click",function(){
+  if(!window.ANDRIYKO)return;
+  ANDRIYKO.saveSettings({provider:provHold.value||"openai",endpoint:$("ep").value.trim(),model:$("model").value.trim(),key:$("key").value});
+  if($("key").value){$("key").value="";}
+  paintNow();toast(T().saved);feel("success");
+});
+$("wipe").addEventListener("click",function(){
+  if(window.ANDRIYKO)ANDRIYKO.clearSettings();
+  $("ep").value="";$("model").value="";$("key").value="";provHold.value="openai";
+  markPreset();paintNow();toast(T().wiped);feel("warning");
+});
+(function fill(){
+  var s=window.ANDRIYKO&&ANDRIYKO.settings?ANDRIYKO.settings():{provider:"openai",endpoint:"",model:""};
+  provHold.value=s.provider||"openai";
+  $("ep").value=s.endpoint||"";
+  $("model").value=s.model||"";
+})();
+paint();
+})();
+</script>
+</body>
+</html>

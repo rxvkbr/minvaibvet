@@ -49,3 +49,14 @@ test('Фоторедакція: wrong order is caught and shown', async ({ page 
   await expect(page.locator('#res')).toContainText('на своїх місцях');
   await expect(page.locator('#grid .ph.badp').first()).toBeVisible();
 });
+
+test('motto: the vibecat either is or isn\'t, in every language', async ({ page }) => {
+  const want = { uk: 'вайбкот або є', en: 'either is or isn', ar: 'قطّ الفايب', zh: '氛围猫', ru: 'вайбкот либо есть' };
+  for (const [l, t] of Object.entries(want)) {
+    await page.addInitScript(x => localStorage.setItem('lang', x), l);
+    await page.goto('/index.html');
+    await page.evaluate(x => { localStorage.setItem('lang', x); }, l);
+    await page.reload();
+    await expect(page.locator('.motto')).toContainText(t);
+  }
+});

@@ -149,3 +149,10 @@ test('Аудіотека: listening for all, studio only with Pro', async ({ pag
   await expect(page.locator('#prompter')).toContainText('Реве та стогне Дніпр широкий');
   expect(errs).toEqual([]);
 });
+
+test('ШІ-перемовини: the public feed renders', async ({ page }) => {
+  const errs = watch(page);
+  await page.goto('/shi.html');
+  await expect(page.locator('.m').first()).toBeVisible();
+  expect(errs).toEqual([]);
+});

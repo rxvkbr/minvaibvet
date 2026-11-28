@@ -345,7 +345,7 @@ document.addEventListener("pointerdown",function once(){if(window.Notification&&
 /* ===== start ===== */
 paintStatic();paintMe();paintPad();paintList();connect();upIsland();
 var hm=(location.hash||"").match(/add=([A-Za-z0-9]{6})/);if(hm){try{history.replaceState(null,"",location.pathname);}catch(e){}setTimeout(function(){addFriend(hm[1]);},400);}
-window.VV_RACIA={me:me,friends:function(){return friends;},chats:function(){return chats;}};
+window.VV_RACIA={me:me,friends:function(){return friends;},chats:function(){return chats;},T:T,csName:csName,EMO:EMO,link:link};
 })();
 </script>
 <script src="vendor/akvavita.js"></script>
@@ -366,6 +366,7 @@ window.VV_FM977={on:function(){return !!eng;},info:function(){return eng?eng.inf
 <script>
 /* 🪪 «тема»: a vibe badge with your Рація call sign only (partisan custom: no real name), QR = your Рація invite */
 (function(){var B=document.getElementById("vcard");if(!B)return;
+var R=window.VV_RACIA||{},T=R.T,csName=R.csName,EMO=R.EMO,me=R.me,link=R.link;
 function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 function qr(text){var q=qrcode(0,"M");q.addData(text);q.make();return q;}
 function flag(g,x,y,w,h,line){g.fillStyle="#0057b7";g.fillRect(x,y,w,h/2);g.fillStyle="#ffd700";g.fillRect(x,y+h/2,w,h/2);if(line){g.lineWidth=2;g.strokeStyle=line;g.strokeRect(x,y,w,h);}}
